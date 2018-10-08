@@ -78,9 +78,9 @@ app = QtGui.QApplication([])
 #mw = QtGui.QMainWindow()
 #mw.resize(800,800)
 
-win = pg.GraphicsWindow(title="Basic plotting examples")
+win = pg.GraphicsWindow(title="MUSE Data Screen")
 win.resize(1000,600)
-win.setWindowTitle('MUSE Basic 3D Cube Data')
+win.setWindowTitle('MUSE 3D Cube Data')
 
 # Enable antialiasing for prettier plots
 pg.setConfigOptions(antialias=True)
@@ -90,18 +90,15 @@ data_collapsed = image_collapser("cube_23.fits")
 p1 = win.addPlot(title="Collapsed: Median")
 im_med = pg.ImageItem()
 p1.addItem(im_med)
-
 im_med.setImage(data_collapsed[0])
 
-
-p2 = win.addPlot(title="Multiple curves")
-p2.plot(np.random.normal(size=100), pen=(255,0,0), name="Red curve")
-p2.plot(np.random.normal(size=110)+5, pen=(0,255,0), name="Green curve")
-p2.plot(np.random.normal(size=120)+10, pen=(0,0,255), name="Blue curve")
+p2 = win.addPlot(title="Collapsed: Sum")
+im_sum = pg.ImageItem()
+p2.addItem(im_sum)
+im_sum.setImage(data_collapsed[1])
 
 p3 = win.addPlot(title="Drawing with points")
 p3.plot(np.random.normal(size=100), pen=(200,200,200), symbolBrush=(255,0,0), symbolPen='w')
-
 
 win.nextRow()
 
