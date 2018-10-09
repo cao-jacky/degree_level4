@@ -116,9 +116,10 @@ def spectrum_creator(file_name):
         col_data = gal_spec_data2[:][:,i_ax]
         gs_data2[i_ax] = np.median(col_data)
 
-    print(gs_data1)
-
     return {'central': cp_spec_data, 'galaxy1': gs_data1, 'galaxy2': gs_data2}
+
+def spectra_stacker(file_name):
+    pass
 
 def graphs(file_name):
 
@@ -131,12 +132,14 @@ def graphs(file_name):
 
     smfig = plt.figure(1)
     plt.imshow(im_coll_data['median'], cmap='gray') 
+    plt.title(r'\textbf{galaxy: median}', fontsize=13)    
     plt.xlabel(r'\textbf{Pixels}', fontsize=13)
     plt.ylabel(r'\textbf{Pixels}', fontsize=13)
     plt.savefig('graphs/collapse_median.pdf')
 
     ssfig = plt.figure(2)
-    plt.imshow(im_coll_data['sum'], cmap='gray') 
+    plt.imshow(im_coll_data['sum'], cmap='gray')
+    plt.title(r'\textbf{galaxy: sum}', fontsize=13)        
     plt.xlabel(r'\textbf{Pixels}', fontsize=13)
     plt.ylabel(r'\textbf{Pixels}', fontsize=13)
     plt.savefig('graphs/collapse_sum.pdf')
@@ -148,12 +151,14 @@ def graphs(file_name):
     cp_spec = plt.figure(3)
     cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
     cps_y   = spectra_data['central']
+    plt.title(r'\textbf{spectra: central point}', fontsize=13)        
     plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
     plt.savefig('graphs/spectra_central_pixel.pdf')
 
     cp_spec = plt.figure(4)
     cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
     cps_y   = spectra_data['galaxy1']
+    plt.title(r'\textbf{spectra: cross-section}', fontsize=13)        
     plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
     plt.savefig('graphs/spectra_galaxy1.pdf')
      
