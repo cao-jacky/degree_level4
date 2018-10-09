@@ -1,6 +1,9 @@
 import numpy as np
+from numpy import unravel_index
+
 import matplotlib
 import matplotlib.pyplot as plt
+from matplotlib import rc
 
 from astropy.io import fits
 
@@ -34,9 +37,11 @@ def wavelength_solution(file_name):
     pixel_begin = header_data['CRPIX3']
     step_size   = header_data['CD3_3']
 
-    range_end   = range_begin + len(image_data) * step_size
+    steps       = len(image_data)
 
-    return range_begin, range_end
+    range_end   = range_begin + steps * step_size
+
+    return {'begin': range_begin, 'end': range_end, 'steps': steps}
 
 def image_collapser(file_name):
 
@@ -49,8 +54,8 @@ def image_collapser(file_name):
     dec_axis    = data_shape[1]
     wl_axis     = data_shape[0]
     
-    image_median = np.zeros((ra_axis, dec_axis))
-    image_sum = np.zeros((ra_axis, dec_axis))
+    image_median    = np.zeros((ra_axis, dec_axis))
+    image_sum       = np.zeros((ra_axis, dec_axis))
 
     for i_ra in range(ra_axis):
         for i_dec in range(dec_axis):
@@ -61,12 +66,97 @@ def image_collapser(file_name):
             image_median[i_ra][i_dec]   = pd_median
             image_sum[i_ra][i_dec]      = pd_sum
 
-    #plt.imshow(image_median, cmap='gray')
-    #plt.colorbar()
-    #plt.show()
+    return {'median': image_median, 'sum': image_sum}
 
-    return image_median, image_sum
+def spectrum_creator(file_name):
+   
+    file_data   = read_file(file_name)
+    image_data  = file_data[1]
+
+    collapsed_data  = image_collapser(file_name)
+
+    # spectrum for central pixel
+    cp_bright = []
+    for key, data in collapsed_data.items():
+        lgst_val = data.argmax()
+        lgst_loc = unravel_index(data.argmax(), data.shape)
+        cp_bright.append(lgst_loc)
+
+    cp_loc = 0
+    if ( cp_bright[0] == cp_bright[1] ):
+        cp_loc = cp_bright[0]
+
+    cp_spec_data    = image_data[:][:,cp_loc[0]][:,cp_loc[1]]
+   
+    # galaxy integrated spectrum
+    # looking along the same axis/axes as the central pixel
+
+    # first axis
+    gal_spec_data1   = image_data[:][:,cp_loc[0]][:]
+    # that index used above: select out all data z data, select out all y data, select
+    # out a specific column - then what we have is multiple columns of data?
+    gs_shape1 = np.shape(gal_spec_data1)
+
+    print(np.shape(gal_spec_data1))
+    print(gal_spec_data1)
+
+    # what we want now is to select an entire row of x then look behind that at their z
+
+    gs_data1 = np.zeros(gs_shape1[0])
+    for i_ax in range(gs_shape1[0]):
+        col_data = gal_spec_data1[i_ax][:]
+        gs_data1[i_ax] = np.median(col_data)
+
+    # second axis
+    gal_spec_data2   = image_data[:][:,cp_loc[0]][:]
+    gs_shape2 = np.shape(gal_spec_data2)
+
+    gs_data2 = np.zeros(gs_shape2[0])
+    for i_ax in range(gs_shape2[1]):
+        col_data = gal_spec_data2[:][:,i_ax]
+        gs_data2[i_ax] = np.median(col_data)
+
+    print(gs_data1)
+
+    return {'central': cp_spec_data, 'galaxy1': gs_data1, 'galaxy2': gs_data2}
 
 def graphs(file_name):
 
-    pass
+    plt.rc('text', usetex=True)
+    plt.rc('font', family='serif')
+    plt.rcParams['text.latex.preamble'] = [r'\boldmath']
+
+    # for collapsed images
+    im_coll_data = image_collapser(file_name)
+
+    smfig = plt.figure(1)
+    plt.imshow(im_coll_data['median'], cmap='gray') 
+    plt.xlabel(r'\textbf{Pixels}', fontsize=13)
+    plt.ylabel(r'\textbf{Pixels}', fontsize=13)
+    plt.savefig('graphs/collapse_median.pdf')
+
+    ssfig = plt.figure(2)
+    plt.imshow(im_coll_data['sum'], cmap='gray') 
+    plt.xlabel(r'\textbf{Pixels}', fontsize=13)
+    plt.ylabel(r'\textbf{Pixels}', fontsize=13)
+    plt.savefig('graphs/collapse_sum.pdf')
+
+    # spectra
+    spectra_data = spectrum_creator(file_name)
+    sr = wavelength_solution(file_name) #spectra_range
+    
+    cp_spec = plt.figure(3)
+    cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+    cps_y   = spectra_data['central']
+    plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
+    plt.savefig('graphs/spectra_central_pixel.pdf')
+
+    cp_spec = plt.figure(4)
+    cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+    cps_y   = spectra_data['galaxy1']
+    plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
+    plt.savefig('graphs/spectra_galaxy1.pdf')
+     
+
+graphs("cube_23.fits")
+
