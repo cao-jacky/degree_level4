@@ -91,18 +91,8 @@ def spectrum_creator(file_name):
     # galaxy integrated spectrum
     gal_lim = [int(x / 2) for x in cp_loc]
 
-    print(gal_lim[0], cp_loc[0])
-    
-    #gal_cs_data   = image_data[:][gal_lim[0]:cp_loc[0]][:]    
     gal_cs_data   = image_data[:,gal_lim[0]:cp_loc[0],gal_lim[1]:cp_loc[1]]
-    # that index used above: select out all data z data, select out all y data, select
-    # out a specific column - then what we have is multiple columns of data?
     gs_shape = np.shape(gal_cs_data)
-
-    print(np.shape(gal_cs_data))
-    print(gal_cs_data)
-
-    # what we want now is to select an entire row of x then look behind that at their z
 
     gs_data = np.zeros(gs_shape[0])
     for i_ax in range(gs_shape[0]):
@@ -112,7 +102,26 @@ def spectrum_creator(file_name):
     return {'central': cp_spec_data, 'galaxy': gs_data}
 
 def spectra_stacker(file_name):
-    pass
+    
+    file_data   = read_file(file_name)
+    image_data  = file_data[1]
+
+    data_shape  = np.shape(image_data)
+    ra_axis     = data_shape[2]
+    dec_axis    = data_shape[1]
+    wl_axis     = data_shape[0]
+
+    pxl_total   = ra_axis * dec_axis
+    
+    data_unwrap = []
+
+    for i_ra in range(ra_axis):
+        for i_dec in range(dec_axis):
+            pixel_data  = image_data[:][:,i_dec][:,i_ra]
+            
+            data_unwrap.append(pixel_data)
+
+    return data_unwrap
 
 def graphs(file_name):
 
@@ -154,6 +163,20 @@ def graphs(file_name):
     plt.title(r'\textbf{spectra: cross-section}', fontsize=13)        
     plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
     plt.savefig('graphs/spectra_galaxy.pdf')
+
+    # unwrapped 2d data
+    unwrap_data = spectra_stacker(file_name)
+    #reusing wavelength solution from above
+
+    unwp    = plt.figure(5)
+    for i in range(len(unwrap_data)):
+        unwp_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+        unwp_y   = unwrap_data[i] + i * 100
+        print(unwp_y)
+        plt.plot(unwp_x, unwp_y, linewidth=0.5, color=np.random.rand(3,))
+
+    plt.title(r'\textbf{unwrapped 2d data}', fontsize=13)        
+    plt.savefig('graphs/unwrap_2d.pdf')
      
 
 graphs("cube_23.fits")
