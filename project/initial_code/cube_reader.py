@@ -153,7 +153,9 @@ def graphs(file_name):
     cp_spec = plt.figure(3)
     cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
     cps_y   = spectra_data['central']
-    plt.title(r'\textbf{spectra: central point}', fontsize=13)        
+    plt.title(r'\textbf{spectra: central point}', fontsize=13)    
+    plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+    #plt.ylabel(r'\textbf{}', fontsize=13)
     plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
     plt.savefig('graphs/spectra_central_pixel.pdf')
 
@@ -161,6 +163,7 @@ def graphs(file_name):
     cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
     cps_y   = spectra_data['galaxy']
     plt.title(r'\textbf{spectra: cross-section}', fontsize=13)        
+    plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
     plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
     plt.savefig('graphs/spectra_galaxy.pdf')
 
@@ -168,14 +171,19 @@ def graphs(file_name):
     unwrap_data = spectra_stacker(file_name)
     #reusing wavelength solution from above
 
-    unwp    = plt.figure(5)
+    unwp    = plt.figure(5, figsize=(8, 12))
     for i in range(len(unwrap_data)):
-        unwp_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
-        unwp_y   = unwrap_data[i] + i * 100
-        print(unwp_y)
-        plt.plot(unwp_x, unwp_y, linewidth=0.5, color=np.random.rand(3,))
+        if ( i > 100 ):
+            # only stacking a few of them
+            pass
+        else:
+            unwp_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+            unwp_y   = unwrap_data[i] + i * 100
+            print(unwp_y)
+            plt.plot(unwp_x, unwp_y, linewidth=0.5, color=np.random.rand(3,))
 
     plt.title(r'\textbf{unwrapped 2d data}', fontsize=13)        
+    plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
     plt.savefig('graphs/unwrap_2d.pdf')
      
 
