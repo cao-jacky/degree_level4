@@ -89,34 +89,27 @@ def spectrum_creator(file_name):
     cp_spec_data    = image_data[:][:,cp_loc[0]][:,cp_loc[1]]
    
     # galaxy integrated spectrum
-    # looking along the same axis/axes as the central pixel
+    gal_lim = [int(x / 2) for x in cp_loc]
 
-    # first axis
-    gal_spec_data1   = image_data[:][:,cp_loc[0]][:]
+    print(gal_lim[0], cp_loc[0])
+    
+    #gal_cs_data   = image_data[:][gal_lim[0]:cp_loc[0]][:]    
+    gal_cs_data   = image_data[:,gal_lim[0]:cp_loc[0],gal_lim[1]:cp_loc[1]]
     # that index used above: select out all data z data, select out all y data, select
     # out a specific column - then what we have is multiple columns of data?
-    gs_shape1 = np.shape(gal_spec_data1)
+    gs_shape = np.shape(gal_cs_data)
 
-    print(np.shape(gal_spec_data1))
-    print(gal_spec_data1)
+    print(np.shape(gal_cs_data))
+    print(gal_cs_data)
 
     # what we want now is to select an entire row of x then look behind that at their z
 
-    gs_data1 = np.zeros(gs_shape1[0])
-    for i_ax in range(gs_shape1[0]):
-        col_data = gal_spec_data1[i_ax][:]
-        gs_data1[i_ax] = np.median(col_data)
+    gs_data = np.zeros(gs_shape[0])
+    for i_ax in range(gs_shape[0]):
+        col_data = gal_cs_data[i_ax][:]
+        gs_data[i_ax] = np.sum(col_data)
 
-    # second axis
-    gal_spec_data2   = image_data[:][:,cp_loc[0]][:]
-    gs_shape2 = np.shape(gal_spec_data2)
-
-    gs_data2 = np.zeros(gs_shape2[0])
-    for i_ax in range(gs_shape2[1]):
-        col_data = gal_spec_data2[:][:,i_ax]
-        gs_data2[i_ax] = np.median(col_data)
-
-    return {'central': cp_spec_data, 'galaxy1': gs_data1, 'galaxy2': gs_data2}
+    return {'central': cp_spec_data, 'galaxy': gs_data}
 
 def spectra_stacker(file_name):
     pass
@@ -157,10 +150,10 @@ def graphs(file_name):
 
     cp_spec = plt.figure(4)
     cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
-    cps_y   = spectra_data['galaxy1']
+    cps_y   = spectra_data['galaxy']
     plt.title(r'\textbf{spectra: cross-section}', fontsize=13)        
     plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
-    plt.savefig('graphs/spectra_galaxy1.pdf')
+    plt.savefig('graphs/spectra_galaxy.pdf')
      
 
 graphs("cube_23.fits")
