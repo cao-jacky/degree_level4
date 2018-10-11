@@ -8,7 +8,7 @@ import numpy as np
 
 import cube_reader
 
-data_collapsed = cube_reader.image_collapser("cube_23.fits")
+data_collapsed = cube_reader.image_collapser("data/cube_23.fits")
 
 app = QtGui.QApplication([])
 
