@@ -7,6 +7,10 @@ from matplotlib import rc
 
 from astropy.io import fits
 
+import warnings
+from astropy.utils.exceptions import AstropyWarning
+warnings.simplefilter('ignore', category=AstropyWarning)
+
 def read_file(file_name):
     # reads file_name and returns specific header data and image data
 
@@ -148,7 +152,32 @@ def spectra_analysis(file_name, sky_file_name):
 
     sn_data     = sn_data * sn_scale
 
-    return {'gd_shifted': gd_mc, 'sky_noise': sn_data}
+    # spectra lines
+    sl = {
+            'emis': {'OII': '3727' ,
+                
+                }, 
+            'abs': {'K': '3934.777',
+                }
+            }
+
+        print(e_key)
+
+    gd_max_vals = np.sort(galaxy_data, axis=None) 
+    sn_max_vals = np.sort(sn_data, axis=None)
+    print(gd_max_vals)
+    print(sn_max_vals)
+
+    for i in range(len(gd_max_vals)):
+        gdm_val = gd_max_vals[i]
+        gdm_loc = np.where(galaxy_data == gdm_val)[0]
+
+        sn_val = sn_max_vals[i]
+        sn_loc = np.where(sn_data == sn_val)[0]
+
+        print(gdm_loc, gdm_val, sn_loc,sn_val)
+
+    return {'gd_shifted': gd_mc, 'sky_noise': sn_data, 'spectra': sl}
 
 
 def graphs(file_name, sky_file_name):
