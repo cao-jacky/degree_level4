@@ -25,7 +25,6 @@ def read_file(file_name):
 
     return header_keywords, image_data
 
-
 def wavelength_solution(file_name):
     # wavelength solution in Angstroms
 
@@ -91,7 +90,8 @@ def spectrum_creator(file_name):
     # galaxy integrated spectrum
     gal_lim = [int(x / 2) for x in cp_loc]
 
-    gal_cs_data   = image_data[:,gal_lim[0]:cp_loc[0],gal_lim[1]:cp_loc[1]]
+    gal_cs_data   = image_data[:,gal_lim[0]:cp_loc[0]+gal_lim[0],
+            gal_lim[1]:cp_loc[1]+gal_lim[1]]
     gs_shape = np.shape(gal_cs_data)
 
     gs_data = np.zeros(gs_shape[0])
@@ -123,7 +123,35 @@ def spectra_stacker(file_name):
 
     return data_unwrap
 
-def graphs(file_name):
+def sky_noise(sky_file_name):
+    fits_file = fits.open(sky_file_name)
+    image_data = fits_file[0].data
+
+    return image_data
+
+def spectra_analysis(file_name, sky_file_name):
+
+    # spectra and sky noise data
+    spectra_data = spectrum_creator(file_name)
+    sn_data = sky_noise(sky_file_name)
+
+    galaxy_data   = spectra_data['galaxy']
+
+    # shifting the data down to be approximately on y=0 
+    gd_mc   = np.average(galaxy_data) 
+    gd_mc   = galaxy_data - gd_mc
+
+    # scaling sky-noise to be similar to spectra data
+    gd_max   = np.amax(galaxy_data)
+    sn_data_max = np.amax(sn_data)
+    sn_scale    = gd_max / sn_data_max
+
+    sn_data     = sn_data * sn_scale
+
+    return {'gd_shifted': gd_mc, 'sky_noise': sn_data}
+
+
+def graphs(file_name, sky_file_name):
 
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
@@ -159,12 +187,22 @@ def graphs(file_name):
     plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
     plt.savefig('graphs/spectra_central_pixel.pdf')
 
+    gs_data = spectra_analysis(file_name, sky_file_name)
+
     cp_spec = plt.figure(4)
     cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
-    cps_y   = spectra_data['galaxy']
+     
+    ## plotting our cube data
+    cps_y   = gs_data['gd_shifted']
+    plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
+
+    ## plotting our sky noise data
+    sn_y    =  gs_data['sky_noise']
+    plt.plot(cps_x, sn_y, linewidth=0.5, color="#e53935")
+
     plt.title(r'\textbf{spectra: cross-section}', fontsize=13)        
     plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-    plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
+    plt.ylim(-500,5000) # setting manual limits for now
     plt.savefig('graphs/spectra_galaxy.pdf')
 
     # unwrapped 2d data
@@ -182,5 +220,4 @@ def graphs(file_name):
     plt.savefig('graphs/unwrap_2d.pdf')
      
 
-graphs("cube_23.fits")
-
+graphs("data/cube_23.fits", "data/skyvariance_csub.fits")
