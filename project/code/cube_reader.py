@@ -5,6 +5,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
+from scipy import signal
+
 from astropy.io import fits
 
 import warnings
@@ -105,8 +107,7 @@ def spectrum_creator(file_name):
 
     return {'central': cp_spec_data, 'galaxy': gs_data}
 
-def spectra_stacker(file_name):
-    
+def spectra_stacker(file_name): 
     file_data   = read_file(file_name)
     image_data  = file_data[1]
 
@@ -134,10 +135,10 @@ def sky_noise(sky_file_name):
     return image_data
 
 def spectra_analysis(file_name, sky_file_name):
-
     # spectra and sky noise data
-    spectra_data = spectrum_creator(file_name)
-    sn_data = sky_noise(sky_file_name)
+    spectra_data    = spectrum_creator(file_name)
+    wl_soln         = wavelength_solution(file_name)
+    sn_data         = sky_noise(sky_file_name)
 
     galaxy_data   = spectra_data['galaxy']
 
@@ -154,99 +155,147 @@ def spectra_analysis(file_name, sky_file_name):
 
     # spectra lines
     sl = {
-            'emis': {'OII': '3727' ,
+            'emis': {
+                '[OII]':      '3727',
+                'CaK':      '3933',
+                'CaH':      '3968',
+                'Hdelta':   '4101',
+
                 
                 }, 
             'abs': {'K': '3934.777',
                 }
-            }
+            } 
 
-        print(e_key)
+    gd_peaks = signal.find_peaks_cwt(gd_mc, np.arange(10,15), noise_perc=100)
+    print("Peaks from galaxy data: ")
+    print(gd_peaks)
 
-    gd_max_vals = np.sort(galaxy_data, axis=None) 
-    sn_max_vals = np.sort(sn_data, axis=None)
-    print(gd_max_vals)
-    print(sn_max_vals)
+    # manually selecting which peak is the [OII] peak - given in wavelength
+    otwo_wav    = float(wl_soln['begin'] + gd_peaks[7])    
+    otwo_acc    = float(sl['emis']['[OII]'])
 
-    for i in range(len(gd_max_vals)):
-        gdm_val = gd_max_vals[i]
-        gdm_loc = np.where(galaxy_data == gdm_val)[0]
+    redshift = (otwo_wav - otwo_acc) / otwo_acc
 
-        sn_val = sn_max_vals[i]
-        sn_loc = np.where(sn_data == sn_val)[0]
-
-        print(gdm_loc, gdm_val, sn_loc,sn_val)
-
-    return {'gd_shifted': gd_mc, 'sky_noise': sn_data, 'spectra': sl}
+    return {'gd_shifted': gd_mc, 'sky_noise': sn_data, 'spectra': sl, 'gd_peaks': 
+            gd_peaks, 'redshift': redshift}
 
 
 def graphs(file_name, sky_file_name):
-
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 
-    # for collapsed images
-    im_coll_data = image_collapser(file_name)
+    # --- for collapsed images ---
+    def graphs_collapsed():
+        im_coll_data = image_collapser(file_name)
 
-    smfig = plt.figure(1)
-    plt.imshow(im_coll_data['median'], cmap='gray') 
-    plt.title(r'\textbf{galaxy: median}', fontsize=13)    
-    plt.xlabel(r'\textbf{Pixels}', fontsize=13)
-    plt.ylabel(r'\textbf{Pixels}', fontsize=13)
-    plt.savefig('graphs/collapse_median.pdf')
+        smfig = plt.figure(1)
+        plt.imshow(im_coll_data['median'], cmap='gray_r') 
+        plt.title(r'\textbf{galaxy: median}', fontsize=13)    
+        plt.xlabel(r'\textbf{Pixels}', fontsize=13)
+        plt.ylabel(r'\textbf{Pixels}', fontsize=13)
+        plt.savefig('graphs/collapse_median.pdf')
 
-    ssfig = plt.figure(2)
-    plt.imshow(im_coll_data['sum'], cmap='gray')
-    plt.title(r'\textbf{galaxy: sum}', fontsize=13)        
-    plt.xlabel(r'\textbf{Pixels}', fontsize=13)
-    plt.ylabel(r'\textbf{Pixels}', fontsize=13)
-    plt.savefig('graphs/collapse_sum.pdf')
+        ssfig = plt.figure(2)
+        plt.imshow(im_coll_data['sum'], cmap='gray_r')
+        plt.title(r'\textbf{galaxy: sum}', fontsize=13)        
+        plt.xlabel(r'\textbf{Pixels}', fontsize=13)
+        plt.ylabel(r'\textbf{Pixels}', fontsize=13)
+        plt.savefig('graphs/collapse_sum.pdf')
 
-    # spectra
-    spectra_data = spectrum_creator(file_name)
-    sr = wavelength_solution(file_name) #spectra_range
+    # --- spectra ---
+    def graphs_spectra():
+        spectra_data = spectrum_creator(file_name)
+        sr = wavelength_solution(file_name) #spectra_range
+        
+        cp_spec = plt.figure(3)
+        cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+        cps_y   = spectra_data['central']
+        plt.title(r'\textbf{spectra: central point}', fontsize=13)    
+        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+        #plt.ylabel(r'\textbf{}', fontsize=13)
+        plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
+        plt.savefig('graphs/spectra_central_pixel.pdf')
+
+        # --- uncorrected redshift
+
+        gs_data = spectra_analysis(file_name, sky_file_name)
+
+        cp_spec = plt.figure(4)
+        cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+         
+        ## plotting our cube data
+        cps_y   = gs_data['gd_shifted']
+        plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
+
+        ## plotting our sky noise data
+        sn_y    =  gs_data['sky_noise']
+        plt.plot(cps_x, sn_y, linewidth=0.5, color="#e53935")
+
+        ## plotting peak lines
+        pk_lines = gs_data['gd_peaks']
+        for i in range(len(pk_lines)):
+            srb = sr['begin']
+            plt.axvline(x=(srb+pk_lines[i]), linewidth=0.5, color="#8bc34a")
+
+        ## shifting data
+        
+        plt.title(r'\textbf{spectra: cross-section redshifted}', fontsize=13)        
+        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+        plt.ylim(-500,5000) # setting manual limits for now
+        plt.savefig('graphs/spectra_galaxy_redshifted.pdf')
     
-    cp_spec = plt.figure(3)
-    cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
-    cps_y   = spectra_data['central']
-    plt.title(r'\textbf{spectra: central point}', fontsize=13)    
-    plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-    #plt.ylabel(r'\textbf{}', fontsize=13)
-    plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
-    plt.savefig('graphs/spectra_central_pixel.pdf')
+        # --- corrected redshift
 
-    gs_data = spectra_analysis(file_name, sky_file_name)
+        cp_spec = plt.figure(5)
+        cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+        rdst    = gs_data['redshift']
 
-    cp_spec = plt.figure(4)
-    cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
-     
-    ## plotting our cube data
-    cps_y   = gs_data['gd_shifted']
-    plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
+        sp_lines = gs_data['spectra']
 
-    ## plotting our sky noise data
-    sn_y    =  gs_data['sky_noise']
-    plt.plot(cps_x, sn_y, linewidth=0.5, color="#e53935")
+        ## corrected wavelengths
+        corr_x  = cps_x / (1+rdst)
 
-    plt.title(r'\textbf{spectra: cross-section}', fontsize=13)        
-    plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-    plt.ylim(-500,5000) # setting manual limits for now
-    plt.savefig('graphs/spectra_galaxy.pdf')
+        ## plotting our cube data
+        cps_y   = gs_data['gd_shifted']
+        #plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000", alpha=0.1)
+        plt.plot(corr_x, cps_y, linewidth=0.5, color="#000000")
 
-    # unwrapped 2d data
-    unwrap_data = spectra_stacker(file_name)
-    #reusing wavelength solution from above
+        ## plotting our sky noise data
+        sn_y    =  gs_data['sky_noise']
+        #plt.plot(cps_x, sn_y, linewidth=0.5, color="#e53935", alpha=0.1)
+        plt.plot(corr_x, sn_y, linewidth=0.5, color="#e53935")
 
-    unwp    = plt.figure(5, figsize=(8, 38))
-    for i in range(len(unwrap_data)): 
-        unwp_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
-        unwp_y   = unwrap_data[i] + i * 100
-        plt.plot(unwp_x, unwp_y, linewidth=0.5, color=np.random.rand(3,))
+        ## plotting spectra lines
+        for e_key, e_val in sp_lines['emis'].items():
+            spec_line = float(e_val)
+            plt.axvline(x=spec_line, linewidth=0.5, color="#00c853")
+            plt.text(spec_line-10, 4800, e_key, rotation=-90)
+ 
+        plt.title(r'\textbf{spectra: cross-section corrected}', fontsize=13)        
+        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+        plt.ylim(-500,5000) # setting manual limits for now
+        plt.savefig('graphs/spectra_galaxy_corrected.pdf')
 
-    plt.title(r'\textbf{unwrapped 2d data}', fontsize=13)        
-    plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-    plt.savefig('graphs/unwrap_2d.pdf')
+    # --- unwrapped 2d data ---
+    def graphs_unwrapped():
+        unwrap_data = spectra_stacker(file_name)
+        #reusing wavelength solution from above
+
+        unwp    = plt.figure(5, figsize=(8, 38))
+        for i in range(len(unwrap_data)): 
+            unwp_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+            unwp_y   = unwrap_data[i] + i * 100
+            plt.plot(unwp_x, unwp_y, linewidth=0.5, color=np.random.rand(3,)) 
+
+        plt.title(r'\textbf{unwrapped 2d data}', fontsize=13)        
+        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+        plt.savefig('graphs/unwrap_2d.pdf')
+
+    graphs_collapsed()
+    graphs_spectra()
+    #graphs_unwrapped()
      
 
 graphs("data/cube_23.fits", "data/skyvariance_csub.fits")
