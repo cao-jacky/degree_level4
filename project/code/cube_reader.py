@@ -205,11 +205,12 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     ot_x    = corr_x[otr[0]:otr[1]]
 
     # m, dm, std1, std2 
-    init_test   = [ 3725, 3728, 100, 100 ]
+    init_test   = [ 3720, 3730, 10, 10 ]
 
     def res(p, y, x):
         m1, m2, sd1, sd2 = p
         y_fit = norm(x, m1, sd1) + norm(x, m2, sd2)
+        y_fit = norm(x, m1, sd1) 
         err = y - y_fit
         return err
 
@@ -218,6 +219,7 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     y_est = norm(ot_x, plsq[0][0], plsq[0][2]) + norm(ot_x, plsq[0][0] + plsq[0][1], 
             plsq[0][3])
 
+    print(y_est)
     return {'range': otr, 'region': otwo_region, 'gauss_estimate': y_est }
 
 def graphs(file_name, sky_file_name):
