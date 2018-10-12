@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 
 from scipy import signal
+from scipy.optimize import leastsq
 
 from astropy.io import fits
 
@@ -15,7 +16,6 @@ warnings.simplefilter('ignore', category=AstropyWarning)
 
 def read_file(file_name):
     # reads file_name and returns specific header data and image data
-
     fits_file = fits.open(file_name)
 
     header = fits_file[0].header
@@ -33,7 +33,6 @@ def read_file(file_name):
 
 def wavelength_solution(file_name):
     # wavelength solution in Angstroms
-
     file_data   = read_file(file_name)
     header_data = file_data[0]
     image_data  = file_data[1]
@@ -49,7 +48,7 @@ def wavelength_solution(file_name):
     return {'begin': range_begin, 'end': range_end, 'steps': steps}
 
 def image_collapser(file_name):
-
+    # collapses image data so it can be passed as a heatmap
     file_data   = read_file(file_name)
     header_data = file_data[0]
     image_data  = file_data[1]
@@ -74,7 +73,7 @@ def image_collapser(file_name):
     return {'median': image_median, 'sum': image_sum}
 
 def spectrum_creator(file_name):
-   
+    # creates a combined single spectra from an area around the 'central pixel' 
     file_data   = read_file(file_name)
     image_data  = file_data[1]
 
@@ -108,6 +107,7 @@ def spectrum_creator(file_name):
     return {'central': cp_spec_data, 'galaxy': gs_data}
 
 def spectra_stacker(file_name): 
+    # stacking all spectra together for a stacked spectra image
     file_data   = read_file(file_name)
     image_data  = file_data[1]
 
@@ -129,12 +129,14 @@ def spectra_stacker(file_name):
     return data_unwrap
 
 def sky_noise(sky_file_name):
+    # returning sky noise data files
     fits_file = fits.open(sky_file_name)
     image_data = fits_file[0].data
 
     return image_data
 
 def spectra_analysis(file_name, sky_file_name):
+    # correcting data to be in rest frame
     # spectra and sky noise data
     spectra_data    = spectrum_creator(file_name)
     wl_soln         = wavelength_solution(file_name)
@@ -168,8 +170,8 @@ def spectra_analysis(file_name, sky_file_name):
             } 
 
     gd_peaks = signal.find_peaks_cwt(gd_mc, np.arange(10,15), noise_perc=100)
-    print("Peaks from galaxy data: ")
-    print(gd_peaks)
+    #print("Peaks from galaxy data: ")
+    #print(gd_peaks)
 
     # manually selecting which peak is the [OII] peak - given in wavelength
     otwo_wav    = float(wl_soln['begin'] + gd_peaks[7])    
@@ -180,6 +182,43 @@ def spectra_analysis(file_name, sky_file_name):
     return {'gd_shifted': gd_mc, 'sky_noise': sn_data, 'spectra': sl, 'gd_peaks': 
             gd_peaks, 'redshift': redshift}
 
+def norm(x, mean, sd):
+    norm = []
+    for i in range(x.size):
+        norm += [1.0/(sd*np.sqrt(2*np.pi))*np.exp(-(x[i] - mean)**2/(2*sd**2))]
+    return np.array(norm)
+
+def otwo_doublet_fitting(file_name, sky_file_name):
+    sa_data     = spectra_analysis(file_name, sky_file_name)
+    y_shifted   = sa_data['gd_shifted'] 
+    orr         = wavelength_solution(file_name) 
+
+    # OII range and region
+    otr         = [1100, 1200] 
+    otwo_region = y_shifted[otr[0]:otr[1]]
+
+    # I need to have the x-data here as well, so copy the code from plotters
+    orr_x   = np.linspace(orr['begin'], orr['end'], orr['steps'])
+    rdst    = sa_data['redshift']
+    corr_x  = orr_x / (1+rdst) # corrected wavelengths
+
+    ot_x    = corr_x[otr[0]:otr[1]]
+
+    # m, dm, std1, std2 
+    init_test   = [ 3725, 3728, 100, 100 ]
+
+    def res(p, y, x):
+        m1, m2, sd1, sd2 = p
+        y_fit = norm(x, m1, sd1) + norm(x, m2, sd2)
+        err = y - y_fit
+        return err
+
+    plsq = leastsq(res, init_test, args=(otwo_region, ot_x))
+
+    y_est = norm(ot_x, plsq[0][0], plsq[0][2]) + norm(ot_x, plsq[0][0] + plsq[0][1], 
+            plsq[0][3])
+
+    return {'range': otr, 'region': otwo_region, 'gauss_estimate': y_est }
 
 def graphs(file_name, sky_file_name):
     plt.rc('text', usetex=True)
@@ -293,9 +332,43 @@ def graphs(file_name, sky_file_name):
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
         plt.savefig('graphs/unwrap_2d.pdf')
 
-    graphs_collapsed()
-    graphs_spectra()
+    def graphs_otwo_region():
+        df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced region
+        orr     = wavelength_solution(file_name) # original range
+        gs_data = spectra_analysis(file_name, sky_file_name)
+
+        ot_y    = df_data['region']
+
+        orr_x, orr_step = np.linspace(orr['begin'], orr['end'], orr['steps'], 
+                retstep=True)
+        rdst    = gs_data['redshift']
+
+        ## corrected wavelengths
+        corr_x  = orr_x / (1+rdst)
+
+        dt_rng  = df_data['range']
+        ot_xb   = corr_x[0] + dt_rng[0] # beginning of range
+        ot_xe   = corr_x[0] + dt_rng[1] # end of range 
+
+        ot_x    = corr_x[dt_rng[0]:dt_rng[1]]
+
+        est_data = df_data['gauss_estimate']
+
+        ot_fig  = plt.figure(6)
+        plt.plot(ot_x, ot_y, linewidth=0.5, color='#000000')
+        plt.plot(ot_x, est_data, linewidth=0.5, color='#2196f3')
+        plt.title(r'\textbf{[OII] region}', fontsize=13)        
+        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+        plt.ylim(-500,5000) # setting manual limits for now
+        plt.savefig('graphs/otwo_region.pdf')
+
+        
+
+    #graphs_collapsed()
+    #graphs_spectra()
     #graphs_unwrapped()
+    graphs_otwo_region()
      
 
 graphs("data/cube_23.fits", "data/skyvariance_csub.fits")
+#otwo_doublet_fitting("data/cube_23.fits", "data/skyvariance_csub.fits")
