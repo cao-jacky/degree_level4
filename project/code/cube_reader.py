@@ -188,38 +188,25 @@ def norm(x, mean, sd):
         norm += [1.0/(sd*np.sqrt(2*np.pi))*np.exp(-(x[i] - mean)**2/(2*sd**2))]
     return np.array(norm)
 
+def sky_noise_std(file_name, sky_file_name):
+    # finding the sky nioise from a small section of the cube data
+    pass
+
 def otwo_doublet_fitting(file_name, sky_file_name):
     sa_data     = spectra_analysis(file_name, sky_file_name)
     y_shifted   = sa_data['gd_shifted'] 
     orr         = wavelength_solution(file_name) 
 
     # OII range and region
-    otr         = [1100, 1200] 
-    otwo_region = y_shifted[otr[0]:otr[1]]
+    otr         = [4781, 4881] # values based off non-redshifted region
 
-    # I need to have the x-data here as well, so copy the code from plotters
+    dt_region   = [(x-len(y_shifted)) for x in otr] # correcting for indices of array
+    otwo_region = y_shifted[dt_region[0]:dt_region[1]]
+
     orr_x   = np.linspace(orr['begin'], orr['end'], orr['steps'])
-    rdst    = sa_data['redshift']
-    corr_x  = orr_x / (1+rdst) # corrected wavelengths
+    ot_x    = orr_x[dt_region[0]:dt_region[1]]
 
-    ot_x    = corr_x[otr[0]:otr[1]]
-
-    # m, dm, std1, std2 
-    init_test   = [ 3720, 3730, 10, 10 ]
-
-    def res(p, y, x):
-        m1, m2, sd1, sd2 = p
-        y_fit = norm(x, m1, sd1) + norm(x, m2, sd2)
-        y_fit = norm(x, m1, sd1) 
-        err = y - y_fit
-        return err
-
-    plsq = leastsq(res, init_test, args=(otwo_region, ot_x))
-
-    y_est = norm(ot_x, plsq[0][0], plsq[0][2]) + norm(ot_x, plsq[0][0] + plsq[0][1], 
-            plsq[0][3])
-
-    return {'range': otr, 'region': otwo_region, 'gauss_estimate': y_est }
+    return {'range': otr, 'region': otwo_region}
 
 def graphs(file_name, sky_file_name):
     plt.rc('text', usetex=True)
@@ -259,7 +246,7 @@ def graphs(file_name, sky_file_name):
         plt.savefig('graphs/spectra_central_pixel.pdf')
 
         # --- uncorrected redshift
-
+        df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced [OII] region
         gs_data = spectra_analysis(file_name, sky_file_name)
 
         cp_spec = plt.figure(4)
@@ -273,13 +260,20 @@ def graphs(file_name, sky_file_name):
         sn_y    =  gs_data['sky_noise']
         plt.plot(cps_x, sn_y, linewidth=0.5, color="#e53935")
 
+        ## plotting our [OII] region
+        dt_rng  = df_data['range']
+        dt_rng  = [(x-len(cps_y)) for x in dt_rng]
+
+        ot_y    = df_data['region']
+        ot_x    = cps_x[dt_rng[0]:dt_rng[1]]
+
+        plt.plot(ot_x, ot_y, linewidth=0.5, color="#00c853")
+
         ## plotting peak lines
         pk_lines = gs_data['gd_peaks']
         for i in range(len(pk_lines)):
             srb = sr['begin']
-            plt.axvline(x=(srb+pk_lines[i]), linewidth=0.5, color="#8bc34a")
-
-        ## shifting data
+            plt.axvline(x=(srb+pk_lines[i]), linewidth=0.5, color="#8bc34a", alpha=0.2)
         
         plt.title(r'\textbf{spectra: cross-section redshifted}', fontsize=13)        
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
@@ -287,8 +281,6 @@ def graphs(file_name, sky_file_name):
         plt.savefig('graphs/spectra_galaxy_redshifted.pdf')
     
         # --- corrected redshift
-        df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced region
-
         cp_spec = plt.figure(5)
         cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
         rdst    = gs_data['redshift']
@@ -307,21 +299,7 @@ def graphs(file_name, sky_file_name):
         sn_y    =  gs_data['sky_noise']
         #plt.plot(cps_x, sn_y, linewidth=0.5, color="#e53935", alpha=0.1)
         plt.plot(corr_x, sn_y, linewidth=0.5, color="#e53935")
-
-        ## plotting our [OII] region
-        ot_y    = df_data['region']
  
-        ## corrected wavelengths
-        corr_x  = cps_x / (1+rdst)
-
-        dt_rng  = df_data['range']
-        ot_xb   = corr_x[0] + dt_rng[0] # beginning of range
-        ot_xe   = corr_x[0] + dt_rng[1] # end of range 
-
-        ot_x    = corr_x[dt_rng[0]:dt_rng[1]]
-
-        plt.plot(ot_x, ot_y, linewidth=0.5, color="#00c853")
-
         ## plotting spectra lines
         for e_key, e_val in sp_lines['emis'].items():
             spec_line = float(e_val)
@@ -368,11 +346,11 @@ def graphs(file_name, sky_file_name):
 
         ot_x    = corr_x[dt_rng[0]:dt_rng[1]]
 
-        est_data = df_data['gauss_estimate']
+        #est_data = df_data['gauss_estimate']
 
         ot_fig  = plt.figure(6)
-        plt.plot(ot_x, ot_y, linewidth=0.5, color='#000000')
-        plt.plot(ot_x, est_data, linewidth=0.5, color='#2196f3')
+        #plt.plot(ot_x, ot_y, linewidth=0.5, color='#000000')
+        #plt.plot(ot_x, est_data, linewidth=0.5, color='#2196f3')
         plt.title(r'\textbf{[OII] region}', fontsize=13)        
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
         plt.ylim(-500,5000) # setting manual limits for now
