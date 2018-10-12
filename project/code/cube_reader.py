@@ -219,7 +219,6 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     y_est = norm(ot_x, plsq[0][0], plsq[0][2]) + norm(ot_x, plsq[0][0] + plsq[0][1], 
             plsq[0][3])
 
-    print(y_est)
     return {'range': otr, 'region': otwo_region, 'gauss_estimate': y_est }
 
 def graphs(file_name, sky_file_name):
@@ -288,6 +287,7 @@ def graphs(file_name, sky_file_name):
         plt.savefig('graphs/spectra_galaxy_redshifted.pdf')
     
         # --- corrected redshift
+        df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced region
 
         cp_spec = plt.figure(5)
         cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
@@ -307,6 +307,20 @@ def graphs(file_name, sky_file_name):
         sn_y    =  gs_data['sky_noise']
         #plt.plot(cps_x, sn_y, linewidth=0.5, color="#e53935", alpha=0.1)
         plt.plot(corr_x, sn_y, linewidth=0.5, color="#e53935")
+
+        ## plotting our [OII] region
+        ot_y    = df_data['region']
+ 
+        ## corrected wavelengths
+        corr_x  = cps_x / (1+rdst)
+
+        dt_rng  = df_data['range']
+        ot_xb   = corr_x[0] + dt_rng[0] # beginning of range
+        ot_xe   = corr_x[0] + dt_rng[1] # end of range 
+
+        ot_x    = corr_x[dt_rng[0]:dt_rng[1]]
+
+        plt.plot(ot_x, ot_y, linewidth=0.5, color="#00c853")
 
         ## plotting spectra lines
         for e_key, e_val in sp_lines['emis'].items():
@@ -367,7 +381,7 @@ def graphs(file_name, sky_file_name):
         
 
     #graphs_collapsed()
-    #graphs_spectra()
+    graphs_spectra()
     #graphs_unwrapped()
     graphs_otwo_region()
      
