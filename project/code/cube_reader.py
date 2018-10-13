@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 
 from scipy import signal
-from scipy.optimize import leastsq
+from scipy.optimize import curve_fit
 
 from astropy.io import fits
 
@@ -161,9 +161,7 @@ def spectra_analysis(file_name, sky_file_name):
                 '[OII]':      '3727',
                 'CaK':      '3933',
                 'CaH':      '3968',
-                'Hdelta':   '4101',
-
-                
+                'Hdelta':   '4101', 
                 }, 
             'abs': {'K': '3934.777',
                 }
@@ -182,11 +180,33 @@ def spectra_analysis(file_name, sky_file_name):
     return {'gd_shifted': gd_mc, 'sky_noise': sn_data, 'spectra': sl, 'gd_peaks': 
             gd_peaks, 'redshift': redshift}
 
-def norm(x, mean, sd):
+def find_nearest(array, value):
+    # Find nearest value is an array
+    idx = (np.abs(array-value)).argmin()
+    return idx
+
+def normt(x, mean, sd):
     norm = []
     for i in range(x.size):
         norm += [1.0/(sd*np.sqrt(2*np.pi))*np.exp(-(x[i] - mean)**2/(2*sd**2))]
     return np.array(norm)
+
+def norm(x, amp, mean, sd):
+    nf = 1 / (sd * np.sqrt(2*np.pi)) # normalisation factor
+    exp_frac = (x-mean)**2/(2*sd**2)
+    exp = np.exp(-exp_frac)
+    return (amp*nf*exp)
+
+def norm_print(x, mean, sd):
+    nf = 1 / (sd * np.sqrt(2*np.pi)) # normalisation factor
+    exp_frac = (x-mean)**2/(2*sd**2)
+    #print(x-mean)
+    #print(sd**2)
+    exp = np.exp(-exp_frac)
+    return (nf*exp)
+
+def gaussian(x,a,x0,sigma):
+    return a*np.exp(-(x-x0)**2/(2*sigma**2))
 
 def sky_noise_std(file_name, sky_file_name):
     # finding the sky nioise from a small section of the cube data
@@ -197,16 +217,52 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     y_shifted   = sa_data['gd_shifted'] 
     orr         = wavelength_solution(file_name) 
 
-    # OII range and region
-    otr         = [4781, 4881] # values based off non-redshifted region
+    # obtaining the OII range and region
+    ## values based off non-redshifted region, but we are working with the redshifted
+    ## essentially, more or less guessing
+    otr         = [5900, 6250] 
 
-    dt_region   = [(x-len(y_shifted)) for x in otr] # correcting for indices of array
+    orr_x       = np.linspace(orr['begin'], orr['end'], orr['steps'])
+    dt_region   = [find_nearest(orr_x, x) for x in otr]
     otwo_region = y_shifted[dt_region[0]:dt_region[1]]
 
-    orr_x   = np.linspace(orr['begin'], orr['end'], orr['steps'])
-    ot_x    = orr_x[dt_region[0]:dt_region[1]]
+    ot_x        = orr_x[dt_region[0]:dt_region[1]]
 
-    return {'range': otr, 'region': otwo_region}
+    # standard deviation of a range before the peak 
+    otwo_max_loc    = np.argmax(otwo_region)
+    otwo_max_val    = np.max(otwo_region)
+   
+    print(otwo_max_val)
+
+    stdr_b          = 50
+    stdr_e          = otwo_max_loc - 50
+    stddev_lim      = [stdr_b, stdr_e]
+
+    stddev_region   = otwo_region[stddev_lim[0]:stddev_lim[1]]
+    stddev_val      = np.std(stddev_region) 
+    
+    # fitting gaussian to doublets individually
+    dblt_mu = [3727.092, 3729.875]
+
+    dblt_rng = [6180, 6220]
+    dblt_rng = [find_nearest(orr_x, x) for x in dblt_rng]
+    dblt_rng_vals = orr_x[dblt_rng[0]:dblt_rng[1]]
+
+    dblt_rgn = y_shifted[dblt_rng[0]:dblt_rng[1]]
+
+    line_diff = dblt_mu[1] - dblt_mu[0]
+    otwo_max_loc_acc = ot_x[otwo_max_loc]
+    lone = otwo_max_loc_acc
+    ltwo = otwo_max_loc_acc + line_diff 
+
+    gauss_one   = curve_fit(gaussian, dblt_rng_vals, dblt_rgn, p0=(1, lone, stddev_val))
+    gauss_two   = curve_fit(gaussian, dblt_rng_vals, dblt_rgn, p0=(1, ltwo, stddev_val))
+
+    print(gauss_one)
+    print(gauss_two)
+ 
+    return {'range': otr, 'x_region': ot_x,'y_region': otwo_region, 'gauss1': gauss_one
+            , 'gauss2': gauss_two, 'doublet_range': dblt_rng_vals}
 
 def graphs(file_name, sky_file_name):
     plt.rc('text', usetex=True)
@@ -327,30 +383,37 @@ def graphs(file_name, sky_file_name):
         plt.savefig('graphs/unwrap_2d.pdf')
 
     def graphs_otwo_region():
-        df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced region
-        orr     = wavelength_solution(file_name) # original range
-        gs_data = spectra_analysis(file_name, sky_file_name)
-
-        ot_y    = df_data['region']
-
-        orr_x, orr_step = np.linspace(orr['begin'], orr['end'], orr['steps'], 
-                retstep=True)
-        rdst    = gs_data['redshift']
-
-        ## corrected wavelengths
-        corr_x  = orr_x / (1+rdst)
-
-        dt_rng  = df_data['range']
-        ot_xb   = corr_x[0] + dt_rng[0] # beginning of range
-        ot_xe   = corr_x[0] + dt_rng[1] # end of range 
-
-        ot_x    = corr_x[dt_rng[0]:dt_rng[1]]
-
-        #est_data = df_data['gauss_estimate']
-
         ot_fig  = plt.figure(6)
-        #plt.plot(ot_x, ot_y, linewidth=0.5, color='#000000')
-        #plt.plot(ot_x, est_data, linewidth=0.5, color='#2196f3')
+
+        df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced region
+
+        ot_x    = df_data['x_region']
+        ot_y    = df_data['y_region']
+        plt.plot(ot_x, ot_y, linewidth=0.5, color="#000000")
+
+        dblt_rng    = df_data['doublet_range']
+        ot_x_b, ot_x_e  = dblt_rng[0], dblt_rng[-1]
+        x_ax_vals   = np.linspace(ot_x_b, ot_x_e, 1000)
+
+        gss_one_par = df_data['gauss1'][0] # parameters for first gaussian
+        gss_one_y   = norm(ot_x, gss_one_par[0], gss_one_par[1], gss_one_par[2])
+
+        data_max    = np.max(ot_y)
+        modl_max    = np.max(gss_one_y)
+        #y_scale     = data_max / modl_max
+        y_scale     = 1
+
+        plt.plot(ot_x, gss_one_y*y_scale, linewidth=0.5, color="#f57f17")
+
+        gss_two_par = df_data['gauss2'][0] # parameters for second gaussian
+        gss_two_y   = norm(ot_x, gss_two_par[0], gss_two_par[1], gss_one_par[2])
+        plt.plot(ot_x, gss_two_y*y_scale, linewidth=0.5, color="#01579b")
+
+        y_diff = gss_one_y - gss_two_y
+
+        fn_dblt     = gss_one_y + gss_two_y
+        plt.plot(ot_x, fn_dblt, linewidth=0.5, color="#c62828")
+
         plt.title(r'\textbf{[OII] region}', fontsize=13)        
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
         plt.ylim(-500,5000) # setting manual limits for now
@@ -359,7 +422,7 @@ def graphs(file_name, sky_file_name):
         
 
     #graphs_collapsed()
-    graphs_spectra()
+    #graphs_spectra()
     #graphs_unwrapped()
     graphs_otwo_region()
      
