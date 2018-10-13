@@ -132,7 +132,6 @@ def sky_noise(sky_file_name):
     # returning sky noise data files
     fits_file = fits.open(sky_file_name)
     image_data = fits_file[0].data
-
     return image_data
 
 def spectra_analysis(file_name, sky_file_name):
@@ -185,32 +184,23 @@ def find_nearest(array, value):
     idx = (np.abs(array-value)).argmin()
     return idx
 
-def normt(x, mean, sd):
-    norm = []
-    for i in range(x.size):
-        norm += [1.0/(sd*np.sqrt(2*np.pi))*np.exp(-(x[i] - mean)**2/(2*sd**2))]
-    return np.array(norm)
-
 def norm(x, amp, mean, sd):
     nf = 1 / (sd * np.sqrt(2*np.pi)) # normalisation factor
     exp_frac = (x-mean)**2/(2*sd**2)
     exp = np.exp(-exp_frac)
     return (amp*nf*exp)
 
-def norm_print(x, mean, sd):
-    nf = 1 / (sd * np.sqrt(2*np.pi)) # normalisation factor
-    exp_frac = (x-mean)**2/(2*sd**2)
-    #print(x-mean)
-    #print(sd**2)
-    exp = np.exp(-exp_frac)
-    return (nf*exp)
-
 def gaussian(x,a,x0,sigma):
     return a*np.exp(-(x-x0)**2/(2*sigma**2))
 
-def sky_noise_std(file_name, sky_file_name):
+def sky_noise_weighting(file_name, sky_file_name):
     # finding the sky nioise from a small section of the cube data
-    pass
+    sn_data = sky_noise(sky_file_name)
+    in_wt     = 1 / sn_data # inverse weight
+
+    
+
+    return {'inverse_sky': in_wt}
 
 def otwo_doublet_fitting(file_name, sky_file_name):
     sa_data     = spectra_analysis(file_name, sky_file_name)
@@ -304,6 +294,7 @@ def graphs(file_name, sky_file_name):
         # --- uncorrected redshift
         df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced [OII] region
         gs_data = spectra_analysis(file_name, sky_file_name)
+        snw_data = sky_noise_weighting(file_name, sky_file_name)
 
         cp_spec = plt.figure(4)
         cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
@@ -317,14 +308,15 @@ def graphs(file_name, sky_file_name):
         plt.plot(cps_x, sn_y, linewidth=0.5, color="#e53935")
 
         ## plotting our [OII] region
-        dt_rng  = df_data['range']
-        dt_rng  = [(x-len(cps_y)) for x in dt_rng]
-
-        ot_y    = df_data['region']
-        ot_x    = cps_x[dt_rng[0]:dt_rng[1]]
-
+        ot_x    = df_data['x_region']
+        ot_y    = df_data['y_region']
         plt.plot(ot_x, ot_y, linewidth=0.5, color="#00c853")
 
+        ## plotting inverse sky 
+        sni_y   = snw_data['inverse_sky']
+        print(np.max(sni_y))
+        plt.plot(cps_x, sni_y, linewidth=0.5, color="#b71c1c")
+        
         ## plotting peak lines
         pk_lines = gs_data['gd_peaks']
         for i in range(len(pk_lines)):
@@ -333,7 +325,7 @@ def graphs(file_name, sky_file_name):
         
         plt.title(r'\textbf{spectra: cross-section redshifted}', fontsize=13)        
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-        plt.ylim(-500,5000) # setting manual limits for now
+        plt.ylim(-1000,5000) # setting manual limits for now
         plt.savefig('graphs/spectra_galaxy_redshifted.pdf')
     
         # --- corrected redshift
@@ -422,7 +414,7 @@ def graphs(file_name, sky_file_name):
         
 
     #graphs_collapsed()
-    #graphs_spectra()
+    graphs_spectra()
     #graphs_unwrapped()
     graphs_otwo_region()
      
