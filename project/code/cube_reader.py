@@ -15,7 +15,7 @@ from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)
 
 def read_file(file_name):
-    # reads file_name and returns specific header data and image data
+    """ reads file_name and returns specific header data and image data """
     fits_file = fits.open(file_name)
 
     header = fits_file[0].header
@@ -32,7 +32,7 @@ def read_file(file_name):
     return header_keywords, image_data
 
 def wavelength_solution(file_name):
-    # wavelength solution in Angstroms
+    """ wavelength solution in Angstroms """
     file_data   = read_file(file_name)
     header_data = file_data[0]
     image_data  = file_data[1]
@@ -48,7 +48,7 @@ def wavelength_solution(file_name):
     return {'begin': range_begin, 'end': range_end, 'steps': steps}
 
 def image_collapser(file_name):
-    # collapses image data so it can be passed as a heatmap
+    """ collapses image data so it can be passed as a heatmap """
     file_data   = read_file(file_name)
     header_data = file_data[0]
     image_data  = file_data[1]
@@ -73,7 +73,7 @@ def image_collapser(file_name):
     return {'median': image_median, 'sum': image_sum}
 
 def spectrum_creator(file_name):
-    # creates a combined single spectra from an area around the 'central pixel' 
+    """ creates a combined single spectra from an area around the 'central pixel' """
     file_data   = read_file(file_name)
     image_data  = file_data[1]
 
@@ -107,7 +107,7 @@ def spectrum_creator(file_name):
     return {'central': cp_spec_data, 'galaxy': gs_data}
 
 def spectra_stacker(file_name): 
-    # stacking all spectra together for a stacked spectra image
+    """ stacking all spectra together for a stacked spectra image """
     file_data   = read_file(file_name)
     image_data  = file_data[1]
 
@@ -129,13 +129,14 @@ def spectra_stacker(file_name):
     return data_unwrap
 
 def sky_noise(sky_file_name):
-    # returning sky noise data files
+    """ returning sky noise data files """
     fits_file = fits.open(sky_file_name)
     image_data = fits_file[0].data
     return image_data
 
 def spectra_analysis(file_name, sky_file_name):
-    # correcting data to be in rest frame
+    """ correcting data to be in rest frame """
+
     # spectra and sky noise data
     spectra_data    = spectrum_creator(file_name)
     wl_soln         = wavelength_solution(file_name)
@@ -180,7 +181,7 @@ def spectra_analysis(file_name, sky_file_name):
             gd_peaks, 'redshift': redshift}
 
 def find_nearest(array, value):
-    # Find nearest value is an array
+    """ Find nearest value is an array """
     idx = (np.abs(array-value)).argmin()
     return idx
 
@@ -194,13 +195,24 @@ def gaussian(x,a,x0,sigma):
     return a*np.exp(-(x-x0)**2/(2*sigma**2))
 
 def sky_noise_weighting(file_name, sky_file_name):
-    # finding the sky nioise from a small section of the cube data
-    sn_data = sky_noise(sky_file_name)
+    """ finding the sky nioise from a small section of the cube data """
+    cs_data     = spectra_analysis(file_name, sky_file_name)
+    cube_data   = cs_data['gd_shifted']
+    sn_data     = cs_data['sky_noise']
+
     in_wt     = 1 / sn_data # inverse weight
-
     
+    sky_regns = np.zeros((len(in_wt),2)) # storing regions of potential sky noise
+    for i in range(len(in_wt)): 
+        data_acl = cube_data[i]
+        data_sky = sn_data[i]
+        data_prb = in_wt[i]
+         
+        if ( 0.00 <= np.abs(data_prb) <= 1.00 ):
+            sky_regns[i][0] = data_prb
+            sky_regns[i][1] = data_sky 
 
-    return {'inverse_sky': in_wt}
+    return {'inverse_sky': in_wt, 'sky_regions': sky_regns}
 
 def otwo_doublet_fitting(file_name, sky_file_name):
     sa_data     = spectra_analysis(file_name, sky_file_name)
@@ -222,12 +234,11 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     otwo_max_loc    = np.argmax(otwo_region)
     otwo_max_val    = np.max(otwo_region)
    
-    print(otwo_max_val)
-
     stdr_b          = 50
     stdr_e          = otwo_max_loc - 50
     stddev_lim      = [stdr_b, stdr_e]
 
+    stddev_x        = ot_x[stddev_lim[0]:stddev_lim[1]]
     stddev_region   = otwo_region[stddev_lim[0]:stddev_lim[1]]
     stddev_val      = np.std(stddev_region) 
     
@@ -245,20 +256,20 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     lone = otwo_max_loc_acc
     ltwo = otwo_max_loc_acc + line_diff 
 
-    gauss_one   = curve_fit(gaussian, dblt_rng_vals, dblt_rgn, p0=(1, lone, stddev_val))
-    gauss_two   = curve_fit(gaussian, dblt_rng_vals, dblt_rgn, p0=(1, ltwo, stddev_val))
+    gauss_one   = curve_fit(gaussian, dblt_rng_vals, dblt_rgn, p0=(1,lone,stddev_val))
+    gauss_two   = curve_fit(gaussian, dblt_rng_vals, dblt_rgn, p0=(1,ltwo,stddev_val))
 
-    print(gauss_one)
-    print(gauss_two)
- 
+    #print(gauss_one, gauss_two)
+
     return {'range': otr, 'x_region': ot_x,'y_region': otwo_region, 'gauss1': gauss_one
-            , 'gauss2': gauss_two, 'doublet_range': dblt_rng_vals}
+            , 'gauss2': gauss_two, 'doublet_range': dblt_rng_vals, 'std_x': stddev_x,
+            'std_y': stddev_region}
 
 def graphs(file_name, sky_file_name):
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.rcParams['text.latex.preamble'] = [r'\boldmath']
-
+    
     # --- for collapsed images ---
     def graphs_collapsed():
         im_coll_data = image_collapser(file_name)
@@ -304,18 +315,19 @@ def graphs(file_name, sky_file_name):
         plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
 
         ## plotting our sky noise data
-        sn_y    =  gs_data['sky_noise']
-        plt.plot(cps_x, sn_y, linewidth=0.5, color="#e53935")
+        snd_y   = snw_data['sky_regions'][:,1]
+        plt.plot(cps_x, snd_y, linewidth=0.5, color="#f44336", alpha=0.5)
+        #plt.plot(cps_x, -sn_y, linewidth=0.5, color="#e53935")
 
         ## plotting our [OII] region
         ot_x    = df_data['x_region']
         ot_y    = df_data['y_region']
-        plt.plot(ot_x, ot_y, linewidth=0.5, color="#00c853")
+        plt.plot(ot_x, ot_y, linewidth=0.5, color="#00c853") 
 
-        ## plotting inverse sky 
-        sni_y   = snw_data['inverse_sky']
-        print(np.max(sni_y))
-        plt.plot(cps_x, sni_y, linewidth=0.5, color="#b71c1c")
+        ## plotting the standard deviation region in the [OII] section
+        std_x   = df_data['std_x']
+        std_y   = df_data['std_y']
+        plt.plot(std_x, std_y, linewidth=0.5, color="#00acc1") 
         
         ## plotting peak lines
         pk_lines = gs_data['gd_peaks']
