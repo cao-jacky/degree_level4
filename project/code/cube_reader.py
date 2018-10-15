@@ -220,8 +220,7 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     orr         = wavelength_solution(file_name) 
 
     # obtaining the OII range and region
-    ## values based off non-redshifted region, but we are working with the redshifted
-    ## essentially, more or less guessing
+    ## values based off non-redshifted region
     otr         = [5900, 6250] 
 
     orr_x       = np.linspace(orr['begin'], orr['end'], orr['steps'])
@@ -243,7 +242,7 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     stddev_val      = np.std(stddev_region) 
     
     # fitting gaussian to doublets individually
-    dblt_mu = [3727.092, 3729.875]
+    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
 
     dblt_rng = [6180, 6220]
     dblt_rng = [find_nearest(orr_x, x) for x in dblt_rng]
@@ -259,7 +258,7 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     gauss_one   = curve_fit(gaussian, dblt_rng_vals, dblt_rgn, p0=(1,lone,stddev_val))
     gauss_two   = curve_fit(gaussian, dblt_rng_vals, dblt_rgn, p0=(1,ltwo,stddev_val))
 
-    #print(gauss_one, gauss_two)
+    print(gauss_one, gauss_two)
 
     return {'range': otr, 'x_region': ot_x,'y_region': otwo_region, 'gauss1': gauss_one
             , 'gauss2': gauss_two, 'doublet_range': dblt_rng_vals, 'std_x': stddev_x,
@@ -390,10 +389,17 @@ def graphs(file_name, sky_file_name):
         ot_fig  = plt.figure(6)
 
         df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced region
+        snw_data = sky_noise_weighting(file_name, sky_file_name)
 
+        # plotting the data for the cutout [OII] region
         ot_x    = df_data['x_region']
         ot_y    = df_data['y_region']
         plt.plot(ot_x, ot_y, linewidth=0.5, color="#000000")
+
+        ## plotting the standard deviation region in the [OII] section
+        std_x   = df_data['std_x']
+        std_y   = df_data['std_y']
+        plt.plot(std_x, std_y, linewidth=0.5, color="#00acc1") 
 
         dblt_rng    = df_data['doublet_range']
         ot_x_b, ot_x_e  = dblt_rng[0], dblt_rng[-1]
