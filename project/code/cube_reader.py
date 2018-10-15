@@ -8,6 +8,8 @@ from matplotlib import rc
 from scipy import signal
 from scipy.optimize import curve_fit
 
+from mpfit_module import mpfit
+
 from astropy.io import fits
 
 import warnings
@@ -193,7 +195,7 @@ def spectra_analysis(file_name, sky_file_name):
     otwo_wav    = float(wl_soln['begin'] + gd_peaks[7])    
     otwo_acc    = float(sl['emis']['[OII]'])
 
-    redshift = (otwo_wav - otwo_acc) / otwo_acc
+    redshift = (otwo_wav / otwo_acc) - 1
 
     return {'gd_shifted': gd_mc, 'sky_noise': sn_data, 'spectra': sl, 'gd_peaks': 
             gd_peaks, 'redshift': redshift}
@@ -202,26 +204,6 @@ def find_nearest(array, value):
     """ Find nearest value is an array """
     idx = (np.abs(array-value)).argmin()
     return idx
-
-def f_doublet(x, c, i1, i2, sigma1, z):
-    """ Function for Gaussian doublet:
-        x       data
-        c       constant
-        i1      intensity of the first Gaussian
-        i2      intensity of the second Gaussian
-        sigma1  standard deviation of the Gaussians/velocity dispersion
-        z       redshift of the cube data """
-
-        dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
-        l1 = dblt_mu[0] * (1-z)
-        l2 = dblt_mu[1] * (1-z)
-
-        norm = (sigma1*np.sqrt(2*np.pi))
-
-        term1 = i1 / norm  * np.exp(-(x-l1)**2/(2*sigma1**2))
-        term2 = i2 / norm * np.exp(-(x-l2)**2/(2*sigma1**2))
-
-    return (c + term1 + term2)
 
 def sky_noise_weighting(file_name, sky_file_name):
     """ finding the sky nioise from a small section of the cube data """
@@ -242,6 +224,31 @@ def sky_noise_weighting(file_name, sky_file_name):
             sky_regns[i][1] = data_sky 
 
     return {'inverse_sky': in_wt, 'sky_regions': sky_regns}
+
+def f_doublet(x, c, i1, i2, sigma1, z):
+    """ Function for Gaussian doublet:
+        x       data
+        c       constant
+        i1      intensity of the first Gaussian
+        i2      intensity of the second Gaussian
+        sigma1  standard deviation of the Gaussians/velocity dispersion
+        z       redshift of the cube data 
+    """ 
+    #c, i1, i2, sigma1, z = p
+ 
+    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
+    l1 = dblt_mu[0] * (1+z)
+    l2 = dblt_mu[1] * (1+z)
+
+    norm = (sigma1*np.sqrt(2*np.pi))
+    term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma1**2))
+    term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma1**2)) 
+    return (c + term1 + term2)
+
+def doublet_fitter(p, fjac=None, x=None, y=None, err=None):
+    model = f_doublet(x, p)
+    status = 0
+    return([status, (y-model)/err])
 
 def otwo_doublet_fitting(file_name, sky_file_name):
     sa_data     = spectra_analysis(file_name, sky_file_name)
@@ -279,19 +286,20 @@ def otwo_doublet_fitting(file_name, sky_file_name):
 
     dblt_rgn = y_shifted[dblt_rng[0]:dblt_rng[1]]
 
-    line_diff = dblt_mu[1] - dblt_mu[0]
-    otwo_max_loc_acc = ot_x[otwo_max_loc]
-    lone = otwo_max_loc_acc
-    ltwo = otwo_max_loc_acc + line_diff 
+    rdst = sa_data['redshift']
 
-    gauss_one   = curve_fit(gaussian, dblt_rng_vals, dblt_rgn, p0=(1,lone,stddev_val))
-    gauss_two   = curve_fit(gaussian, dblt_rng_vals, dblt_rgn, p0=(1,ltwo,stddev_val))
+    # the parameters we need are (c, i1, i2, sigma1, z)    
+    p0 = [30, otwo_max_val, otwo_max_val, 1, rdst]
+    c, i1, i2, sigma1, z = p0
 
-    print(gauss_one, gauss_two)
+    gauss_fit = curve_fit(f_doublet, ot_x, otwo_region, p0, bounds=([-np.inf, 0.5*i2, 
+        (i1/1.5), 0, -np.inf],[np.inf, 1.5*i2, (i1/0.5), np.inf, np.inf]))
 
-    return {'range': otr, 'x_region': ot_x,'y_region': otwo_region, 'gauss1': gauss_one
-            , 'gauss2': gauss_two, 'doublet_range': dblt_rng_vals, 'std_x': stddev_x,
-            'std_y': stddev_region}
+    print(gauss_fit[0])
+
+    return {'range': otr, 'x_region': ot_x,'y_region': otwo_region, 'doublet_range': 
+            dblt_rng_vals, 'std_x': stddev_x, 'std_y': stddev_region, 'gauss_fit':
+            gauss_fit}
 
 def graphs(file_name, sky_file_name):
     plt.rc('text', usetex=True)
@@ -434,24 +442,10 @@ def graphs(file_name, sky_file_name):
         ot_x_b, ot_x_e  = dblt_rng[0], dblt_rng[-1]
         x_ax_vals   = np.linspace(ot_x_b, ot_x_e, 1000)
 
-        gss_one_par = df_data['gauss1'][0] # parameters for first gaussian
-        gss_one_y   = norm(ot_x, gss_one_par[0], gss_one_par[1], gss_one_par[2])
+        gss     = df_data['gauss_fit'][0]
+        gss_y   = f_doublet(ot_x, gss[0], gss[1], gss[2], gss[3], gss[4]) 
 
-        data_max    = np.max(ot_y)
-        modl_max    = np.max(gss_one_y)
-        #y_scale     = data_max / modl_max
-        y_scale     = 1
-
-        plt.plot(ot_x, gss_one_y*y_scale, linewidth=0.5, color="#f57f17")
-
-        gss_two_par = df_data['gauss2'][0] # parameters for second gaussian
-        gss_two_y   = norm(ot_x, gss_two_par[0], gss_two_par[1], gss_one_par[2])
-        plt.plot(ot_x, gss_two_y*y_scale, linewidth=0.5, color="#01579b")
-
-        y_diff = gss_one_y - gss_two_y
-
-        fn_dblt     = gss_one_y + gss_two_y
-        plt.plot(ot_x, fn_dblt, linewidth=0.5, color="#c62828")
+        plt.plot(ot_x, gss_y, linewidth=0.5, color="#f57f17")  
 
         plt.title(r'\textbf{[OII] region}', fontsize=13)        
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
