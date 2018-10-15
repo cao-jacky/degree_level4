@@ -8,8 +8,6 @@ from matplotlib import rc
 from scipy import signal
 from scipy.optimize import curve_fit
 
-from mpfit_module import mpfit
-
 from astropy.io import fits
 
 import warnings
@@ -245,15 +243,11 @@ def f_doublet(x, c, i1, i2, sigma1, z):
     term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma1**2)) 
     return (c + term1 + term2)
 
-def doublet_fitter(p, fjac=None, x=None, y=None, err=None):
-    model = f_doublet(x, p)
-    status = 0
-    return([status, (y-model)/err])
-
 def otwo_doublet_fitting(file_name, sky_file_name):
     sa_data     = spectra_analysis(file_name, sky_file_name)
     y_shifted   = sa_data['gd_shifted'] 
-    orr         = wavelength_solution(file_name) 
+    orr         = wavelength_solution(file_name)
+    sn_data   = sky_noise_weighting(file_name, sky_file_name)
 
     # obtaining the OII range and region
     ## values based off non-redshifted region
@@ -288,8 +282,11 @@ def otwo_doublet_fitting(file_name, sky_file_name):
 
     rdst = sa_data['redshift']
 
+    sky_weight = sn_data['inverse_sky']
+    sky_weight = sky_weight[dt_region[0]:dt_region[1]]
+
     # the parameters we need are (c, i1, i2, sigma1, z)    
-    p0 = [30, otwo_max_val, otwo_max_val, 1, rdst]
+    p0 = [0, otwo_max_val, otwo_max_val, 1, rdst]
     c, i1, i2, sigma1, z = p0
 
     gauss_fit = curve_fit(f_doublet, ot_x, otwo_region, p0, bounds=([-np.inf, 0.5*i2, 
