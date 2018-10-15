@@ -118,13 +118,31 @@ def spectra_stacker(file_name):
 
     pxl_total   = ra_axis * dec_axis
     
-    data_unwrap = []
-
+    data_unwrap = [] 
     for i_ra in range(ra_axis):
         for i_dec in range(dec_axis):
             pixel_data  = image_data[:][:,i_dec][:,i_ra]
             
             data_unwrap.append(pixel_data)
+
+    data_stacked = np.zeros((pxl_total, wl_axis))
+    for i_row in range(np.shape(data_unwrap)[0]):
+        data_row = data_unwrap[i_row]
+        for i_pixel in range(len(data_row)):
+            data_stacked[i_row][i_pixel] = data_row[i_pixel]
+
+    # writing data to a fits file
+    hdr = fits.Header()
+    hdr['CTYPE1'] = 'pixel'
+    hdr['CRPIX1'] = 1
+    hdr['CRVAL1'] = data_stacked[0][0]
+    hdr['CDELT1'] = data_stacked[0][1] - data_stacked[0][0]
+
+    primary_hdu = fits.PrimaryHDU(header=hdr)
+    hdu = fits.ImageHDU(data_stacked)
+
+    hdul = fits.HDUList([primary_hdu, hdu])
+    hdul.writeto('test4.fits')
 
     return data_unwrap
 
@@ -185,14 +203,25 @@ def find_nearest(array, value):
     idx = (np.abs(array-value)).argmin()
     return idx
 
-def norm(x, amp, mean, sd):
-    nf = 1 / (sd * np.sqrt(2*np.pi)) # normalisation factor
-    exp_frac = (x-mean)**2/(2*sd**2)
-    exp = np.exp(-exp_frac)
-    return (amp*nf*exp)
+def f_doublet(x, c, i1, i2, sigma1, z):
+    """ Function for Gaussian doublet:
+        x       data
+        c       constant
+        i1      intensity of the first Gaussian
+        i2      intensity of the second Gaussian
+        sigma1  standard deviation of the Gaussians/velocity dispersion
+        z       redshift of the cube data """
 
-def gaussian(x,a,x0,sigma):
-    return a*np.exp(-(x-x0)**2/(2*sigma**2))
+        dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
+        l1 = dblt_mu[0] * (1-z)
+        l2 = dblt_mu[1] * (1-z)
+
+        norm = (sigma1*np.sqrt(2*np.pi))
+
+        term1 = i1 / norm  * np.exp(-(x-l1)**2/(2*sigma1**2))
+        term2 = i2 / norm * np.exp(-(x-l2)**2/(2*sigma1**2))
+
+    return (c + term1 + term2)
 
 def sky_noise_weighting(file_name, sky_file_name):
     """ finding the sky nioise from a small section of the cube data """
@@ -439,3 +468,4 @@ def graphs(file_name, sky_file_name):
 
 graphs("data/cube_23.fits", "data/skyvariance_csub.fits")
 #otwo_doublet_fitting("data/cube_23.fits", "data/skyvariance_csub.fits")
+#spectra_stacker("data/cube_23.fits")
