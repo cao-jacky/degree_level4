@@ -250,7 +250,7 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     sn_data   = sky_noise_weighting(file_name, sky_file_name)
 
     # obtaining the OII range and region
-    ## values based off non-redshifted region
+    ## values based off redshifted region
     otr         = [5900, 6250] 
 
     orr_x       = np.linspace(orr['begin'], orr['end'], orr['steps'])
@@ -287,10 +287,11 @@ def otwo_doublet_fitting(file_name, sky_file_name):
 
     # the parameters we need are (c, i1, i2, sigma1, z)    
     p0 = [0, otwo_max_val, otwo_max_val, 1, rdst]
-    c, i1, i2, sigma1, z = p0
+    c, i_val1, i_val2, sigma1, z = p0
 
-    gauss_fit = curve_fit(f_doublet, ot_x, otwo_region, p0, bounds=([-np.inf, 0.5*i2, 
-        (i1/1.5), 0, -np.inf],[np.inf, 1.5*i2, (i1/0.5), np.inf, np.inf]))
+    bounds = ([-np.inf, 0, 0, -np.inf, -np.inf],
+            [np.inf, np.inf, np.inf, np.inf, np.inf])
+    gauss_fit = curve_fit(f_doublet, ot_x, otwo_region, p0, bounds=bounds)
 
     print(gauss_fit[0])
 
