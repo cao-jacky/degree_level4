@@ -275,11 +275,12 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     stddev_val      = np.std(stddev_region) 
     
     # fitting gaussian to doublets individually
-    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
-    
-    print(otwo_max_loc)
+    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths 
 
-    dblt_rng = [6180, 6220]
+    dblt_val = ot_x[otwo_max_loc]
+    dblt_loc = find_nearest(ot_x, dblt_val)
+
+    dblt_rng = [dblt_val-20, dblt_val+20]
     dblt_rng = [find_nearest(orr_x, x) for x in dblt_rng]
     dblt_rng_vals = orr_x[dblt_rng[0]:dblt_rng[1]]
 
