@@ -44,11 +44,8 @@ def wavelength_solution(file_name):
     range_begin = header_data['CRVAL3']
     pixel_begin = header_data['CRPIX3']
     step_size   = header_data['CD3_3']
-
     steps       = len(image_data)
-
     range_end   = range_begin + steps * step_size
-
     return {'begin': range_begin, 'end': range_end, 'steps': steps}
 
 def image_collapser(file_name):
@@ -98,7 +95,6 @@ def spectrum_creator(file_name):
    
     # galaxy integrated spectrum
     gal_lim = [int(x / 2) for x in cp_loc]
-
     gal_cs_data   = image_data[:,gal_lim[0]:cp_loc[0]+gal_lim[0],
             gal_lim[1]:cp_loc[1]+gal_lim[1]]
     gs_shape = np.shape(gal_cs_data)
@@ -172,8 +168,7 @@ def spectra_analysis(file_name, sky_file_name):
     wl_soln         = wavelength_solution(file_name)
     sn_data         = sky_noise(sky_file_name)
 
-    galaxy_data   = spectra_data['galaxy']
-
+    galaxy_data   = spectra_data['galaxy'] 
     # shifting the data down to be approximately on y=0 
     gd_mc   = np.average(galaxy_data) 
     gd_mc   = galaxy_data - gd_mc
@@ -262,10 +257,10 @@ def otwo_doublet_fitting(file_name, sky_file_name):
 
     ot_x        = orr_x[dt_region[0]:dt_region[1]]
 
-    # standard deviation of a range before the peak 
     otwo_max_loc    = np.argmax(otwo_region)
     otwo_max_val    = np.max(otwo_region)
-   
+
+    # standard deviation of a range before the peak 
     stdr_b          = 50
     stdr_e          = otwo_max_loc - 50
     stddev_lim      = [stdr_b, stdr_e]
@@ -274,11 +269,10 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     stddev_region   = otwo_region[stddev_lim[0]:stddev_lim[1]]
     stddev_val      = np.std(stddev_region) 
     
-    # fitting gaussian to doublets individually
-    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths 
+    # fitting a gaussian doublet model to the data 
+    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths  
 
     dblt_val = ot_x[otwo_max_loc]
-    dblt_loc = find_nearest(ot_x, dblt_val)
 
     dblt_rng = [dblt_val-20, dblt_val+20]
     dblt_rng = [find_nearest(orr_x, x) for x in dblt_rng]
@@ -489,7 +483,7 @@ def analysis(file_name, sky_file_name):
         lm_best     = df_data['lm_best_fit'] 
 
         plt.plot(ot_x, lm_best, linewidth=0.5, color="#1e88e5")
-        plt.plot(ot_x, lm_init, linewidth=0.5, color="#43a047")
+        plt.plot(ot_x, lm_init, linewidth=0.5, color="#43a047", alpha=0.5)
         
         lm_params   = df_data['lm_best_param']
         lm_params   = [prm_value for prm_key, prm_value in lm_params.items()]
