@@ -1,3 +1,6 @@
+import os
+import datetime
+
 import numpy as np
 from numpy import unravel_index
 
@@ -6,7 +9,6 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 
 from scipy import signal
-from scipy.optimize import curve_fit
 
 from lmfit import minimize, Parameters, Model
 
@@ -154,7 +156,6 @@ def spectra_stacker(file_name):
         os.mkdir(data_dir)
 
     hdul.writeto(data_dir + '/stacked.fits')
-
     return data_unwrap
 
 def sky_noise(sky_file_name):
@@ -275,6 +276,8 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     
     # fitting gaussian to doublets individually
     dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
+    
+    print(otwo_max_loc)
 
     dblt_rng = [6180, 6220]
     dblt_rng = [find_nearest(orr_x, x) for x in dblt_rng]
@@ -289,11 +292,7 @@ def otwo_doublet_fitting(file_name, sky_file_name):
 
     # the parameters we need are (c, i1, i2, sigma1, z)    
     p0 = [0, otwo_max_val, 1.3, 3, rdst]
-    c, i_val1, r, sigma1, z = p0
-
-    bounds = ([-np.inf, 0, 0.5, -np.inf, -np.inf],
-            [np.inf, np.inf, 1.5, np.inf, np.inf])
-    gauss_fit = curve_fit(f_doublet, ot_x, otwo_region, p0, bounds=bounds)
+    c, i_val1, r, sigma1, z = p0 
  
     gss_pars = Parameters()
     gss_pars.add('c', value=c)
@@ -306,135 +305,163 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     gss_model = Model(f_doublet)
     gss_result = gss_model.fit(otwo_region, x=ot_x, params=gss_pars) 
 
-    print(gauss_fit[0])
-    print(gss_result.fit_report())
+    opti_pms = gss_result.best_values
+    init_pms = gss_result.init_values
+
+    curr_file_name = file_name.split('.')
+    curr_file_name = curr_file_name[0].split('/')
+    stk_f_n = curr_file_name[2]
+   
+    data_dir = 'results/' + stk_f_n
+    if not os.path.exists(data_dir):
+        os.mkdir(data_dir)
+  
+    lmfit_file = open(data_dir + '/' + stk_f_n + '_lmfit.txt', 'w') 
+    lmfit_file.write("Analysis performed at " + str(datetime.datetime.now()) + "\n\n")
+    lmfit_file.write("Output from lmfit is the following: \n")
+    lmfit_file.write(gss_result.fit_report()) 
+    
+    data_file = open(data_dir + '/' + stk_f_n + '_fitting.txt', 'w')
+    data_file.write("Results produced at " + str(datetime.datetime.now()) + "\n\n")
+
+    data_file.write("# Model fitting for [OII] Gaussian Doublet \n")
+    data_file.write("## Initial Parameters \n")
+    data_file.write("'c': " + str(init_pms['c'])  + "\n")
+    data_file.write("'i1': " + str(init_pms['i1'])  + "\n")
+    data_file.write("'i2': " + str(init_pms['i2'])  + "\n")
+    data_file.write("'sigma1': " + str(init_pms['sigma1'])  + "\n")
+    data_file.write("'z': " + str(init_pms['z'])  + "\n\n")
+
+    data_file.write("## Optimal Parameters \n")
+    data_file.write("'c': " + str(opti_pms['c'])  + "\n")
+    data_file.write("'i1': " + str(opti_pms['i1'])  + "\n")
+    data_file.write("'i2': " + str(opti_pms['i2'])  + "\n")
+    data_file.write("'sigma1': " + str(opti_pms['sigma1'])  + "\n")
+    data_file.write("'z': " + str(opti_pms['z'])  + "\n\n")
 
     return {'range': otr, 'x_region': ot_x,'y_region': otwo_region, 'doublet_range': 
-            dblt_rng_vals, 'std_x': stddev_x, 'std_y': stddev_region, 'gauss_fit':
-            gauss_fit, 'lm_init_fit': gss_result.init_fit, 'lm_best_fit': 
-            gss_result.best_fit, 'lm_best_param': gss_result.best_values}
+            dblt_rng_vals, 'std_x': stddev_x, 'std_y': stddev_region, 'lm_best_fit': 
+            gss_result.best_fit, 'lm_best_param': gss_result.best_values, 
+            'lm_init_fit': gss_result.init_fit}
 
-def graphs(file_name, sky_file_name):
+def analysis(file_name, sky_file_name):
+    """ Graphs and results from analysing the cube for OII spectra """
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.rcParams['text.latex.preamble'] = [r'\boldmath']
+
+    curr_file_name = file_name.split('.')
+    curr_file_name = curr_file_name[0].split('/')
+    stk_f_n = curr_file_name[2]
     data_dir = 'results/' + stk_f_n
-    
+   
+    if not os.path.exists(data_dir):
+        os.mkdir(data_dir)
+
+    # one figure to rule them all
+    main_fig = plt.figure(1)
+
     # --- for collapsed images ---
     def graphs_collapsed():
         im_coll_data = image_collapser(file_name)
+ 
+        f, (ax1, ax2)  = plt.subplots(1, 2)
+    
+        ax1.imshow(im_coll_data['median'], cmap='gray_r') 
+        ax1.set_title(r'\textbf{galaxy: median}', fontsize=13)    
+        ax1.set_xlabel(r'\textbf{Pixels}', fontsize=13)
+        ax1.set_ylabel(r'\textbf{Pixels}', fontsize=13) 
 
-        smfig = plt.figure(1)
-        plt.imshow(im_coll_data['median'], cmap='gray_r') 
-        plt.title(r'\textbf{galaxy: median}', fontsize=13)    
-        plt.xlabel(r'\textbf{Pixels}', fontsize=13)
-        plt.ylabel(r'\textbf{Pixels}', fontsize=13)
-        plt.savefig('graphs/collapse_median.pdf')
-
-        ssfig = plt.figure(2)
-        plt.imshow(im_coll_data['sum'], cmap='gray_r')
-        plt.title(r'\textbf{galaxy: sum}', fontsize=13)        
-        plt.xlabel(r'\textbf{Pixels}', fontsize=13)
-        plt.ylabel(r'\textbf{Pixels}', fontsize=13)
-        plt.savefig('graphs/collapse_sum.pdf')
+        ax2.imshow(im_coll_data['sum'], cmap='gray_r')
+        ax2.set_title(r'\textbf{galaxy: sum}', fontsize=13)        
+        ax2.set_xlabel(r'\textbf{Pixels}', fontsize=13)
+        ax2.set_ylabel(r'\textbf{Pixels}', fontsize=13)
+        
+        f.subplots_adjust(wspace=0.4)
+        f.savefig(data_dir + '/collapsed_images.pdf')
 
     # --- spectra ---
     def graphs_spectra():
         spectra_data = spectrum_creator(file_name)
         sr = wavelength_solution(file_name) #spectra_range
-        
-        cp_spec = plt.figure(3)
-        cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
-        cps_y   = spectra_data['central']
-        plt.title(r'\textbf{spectra: central point}', fontsize=13)    
-        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-        #plt.ylabel(r'\textbf{}', fontsize=13)
-        plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
-        plt.savefig('graphs/spectra_central_pixel.pdf')
 
-        # --- uncorrected redshift
         df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced [OII] region
         gs_data = spectra_analysis(file_name, sky_file_name)
         snw_data = sky_noise_weighting(file_name, sky_file_name)
+       
+        f, (ax1, ax2)  = plt.subplots(2, 1) 
 
-        cp_spec = plt.figure(4)
-        cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+        # --- redshifted data plotting
+        cbd_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
          
         ## plotting our cube data
-        cps_y   = gs_data['gd_shifted']
-        plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000")
+        cbs_y   = gs_data['gd_shifted']
+        ax1.plot(cbd_x, cbs_y, linewidth=0.5, color="#000000")
 
         ## plotting our sky noise data
         snd_y   = snw_data['sky_regions'][:,1]
-        plt.plot(cps_x, snd_y, linewidth=0.5, color="#f44336", alpha=0.5)
-        #plt.plot(cps_x, -sn_y, linewidth=0.5, color="#e53935")
+        ax1.plot(cbd_x, snd_y, linewidth=0.5, color="#f44336", alpha=0.5)
 
         ## plotting our [OII] region
         ot_x    = df_data['x_region']
         ot_y    = df_data['y_region']
-        plt.plot(ot_x, ot_y, linewidth=0.5, color="#00c853") 
+        ax1.plot(ot_x, ot_y, linewidth=0.5, color="#00c853") 
 
         ## plotting the standard deviation region in the [OII] section
         std_x   = df_data['std_x']
         std_y   = df_data['std_y']
-        plt.plot(std_x, std_y, linewidth=0.5, color="#00acc1") 
+        ax1.plot(std_x, std_y, linewidth=0.5, color="#00acc1") 
         
         ## plotting peak lines
         pk_lines = gs_data['gd_peaks']
         for i in range(len(pk_lines)):
             srb = sr['begin']
-            plt.axvline(x=(srb+pk_lines[i]), linewidth=0.5, color="#8bc34a", alpha=0.2)
+            ax1.axvline(x=(srb+pk_lines[i]), linewidth=0.5, color="#8bc34a", alpha=0.2)
         
-        plt.title(r'\textbf{spectra: cross-section redshifted}', fontsize=13)        
-        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-        plt.ylim(-1000,5000) # setting manual limits for now
-        plt.savefig('graphs/spectra_galaxy_redshifted.pdf')
+        ax1.set_title(r'\textbf{spectra: cross-section redshifted}', fontsize=13)    
+        ax1.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+        ax1.set_ylabel(r'\textbf{Flux}', fontsize=13)
+        ax1.set_ylim([-1000,5000]) # setting manual limits for now
     
         # --- corrected redshift
-        cp_spec = plt.figure(5)
-        cps_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+        crs_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
         rdst    = gs_data['redshift']
 
         sp_lines = gs_data['spectra']
 
         ## corrected wavelengths
-        corr_x  = cps_x / (1+rdst)
+        corr_x  = crs_x / (1+rdst)
 
         ## plotting our cube data
         cps_y   = gs_data['gd_shifted']
-        #plt.plot(cps_x, cps_y, linewidth=0.5, color="#000000", alpha=0.1)
-        plt.plot(corr_x, cps_y, linewidth=0.5, color="#000000")
+        ax2.plot(corr_x, cps_y, linewidth=0.5, color="#000000")
 
         ## plotting our sky noise data
         sn_y    =  gs_data['sky_noise']
-        #plt.plot(cps_x, sn_y, linewidth=0.5, color="#e53935", alpha=0.1)
-        plt.plot(corr_x, sn_y, linewidth=0.5, color="#e53935")
+        ax2.plot(corr_x, sn_y, linewidth=0.5, color="#e53935")
  
         ## plotting spectra lines
         for e_key, e_val in sp_lines['emis'].items():
             spec_line = float(e_val)
-            plt.axvline(x=spec_line, linewidth=0.5, color="#00c853")
-            plt.text(spec_line-10, 4800, e_key, rotation=-90)
+            ax2.axvline(x=spec_line, linewidth=0.5, color="#00c853")
+            ax2.text(spec_line-10, 4800, e_key, rotation=-90)
  
-        plt.title(r'\textbf{spectra: cross-section corrected}', fontsize=13)        
-        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-        plt.ylim(-500,5000) # setting manual limits for now
-        plt.savefig('graphs/spectra_galaxy_corrected.pdf')
+        ax2.set_title(r'\textbf{spectra: cross-section corrected}', fontsize=13)        
+        ax2.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+        ax2.set_ylabel(r'\textbf{Flux}', fontsize=13)
+        ax2.set_ylim([-500,5000]) # setting manual limits for now
 
-    # --- unwrapped 2d data ---
-    def graphs_unwrapped():
-        unwrap_data = spectra_stacker(file_name)
-        #reusing wavelength solution from above
+        f.subplots_adjust(hspace=0.5)
+        f.savefig(data_dir + '/spectra.pdf')
 
-        unwp    = plt.figure(5, figsize=(8, 38))
-        for i in range(len(unwrap_data)): 
-            unwp_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
-            unwp_y   = unwrap_data[i] + i * 100
-            plt.plot(unwp_x, unwp_y, linewidth=0.5, color=np.random.rand(3,)) 
-
-        plt.title(r'\textbf{unwrapped 2d data}', fontsize=13)        
-        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-        plt.savefig('graphs/unwrap_2d.pdf')
+        # --- central pixel plotting
+        cps_x1  = np.linspace(sr['begin'], sr['end'], sr['steps'])
+        cps_y1  = spectra_data['central']
+        #plt.title(r'\textbf{spectra: central point}', fontsize=13)    
+        #plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+        #plt.ylabel(r'\textbf{}', fontsize=13)
+        #plt.plot(cps_x1, cps_y1, linewidth=0.5, color="#000000")
+        #plt.savefig('graphs/spectra_central_pixel.pdf') 
 
     def graphs_otwo_region():
         ot_fig  = plt.figure(6)
@@ -456,49 +483,38 @@ def graphs(file_name, sky_file_name):
         ot_x_b, ot_x_e  = dblt_rng[0], dblt_rng[-1]
         x_ax_vals   = np.linspace(ot_x_b, ot_x_e, 1000)
 
-        # scipy_optimise
-        scpy_gss     = df_data['gauss_fit'][0]
-        scpy_gss_y   = f_doublet(ot_x, scpy_gss[0], scpy_gss[1], scpy_gss[2], 
-                scpy_gss[3], scpy_gss[4]) 
-
-        #plt.plot(ot_x, scpy_gss_y, linewidth=0.5, color="#f57f17") 
-
         # lmfit 
         lm_init     = df_data['lm_init_fit']
         lm_best     = df_data['lm_best_fit'] 
 
-        #plt.plot(ot_x, lm_init, linewidth=0.5, color="#8e24aa")
-        plt.plot(ot_x, lm_best, linewidth=0.5, color="#4a148c") 
+        plt.plot(ot_x, lm_best, linewidth=0.5, color="#1e88e5")
+        plt.plot(ot_x, lm_init, linewidth=0.5, color="#43a047")
         
         lm_params   = df_data['lm_best_param']
-        lm_params   = [prm_value for prm_key, prm_value in 
-                lm_params.items()]
+        lm_params   = [prm_value for prm_key, prm_value in lm_params.items()]
         c, i_val1, i_val2, sig1, rdsh = lm_params
 
-        dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
+        dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths for OII
         l1 = dblt_mu[0] * (1+rdsh)
         l2 = dblt_mu[1] * (1+rdsh)
 
         norm = (sig1*np.sqrt(2*np.pi))
         lm_y1 = c + ( i_val1 / norm ) * np.exp(-(ot_x-l1)**2/(2*sig1**2))
-
         lm_y2 = c + ( i_val2 / norm ) * np.exp(-(ot_x-l2)**2/(2*sig1**2))
     
-        plt.plot(ot_x, lm_y1, linewidth=0.5, color="#e64a19", alpha=0.6) 
-        plt.plot(ot_x, lm_y2, linewidth=0.5, color="#1a237e", alpha=0.6) 
+        plt.plot(ot_x, lm_y1, linewidth=0.5, color="#e64a19", alpha=0.7) 
+        plt.plot(ot_x, lm_y2, linewidth=0.5, color="#1a237e", alpha=0.7) 
 
         plt.title(r'\textbf{[OII] region}', fontsize=13)        
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-        plt.ylim(-500,5000) # setting manual limits for now
-        plt.savefig('graphs/otwo_region.pdf')
+        plt.ylabel(r'\textbf{Flux}', fontsize=13)
+        plt.ylim([-500,5000]) # setting manual limits for now
+        plt.savefig(data_dir + '/otwo_region.pdf')
 
-        
-
-    #graphs_collapsed()
+    graphs_collapsed()
     graphs_spectra()
-    #graphs_unwrapped()
     graphs_otwo_region()
 
-#graphs("data/cube_23.fits", "data/skyvariance_csub.fits")
-#otwo_doublet_fitting("data/cube_23.fits", "data/skyvariance_csub.fits")
-spectra_stacker("data/cubes/cube_23.fits")
+analysis("data/cubes/cube_23.fits", "data/skyvariance_csub.fits")
+#otwo_doublet_fitting("data/cubes/cube_23.fits", "data/skyvariance_csub.fits")
+#spectra_stacker("data/cubes/cube_23.fits")
