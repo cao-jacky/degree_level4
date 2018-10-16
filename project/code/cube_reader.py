@@ -8,6 +8,8 @@ from matplotlib import rc
 from scipy import signal
 from scipy.optimize import curve_fit
 
+from lmfit import minimize, Parameters, Model
+
 from astropy.io import fits
 
 import warnings
@@ -142,7 +144,16 @@ def spectra_stacker(file_name):
     hdu = fits.ImageHDU(data_stacked)
 
     hdul = fits.HDUList([primary_hdu, hdu])
-    hdul.writeto('test4.fits')
+
+    curr_file_name = file_name.split('.')
+    curr_file_name = curr_file_name[0].split('/')
+    stk_f_n = curr_file_name[2]
+   
+    data_dir = 'results/' + stk_f_n
+    if not os.path.exists(data_dir):
+        os.mkdir(data_dir)
+
+    hdul.writeto(data_dir + '/stacked.fits')
 
     return data_unwrap
 
@@ -224,16 +235,7 @@ def sky_noise_weighting(file_name, sky_file_name):
     return {'inverse_sky': in_wt, 'sky_regions': sky_regns}
 
 def f_doublet(x, c, i1, i2, sigma1, z):
-    """ Function for Gaussian doublet:
-        x       data
-        c       constant
-        i1      intensity of the first Gaussian
-        i2      intensity of the second Gaussian
-        sigma1  standard deviation of the Gaussians/velocity dispersion
-        z       redshift of the cube data 
-    """ 
-    #c, i1, i2, sigma1, z = p
- 
+    """ function for Gaussian doublet """  
     dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
     l1 = dblt_mu[0] * (1+z)
     l2 = dblt_mu[1] * (1+z)
@@ -286,23 +288,37 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     sky_weight = sky_weight[dt_region[0]:dt_region[1]]
 
     # the parameters we need are (c, i1, i2, sigma1, z)    
-    p0 = [0, otwo_max_val, otwo_max_val, 1, rdst]
-    c, i_val1, i_val2, sigma1, z = p0
+    p0 = [0, otwo_max_val, 1.3, 3, rdst]
+    c, i_val1, r, sigma1, z = p0
 
-    bounds = ([-np.inf, 0, 0, -np.inf, -np.inf],
-            [np.inf, np.inf, np.inf, np.inf, np.inf])
+    bounds = ([-np.inf, 0, 0.5, -np.inf, -np.inf],
+            [np.inf, np.inf, 1.5, np.inf, np.inf])
     gauss_fit = curve_fit(f_doublet, ot_x, otwo_region, p0, bounds=bounds)
+ 
+    gss_pars = Parameters()
+    gss_pars.add('c', value=c)
+    gss_pars.add('i1', value=i_val1, min=0.0)
+    gss_pars.add('r', value=r, min=0.5, max=1.5)
+    gss_pars.add('i2', expr='i1/r', min=0.0)
+    gss_pars.add('sigma1', value=sigma1)
+    gss_pars.add('z', value=z)
+
+    gss_model = Model(f_doublet)
+    gss_result = gss_model.fit(otwo_region, x=ot_x, params=gss_pars) 
 
     print(gauss_fit[0])
+    print(gss_result.fit_report())
 
     return {'range': otr, 'x_region': ot_x,'y_region': otwo_region, 'doublet_range': 
             dblt_rng_vals, 'std_x': stddev_x, 'std_y': stddev_region, 'gauss_fit':
-            gauss_fit}
+            gauss_fit, 'lm_init_fit': gss_result.init_fit, 'lm_best_fit': 
+            gss_result.best_fit, 'lm_best_param': gss_result.best_values}
 
 def graphs(file_name, sky_file_name):
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.rcParams['text.latex.preamble'] = [r'\boldmath']
+    data_dir = 'results/' + stk_f_n
     
     # --- for collapsed images ---
     def graphs_collapsed():
@@ -440,10 +456,36 @@ def graphs(file_name, sky_file_name):
         ot_x_b, ot_x_e  = dblt_rng[0], dblt_rng[-1]
         x_ax_vals   = np.linspace(ot_x_b, ot_x_e, 1000)
 
-        gss     = df_data['gauss_fit'][0]
-        gss_y   = f_doublet(ot_x, gss[0], gss[1], gss[2], gss[3], gss[4]) 
+        # scipy_optimise
+        scpy_gss     = df_data['gauss_fit'][0]
+        scpy_gss_y   = f_doublet(ot_x, scpy_gss[0], scpy_gss[1], scpy_gss[2], 
+                scpy_gss[3], scpy_gss[4]) 
 
-        plt.plot(ot_x, gss_y, linewidth=0.5, color="#f57f17")  
+        #plt.plot(ot_x, scpy_gss_y, linewidth=0.5, color="#f57f17") 
+
+        # lmfit 
+        lm_init     = df_data['lm_init_fit']
+        lm_best     = df_data['lm_best_fit'] 
+
+        #plt.plot(ot_x, lm_init, linewidth=0.5, color="#8e24aa")
+        plt.plot(ot_x, lm_best, linewidth=0.5, color="#4a148c") 
+        
+        lm_params   = df_data['lm_best_param']
+        lm_params   = [prm_value for prm_key, prm_value in 
+                lm_params.items()]
+        c, i_val1, i_val2, sig1, rdsh = lm_params
+
+        dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
+        l1 = dblt_mu[0] * (1+rdsh)
+        l2 = dblt_mu[1] * (1+rdsh)
+
+        norm = (sig1*np.sqrt(2*np.pi))
+        lm_y1 = c + ( i_val1 / norm ) * np.exp(-(ot_x-l1)**2/(2*sig1**2))
+
+        lm_y2 = c + ( i_val2 / norm ) * np.exp(-(ot_x-l2)**2/(2*sig1**2))
+    
+        plt.plot(ot_x, lm_y1, linewidth=0.5, color="#e64a19", alpha=0.6) 
+        plt.plot(ot_x, lm_y2, linewidth=0.5, color="#1a237e", alpha=0.6) 
 
         plt.title(r'\textbf{[OII] region}', fontsize=13)        
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
@@ -456,8 +498,7 @@ def graphs(file_name, sky_file_name):
     graphs_spectra()
     #graphs_unwrapped()
     graphs_otwo_region()
-     
 
-graphs("data/cube_23.fits", "data/skyvariance_csub.fits")
+#graphs("data/cube_23.fits", "data/skyvariance_csub.fits")
 #otwo_doublet_fitting("data/cube_23.fits", "data/skyvariance_csub.fits")
-#spectra_stacker("data/cube_23.fits")
+spectra_stacker("data/cubes/cube_23.fits")
