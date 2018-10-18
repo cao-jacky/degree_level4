@@ -1,5 +1,6 @@
 import os
-import datetime
+
+import file_writer
 
 import numpy as np
 from numpy import unravel_index
@@ -241,6 +242,21 @@ def f_doublet(x, c, i1, i2, sigma1, z):
     term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma1**2)) 
     return (c + term1 + term2)
 
+def sn_line(x, c):
+    return c
+
+def sn_gauss(x, c, i1, mu, sigma1):
+    norm = (sigma1*np.sqrt(2*np.pi))
+    term1 = ( i1 / norm ) * np.exp(-(x-mu)**2/(2*sigma1**2))
+    return (c + term1)
+
+def chisq(y_model, y_data, y_err):
+    csq = (y_data-y_model)**2 / y_err**2
+    csq = np.sum(csq)
+
+    red_csq = csq / (len(y_data) - 4)
+    return {'chisq': csq, 'chisq_red': red_csq}
+
 def otwo_doublet_fitting(file_name, sky_file_name):
     sa_data     = spectra_analysis(file_name, sky_file_name)
     y_shifted   = sa_data['gd_shifted'] 
@@ -302,42 +318,48 @@ def otwo_doublet_fitting(file_name, sky_file_name):
 
     opti_pms = gss_result.best_values
     init_pms = gss_result.init_values
+   
+    # working out signal to noise now
+    sn_line_parms   = Parameters()
+    sn_line_parms.add('c', value=c)
 
+    sn_line_model   = Model(sn_line)
+    sn_line_rslt    = sn_line_model.fit(otwo_region, x=ot_x, params=sn_line_parms)
+    sn_line_bpms    = sn_line_rslt.best_values
+    sn_line_data    = sn_line_rslt.best_fit
+
+    sn_gauss_parms  = Parameters()
+    sn_gauss_parms.add('c', value=c)
+    sn_gauss_parms.add('i1', value=i_val1, min=0.0)
+    sn_gauss_parms.add('mu', value=dblt_val)
+    sn_gauss_parms.add('sigma1', value=sigma1)
+
+    sn_gauss_model  = Model(sn_gauss)
+    sn_gauss_rslt   = sn_gauss_model.fit(otwo_region, x=ot_x, params=sn_gauss_parms)
+    sn_gauss_bpms   = sn_gauss_rslt.best_values
+    sn_gauss_data   = sn_gauss_rslt.best_fit 
+
+    sn_line_csqs    = chisq(sn_line_data, otwo_region, stddev_val)
+    sn_gauss_csqs   = chisq(sn_gauss_data, otwo_region, stddev_val)
+
+    signal_noise    = np.sqrt(sn_line_csqs['chisq'] - sn_gauss_csqs['chisq'])
+
+    # saving data to text files
     curr_file_name = file_name.split('.')
     curr_file_name = curr_file_name[0].split('/')
     stk_f_n = curr_file_name[2]
-   
+
     data_dir = 'results/' + stk_f_n
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
   
-    lmfit_file = open(data_dir + '/' + stk_f_n + '_lmfit.txt', 'w') 
-    lmfit_file.write("Analysis performed at " + str(datetime.datetime.now()) + "\n\n")
-    lmfit_file.write("Output from lmfit is the following: \n")
-    lmfit_file.write(gss_result.fit_report()) 
-    
-    data_file = open(data_dir + '/' + stk_f_n + '_fitting.txt', 'w')
-    data_file.write("Results produced at " + str(datetime.datetime.now()) + "\n\n")
-
-    data_file.write("# Model fitting for [OII] Gaussian Doublet \n")
-    data_file.write("## Initial Parameters \n")
-    data_file.write("'c': " + str(init_pms['c'])  + "\n")
-    data_file.write("'i1': " + str(init_pms['i1'])  + "\n")
-    data_file.write("'i2': " + str(init_pms['i2'])  + "\n")
-    data_file.write("'sigma1': " + str(init_pms['sigma1'])  + "\n")
-    data_file.write("'z': " + str(init_pms['z'])  + "\n\n")
-
-    data_file.write("## Optimal Parameters \n")
-    data_file.write("'c': " + str(opti_pms['c'])  + "\n")
-    data_file.write("'i1': " + str(opti_pms['i1'])  + "\n")
-    data_file.write("'i2': " + str(opti_pms['i2'])  + "\n")
-    data_file.write("'sigma1': " + str(opti_pms['sigma1'])  + "\n")
-    data_file.write("'z': " + str(opti_pms['z'])  + "\n\n")
+    file_writer.analysis_complete(data_dir, stk_f_n, gss_result, init_pms, opti_pms, ) 
 
     return {'range': otr, 'x_region': ot_x,'y_region': otwo_region, 'doublet_range': 
             dblt_rng_vals, 'std_x': stddev_x, 'std_y': stddev_region, 'lm_best_fit': 
             gss_result.best_fit, 'lm_best_param': gss_result.best_values, 
-            'lm_init_fit': gss_result.init_fit}
+            'lm_init_fit': gss_result.init_fit, 'sn_line': sn_line_rslt.best_fit, 
+            'sn_gauss': sn_gauss_rslt.best_fit}
 
 def analysis(file_name, sky_file_name):
     """ Graphs and results from analysing the cube for OII spectra """
@@ -498,7 +520,13 @@ def analysis(file_name, sky_file_name):
         lm_y2 = c + ( i_val2 / norm ) * np.exp(-(ot_x-l2)**2/(2*sig1**2))
     
         plt.plot(ot_x, lm_y1, linewidth=0.5, color="#e64a19", alpha=0.7) 
-        plt.plot(ot_x, lm_y2, linewidth=0.5, color="#1a237e", alpha=0.7) 
+        plt.plot(ot_x, lm_y2, linewidth=0.5, color="#1a237e", alpha=0.7)
+
+        sn_line     = df_data['sn_line']
+        sn_gauss    = df_data['sn_gauss']
+
+        plt.axhline(y=sn_line, linewidth=0.5, color="#5c6bc0", alpha=0.7) 
+        plt.plot(ot_x, sn_gauss, linewidth=0.5, color="#5c6bc0", alpha=0.7)
 
         plt.title(r'\textbf{[OII] region}', fontsize=13)        
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
