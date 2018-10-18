@@ -2,11 +2,13 @@ from astropy.io import fits
 
 import numpy as np
 
+import re
+
 import cube_reader
 
 def catalogue_file_reader(cat_file_name):
     """ reads the cube data catalogue """
-    fits_file = fits.open(cat_file_name)
+    fits_file       = fits.open(cat_file_name)
 
     file_header     = fits_file[0].header
 
@@ -46,6 +48,24 @@ def catalogue_sorter(cat_file_name):
 def multi_cube_reader(cat_file_name):
     """ takes sorted catalogue (sorted by 775nm filter) and then runs through the
     specified integer amount of data """
-    
+   
+    doublet_regions_file = open("data/cube_doublet_regions.txt")
+    doublet_num_lines = sum(1 for line in open("data/cube_doublet_regions.txt")) - 1
+    doublet_regions = np.zeros((doublet_num_lines, 3))
+    file_row_count = 0
+    for file_line in doublet_regions_file:
+        file_line = file_line.split()
+        if (file_row_count == 0):
+            pass
+        else:
+            for file_col in range(len(file_line)):
+                doublet_regions[file_row_count-1][file_col] = file_line[file_col]
 
-catalogue_sorter("data/catalog.fits")
+        file_row_count += 1 
+
+    doublet_regions_file.close() 
+
+    print(doublet_regions)
+
+
+multi_cube_reader("data/catalog.fits")

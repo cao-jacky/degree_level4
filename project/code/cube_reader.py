@@ -257,7 +257,7 @@ def chisq(y_model, y_data, y_err):
     red_csq = csq / (len(y_data) - 4)
     return {'chisq': csq, 'chisq_red': red_csq}
 
-def otwo_doublet_fitting(file_name, sky_file_name):
+def otwo_doublet_fitting(file_name, sky_file_name, doublet_region):
     sa_data     = spectra_analysis(file_name, sky_file_name)
     y_shifted   = sa_data['gd_shifted'] 
     orr         = wavelength_solution(file_name)
@@ -265,7 +265,9 @@ def otwo_doublet_fitting(file_name, sky_file_name):
 
     # obtaining the OII range and region
     ## values based off redshifted region
-    otr         = [5900, 6250] 
+    #otr         = [5900, 6250] 
+
+    otr = doublet_region
 
     orr_x       = np.linspace(orr['begin'], orr['end'], orr['steps'])
     dt_region   = [find_nearest(orr_x, x) for x in otr]
@@ -363,7 +365,7 @@ def otwo_doublet_fitting(file_name, sky_file_name):
             'lm_init_fit': gss_result.init_fit, 'sn_line': sn_line_rslt.best_fit, 
             'sn_gauss': sn_gauss_rslt.best_fit}
 
-def analysis(file_name, sky_file_name):
+def analysis(file_name, sky_file_name, doublet_region):
     """ Graphs and results from analysing the cube for OII spectra """
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
@@ -404,7 +406,8 @@ def analysis(file_name, sky_file_name):
         spectra_data = spectrum_creator(file_name)
         sr = wavelength_solution(file_name) #spectra_range
 
-        df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced [OII] region
+        # sliced [OII] region
+        df_data = otwo_doublet_fitting(file_name, sky_file_name, doublet_region) 
         gs_data = spectra_analysis(file_name, sky_file_name)
         snw_data = sky_noise_weighting(file_name, sky_file_name)
        
@@ -485,7 +488,7 @@ def analysis(file_name, sky_file_name):
     def graphs_otwo_region():
         ot_fig  = plt.figure(6)
 
-        df_data = otwo_doublet_fitting(file_name, sky_file_name) # sliced region
+        df_data = otwo_doublet_fitting(file_name, sky_file_name, doublet_region) 
         snw_data = sky_noise_weighting(file_name, sky_file_name)
 
         # plotting the data for the cutout [OII] region
@@ -541,6 +544,4 @@ def analysis(file_name, sky_file_name):
     graphs_spectra()
     graphs_otwo_region()
 
-analysis("data/cubes/cube_23.fits", "data/skyvariance_csub.fits")
-#otwo_doublet_fitting("data/cubes/cube_23.fits", "data/skyvariance_csub.fits")
-#spectra_stacker("data/cubes/cube_23.fits")
+#analysis("data/cubes/cube_23.fits", "data/skyvariance_csub.fits")
