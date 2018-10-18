@@ -353,7 +353,9 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
   
-    file_writer.analysis_complete(data_dir, stk_f_n, gss_result, init_pms, opti_pms, ) 
+    file_writer.analysis_complete(data_dir, stk_f_n, gss_result, init_pms, opti_pms, 
+            sn_line_csqs, sn_gauss_csqs, signal_noise, sn_line_bpms, sn_line_data,
+            sn_gauss_bpms, sn_gauss_data) 
 
     return {'range': otr, 'x_region': ot_x,'y_region': otwo_region, 'doublet_range': 
             dblt_rng_vals, 'std_x': stddev_x, 'std_y': stddev_region, 'lm_best_fit': 
@@ -522,11 +524,12 @@ def analysis(file_name, sky_file_name):
         plt.plot(ot_x, lm_y1, linewidth=0.5, color="#e64a19", alpha=0.7) 
         plt.plot(ot_x, lm_y2, linewidth=0.5, color="#1a237e", alpha=0.7)
 
+        # plotting signal-to-noise straight line and gaussian to verify it works
         sn_line     = df_data['sn_line']
         sn_gauss    = df_data['sn_gauss']
 
-        plt.axhline(y=sn_line, linewidth=0.5, color="#5c6bc0", alpha=0.7) 
-        plt.plot(ot_x, sn_gauss, linewidth=0.5, color="#5c6bc0", alpha=0.7)
+        #plt.axhline(y=sn_line, linewidth=0.5, color="#5c6bc0", alpha=0.7) 
+        #plt.plot(ot_x, sn_gauss, linewidth=0.5, color="#5c6bc0", alpha=0.7)
 
         plt.title(r'\textbf{[OII] region}', fontsize=13)        
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
