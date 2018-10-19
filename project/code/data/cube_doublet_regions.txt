@@ -1,2 +1,3 @@
 #cube_id    region_begin    region_end
-23  5900    6250
+23	5900	6250
+10	6100	6400

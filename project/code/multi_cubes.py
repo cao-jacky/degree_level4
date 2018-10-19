@@ -42,7 +42,6 @@ def catalogue_sorter(cat_file_name):
             cat_np_data[i_row][i_col] = data_to_store
 
     cat_np_data = cat_np_data[cat_np_data[:,51].argsort()]
-
     return cat_np_data
 
 def multi_cube_reader(cat_file_name):
@@ -63,9 +62,32 @@ def multi_cube_reader(cat_file_name):
 
         file_row_count += 1 
 
-    doublet_regions_file.close() 
+    doublet_regions_file.close()
 
-    print(doublet_regions)
+    catalogue_sorted = catalogue_sorter(cat_file_name)
+    catalogue_bright = catalogue_sorted[0:10,:]
+    
+    for i_cube in range(len(catalogue_bright)):
+        curr_row = catalogue_bright[i_cube]
+    
+        cube_id = int(curr_row[0])
+        cube_file = "data/cubes/cube_" + str(cube_id) + ".fits" 
+       
+        doublet_region_info = np.where( doublet_regions[:,0] == cube_id )[0]
+        cube_doublet_region = doublet_regions[doublet_region_info]
+        # if cannot find the region, use region for cube_23
+        if (len(cube_doublet_region) == 0):
+            cube_doublet_region = doublet_regions[0] 
+        else:
+            [cube_doublet_region] = cube_doublet_region
+       
+        cdr_b = int(cube_doublet_region[1])
+        cdr_e = int(cube_doublet_region[2])
+        doublet_range = [cdr_b, cdr_e]
 
+        sky_file = "data/skyvariance_csub.fits"
+        
+        cube_reader.analysis(cube_file, sky_file, doublet_range)
+        
 
 multi_cube_reader("data/catalog.fits")
