@@ -568,4 +568,6 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
     graphs_spectra()
     graphs_otwo_region()
 
+    plt.close("all")
+
 #analysis("data/cubes/cube_23.fits", "data/skyvariance_csub.fits")
