@@ -5,6 +5,8 @@ import file_writer
 import numpy as np
 from numpy import unravel_index
 
+import datetime
+
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
@@ -151,8 +153,7 @@ def spectra_stacker(file_name):
     data_dir = 'results/' + stk_f_n
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
-
-    hdul.writeto(data_dir + '/stacked.fits')
+        hdul.writeto(data_dir + '/stacked.fits')
     return data_unwrap
 
 def sky_noise(sky_file_name):
@@ -161,7 +162,7 @@ def sky_noise(sky_file_name):
     image_data = fits_file[0].data
     return image_data
 
-def spectra_analysis(file_name, sky_file_name):
+def spectra_analysis(file_name, sky_file_name, peak):
     """ correcting data to be in rest frame """
 
     # spectra and sky noise data
@@ -193,12 +194,31 @@ def spectra_analysis(file_name, sky_file_name):
                 }
             } 
 
-    gd_peaks = signal.find_peaks_cwt(gd_mc, np.arange(10,15), noise_perc=100)
-    #print("Peaks from galaxy data: ")
-    #print(gd_peaks)
+    gd_peaks = signal.find_peaks_cwt(gd_mc, np.arange(10,15), noise_perc=10)
+
+    data_h_range = np.linspace(wl_soln['begin'], wl_soln['end'], wl_soln['steps'])
+
+    curr_file_name = file_name.split('.')
+    curr_file_name = curr_file_name[0].split('/')
+    stk_f_n = curr_file_name[2]
+   
+    data_dir = 'results/' + stk_f_n
+    if not os.path.exists(data_dir):
+        os.mkdir(data_dir)
+
+    peaks_file = open(data_dir + '/' + stk_f_n + '_peaks.txt', 'w')
+    peaks_file.write("Peaks found on " + str(datetime.datetime.now()) + "\n\n")
+
+    peaks_file.write("Number    Index     Wavelength \n")
+    for i_peak in range(len(gd_peaks)):
+        peak_loc = gd_peaks[i_peak]
+        peak_value = data_h_range[peak_loc]
+
+        peaks_file.write(str(i_peak) + "  " + str(peak_loc) + "   " + 
+                str(peak_value) + "\n") 
 
     # manually selecting which peak is the [OII] peak - given in wavelength
-    otwo_wav    = float(wl_soln['begin'] + gd_peaks[7])    
+    otwo_wav    = float(wl_soln['begin'] + gd_peaks[peak])  
     otwo_acc    = float(sl['emis']['[OII]'])
 
     redshift = (otwo_wav / otwo_acc) - 1
@@ -211,9 +231,9 @@ def find_nearest(array, value):
     idx = (np.abs(array-value)).argmin()
     return idx
 
-def sky_noise_weighting(file_name, sky_file_name):
+def sky_noise_weighting(file_name, sky_file_name, peak_loc):
     """ finding the sky nioise from a small section of the cube data """
-    cs_data     = spectra_analysis(file_name, sky_file_name)
+    cs_data     = spectra_analysis(file_name, sky_file_name, peak_loc)
     cube_data   = cs_data['gd_shifted']
     sn_data     = cs_data['sky_noise']
 
@@ -257,11 +277,11 @@ def chisq(y_model, y_data, y_err):
     red_csq = csq / (len(y_data) - 4)
     return {'chisq': csq, 'chisq_red': red_csq}
 
-def otwo_doublet_fitting(file_name, sky_file_name, doublet_region):
-    sa_data     = spectra_analysis(file_name, sky_file_name)
+def otwo_doublet_fitting(file_name, sky_file_name, doublet_region, peak_loc):
+    sa_data     = spectra_analysis(file_name, sky_file_name, peak_loc)
     y_shifted   = sa_data['gd_shifted'] 
     orr         = wavelength_solution(file_name)
-    sn_data   = sky_noise_weighting(file_name, sky_file_name)
+    sn_data     = sky_noise_weighting(file_name, sky_file_name, peak_loc)
 
     # obtaining the OII range and region
     ## values based off redshifted region
@@ -365,7 +385,7 @@ def otwo_doublet_fitting(file_name, sky_file_name, doublet_region):
             'lm_init_fit': gss_result.init_fit, 'sn_line': sn_line_rslt.best_fit, 
             'sn_gauss': sn_gauss_rslt.best_fit}
 
-def analysis(file_name, sky_file_name, doublet_region):
+def analysis(file_name, sky_file_name, doublet_region, peak_loc):
     """ Graphs and results from analysing the cube for OII spectra """
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
@@ -378,6 +398,8 @@ def analysis(file_name, sky_file_name, doublet_region):
    
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
+
+    spectra_stacker(file_name)
 
     # one figure to rule them all
     main_fig = plt.figure(1)
@@ -407,9 +429,10 @@ def analysis(file_name, sky_file_name, doublet_region):
         sr = wavelength_solution(file_name) #spectra_range
 
         # sliced [OII] region
-        df_data = otwo_doublet_fitting(file_name, sky_file_name, doublet_region) 
-        gs_data = spectra_analysis(file_name, sky_file_name)
-        snw_data = sky_noise_weighting(file_name, sky_file_name)
+        df_data = otwo_doublet_fitting(file_name, sky_file_name, doublet_region,
+                peak_loc) 
+        gs_data = spectra_analysis(file_name, sky_file_name, peak_loc)
+        snw_data = sky_noise_weighting(file_name, sky_file_name, peak_loc)
        
         f, (ax1, ax2)  = plt.subplots(2, 1) 
 
@@ -488,8 +511,9 @@ def analysis(file_name, sky_file_name, doublet_region):
     def graphs_otwo_region():
         ot_fig  = plt.figure(6)
 
-        df_data = otwo_doublet_fitting(file_name, sky_file_name, doublet_region) 
-        snw_data = sky_noise_weighting(file_name, sky_file_name)
+        df_data = otwo_doublet_fitting(file_name, sky_file_name, doublet_region,
+                peak_loc) 
+        snw_data = sky_noise_weighting(file_name, sky_file_name, peak_loc)
 
         # plotting the data for the cutout [OII] region
         ot_x    = df_data['x_region']

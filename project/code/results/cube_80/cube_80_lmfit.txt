@@ -1,4 +1,4 @@
-Analysis performed on 2018-10-19 09:44:53.677262
+Analysis performed on 2018-10-19 09:58:05.505970
 
 Output from lmfit is the following: 
 [[Model]]
@@ -6,14 +6,14 @@ Output from lmfit is the following:
 [[Fit Statistics]]
     # fitting method   = leastsq
     # function evals   = 12
-    # data points      = 280
+    # data points      = 160
     # variables        = 5
-    chi-square         = 40897969.5
-    reduced chi-square = 148719.889
-    Akaike info crit   = 3339.70438
-    Bayesian info crit = 3357.87833
+    chi-square         = 36789545.7
+    reduced chi-square = 237351.908
+    Akaike info crit   = 1985.28807
+    Bayesian info crit = 2000.66394
 [[Variables]]
-    c:      -183.457330 (init = 0)
+    c:      -212.148709 (init = 0)
     i1:      2573.85652 (init = 2573.857)
     r:       1.30000000 (init = 1.3)
     i2:      1979.88963 == 'i1/r'

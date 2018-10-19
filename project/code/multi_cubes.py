@@ -50,7 +50,7 @@ def multi_cube_reader(cat_file_name):
    
     doublet_regions_file = open("data/cube_doublet_regions.txt")
     doublet_num_lines = sum(1 for line in open("data/cube_doublet_regions.txt")) - 1
-    doublet_regions = np.zeros((doublet_num_lines, 3))
+    doublet_regions = np.zeros((doublet_num_lines, 4))
     file_row_count = 0
     for file_line in doublet_regions_file:
         file_line = file_line.split()
@@ -86,8 +86,12 @@ def multi_cube_reader(cat_file_name):
         doublet_range = [cdr_b, cdr_e]
 
         sky_file = "data/skyvariance_csub.fits"
+        peak_loc = int(cube_doublet_region[3])
+         
+        #if (cube_id == 23):
+            #cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
         
-        cube_reader.analysis(cube_file, sky_file, doublet_range)
+        cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
         
 
 multi_cube_reader("data/catalog.fits")
