@@ -1,0 +1,28 @@
+Analysis performed on 2018-10-20 10:48:08.815851
+
+Output from lmfit is the following: 
+[[Model]]
+    Model(f_doublet)
+[[Fit Statistics]]
+    # fitting method   = leastsq
+    # function evals   = 45
+    # data points      = 240
+    # variables        = 5
+    chi-square         = 1433998.65
+    reduced chi-square = 6102.12193
+    Akaike info crit   = 2096.88122
+    Bayesian info crit = 2114.28442
+[[Variables]]
+    c:      -103.588419 +/- 5.14721627 (4.97%) (init = 0)
+    i1:      7783.88289 +/- 219.882337 (2.82%) (init = 2685.504)
+    r:       0.68623978 +/- 0.02458408 (3.58%) (init = 1.3)
+    i2:      11342.8033 +/- 231.937018 (2.04%) == 'i1/r'
+    sigma1:  1.61618374 +/- 0.03281079 (2.03%) (init = 3)
+    z:       0.76459939 +/- 1.1892e-05 (0.00%) (init = 0.7655249)
+[[Correlations]] (unreported correlations are < 0.100)
+    C(i1, r)      =  0.822
+    C(r, z)       =  0.277
+    C(i1, z)      =  0.228
+    C(i1, sigma1) =  0.136
+    C(c, i1)      = -0.134
+    C(r, sigma1)  = -0.107

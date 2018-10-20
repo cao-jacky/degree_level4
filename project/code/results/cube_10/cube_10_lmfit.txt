@@ -1,4 +1,4 @@
-Analysis performed on 2018-10-20 09:29:03.657375
+Analysis performed on 2018-10-20 10:44:24.491165
 
 Output from lmfit is the following: 
 [[Model]]
@@ -18,4 +18,4 @@ Output from lmfit is the following:
     r:       1.30000000 (init = 1.3)
     i2:      2927.72196 == 'i1/r'
     sigma1:  3.00000000 (init = 3)
-    z:       0.32726924 (init = 0.3272692)
+    z:       0.57699278 (init = 0.5769928)

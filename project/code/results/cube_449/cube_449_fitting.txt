@@ -1,4 +1,4 @@
-Results produced on 2018-10-20 09:29:35.500153
+Results produced on 2018-10-20 10:44:51.617798
 
 # Model fitting for [OII] Gaussian Doublet 
 ## Initial Parameters 
@@ -6,14 +6,14 @@ Results produced on 2018-10-20 09:29:35.500153
 'i1': 20.37776207088359
 'i2': 15.675201592987378
 'sigma1': 3
-'z': 0.6073872878655755
+'z': 0.973407167960638
 
 ## Optimal Parameters 
-'c': -378.9889391597193
-'i1': 1.911928770859106e-08
-'i2': 1.4918299960888857e-08
-'sigma1': -184.6012972788188
-'z': 0.7166567412367878
+'c': -378.9964886241272
+'i1': 20.37776207088359
+'i2': 15.675201592987378
+'sigma1': 3.0
+'z': 0.9734071824655351
 
 # Calculating the signal-to-noise from doublet region 
 Fitting a straight line to the data with parameter: 

@@ -196,7 +196,8 @@ def spectra_analysis(file_name, sky_file_name, peak):
             } 
 
     # Finding peaks with SciPy
-    gd_peaks = signal.find_peaks_cwt(gd_mc, np.arange(10,15), noise_perc=10)
+    #gd_peaks = signal.find_peaks_cwt(gd_mc, np.arange(10,15), noise_perc=10)
+    gd_peaks = 0
 
     # x-axis data
     data_h_range = np.linspace(wl_soln['begin'], wl_soln['end'], wl_soln['steps'])
@@ -220,16 +221,14 @@ def spectra_analysis(file_name, sky_file_name, peak):
     peaks_file = open(data_dir + '/' + stk_f_n + '_peaks.txt', 'w')
     peaks_file.write("Peaks found on " + str(datetime.datetime.now()) + "\n\n")
 
-    peaks_file.write("Number    Index     Wavelength \n")
-    for i_peak in range(len(gd_peaks)):
-        peak_loc = gd_peaks[i_peak]
-        peak_value = data_h_range[peak_loc]
+    peaks_file.write("Number    Wavelength \n")
+    for i_peak in range(len(pu_peaks_x)):
+        curr_peak = pu_peaks_x[i_peak]
 
-        peaks_file.write(str(i_peak) + "  " + str(peak_loc) + "   " + 
-                str(peak_value) + "\n") 
+        peaks_file.write(str(i_peak) + "  " + str(curr_peak) + "\n")
 
     # manually selecting which peak is the [OII] peak - given in wavelength
-    otwo_wav    = float(wl_soln['begin'] + gd_peaks[peak])  
+    otwo_wav    = float(pu_peaks_x[peak])  
     otwo_acc    = float(sl['emis']['[OII]'])
 
     redshift = (otwo_wav / otwo_acc) - 1
@@ -432,7 +431,7 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
         ax2.set_ylabel(r'\textbf{Pixels}', fontsize=13)
         
         f.subplots_adjust(wspace=0.4)
-        f.savefig(data_dir + '/collapsed_images.pdf')
+        f.savefig(data_dir + "/" + stk_f_n + '_collapsed_images.pdf')
 
     # --- spectra ---
     def graphs_spectra():
@@ -469,10 +468,10 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
         ax1.plot(std_x, std_y, linewidth=0.5, color="#00acc1") 
         
         ## plotting peak lines for scipy finder and peakutils finder
-        pk_lines = gs_data['gd_peaks']
-        for i in range(len(pk_lines)):
-            srb = sr['begin']
-            ax1.axvline(x=(srb+pk_lines[i]), linewidth=0.5, color="#8bc34a", alpha=0.2)
+        #pk_lines = gs_data['gd_peaks']
+        #for i in range(len(pk_lines)):
+            #srb = sr['begin']
+            #ax1.axvline(x=srb+pk_lines[i], linewidth=0.5, color="#8bc34a", alpha=0.2)
         
         pu_lines = gs_data['pu_peaks']
         for i in range(len(pu_lines)):
@@ -513,7 +512,7 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
         ax2.set_ylim([-500,5000]) # setting manual limits for now
 
         f.subplots_adjust(hspace=0.5)
-        f.savefig(data_dir + '/spectra.pdf')
+        f.savefig(data_dir + "/" + stk_f_n + '_spectra.pdf')
 
         # --- central pixel plotting
         cps_x1  = np.linspace(sr['begin'], sr['end'], sr['steps'])
@@ -578,7 +577,7 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
         plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
         plt.ylabel(r'\textbf{Flux}', fontsize=13)
         plt.ylim([-500,5000]) # setting manual limits for now
-        plt.savefig(data_dir + '/otwo_region.pdf')
+        plt.savefig(data_dir + "/" + stk_f_n + '_otwo_region.pdf')
 
     graphs_collapsed()
     graphs_spectra()

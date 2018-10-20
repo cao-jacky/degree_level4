@@ -50,7 +50,7 @@ def multi_cube_reader(cat_file_name):
    
     doublet_regions_file = open("data/cube_doublet_regions.txt")
     doublet_num_lines = sum(1 for line in open("data/cube_doublet_regions.txt")) - 1
-    doublet_regions = np.zeros((doublet_num_lines, 4))
+    doublet_regions = np.zeros((doublet_num_lines, 5))
     file_row_count = 0
     for file_line in doublet_regions_file:
         file_line = file_line.split()
@@ -65,8 +65,12 @@ def multi_cube_reader(cat_file_name):
     doublet_regions_file.close()
 
     catalogue_sorted = catalogue_sorter(cat_file_name)
-    catalogue_bright = catalogue_sorted[0:10,:]
-    
+    dim_loc = np.where(catalogue_sorted[:,51] < 23.0)[0]
+    dim_loc = dim_loc[-1]
+    catalogue_bright = catalogue_sorted[0:dim_loc,:]
+
+    print(doublet_regions)
+
     for i_cube in range(len(catalogue_bright)):
         curr_row = catalogue_bright[i_cube]
     
@@ -74,26 +78,31 @@ def multi_cube_reader(cat_file_name):
         cube_file = "data/cubes/cube_" + str(cube_id) + ".fits" 
        
         print("Analysing cube " + str(cube_id))
-
-        doublet_region_info = np.where( doublet_regions[:,0] == cube_id )[0]
-        cube_doublet_region = doublet_regions[doublet_region_info]
-        # if cannot find the region, use region for cube_23
-        if (len(cube_doublet_region) == 0):
-            cube_doublet_region = doublet_regions[0] 
-        else:
-            [cube_doublet_region] = cube_doublet_region
-       
-        cdr_b = int(cube_doublet_region[1])
-        cdr_e = int(cube_doublet_region[2])
-        doublet_range = [cdr_b, cdr_e]
-
-        sky_file = "data/skyvariance_csub.fits"
-        peak_loc = int(cube_doublet_region[3])
-         
-        #if (cube_id == 23):
-            #cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
         
-        cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
+        cube_usable = doublet_regions[i_cube][4]
+        print(cube_usable)
+
+        if (cube_usable == 1):
+            doublet_region_info = np.where( doublet_regions[:,0] == cube_id )[0]
+            cube_doublet_region = doublet_regions[doublet_region_info]
+            # if cannot find the region, use region for cube_23
+            if (len(cube_doublet_region) == 0):
+                cube_doublet_region = doublet_regions[0] 
+            else:
+                [cube_doublet_region] = cube_doublet_region
+           
+            cdr_b = int(cube_doublet_region[1])
+            cdr_e = int(cube_doublet_region[2])
+            doublet_range = [cdr_b, cdr_e]
+
+            sky_file = "data/skyvariance_csub.fits"
+            peak_loc = int(cube_doublet_region[3])
+             
+            #if (cube_id == 23):
+                #cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
+                #pass
+    
+            cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
         
 
 multi_cube_reader("data/catalog.fits")
