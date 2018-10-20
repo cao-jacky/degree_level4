@@ -201,16 +201,14 @@ def spectra_analysis(file_name, sky_file_name, peak):
     # x-axis data
     data_h_range = np.linspace(wl_soln['begin'], wl_soln['end'], wl_soln['steps'])
 
-    # Removing baseline with PeakUtils
-    #base_line = peakutils.baseline(gd_mc, 2)
-    #clean_y_data = gd_mc - base_line
-
     # Finding peaks with PeakUtils
     pu_peaks = peakutils.indexes(gd_mc, thres=300, thres_abs=True)
     pu_peaks_x = peakutils.interpolate(data_h_range, gd_mc, pu_peaks)
-    pu_peaks_x = np.sort(pu_peaks_x) 
-    print(pu_peaks_x)
-    
+
+    pu_peaks_x = np.sort(pu_peaks_x)
+    pu_peaks_x = pu_peaks_x[wl_soln['begin'] < pu_peaks_x]
+    pu_peaks_x = pu_peaks_x[pu_peaks_x < wl_soln['end']]
+     
     curr_file_name = file_name.split('.')
     curr_file_name = curr_file_name[0].split('/')
     stk_f_n = curr_file_name[2]
@@ -237,7 +235,7 @@ def spectra_analysis(file_name, sky_file_name, peak):
     redshift = (otwo_wav / otwo_acc) - 1
 
     return {'gd_shifted': gd_mc, 'sky_noise': sn_data, 'spectra': sl, 'gd_peaks': 
-            gd_peaks, 'redshift': redshift}
+            gd_peaks, 'redshift': redshift, 'pu_peaks': pu_peaks_x}
 
 def find_nearest(array, value):
     """ Find nearest value is an array """
@@ -470,12 +468,17 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
         std_y   = df_data['std_y']
         ax1.plot(std_x, std_y, linewidth=0.5, color="#00acc1") 
         
-        ## plotting peak lines
+        ## plotting peak lines for scipy finder and peakutils finder
         pk_lines = gs_data['gd_peaks']
         for i in range(len(pk_lines)):
             srb = sr['begin']
             ax1.axvline(x=(srb+pk_lines[i]), linewidth=0.5, color="#8bc34a", alpha=0.2)
         
+        pu_lines = gs_data['pu_peaks']
+        for i in range(len(pu_lines)):
+            srb = sr['begin']
+            ax1.axvline(x=(pu_lines[i]), linewidth=0.5, color="#ec407a", alpha=0.2)
+
         ax1.set_title(r'\textbf{spectra: cross-section redshifted}', fontsize=13)    
         ax1.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
         ax1.set_ylabel(r'\textbf{Flux}', fontsize=13)
