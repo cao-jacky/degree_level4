@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 
 from scipy import signal
+import peakutils
 
 from lmfit import minimize, Parameters, Model
 
@@ -163,7 +164,7 @@ def sky_noise(sky_file_name):
     return image_data
 
 def spectra_analysis(file_name, sky_file_name, peak):
-    """ correcting data to be in rest frame """
+    """ correcting data to be in rest frame """    
 
     # spectra and sky noise data
     spectra_data    = spectrum_creator(file_name)
@@ -194,10 +195,22 @@ def spectra_analysis(file_name, sky_file_name, peak):
                 }
             } 
 
+    # Finding peaks with SciPy
     gd_peaks = signal.find_peaks_cwt(gd_mc, np.arange(10,15), noise_perc=10)
 
+    # x-axis data
     data_h_range = np.linspace(wl_soln['begin'], wl_soln['end'], wl_soln['steps'])
 
+    # Removing baseline with PeakUtils
+    #base_line = peakutils.baseline(gd_mc, 2)
+    #clean_y_data = gd_mc - base_line
+
+    # Finding peaks with PeakUtils
+    pu_peaks = peakutils.indexes(gd_mc, thres=300, thres_abs=True)
+    pu_peaks_x = peakutils.interpolate(data_h_range, gd_mc, pu_peaks)
+    pu_peaks_x = np.sort(pu_peaks_x) 
+    print(pu_peaks_x)
+    
     curr_file_name = file_name.split('.')
     curr_file_name = curr_file_name[0].split('/')
     stk_f_n = curr_file_name[2]
