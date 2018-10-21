@@ -20,7 +20,8 @@ Analysis of cube 226 has already been performed
 Analysis of cube 687 has already been performed 
 Skipping cube 337 it's unusable for whatever reason 
 Skipping cube 518 it's unusable for whatever reason 
-Analysis of cube 713 has already been performed 
+Analysing cube 713
+Skipping cube 713 it's unusable for whatever reason 
 Skipping cube 548 it's unusable for whatever reason 
 Skipping cube 462 it's unusable for whatever reason 
 Analysis of cube 129 has already been performed 
