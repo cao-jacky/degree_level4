@@ -115,6 +115,4 @@ def multi_cube_reader(cat_file_name):
             log_file.write("Skipping cube " + str(cube_id) + " it's unusable for"
                     + " whatever reason \n")
 
-        
-
-multi_cube_reader("data/catalog.fits")
+#multi_cube_reader("data/catalog.fits")
