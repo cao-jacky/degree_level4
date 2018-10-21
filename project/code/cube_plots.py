@@ -39,7 +39,9 @@ def data_matcher(cat_file_name, doublet_file):
     # 3 = model redshift error
     # 4 = catalogue O[II] flux
     # 5 = model O[II] flux
-    usable_data = np.zeros((len(usable_locs), 6))
+    # 6 = model sigma1 
+    # 7 = catalogue mag star
+    usable_data = np.zeros((len(usable_locs), 8))
     for i_cube in range(len(usable_locs)):
         cube_index = usable_locs[i_cube]
 
@@ -78,13 +80,19 @@ def data_matcher(cat_file_name, doublet_file):
 
         final_results_file.close() 
 
-        # O[II] flux contained in 45, intensity in 19
+        # O[II] flux contained in column 45
         cat_cube_flux = cat_cube_data[44]
         usable_data[i_cube][4] = cat_cube_flux
 
         flux_val = (gauss_vars[1] + gauss_vars[3]) * 10**(-20)
         usable_data[i_cube][5] = flux_val
-        
+
+        # M_star is in column 37
+        cat_mag_star = cat_cube_data[36]
+        usable_data[i_cube][7] = cat_mag_star
+
+        model_sigma1 = gauss_vars[4]
+        usable_data[i_cube][6] = model_sigma1
     return usable_data
 
 def chisq(model, data, data_err):
@@ -143,9 +151,6 @@ def plots(file_catalogue, file_doublets):
         x_min = np.min(flux_model)
         x_max = np.max(flux_model)
 
-        y_min = np.min(flux_cat)
-        y_max = np.sort(flux_cat)[-2]
-
         x = np.linspace(x_min, x_max, 1000) 
         ax.plot(x, x, color="#000000", alpha=0.3, linewidth=1)
 
@@ -159,8 +164,27 @@ def plots(file_catalogue, file_doublets):
         ax.set_ylabel(r'\textbf{Catalogue}', fontsize=13)
         fig.savefig("graphs/flux.pdf")
 
+    def mag_sigma():
+        mag_star = data[:,7]
+        sigma1 = data[:,6]
+        cube_ids = data[:,0]
+
+        fig, ax = plt.subplots()
+
+        ax.scatter(sigma1, mag_star, color="#000000", s=10)
+
+        for i, txt in enumerate(cube_ids):
+            ax.annotate(int(txt), (sigma1[i], mag_star[i]))
+
+        ax.set_title(r'\textbf{M}$_{*}$ \textbf{vs.} $\sigma_{1}$', weight='bold', 
+                fontsize=13)  
+        ax.set_xlabel(r'$\sigma_{1}$', weight='bold', fontsize=13)
+        ax.set_ylabel(r'\textbf{M}$_{*}$', weight='bold', fontsize=13)
+        fig.savefig("graphs/mag_sigma.pdf")
+   
     redshift()
     flux()
+    mag_sigma()
 
 file_catalogue  = "data/catalog.fits"
 file_doublets   = "data/cube_doublet_regions.txt"
