@@ -1,0 +1,1 @@
+Between the catalogue and model redshift data, we can calculate a chi-squared value of 1228431142.035926 and  a reduced chi-squared value of 72260655.41387801
