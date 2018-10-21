@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 
 import multi_cubes
+import cube_reader
 
 def data_matcher(cat_file_name, doublet_file):
     """ matching our doublet text file which contains the details of run through
@@ -31,9 +32,14 @@ def data_matcher(cat_file_name, doublet_file):
     # running through data and finding required information
     usable_locs = np.where(doublet_regions[:,-1] == 1)[0]
     
-    # producing three columns: cube_id, catalogue redshift, model redshift, model
-    # redshift error
-    usable_data = np.zeros((len(usable_locs), 4))
+    # producing a 'usable data' array where the indices represent the following:
+    # 0 = cube_id
+    # 1 = catalogue redshift
+    # 2 = model redshift
+    # 3 = model redshift error
+    # 4 = catalogue O[II] flux
+    # 5 = model O[II] flux
+    usable_data = np.zeros((len(usable_locs), 6))
     for i_cube in range(len(usable_locs)):
         cube_index = usable_locs[i_cube]
 
@@ -51,21 +57,34 @@ def data_matcher(cat_file_name, doublet_file):
         final_results_loc = ("results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
             + "_lmfit.txt")
         final_results_file = open(final_results_loc) 
-        
-        # 15th line in the final results file contains the optimal model redshift
-        curr_line = 0
-        for fr_line in final_results_file:
-            if (curr_line == 20):
-                rdst_line = fr_line.split()
-                rdst_val = rdst_line[1]
-                rdst_err = rdst_line[3]
 
-                usable_data[i_cube][2] = rdst_val
-                usable_data[i_cube][3] = rdst_err
+        gauss_variables = {'c': 16, 'i1': 15, 'r': 17, 'i2': 18, 'sigma1': 19, 'z': 20}
+        gauss_vars = np.zeros((6))
+        
+        curr_line = 0
+        curr_var = 0
+        for fr_line in final_results_file:
+            if ( 15 <= curr_line <= 20):
+                data_line = fr_line.split()
+                gauss_vars[curr_var] = data_line[1]
+                if (curr_line == 20):
+                    rdst_err = data_line[3] 
+                curr_var += 1
             curr_line += 1
+ 
+        rdst_val = gauss_vars[-1]
+        usable_data[i_cube][2] = rdst_val
+        usable_data[i_cube][3] = rdst_err
 
         final_results_file.close() 
 
+        # O[II] flux contained in 45, intensity in 19
+        cat_cube_flux = cat_cube_data[44]
+        usable_data[i_cube][4] = cat_cube_flux
+
+        flux_val = (gauss_vars[1] + gauss_vars[3]) * 10**(-20)
+        usable_data[i_cube][5] = flux_val
+        
     return usable_data
 
 def chisq(model, data, data_err):
@@ -114,7 +133,34 @@ def plots(file_catalogue, file_doublets):
         ax.set_ylabel(r'\textbf{Catalogue}', fontsize=13)
         fig.savefig("graphs/redshift.pdf")
 
+    def flux():
+        flux_model = data[:,5]
+        flux_cat = data[:,4]
+        cube_ids = data[:,0]
+
+        fig, ax = plt.subplots()
+
+        x_min = np.min(flux_model)
+        x_max = np.max(flux_model)
+
+        y_min = np.min(flux_cat)
+        y_max = np.sort(flux_cat)[-2]
+
+        x = np.linspace(x_min, x_max, 1000) 
+        ax.plot(x, x, color="#000000", alpha=0.3, linewidth=1)
+
+        ax.scatter(flux_model, flux_cat, color="#000000", s=10)
+
+        for i, txt in enumerate(cube_ids):
+            ax.annotate(int(txt), (flux_model[i], flux_cat[i]))
+
+        ax.set_title(r'\textbf{Flux: Catalogue vs. Model}', fontsize=13) 
+        ax.set_xlabel(r'\textbf{Model}', fontsize=13)
+        ax.set_ylabel(r'\textbf{Catalogue}', fontsize=13)
+        fig.savefig("graphs/flux.pdf")
+
     redshift()
+    flux()
 
 file_catalogue  = "data/catalog.fits"
 file_doublets   = "data/cube_doublet_regions.txt"
