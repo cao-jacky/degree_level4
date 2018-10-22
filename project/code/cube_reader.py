@@ -241,38 +241,6 @@ def find_nearest(array, value):
     idx = (np.abs(array-value)).argmin()
     return idx
 
-def sky_noise_weighting(file_name, sky_file_name, peak_loc):
-    """ finding the sky nioise from a small section of the cube data """
-    cs_data     = spectra_analysis(file_name, sky_file_name, peak_loc)
-    cube_data   = cs_data['gd_shifted']
-    sn_data     = cs_data['sky_noise']
-
-    sn_data_min = np.min(sn_data)
-    in_wt       = 1 / (sn_data - sn_data_min + 1)
-
-    sky_regns = np.zeros((len(in_wt),2)) # storing regions of potential sky noise
-    for i in range(len(in_wt)): 
-        data_acl = cube_data[i]
-        data_sky = sn_data[i]
-        data_prb = in_wt[i]
-         
-        if ( 0.00 <= np.abs(data_prb) <= 1.00 ):
-            sky_regns[i][0] = data_prb
-            sky_regns[i][1] = data_sky 
-
-    return {'inverse_sky': in_wt, 'sky_regions': sky_regns}
-
-def f_doublet(x, c, i1, i2, sigma1, z):
-    """ function for Gaussian doublet """  
-    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
-    l1 = dblt_mu[0] * (1+z)
-    l2 = dblt_mu[1] * (1+z)
-
-    norm = (sigma1*np.sqrt(2*np.pi))
-    term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma1**2))
-    term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma1**2)) 
-    return (c + term1 + term2)
-
 def sn_line(x, c):
     return c
 
@@ -287,6 +255,72 @@ def chisq(y_model, y_data, y_err):
 
     red_csq = csq / (len(y_data) - 4)
     return {'chisq': csq, 'chisq_red': red_csq}
+
+def sky_noise_weighting(file_name, sky_file_name, peak_loc):
+    """ finding the sky nioise from a small section of the cube data """
+    cs_data     = spectra_analysis(file_name, sky_file_name, peak_loc)
+    cube_data   = cs_data['gd_shifted']
+    sn_data     = cs_data['sky_noise']
+    wl_soln     = wavelength_solution(file_name)
+
+    sn_data_min = np.min(sn_data)
+    in_wt       = 1 / (sn_data - sn_data_min + 1)
+
+    sky_regns = np.zeros((len(in_wt),2)) # storing regions of potential sky noise
+    for i in range(len(in_wt)): 
+        data_acl = cube_data[i]
+        data_sky = sn_data[i]
+        data_prb = in_wt[i]
+         
+        if ( 0.00 <= np.abs(data_prb) <= 1.00 ):
+            sky_regns[i][0] = data_prb
+            sky_regns[i][1] = data_sky
+
+    # finding max peak in the sky-noise data and fitting a Gaussian to that
+    # x-axis data
+    x_range = np.linspace(wl_soln['begin'], wl_soln['end'], wl_soln['steps'])
+
+    # Finding peaks with PeakUtils
+    sky_peaks = peakutils.indexes(sn_data, thres=300, thres_abs=True)
+    sky_peaks_x = peakutils.interpolate(x_range, sn_data, sky_peaks)
+
+    sky_peak = sky_peaks_x[0]
+    sky_peak_index = find_nearest(sky_peak, x_range)
+    sky_peak_loc = x_range[sky_peak_index]
+
+    sky_peak_range = [sky_peak-100, sky_peak+100]
+    sky_peak_range_loc = [find_nearest(x_range, x) for x in sky_peak_range]
+
+    sky_rng_x = x_range[sky_peak_range_loc[0]:sky_peak_range_loc[1]]
+    sky_rng_y = sn_data[sky_peak_range_loc[0]:sky_peak_range_loc[1]]
+
+    sky_gauss_params  = Parameters()
+    sky_gauss_params.add('c', value=0)
+    sky_gauss_params.add('i1', value=np.max(sky_rng_y), min=0.0)
+    sky_gauss_params.add('mu', value=sky_peak_loc)
+    sky_gauss_params.add('sigma1', value=3)
+
+    sky_gauss_model = Model(sn_gauss)
+    sky_gauss_rslt  = sky_gauss_model.fit(sky_rng_y, x=sky_rng_x, 
+            params=sky_gauss_params)
+    sky_gauss_best  = sky_gauss_rslt.best_values
+
+    sky_sigma = sky_gauss_best['sigma1']
+
+    return {'inverse_sky': in_wt, 'sky_regions': sky_regns, 'sky_sigma': sky_sigma}
+
+def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
+    """ function for Gaussian doublet """  
+    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
+    l1 = dblt_mu[0] * (1+z)
+    l2 = dblt_mu[1] * (1+z)
+
+    sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
+
+    norm = (sigma*np.sqrt(2*np.pi))
+    term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma**2))
+    term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
+    return (c + term1 + term2)
 
 def otwo_doublet_fitting(file_name, sky_file_name, doublet_region, peak_loc):
     sa_data     = spectra_analysis(file_name, sky_file_name, peak_loc)
@@ -336,15 +370,18 @@ def otwo_doublet_fitting(file_name, sky_file_name, doublet_region, peak_loc):
 
     # the parameters we need are (c, i1, i2, sigma1, z)    
     p0 = [0, otwo_max_val, 1.3, 3, rdst]
-    c, i_val1, r, sigma1, z = p0 
+    c, i_val1, r, sigma_gal, z = p0 
+
+    sigma_sky = sn_data['sky_sigma']
  
     gss_pars = Parameters()
     gss_pars.add('c', value=c)
     gss_pars.add('i1', value=i_val1, min=0.0)
     gss_pars.add('r', value=r, min=0.5, max=1.5)
     gss_pars.add('i2', expr='i1/r', min=0.0)
-    gss_pars.add('sigma1', value=sigma1)
+    gss_pars.add('sigma_gal', value=sigma_gal)
     gss_pars.add('z', value=z)
+    gss_pars.add('sigma_inst', value=sigma_sky, vary=False)
 
     gss_model = Model(f_doublet)
     gss_result = gss_model.fit(otwo_region, x=ot_x, params=gss_pars, 
@@ -366,7 +403,7 @@ def otwo_doublet_fitting(file_name, sky_file_name, doublet_region, peak_loc):
     sn_gauss_parms.add('c', value=c)
     sn_gauss_parms.add('i1', value=i_val1, min=0.0)
     sn_gauss_parms.add('mu', value=dblt_val)
-    sn_gauss_parms.add('sigma1', value=sigma1)
+    sn_gauss_parms.add('sigma1', value=sigma_gal)
 
     sn_gauss_model  = Model(sn_gauss)
     sn_gauss_rslt   = sn_gauss_model.fit(otwo_region, x=ot_x, params=sn_gauss_parms)
@@ -555,15 +592,17 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
         
         lm_params   = df_data['lm_best_param']
         lm_params   = [prm_value for prm_key, prm_value in lm_params.items()]
-        c, i_val1, i_val2, sig1, rdsh = lm_params
+        c, i_val1, i_val2, sig_g, rdsh, sig_i = lm_params
 
         dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths for OII
         l1 = dblt_mu[0] * (1+rdsh)
         l2 = dblt_mu[1] * (1+rdsh)
+        
+        sig = np.sqrt(sig_g**2 + sig_i**2) 
+        norm = (sig*np.sqrt(2*np.pi))
 
-        norm = (sig1*np.sqrt(2*np.pi))
-        lm_y1 = c + ( i_val1 / norm ) * np.exp(-(ot_x-l1)**2/(2*sig1**2))
-        lm_y2 = c + ( i_val2 / norm ) * np.exp(-(ot_x-l2)**2/(2*sig1**2))
+        lm_y1 = c + ( i_val1 / norm ) * np.exp(-(ot_x-l1)**2/(2*sig**2))
+        lm_y2 = c + ( i_val2 / norm ) * np.exp(-(ot_x-l2)**2/(2*sig**2))
     
         plt.plot(ot_x, lm_y1, linewidth=0.5, color="#e64a19", alpha=0.7) 
         plt.plot(ot_x, lm_y2, linewidth=0.5, color="#1a237e", alpha=0.7)
