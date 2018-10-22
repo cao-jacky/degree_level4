@@ -2,31 +2,47 @@ Skipping cube 10 it's unusable for whatever reason
 Skipping cube 449 it's unusable for whatever reason 
 Skipping cube 80 it's unusable for whatever reason 
 Skipping cube 430 it's unusable for whatever reason 
-Analysis of cube 138 has already been performed 
-Analysis of cube 468 has already been performed 
-Analysis of cube 484 has already been performed 
-Analysis of cube 101 has already been performed 
-Analysis of cube 594 has already been performed 
-Analysis of cube 23 has already been performed 
-Analysis of cube 436 has already been performed 
+Analysing cube 138
+Skipping cube 138 it's unusable for whatever reason 
+Analysing cube 468
+Skipping cube 468 it's unusable for whatever reason 
+Analysing cube 484
+Skipping cube 484 it's unusable for whatever reason 
+Analysing cube 101
+Skipping cube 101 it's unusable for whatever reason 
+Analysing cube 594
+Skipping cube 594 it's unusable for whatever reason 
+Analysing cube 23
+Skipping cube 23 it's unusable for whatever reason 
+Analysing cube 436
+Skipping cube 436 it's unusable for whatever reason 
 Skipping cube 472 it's unusable for whatever reason 
-Analysis of cube 130 has already been performed 
+Analysing cube 130
+Skipping cube 130 it's unusable for whatever reason 
 Skipping cube 211 it's unusable for whatever reason 
 Skipping cube 533 it's unusable for whatever reason 
-Analysis of cube 528 has already been performed 
+Analysing cube 528
+Skipping cube 528 it's unusable for whatever reason 
 Skipping cube 525 it's unusable for whatever reason 
-Analysis of cube 228 has already been performed 
-Analysis of cube 226 has already been performed 
-Analysis of cube 687 has already been performed 
+Analysing cube 228
+Skipping cube 228 it's unusable for whatever reason 
+Analysing cube 226
+Skipping cube 226 it's unusable for whatever reason 
+Analysing cube 687
+Skipping cube 687 it's unusable for whatever reason 
 Skipping cube 337 it's unusable for whatever reason 
 Skipping cube 518 it's unusable for whatever reason 
 Analysing cube 713
 Skipping cube 713 it's unusable for whatever reason 
 Skipping cube 548 it's unusable for whatever reason 
 Skipping cube 462 it's unusable for whatever reason 
-Analysis of cube 129 has already been performed 
-Analysis of cube 552 has already been performed 
+Analysing cube 129
+Skipping cube 129 it's unusable for whatever reason 
+Analysing cube 552
+Skipping cube 552 it's unusable for whatever reason 
 Skipping cube 81 it's unusable for whatever reason 
-Analysis of cube 145 has already been performed 
-Analysis of cube 607 has already been performed 
+Analysing cube 145
+Skipping cube 145 it's unusable for whatever reason 
+Analysing cube 607
+Skipping cube 607 it's unusable for whatever reason 
 Skipping cube 151 it's unusable for whatever reason 

@@ -1,28 +1,27 @@
-Analysis performed on 2018-10-21 10:10:31.137602
+Analysis performed on 2018-10-22 09:34:33.489191
 
 Output from lmfit is the following: 
 [[Model]]
     Model(f_doublet)
 [[Fit Statistics]]
     # fitting method   = leastsq
-    # function evals   = 57
+    # function evals   = 68
     # data points      = 200
     # variables        = 5
-    chi-square         = 385361.817
-    reduced chi-square = 1976.21445
-    Akaike info crit   = 1522.72412
-    Bayesian info crit = 1539.21570
+    chi-square         = 5736.15765
+    reduced chi-square = 29.4161931
+    Akaike info crit   = 681.245500
+    Bayesian info crit = 697.737087
 [[Variables]]
-    c:      -122.594737 +/- 3.22217103 (2.63%) (init = 0)
-    i1:      7667.21011 +/- 124.804165 (1.63%) (init = 2728.02)
-    r:       0.66291733 +/- 0.01350965 (2.04%) (init = 1.3)
-    i2:      11565.8617 +/- 132.297221 (1.14%) == 'i1/r'
-    sigma1:  1.60906919 +/- 0.01836633 (1.14%) (init = 3)
-    z:       0.76458910 +/- 6.6164e-06 (0.00%) (init = 0.7655385)
+    c:      -118.846546 +/- 2.71065331 (2.28%) (init = 0)
+    i1:      7766.45739 +/- 253.770607 (3.27%) (init = 2728.02)
+    r:       0.67116053 +/- 0.02462287 (3.67%) (init = 1.3)
+    i2:      11571.6837 +/- 139.349948 (1.20%) == 'i1/r'
+    sigma1:  1.61585025 +/- 0.02269975 (1.40%) (init = 3)
+    z:       0.76459325 +/- 7.5501e-06 (0.00%) (init = 0.7655385)
 [[Correlations]] (unreported correlations are < 0.100)
-    C(i1, r)      =  0.828
-    C(r, z)       =  0.271
-    C(i1, z)      =  0.224
-    C(c, i1)      = -0.146
-    C(i1, sigma1) =  0.128
-    C(r, sigma1)  = -0.114
+    C(i1, r)      =  0.946
+    C(i1, z)      =  0.477
+    C(r, z)       =  0.454
+    C(r, sigma1)  = -0.302
+    C(i1, sigma1) = -0.136

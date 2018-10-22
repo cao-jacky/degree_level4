@@ -247,8 +247,9 @@ def sky_noise_weighting(file_name, sky_file_name, peak_loc):
     cube_data   = cs_data['gd_shifted']
     sn_data     = cs_data['sky_noise']
 
-    in_wt     = 1 / sn_data # inverse weight
-    
+    sn_data_min = np.min(sn_data)
+    in_wt       = 1 / (sn_data - sn_data_min + 1)
+
     sky_regns = np.zeros((len(in_wt),2)) # storing regions of potential sky noise
     for i in range(len(in_wt)): 
         data_acl = cube_data[i]
@@ -346,7 +347,8 @@ def otwo_doublet_fitting(file_name, sky_file_name, doublet_region, peak_loc):
     gss_pars.add('z', value=z)
 
     gss_model = Model(f_doublet)
-    gss_result = gss_model.fit(otwo_region, x=ot_x, params=gss_pars) 
+    gss_result = gss_model.fit(otwo_region, x=ot_x, params=gss_pars, 
+            weights=sky_weight) 
 
     opti_pms = gss_result.best_values
     init_pms = gss_result.init_values
