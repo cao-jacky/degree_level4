@@ -1,5 +1,9 @@
 import numpy as np
 
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib import rc
+
 import cube_reader
 
 def highest_sn():
@@ -53,9 +57,33 @@ def highest_sn():
     usable_cubes = usable_cubes[usable_cubes[:,1].argsort()[::-1]]
     print(usable_cubes)
 
-def data_cube_analyser(cube_id):
-    cube_file = "data/cubes/cube_" + int(cube_id) + ".fits"
-    cube_data = cube_reader.read_file(cube_file)
+def sky_noise_cut(cube_id):
+    sky_file_loc = "data/skyvariance_csub.fits"
+    sky_file_data = cube_reader.sky_noise(sky_file_loc)
 
+    print(sky_file_data)
+
+
+
+def data_cube_analyser(cube_id):
+    cube_x_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
+        str(int(cube_id)) + "_cbd_x.npy")
+    cube_y_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
+        str(int(cube_id)) + "_cbs_y.npy")
+
+    sky_noise = sky_noise_cut(cube_id)
+
+    # let's cut out the region of the O[II] doublet to around where I think the 
+    # absorption lines end
+
+    plt.rc('text', usetex=True)
+    plt.rc('font', family='serif')
+    plt.rcParams['text.latex.preamble'] = [r'\boldmath']
+
+    plt.figure()
+    plt.plot(cube_x_data, cube_y_data, linewidth=0.5, color="#000000")
+    plt.savefig("graphs/sanity_checks/cube_" + str(int(cube_id)) + "_spectra.pdf")
+    
 
 #highest_sn()
+data_cube_analyser(468)

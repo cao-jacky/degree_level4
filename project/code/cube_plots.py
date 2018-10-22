@@ -139,7 +139,7 @@ def plots(file_catalogue, file_doublets):
         ax.set_title(r'\textbf{Redshift: Catalogue vs. Model}', fontsize=13) 
         ax.set_xlabel(r'\textbf{Model}', fontsize=13)
         ax.set_ylabel(r'\textbf{Catalogue}', fontsize=13)
-        fig.savefig("graphs/redshift.pdf")
+        fig.savefig("graphs/sanity_checks/redshift.pdf")
 
     def flux():
         flux_model = data[:,5]
@@ -162,7 +162,7 @@ def plots(file_catalogue, file_doublets):
         ax.set_title(r'\textbf{Flux: Catalogue vs. Model}', fontsize=13) 
         ax.set_xlabel(r'\textbf{Model}', fontsize=13)
         ax.set_ylabel(r'\textbf{Catalogue}', fontsize=13)
-        fig.savefig("graphs/flux.pdf")
+        fig.savefig("graphs/sanity_checks/flux.pdf")
 
     def mag_sigma():
         mag_star = data[:,7]
@@ -180,7 +180,7 @@ def plots(file_catalogue, file_doublets):
                 fontsize=13)  
         ax.set_xlabel(r'$\sigma_{1}$', weight='bold', fontsize=13)
         ax.set_ylabel(r'\textbf{M}$_{*}$', weight='bold', fontsize=13)
-        fig.savefig("graphs/mag_sigma.pdf")
+        fig.savefig("graphs/sanity_checks/mag_sigma.pdf")
    
     redshift()
     flux()
