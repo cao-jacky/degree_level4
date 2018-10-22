@@ -562,6 +562,15 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
         #plt.plot(cps_x1, cps_y1, linewidth=0.5, color="#000000")
         #plt.savefig('graphs/spectra_central_pixel.pdf') 
 
+        # saving our plotting into npy files so they can be used elsewhere
+        np.save(data_dir + "/" + stk_f_n + "_cbd_x", cbd_x)
+        np.save(data_dir + "/" + stk_f_n + "_cbs_y", cbs_y)  
+
+        np.save(data_dir + "/" + stk_f_n + "_snd_y", snd_y) 
+        
+        np.save(data_dir + "/" + stk_f_n + "_corr_x", corr_x)
+        np.save(data_dir + "/" + stk_f_n + "_cps_y", cps_y)
+    
     def graphs_otwo_region():
         ot_fig  = plt.figure(6)
 

@@ -1,5 +1,7 @@
 import numpy as np
 
+import cube_reader
+
 def highest_sn():
     cube_data_file = open("data/cube_doublet_regions.txt")
     cd_num_lines = sum(1 for line in open("data/cube_doublet_regions.txt")) - 1
@@ -51,4 +53,9 @@ def highest_sn():
     usable_cubes = usable_cubes[usable_cubes[:,1].argsort()[::-1]]
     print(usable_cubes)
 
-highest_sn()
+def data_cube_analyser(cube_id):
+    cube_file = "data/cubes/cube_" + int(cube_id) + ".fits"
+    cube_data = cube_reader.read_file(cube_file)
+
+
+#highest_sn()
