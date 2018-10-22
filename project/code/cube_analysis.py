@@ -62,7 +62,7 @@ def sky_noise_cut(cube_id):
     sky_file_data = cube_reader.sky_noise(sky_file_loc)
 
     print(sky_file_data)
-
+    return (sky_file_data)
 
 
 def data_cube_analyser(cube_id):
@@ -79,6 +79,11 @@ def data_cube_analyser(cube_id):
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.rcParams['text.latex.preamble'] = [r'\boldmath']
+
+    plt.figure()
+    plt.plot(cube_x_data, sky_noise, linewidth=0.5, color="#000000")
+    plt.axhline(10, linewidth=0.5, color="#00c853")
+    plt.savefig("graphs/sanity_checks/sky_spectra.pdf")
 
     plt.figure()
     plt.plot(cube_x_data, cube_y_data, linewidth=0.5, color="#000000")
