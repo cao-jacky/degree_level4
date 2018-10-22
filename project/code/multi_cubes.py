@@ -82,7 +82,7 @@ def multi_cube_reader(cat_file_name):
         except IndexError:
             cube_usable = 2 
 
-        if (cube_usable == 1):
+        if (cube_usable == 2):
             print("Analysing cube " + str(cube_id))
             log_file.write("Analysing cube " + str(cube_id) + "\n")
             doublet_region_info = np.where( doublet_regions[:,0] == cube_id )[0]
@@ -104,7 +104,7 @@ def multi_cube_reader(cat_file_name):
                 #cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
     
             cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
-        if (cube_usable == 2):
+        if (cube_usable == 1):
             print("Analysis of cube " + str(cube_id) + " has already been performed")
             log_file.write("Analysis of cube " + str(cube_id) + 
                     " has already been performed \n")
@@ -114,4 +114,4 @@ def multi_cube_reader(cat_file_name):
             log_file.write("Skipping cube " + str(cube_id) + " it's unusable for"
                     + " whatever reason \n")
 
-multi_cube_reader("data/catalog.fits")
+#multi_cube_reader("data/catalog.fits")
