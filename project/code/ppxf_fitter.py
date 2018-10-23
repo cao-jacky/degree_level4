@@ -1,68 +1,3 @@
-#!/usr/bin/env python
-##############################################################################
-#
-# Usage example for the procedure PPXF, which implements the
-# Penalized Pixel-Fitting (pPXF) method originally described in
-# Cappellari M., & Emsellem E., 2004, PASP, 116, 138
-#     http://adsabs.harvard.edu/abs/2004PASP..116..138C
-# and upgraded in Cappellari M., 2017, MNRAS, 466, 798
-#     http://adsabs.harvard.edu/abs/2017MNRAS.466..798C
-#
-# The example also shows how to include a library of templates
-# and how to mask gas emission lines if present.
-# The example is specialized for a fit to a SDSS spectrum.
-#
-# MODIFICATION HISTORY:
-#   V1.0.0: Written by Michele Cappellari, Leiden 11 November 2003
-#   V1.1.0: Log rebin the galaxy spectrum. Show how to correct the velocity
-#       for the difference in starting wavelength of galaxy and templates.
-#       MC, Vicenza, 28 December 2004
-#   V1.1.1: Included explanation of correction for instrumental resolution.
-#       After feedback from David Valls-Gabaud. MC, Venezia, 27 June 2005
-#   V2.0.0: Included example routine to determine the goodPixels vector
-#       by masking known gas emission lines. MC, Oxford, 30 October 2008
-#   V2.0.1: Included instructions for high-redshift usage. Thanks to Paul Westoby
-#       for useful feedback on this issue. MC, Oxford, 27 November 2008
-#   V2.0.2: Included example for obtaining the best-fitting redshift.
-#       MC, Oxford, 14 April 2009
-#   V2.1.0: Bug fix: Force PSF_GAUSSIAN to produce a Gaussian with an odd
-#       number of elements centered on the middle one. Many thanks to
-#       Harald Kuntschner, Eric Emsellem, Anne-Marie Weijmans and
-#       Richard McDermid for reporting problems with small offsets
-#       in systemic velocity. MC, Oxford, 15 February 2010
-#   V2.1.1: Added normalization of galaxy spectrum to avoid numerical
-#       instabilities. After feedback from Andrea Cardullo.
-#       MC, Oxford, 17 March 2010
-#   V2.2.0: Perform templates convolution in linear wavelength.
-#       This is useful for spectra with large wavelength range.
-#       MC, Oxford, 25 March 2010
-#   V2.2.1: Updated for Coyote Graphics. MC, Oxford, 11 October 2011
-#   V2.3.0: Specialized for SDSS spectrum following requests from users.
-#       Renamed PPXF_KINEMATICS_EXAMPLE_SDSS. MC, Oxford, 12 January 2012
-#   V3.0.0: Translated from IDL into Python. MC, Oxford, 10 December 2013
-#   V3.0.1: Uses MILES models library. MC, Oxford 11 December 2013
-#   V3.0.2: Support both Python 2.6/2.7 and Python 3.x. MC, Oxford, 25 May 2014
-#   V3.0.3: Explicitly sort template files as glob() output may not be sorted.
-#       Thanks to Marina Trevisan for reporting problems under Linux.
-#       MC, Sydney, 4 February 2015
-#   V3.0.4: Use redshift in determine_goodpixels. MC, Oxford, 5 May 2015
-#   V3.1.0: Illustrate how to deal with variable instrumental resolution.
-#       Use example galaxy spectrum from SDSS DR12. MC, Oxford, 12 October 2015
-#   V3.1.1: Support both Pyfits and Astropy to read FITS files.
-#       MC, Oxford, 22 October 2015
-#   V3.1.2: Illustrates how to show the wavelength in the plot.
-#       MC, Oxford, 18 May 2016
-#   V3.1.3: Make files paths relative to this file, to run the example from
-#       any directory. MC, Oxford, 18 January 2017
-#   V3.1.4: Updated text on the de-redshifting of the spectrum.
-#       MC, Oxford, 5 October 2017
-#   V3.1.5: Changed imports for pPXF as a package.
-#       Make file paths relative to the pPXF package to be able to run the
-#       example unchanged from any directory. MC, Oxford, 17 April 2018
-#   V3.1.6: Dropped legacy Python 2.7 support. MC, Oxford, 10 May 2018
-#
-##############################################################################
-
 import glob
 from time import process_time 
 from os import path
@@ -74,23 +9,38 @@ import ppxf as ppxf_package
 from ppxf.ppxf import ppxf
 import ppxf.ppxf_util as util
 
-def ppxf_example_kinematics_sdss():
+def ppxf_example_kinematics_sdss(cube_id): 
 
-    ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__))
+    # reding cube_data
+    cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"
+    hdu = fits.open(cube_file)
+    t = hdu[0].data
+   
+    # using our redshift estimate from lmfit
+    cube_result_file = ("results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
+            "_lmfit.txt")
+    cube_result_file = open(cube_result_file)
 
-    # Read SDSS DR12 galaxy spectrum taken from here http://dr12.sdss3.org/
-    # The spectrum is *already* log rebinned by the SDSS DR12
-    # pipeline and log_rebin should not be used in this case.
-    file = ppxf_dir + '/spectra/NGC4636_SDSS_DR12.fits'
-    hdu = fits.open(file)
-    t = hdu['COADD'].data
-    z = 0.003129   # SDSS redshift estimate
+    line_count = 0 
+    for crf_line in cube_result_file:
+        if (line_count == 20):
+            curr_line = crf_line.split()
+            z = curr_line[1]
+        line_count += 1
+
+    cube_x_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
+        str(int(cube_id)) + "_cbd_x.npy")
+    cube_y_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
+        str(int(cube_id)) + "_cbs_y.npy")
+
+    loglam = np.log10(cube_x_data)
 
     # Only use the wavelength range in common between galaxy and stellar library.
-    mask = (t['loglam'] > np.log10(3540)) & (t['loglam'] < np.log10(7409))
-    flux = t['flux'][mask]
+    mask = (loglam > np.log10(3540)) & (loglam < np.log10(7409))
+    flux = cube_y_data[mask]
+    
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
-    loglam_gal = t['loglam'][mask]
+    loglam_gal = loglam[mask]
     lam_gal = 10**loglam_gal
     noise = np.full_like(galaxy, 0.0166)       # Assume constant noise per pixel here
 
@@ -199,7 +149,7 @@ def ppxf_example_kinematics_sdss():
 
 if __name__ == '__main__':
 
-    ppxf_example_kinematics_sdss()
+    ppxf_example_kinematics_sdss(468)
     import matplotlib.pyplot as plt
     #plt.pause(1)
     plt.show()

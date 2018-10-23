@@ -84,6 +84,8 @@ def ppxf_example_kinematics_sdss():
     file = ppxf_dir + '/spectra/NGC4636_SDSS_DR12.fits'
     hdu = fits.open(file)
     t = hdu['COADD'].data
+
+    #print(hdu[0].header)
     z = 0.003129   # SDSS redshift estimate
 
     # Only use the wavelength range in common between galaxy and stellar library.
