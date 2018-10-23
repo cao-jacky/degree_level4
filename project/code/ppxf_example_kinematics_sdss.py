@@ -103,6 +103,9 @@ def ppxf_example_kinematics_sdss():
     fwhm_gal = 2.355*wdisp*dlam_gal # Resolution FWHM of every pixel, in Angstroms
     velscale = np.log(frac)*c       # Constant velocity scale in km/s per pixel
 
+    print(t['wdisp'])
+    print(t['loglam'])
+
     # If the galaxy is at significant redshift, one should bring the galaxy
     # spectrum roughly to the rest-frame wavelength, before calling pPXF
     # (See Sec2.4 of Cappellari 2017). In practice there is no

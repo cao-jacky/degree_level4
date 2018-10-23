@@ -9,12 +9,17 @@ import ppxf as ppxf_package
 from ppxf.ppxf import ppxf
 import ppxf.ppxf_util as util
 
+import cube_reader
+
 def ppxf_example_kinematics_sdss(cube_id): 
 
-    # reding cube_data
+    # reading cube_data
     cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"
     hdu = fits.open(cube_file)
     t = hdu[0].data
+
+    spectra = cube_reader.spectrum_creator(cube_file)
+    print(spectra['galaxy'])
    
     # using our redshift estimate from lmfit
     cube_result_file = ("results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
@@ -32,7 +37,7 @@ def ppxf_example_kinematics_sdss(cube_id):
         str(int(cube_id)) + "_cbd_x.npy")
     cube_y_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbs_y.npy")
-
+ 
     loglam = np.log10(cube_x_data)
 
     # Only use the wavelength range in common between galaxy and stellar library.

@@ -104,9 +104,11 @@ def spectrum_creator(file_name):
     gs_shape = np.shape(gal_cs_data)
 
     gs_data = np.zeros(gs_shape[0])
+    gs_sd = np.zeros(gs_shape[0])
     for i_ax in range(gs_shape[0]):
         col_data = gal_cs_data[i_ax][:]
         gs_data[i_ax] = np.sum(col_data)
+        gs_sd[i_ax] = np.std(col_data)
 
     return {'central': cp_spec_data, 'galaxy': gs_data}
 
