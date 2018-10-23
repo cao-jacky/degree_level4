@@ -13,7 +13,6 @@ def catalogue_file_reader(cat_file_name):
     file_header     = fits_file[0].header
 
     table_header    = fits_file[1].header
-    print(table_header)
     table_data      = fits_file[1].data
     return {'table_header': table_header, 'table_data': table_data} 
 
