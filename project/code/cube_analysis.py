@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 
 import cube_reader
+import multi_cubes
 
 def highest_sn():
     cube_data_file = open("data/cube_doublet_regions.txt")
@@ -61,9 +62,15 @@ def sky_noise_cut(cube_id):
     sky_file_loc = "data/skyvariance_csub.fits"
     sky_file_data = cube_reader.sky_noise(sky_file_loc)
 
-    print(sky_file_data)
+    # finding indices where peaks are still viewable past the specifie cut heigh
+    cut_height = 10
+    sky_data_cut = np.nonzero(sky_file_data > 10)[0] 
     return (sky_file_data)
 
+def find_nearest(array, value):
+    """ Find nearest value is an array """
+    idx = (np.abs(array-value)).argmin()
+    return idx
 
 def data_cube_analyser(cube_id):
     cube_x_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
@@ -75,6 +82,24 @@ def data_cube_analyser(cube_id):
 
     # let's cut out the region of the O[II] doublet to around where I think the 
     # absorption lines end
+    abs_region = [5300, 6300]
+    abs_region_indexes = [find_nearest(cube_x_data, x) for x in abs_region]
+    ari = abs_region_indexes
+    
+    abs_region_x = cube_x_data[ari[0]:ari[1]]
+    abs_region_y = cube_y_data[ari[0]:ari[1]]
+
+    # we have a region now we want to plot log(flux) vs mag
+
+    cat_file = "data/catalog.fits"
+    cat_data = multi_cubes.catalogue_sorter(cat_file)
+    cat_curr_cube = np.where(cat_data[:,0] == cube_id)[0]
+
+    # cat: col 51 contains f606, col 37 uses the magnitude for stars
+    curr_cube_cat_data = cat_data[cat_curr_cube]
+    cat_mag = curr_cube_cat_data[50]
+    cat_m
+
 
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
@@ -88,6 +113,10 @@ def data_cube_analyser(cube_id):
     plt.figure()
     plt.plot(cube_x_data, cube_y_data, linewidth=0.5, color="#000000")
     plt.savefig("graphs/sanity_checks/cube_" + str(int(cube_id)) + "_spectra.pdf")
+    
+    plt.figure()
+    plt.plot(abs_region_x, abs_region_y, linewidth=0.5, color="#000000")
+    plt.savefig("graphs/sanity_checks/cube_" + str(int(cube_id)) + "_abs_spectra.pdf")
     
 
 #highest_sn()
