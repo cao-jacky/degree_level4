@@ -22,3 +22,8 @@ Plotting the benthic foram delta-^{18}O data, we produce the following graph
 	This could be interpreted as potentially providing an indication of the beginning of the LGM, a change in the climate leading to less delta-^{18}O being released i.e. colder weather leading to the freezing of more water so there would be less of the oxygen isotope within the ocean. 
 	
 	Then as the climate increases in temperature there would be an increase, we can define this at around 3Myr when the data does not follow a wave-like profile anymore, but a linear trend.  
+	
+### retried analysis
+
+- There still appears to be long term trends within the benthic foram data. From 6Myrs ago to 4Myrs ago there appears to be a general sinusoidal change in the d-18O, and from the current epoch to the 4Myr period the general trend appears to be linear - there was a linear increase which could suggest an increase in global temperature. 
+- 
