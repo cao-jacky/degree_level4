@@ -11,7 +11,7 @@ import ppxf.ppxf_util as util
 
 import cube_reader
 
-def ppxf_example_kinematics_sdss(cube_id):
+def kinematics_sdss(cube_id):
 
     ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__))
 
@@ -139,7 +139,7 @@ def ppxf_example_kinematics_sdss(cube_id):
 
     pp = ppxf(templates, galaxy, noise, velscale, start,
               goodpixels=goodpixels, plot=True, moments=4,
-              degree=12, vsyst=dv, clean=False, lam=lam_gal)
+              degree=12, vsyst=dv, clean=False, lam=lam_gal) 
 
     print("Formal errors:")
     print("     dV    dsigma   dh3      dh4")
@@ -156,9 +156,8 @@ def ppxf_example_kinematics_sdss(cube_id):
 
 #------------------------------------------------------------------------------
 
-if __name__ == '__main__':
-
-    ppxf_example_kinematics_sdss(468)
-    import matplotlib.pyplot as plt
+#if __name__ == '__main__':
+    #ppxf_example_kinematics_sdss(468)
+    #import matplotlib.pyplot as plt
     #plt.pause(1)
-    plt.show()
+    #plt.show()

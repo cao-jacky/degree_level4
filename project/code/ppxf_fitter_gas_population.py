@@ -20,11 +20,9 @@ warnings.simplefilter('ignore', category=AstropyWarning)
 
 ##############################################################################
 
-def ppxf_example_population_gas_sdss(tie_balmer, limit_doublets):
+def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
 
     ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__)) 
-
-    cube_id = 23
 
     # reading cube_data
     cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"
@@ -50,8 +48,7 @@ def ppxf_example_population_gas_sdss(tie_balmer, limit_doublets):
 
     # Only use the wavelength range in common between galaxy and stellar library.
     #
-    mask = (cube_x_data > 6000) & (cube_x_data < 7300)
-    print(cube_x_data)
+    mask = (cube_x_data > 6000) & (cube_x_data < 7200)
     flux = cube_y_data[mask]
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
     wave = cube_x_data[mask]
@@ -186,23 +183,23 @@ def ppxf_example_population_gas_sdss(tie_balmer, limit_doublets):
     miles.plot(weights)
     plt.tight_layout()
     #plt.pause(1)
-    plt.show()
+    #plt.show()
 
 ##############################################################################
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 
-    print("\n===============================================\n" +
-             " Fit with free Balmer lines and [SII] doublet: \n" +
-             "===============================================\n")
+    #print("\n===============================================\n" +
+             #" Fit with free Balmer lines and [SII] doublet: \n" +
+             #"===============================================\n")
 
-    ppxf_example_population_gas_sdss(tie_balmer=False, limit_doublets=False)
+    #population_gas_sdss(cube_id=23,tie_balmer=False, limit_doublets=False)
 
-    print("\n=======================================================\n" +
-             " Fit with tied Balmer lines and limited [SII] doublet: \n" +
-             "=======================================================\n")
+    #print("\n=======================================================\n" +
+             #" Fit with tied Balmer lines and limited [SII] doublet: \n" +
+             #"=======================================================\n")
 
     # Note tha the inclusion of a few extra faint Balmer lines is sufficient to
     # decrease the chi2 of the fit, even though the Balmer decrement is fixed.
     # In this case, the best-fitting gas reddening is at the E(B-V)=0 boundary.
-    ppxf_example_population_gas_sdss(tie_balmer=True, limit_doublets=True)
+    #ppxf_example_population_gas_sdss(tie_balmer=True, limit_doublets=True)
