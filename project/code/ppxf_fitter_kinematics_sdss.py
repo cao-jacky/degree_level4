@@ -11,7 +11,9 @@ import ppxf.ppxf_util as util
 
 import cube_reader
 
-def ppxf_example_kinematics_sdss(cube_id): 
+def ppxf_example_kinematics_sdss(cube_id):
+
+    ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__))
 
     # reading cube_data
     cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"
@@ -19,8 +21,7 @@ def ppxf_example_kinematics_sdss(cube_id):
     t = hdu[0].data
 
     spectra = cube_reader.spectrum_creator(cube_file)
-    print(spectra['galaxy'])
-   
+     
     # using our redshift estimate from lmfit
     cube_result_file = ("results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
             "_lmfit.txt")
@@ -30,7 +31,7 @@ def ppxf_example_kinematics_sdss(cube_id):
     for crf_line in cube_result_file:
         if (line_count == 20):
             curr_line = crf_line.split()
-            z = curr_line[1]
+            z = float(curr_line[1])
         line_count += 1
 
     cube_x_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
@@ -52,7 +53,10 @@ def ppxf_example_kinematics_sdss(cube_id):
     c = 299792.458                  # speed of light in km/s
     frac = lam_gal[1]/lam_gal[0]    # Constant lambda fraction per pixel
     dlam_gal = (frac - 1)*lam_gal   # Size of every pixel in Angstrom
-    wdisp = t['wdisp'][mask]        # Intrinsic dispersion of every pixel, in pixels units
+
+    data_shape = np.shape(galaxy)
+    wdisp = np.full(data_shape, 1, dtype=float) # Intrinsic dispersion of every pixel
+
     fwhm_gal = 2.355*wdisp*dlam_gal # Resolution FWHM of every pixel, in Angstroms
     velscale = np.log(frac)*c       # Constant velocity scale in km/s per pixel
 

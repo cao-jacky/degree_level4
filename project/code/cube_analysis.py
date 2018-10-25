@@ -7,6 +7,8 @@ from matplotlib import rc
 import cube_reader
 import multi_cubes
 
+from scipy import signal
+
 def highest_sn():
     cube_data_file = open("data/cube_doublet_regions.txt")
     cd_num_lines = sum(1 for line in open("data/cube_doublet_regions.txt")) - 1
@@ -98,9 +100,7 @@ def data_cube_analyser(cube_id):
     # cat: col 51 contains f606, col 37 uses the magnitude for stars
     curr_cube_cat_data = cat_data[cat_curr_cube]
     cat_mag = curr_cube_cat_data[50]
-    cat_m
-
-
+    
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.rcParams['text.latex.preamble'] = [r'\boldmath']
@@ -212,7 +212,7 @@ def vband_graphs():
                 if (np.any(snc == i_cyd)):
                     cyd_sky_removed[i_cyd] = np.NaN
 
-            abs_region2 = [4000, 5000, 4900]
+            abs_region2 = [4000, 5000, 4750]
             abs_region2z = [x*(1+z) for x in abs_region2]
             abs_region2_indexes = [find_nearest(cube_x_data, x) for x in abs_region2z]
             ar2i = abs_region2_indexes
@@ -237,8 +237,13 @@ def vband_graphs():
             ar_noise_y = ar_noise_y[np.logical_not(np.isnan(ar_noise_y))]
             ar_noise = np.std(ar_noise_y)
 
-            ar_signal = np.sum(ar_y) 
+            # peaks 
+            ar_y_peak_finder = signal.find_peaks(ar_y, height=0)
+            ar_y_peak_heights = ar_y_peak_finder[1]['peak_heights']
+            ar_signal = np.median(ar_y_peak_heights)
+            
             signal_noise = ar_signal / ar_noise
+
             usable_cubes[usable_count][4] = signal_noise
              
             usable_count += 1
