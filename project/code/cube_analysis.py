@@ -253,7 +253,7 @@ def vband_graphs():
     plt.savefig("graphs/sanity_checks/vband_vs_flux.pdf")
 
     plt.figure()
-    plt.scatter(usable_cubes[:,4], usable_cubes[:,2], s=10, color="#000000")
+    plt.scatter(usable_cubes[:,1], usable_cubes[:,4], s=10, color="#000000")
     plt.title(r'\textbf{S/N vs. V-band mag }', fontsize=13)        
     plt.xlabel(r'\textbf{V-band mag}', fontsize=13)
     plt.ylabel(r'\textbf{S/N}', fontsize=13)
