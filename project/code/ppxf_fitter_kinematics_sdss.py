@@ -172,6 +172,7 @@ def kinematics_sdss(cube_id):
     kinematics_graph = (graph_loc + "/cube_" + str(int(cube_id)) + 
             "_kinematics.pdf")
     plt.savefig(kinematics_graph)
+    plt.close("all")
 
     # If the galaxy is at significant redshift z and the wavelength has been
     # de-redshifted with the three lines "z = 1.23..." near the beginning of

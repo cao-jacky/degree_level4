@@ -220,6 +220,7 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     gas_populations_graph = (graph_loc + "/cube_" + str(int(cube_id)) + 
             "_gas_populations" + tied + ".pdf")
     plt.savefig(gas_populations_graph)
+    plt.close("all")
 
 ##############################################################################
 
