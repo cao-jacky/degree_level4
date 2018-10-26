@@ -237,22 +237,36 @@ def vband_graphs():
 
             # cube y data for the absorption region - this is our signal
             ar_y = cube_y_data[ar2i[0]:ar2i[1]]
-            ar_x = cube_x_data[ar2i[0]:ar2i[1]]
-
-            def abs_region_graphs():
-                plt.figure()
-                plt.plot(ar_x, ar_y, linewidth=0.5, color="#000000")
-                #plt.title(r'\textbf{V-band mag vs. flux-mag}', fontsize=13)        
-                plt.savefig("graphs/sanity_checks/cubes/absorption_region_" + 
-                        str(int(cube_id)) + ".pdf")
+            ar_x = cube_x_data[ar2i[0]:ar2i[1]] 
 
             # signal and noise
             ar_signal = np.median(ar_y)
             ar_noise = cube_noise(cube_id)['noise_value']
 
             signal_noise = np.abs(ar_signal / ar_noise)
-
             print(cube_id, ar_signal, ar_noise, signal_noise)
+
+            def abs_region_graphs():
+                plt.figure()
+                plt.plot(cube_x_data, cube_y_data, linewidth=0.5, color="#000000")
+                plt.plot(ar_x, ar_y, linewidth=0.3, color="#d32f2f")
+
+                plt.axhline(ar_signal, linewidth=0.5, color="#212121")
+                plt.axhline(ar_signal+ar_noise, linewidth=0.5, color="#212121", 
+                        alpha=0.75)
+                plt.axhline(ar_signal-ar_noise, linewidth=0.5, color="#212121", 
+                        alpha=0.75)
+
+                plt.ylim([-1000,5000])
+
+                #plt.title(r'\textbf{'+str(ar_signal)+' '+str(ar_noise)+' '+
+                        #str(signal_noise)+'}', fontsize=13)
+                plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+                plt.ylabel(r'\textbf{Flux}', fontsize=13)
+                plt.savefig("graphs/sanity_checks/cubes/absorption_region_" + 
+                        str(int(cube_id)) + ".pdf")
+            
+            abs_region_graphs()
 
             usable_cubes[usable_count][4] = signal_noise
              
