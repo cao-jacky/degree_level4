@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  25 OCT 2018 13:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  26 OCT 2018 11:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -247,21 +247,21 @@ s
 (./stars_gas_dynamics.aux)
 \openout1 = `stars_gas_dynamics.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-Class revtex4 Info: Patching LaTeX tabular. on input line 37.
-Class revtex4 Info: cite was not loaded (OK!) on input line 37.
-Class revtex4 Info: multicol was not loaded (OK!) on input line 37.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+Class revtex4 Info: Patching LaTeX tabular. on input line 38.
+Class revtex4 Info: cite was not loaded (OK!) on input line 38.
+Class revtex4 Info: multicol was not loaded (OK!) on input line 38.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -420,6 +420,16 @@ Overfull \hbox (0.87494pt too wide) detected at line 12
  \OT1/cmr/m/n/12 3
  []
 
+
+Overfull \hbox (0.87494pt too wide) detected at line 13
+ \OT1/cmr/m/n/12 3
+ []
+
+
+Overfull \hbox (0.87494pt too wide) detected at line 14
+ \OT1/cmr/m/n/12 3
+ []
+
 )
 \tf@toc=\write3
 \openout3 = `stars_gas_dynamics.toc'.
@@ -435,18 +445,18 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 Here is how much of TeX's memory you used:
  5694 strings out of 492649
  80186 string characters out of 6129622
- 164011 words of memory out of 5000000
+ 165012 words of memory out of 5000000
  9522 multiletter control sequences out of 15000+600000
  6257 words of font info for 23 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,10n,43p,511b,233s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,10n,43p,543b,233s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texl
 ive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texli
 ve/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texliv
 e/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/
 2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/20
 18/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on stars_gas_dynamics.pdf (3 pages, 84230 bytes).
+Output written on stars_gas_dynamics.pdf (3 pages, 86985 bytes).
 PDF statistics:
  34 PDF objects out of 1000 (max. 8388607)
  23 compressed objects within 1 object stream
