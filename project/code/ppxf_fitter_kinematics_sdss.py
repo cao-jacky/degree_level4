@@ -1,6 +1,10 @@
 import glob
 from time import process_time 
+import os
 from os import path
+
+import io
+from contextlib import redirect_stdout
 
 from astropy.io import fits
 import numpy as np
@@ -8,6 +12,8 @@ import numpy as np
 import ppxf as ppxf_package
 from ppxf.ppxf import ppxf
 import ppxf.ppxf_util as util
+
+import matplotlib.pyplot as plt
 
 import cube_reader
 
@@ -137,15 +143,35 @@ def kinematics_sdss(cube_id):
     start = [vel, 200.]  # (km/s), starting guess for [V, sigma]
     t = process_time()
 
-    pp = ppxf(templates, galaxy, noise, velscale, start,
-              goodpixels=goodpixels, plot=True, moments=4,
-              degree=12, vsyst=dv, clean=False, lam=lam_gal) 
+    f = io.StringIO()
+    with redirect_stdout(f):
+        pp = ppxf(templates, galaxy, noise, velscale, start,
+            goodpixels=goodpixels, plot=True, moments=4,
+            degree=12, vsyst=dv, clean=False, lam=lam_gal) 
 
-    print("Formal errors:")
-    print("     dV    dsigma   dh3      dh4")
-    print("".join("%8.2g" % f for f in pp.error*np.sqrt(pp.chi2)))
+    file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
+    if not os.path.exists(file_loc):
+        os.mkdir(file_loc)
+    kinematics_file = open(file_loc + "/cube_" + str(int(cube_id)) + 
+        "_kinematics.txt", 'w')
 
-    print('Elapsed time in PPXF: %.2f s' % (process_time() - t))
+    kinematics_file.write(f.getvalue())
+    kinematics_file.write("")
+
+    kinematics_file.write("Formal errors: \n")
+    kinematics_file.write("     dV    dsigma   dh3      dh4 \n")
+    kinematics_file.write("".join("%8.2g" % f for f in pp.error*np.sqrt(pp.chi2)) + 
+            "\n")
+
+    kinematics_file.write('Elapsed time in PPXF: %.2f s' % (process_time() - t) + "\n")
+
+    graph_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
+    if not os.path.exists(graph_loc):
+        os.mkdir(graph_loc) 
+
+    kinematics_graph = (graph_loc + "/cube_" + str(int(cube_id)) + 
+            "_kinematics.pdf")
+    plt.savefig(kinematics_graph)
 
     # If the galaxy is at significant redshift z and the wavelength has been
     # de-redshifted with the three lines "z = 1.23..." near the beginning of

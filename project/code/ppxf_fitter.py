@@ -3,24 +3,33 @@ import os
 import ppxf_fitter_kinematics_sdss
 import ppxf_fitter_gas_population
 
+import numpy as np
 import matplotlib.pyplot as plt
 
-def ppxf_cubes(cube_id):
-    file_loc = "ppxf_results"
-    if not os.path.exists(file_loc):
-        os.mkdir(file_loc)
-    kinematics_graph = file_loc + "/cube_" + str(int(cube_id)) + "_kinematics.pdf"
+import cube_analysis
 
+def ppxf_cubes(cube_id):
     print("")
     print("Currently processing on cube " + str(int(cube_id)))
-    print("Here are the results for a kinematic fitting: ")
-    ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id)
-    plt.ylim([-25,200])
-    plt.savefig(kinematics_graph)
+    print("Processing kinematic fitting: ")
+    ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id) 
+
+    print("Processing mass fitting with free Balmer & [SII]: ")
+    ppxf_fitter_gas_population.population_gas_sdss(cube_id, tie_balmer=False, limit_doublets=False)
+    print("")
+    print("Processing mass fitting with tied Balmer & [SII]: ")
+    ppxf_fitter_gas_population.population_gas_sdss(cube_id, tie_balmer=True, limit_doublets=True)
     print("\n")
 
-    print("Here are the results for a mass fitting with free Balmer & [SII]: ")
-    ppxf_fitter_gas_population.population_gas_sdss(cube_id, tie_balmer=False, limit_doublets=False)
+def ppxf_cube_auto():
 
+    cubes_to_process = cube_analysis.highest_sn()
+    for i_cube in range(len(cubes_to_process)):
+        cube_id = int(cubes_to_process[i_cube][0])
 
-ppxf_cubes(23)
+        if (cube_id in np.array([468, 145, 129, 130, 552, 687])):
+            pass
+        else:
+            ppxf_cubes(cube_id)
+
+ppxf_cube_auto()

@@ -58,7 +58,8 @@ def highest_sn():
             usable_count += 1
 
     usable_cubes = usable_cubes[usable_cubes[:,1].argsort()[::-1]]
-    print(usable_cubes)
+    #print(usable_cubes)
+    return(usable_cubes)
 
 def sky_noise_cut():
     sky_file_loc = "data/skyvariance_csub.fits"
@@ -264,7 +265,7 @@ def vband_graphs():
     plt.ylabel(r'\textbf{S/N}', fontsize=13)
     plt.savefig("graphs/sanity_checks/sn_vs_vband.pdf")
 
-#highest_sn()
+highest_sn()
 #data_cube_analyser(468)
 
-vband_graphs()
+#vband_graphs()

@@ -1,5 +1,9 @@
 from time import process_time
+import os
 from os import path
+
+import io
+from contextlib import redirect_stdout
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,6 +27,8 @@ warnings.simplefilter('ignore', category=AstropyWarning)
 def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
 
     ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__)) 
+
+    cube_id = str(int(cube_id))
 
     # reading cube_data
     cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"
@@ -154,24 +160,46 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     #
     
     t = process_time()
-    pp = ppxf(templates, galaxy, noise, velscale, start,
-              plot=False, moments=moments, degree=-1, mdegree=10, vsyst=dv,
-              lam=wave, clean=False, regul=1./regul_err, reg_dim=reg_dim,
-              component=component, gas_component=gas_component,
-              gas_names=gas_names, gas_reddening=gas_reddening)
+    f = io.StringIO()
+    with redirect_stdout(f):
+        pp = ppxf(templates, galaxy, noise, velscale, start,
+            plot=False, moments=moments, degree=-1, mdegree=10, vsyst=dv,
+            lam=wave, clean=False, regul=1./regul_err, reg_dim=reg_dim,
+            component=component, gas_component=gas_component,
+            gas_names=gas_names, gas_reddening=gas_reddening)
+
+    tied = "_free"
+    if ( tie_balmer == True and limit_doublets == True ):
+        tied = "_tied"
+
+    file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
+    if not os.path.exists(file_loc):
+        os.mkdir(file_loc)
+    gas_populations_file = open(file_loc + "/cube_" + str(int(cube_id)) + 
+            "_gas_population" + tied + ".txt", 'w')
+
+    gas_populations_file.write(f.getvalue())
+    gas_populations_file.write("")
 
     # When the two Delta Chi^2 below are the same, the solution
     # is the smoothest consistent with the observed spectrum.
     #
-    print('Desired Delta Chi^2: %.4g' % np.sqrt(2*galaxy.size))
-    print('Current Delta Chi^2: %.4g' % ((pp.chi2 - 1)*galaxy.size))
-    print('Elapsed time in PPXF: %.2f s' % (process_time() - t))
+    gas_populations_file.write(('Desired Delta Chi^2: %.4g' % np.sqrt(2*galaxy.size) 
+        + "\n"))
+    gas_populations_file.write(('Current Delta Chi^2: %.4g' % 
+        ((pp.chi2 - 1)*galaxy.size) + "\n"))
+    gas_populations_file.write(('Elapsed time in PPXF: %.2f s' % (process_time() - t)
+        + "\n\n"))
 
     weights = pp.weights[~gas_component]  # Exclude weights of the gas templates
     weights = weights.reshape(reg_dim)/weights.sum()  # Normalized
 
-    miles.mean_age_metal(weights)
-    miles.mass_to_light(weights, band="r")
+    g = io.StringIO()
+    with redirect_stdout(g):
+        miles.mean_age_metal(weights)
+        miles.mass_to_light(weights, band="r")
+
+    gas_populations_file.write(g.getvalue())
 
     # Plot fit results for stars and gas.
     plt.clf()
@@ -184,6 +212,14 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     plt.tight_layout()
     #plt.pause(1)
     #plt.show()
+
+    graph_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
+    if not os.path.exists(graph_loc):
+        os.mkdir(graph_loc) 
+
+    gas_populations_graph = (graph_loc + "/cube_" + str(int(cube_id)) + 
+            "_gas_populations" + tied + ".pdf")
+    plt.savefig(gas_populations_graph)
 
 ##############################################################################
 
