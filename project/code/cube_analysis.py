@@ -252,6 +252,8 @@ def vband_graphs():
 
             signal_noise = np.abs(ar_signal / ar_noise)
 
+            print(cube_id, ar_signal, ar_noise, signal_noise)
+
             usable_cubes[usable_count][4] = signal_noise
              
             usable_count += 1
@@ -269,7 +271,8 @@ def vband_graphs():
     ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=10, color="#000000")
 
     # plotting a generic line of best fit
-    ax.plot(np.unique(usable_cubes[:,1]), np.poly1d(np.polyfit(usable_cubes[:,1],usable_cubes[:,4], 1))(np.unique(usable_cubes[:,1])))
+    #ax.plot(np.unique(usable_cubes[:,1]), np.poly1d(np.polyfit(usable_cubes[:,1],
+        #usable_cubes[:,4], 1))(np.unique(usable_cubes[:,1])))
 
     cube_ids = usable_cubes[:,0]
     for i, txt in enumerate(cube_ids):
