@@ -7,8 +7,6 @@ from matplotlib import rc
 import cube_reader
 import multi_cubes
 
-from scipy import signal
-
 def highest_sn():
     cube_data_file = open("data/cube_doublet_regions.txt")
     cd_num_lines = sum(1 for line in open("data/cube_doublet_regions.txt")) - 1
@@ -119,6 +117,34 @@ def data_cube_analyser(cube_id):
     plt.plot(abs_region_x, abs_region_y, linewidth=0.5, color="#000000")
     plt.savefig("graphs/sanity_checks/cube_" + str(int(cube_id)) + "_abs_spectra.pdf")
    
+def cube_noise(cube_id):
+    cube_file_name = "data/cubes/cube_" + str(int(cube_id)) + ".fits" 
+    cube_file = cube_reader.read_file(cube_file_name)
+    
+    image_data = cube_file[1]
+    collapsed_data = cube_reader.spectrum_creator(cube_file_name)
+    
+    id_shape = np.shape(image_data)
+    cd_shape = collapsed_data['shape']
+     
+    last_pixel = image_data[:,-1,-1]
+    
+    # create noise region based off how big the collapsed_data shape
+    if ( cd_shape[1] <= (id_shape[1]/2) ):
+        nr_shape = [10,10]
+    else: 
+        nr_shape = [5,5]
+
+    nr_loc = np.array(id_shape[1:]) - np.array(nr_shape)
+    noise_data = image_data[:,nr_loc[1]:id_shape[1], nr_loc[0]:id_shape[0]]
+
+    nr_noise = np.zeros(np.shape(noise_data)[0])
+    for i_ax in range(np.shape(noise_data)[0]):
+        col_data = noise_data[i_ax][:]
+        nr_noise[i_ax] = np.sum(col_data)
+
+    noise = np.std(nr_noise) / np.sqrt(id_shape[1]**2/nr_shape[1]**2)
+    return {'noise_data': nr_noise, 'noise_value': noise}
 
 def vband_graphs():
     plt.rc('text', usetex=True)
@@ -203,23 +229,14 @@ def vband_graphs():
 
                 cb_file_count += 1
             
-            # cut sky noise data
-            snc = sky_noise_cut()
-
-            cyd_sky_removed = cube_y_data
-            # we could loop through the cube_y_data and just ignore the indices or 
-            # set the related values to 0?
-            for i_cyd in range(len(cyd_sky_removed)):
-                if (np.any(snc == i_cyd)):
-                    cyd_sky_removed[i_cyd] = np.NaN
-
-            abs_region2 = [4000, 5000, 4750]
+            # plotting s/n vs mag
+            abs_region2 = [3700, 4500, 4250]
             abs_region2z = [x*(1+z) for x in abs_region2]
             abs_region2_indexes = [find_nearest(cube_x_data, x) for x in abs_region2z]
             ar2i = abs_region2_indexes
 
             # cube y data for the absorption region - this is our signal
-            ar_y = cyd_sky_removed[ar2i[0]:ar2i[1]]
+            ar_y = cube_y_data[ar2i[0]:ar2i[1]]
             ar_x = cube_x_data[ar2i[0]:ar2i[1]]
 
             def abs_region_graphs():
@@ -229,21 +246,11 @@ def vband_graphs():
                 plt.savefig("graphs/sanity_checks/cubes/absorption_region_" + 
                         str(int(cube_id)) + ".pdf")
 
-            # removing nan values
-            ar_y = ar_y[np.logical_not(np.isnan(ar_y))]
+            # signal and noise
+            ar_signal = np.median(ar_y)
+            ar_noise = cube_noise(cube_id)['noise_value']
 
-            # to measure noise we will take the region from 4900Å to 5000Å 
-            ar_noise_y = cyd_sky_removed[ar2i[2]:ar2i[1]]
-            # removing nan values
-            ar_noise_y = ar_noise_y[np.logical_not(np.isnan(ar_noise_y))]
-            ar_noise = np.std(ar_noise_y)
-
-            # peaks 
-            ar_y_peak_finder = signal.find_peaks(ar_y, height=0)
-            ar_y_peak_heights = ar_y_peak_finder[1]['peak_heights']
-            ar_signal = np.median(ar_y_peak_heights)
-            
-            signal_noise = ar_signal / ar_noise
+            signal_noise = np.abs(ar_signal / ar_noise)
 
             usable_cubes[usable_count][4] = signal_noise
              
@@ -258,14 +265,24 @@ def vband_graphs():
     plt.ylabel(r'\textbf{V-band mag}', fontsize=13)
     plt.savefig("graphs/sanity_checks/vband_vs_flux.pdf")
 
-    plt.figure()
-    plt.scatter(usable_cubes[:,1], usable_cubes[:,4], s=10, color="#000000")
-    plt.title(r'\textbf{S/N vs. V-band mag }', fontsize=13)        
-    plt.xlabel(r'\textbf{V-band mag}', fontsize=13)
-    plt.ylabel(r'\textbf{S/N}', fontsize=13)
+    fig, ax = plt.subplots()
+    ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=10, color="#000000")
+
+    # plotting a generic line of best fit
+    ax.plot(np.unique(usable_cubes[:,1]), np.poly1d(np.polyfit(usable_cubes[:,1],usable_cubes[:,4], 1))(np.unique(usable_cubes[:,1])))
+
+    cube_ids = usable_cubes[:,0]
+    for i, txt in enumerate(cube_ids):
+        ax.annotate(int(txt), (usable_cubes[i][1], usable_cubes[i][4]))
+
+    ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)        
+    ax.set_xlabel(r'\textbf{V-band mag}', fontsize=13)
+    ax.set_ylabel(r'\textbf{S/N}', fontsize=13)
+    ax.set_ylim([0,30])
     plt.savefig("graphs/sanity_checks/sn_vs_vband.pdf")
 
-highest_sn()
+#print(highest_sn())
 #data_cube_analyser(468)
 
-#vband_graphs()
+vband_graphs()
+#cube_noise(23)

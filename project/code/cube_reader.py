@@ -110,7 +110,7 @@ def spectrum_creator(file_name):
         gs_data[i_ax] = np.sum(col_data)
         gs_sd[i_ax] = np.std(col_data)
 
-    return {'central': cp_spec_data, 'galaxy': gs_data}
+    return {'central': cp_spec_data, 'galaxy': gs_data, 'shape': gs_shape}
 
 def spectra_stacker(file_name): 
     """ stacking all spectra together for a stacked spectra image """
