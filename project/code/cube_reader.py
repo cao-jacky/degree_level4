@@ -110,7 +110,43 @@ def spectrum_creator(file_name):
         gs_data[i_ax] = np.sum(col_data)
         gs_sd[i_ax] = np.std(col_data)
 
-    return {'central': cp_spec_data, 'galaxy': gs_data, 'shape': gs_shape}
+    gal_region = [gal_lim[0], cp_loc[0]+gal_lim[0], gal_lim[1], cp_loc[1]+gal_lim[1]]
+
+    return {'central': cp_spec_data, 'galaxy': gs_data, 'shape': gs_shape, 'region':
+            gal_region}
+
+def cube_noise(cube_id):
+    cube_file_name = "data/cubes/cube_" + str(int(cube_id)) + ".fits" 
+    cube_file = read_file(cube_file_name)
+    
+    image_data = cube_file[1]
+    collapsed_data = spectrum_creator(cube_file_name)
+    
+    id_shape = np.shape(image_data)
+    cd_shape = collapsed_data['shape']
+     
+    last_pixel = image_data[:,-1,-1]
+    
+    # create noise region based off how big the collapsed_data shape
+    if ( cd_shape[1] <= (id_shape[1]/2) ):
+        nr_shape = [10,10]
+    else: 
+        nr_shape = [5,5]
+
+    nr_loc = np.array(id_shape[1:]) - np.array(nr_shape)
+    noise_data = image_data[:,nr_loc[1]:id_shape[1], nr_loc[0]:id_shape[2]]
+
+    region_gal = collapsed_data['region']
+    region_noise = [nr_loc[1], id_shape[1], nr_loc[0], id_shape[2]]
+
+    nr_noise = np.zeros(np.shape(noise_data)[0])
+    for i_ax in range(np.shape(noise_data)[0]):
+        col_data = noise_data[i_ax][:]
+        nr_noise[i_ax] = np.sum(col_data)
+
+    noise = np.std(nr_noise) / np.sqrt(id_shape[1]**2/nr_shape[1]**2)
+    return {'noise_data': nr_noise, 'noise_value': noise, 'gal_region': region_gal,
+            'noise_region': region_noise}
 
 def spectra_stacker(file_name): 
     """ stacking all spectra together for a stacked spectra image """

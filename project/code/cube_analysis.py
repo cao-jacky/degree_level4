@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
+import matplotlib.patches as patches
 
 import cube_reader
 import multi_cubes
@@ -115,37 +116,7 @@ def data_cube_analyser(cube_id):
     
     plt.figure()
     plt.plot(abs_region_x, abs_region_y, linewidth=0.5, color="#000000")
-    plt.savefig("graphs/sanity_checks/cube_" + str(int(cube_id)) + "_abs_spectra.pdf")
-   
-def cube_noise(cube_id):
-    cube_file_name = "data/cubes/cube_" + str(int(cube_id)) + ".fits" 
-    cube_file = cube_reader.read_file(cube_file_name)
-    
-    image_data = cube_file[1]
-    collapsed_data = cube_reader.spectrum_creator(cube_file_name)
-    
-    id_shape = np.shape(image_data)
-    cd_shape = collapsed_data['shape']
-     
-    last_pixel = image_data[:,-1,-1]
-    
-    # create noise region based off how big the collapsed_data shape
-    if ( cd_shape[1] <= (id_shape[1]/2) ):
-        nr_shape = [10,10]
-    else: 
-        nr_shape = [5,5]
-
-    nr_loc = np.array(id_shape[1:]) - np.array(nr_shape)
-    noise_data = image_data[:,nr_loc[1]:id_shape[1], nr_loc[0]:id_shape[0]]
-
-    nr_noise = np.zeros(np.shape(noise_data)[0])
-    for i_ax in range(np.shape(noise_data)[0]):
-        col_data = noise_data[i_ax][:]
-        nr_noise[i_ax] = np.sum(col_data)
-
-    noise = np.std(nr_noise) / np.sqrt(id_shape[1]**2/nr_shape[1]**2)
-    return {'noise_data': nr_noise, 'noise_value': noise}
-
+    plt.savefig("graphs/sanity_checks/cube_" + str(int(cube_id)) + "_abs_spectra.pdf")  
 def vband_graphs():
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
@@ -239,12 +210,14 @@ def vband_graphs():
             ar_y = cube_y_data[ar2i[0]:ar2i[1]]
             ar_x = cube_x_data[ar2i[0]:ar2i[1]] 
 
+            cube_noise_data = cube_reader.cube_noise(cube_id)
+
             # signal and noise
             ar_signal = np.median(ar_y)
-            ar_noise = cube_noise(cube_id)['noise_value']
+            ar_noise = cube_noise_data['noise_value']
 
             signal_noise = np.abs(ar_signal / ar_noise)
-            print(cube_id, ar_signal, ar_noise, signal_noise)
+            #print(cube_id, ar_signal, ar_noise, signal_noise)
 
             def abs_region_graphs():
                 plt.figure()
@@ -263,10 +236,48 @@ def vband_graphs():
                         #str(signal_noise)+'}', fontsize=13)
                 plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
                 plt.ylabel(r'\textbf{Flux}', fontsize=13)
-                plt.savefig("graphs/sanity_checks/cubes/absorption_region_" + 
+                plt.savefig("graphs/sanity_checks/absregions/absorption_region_" + 
                         str(int(cube_id)) + ".pdf")
             
-            abs_region_graphs()
+            #abs_region_graphs()
+
+            gal_region = cube_noise_data['gal_region']
+            noise_region = cube_noise_data['noise_region']
+
+            print(noise_region)
+
+            def graphs_collapsed():
+                cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"
+                im_coll_data = cube_reader.image_collapser(cube_file)
+         
+                f, (ax1, ax2)  = plt.subplots(1, 2)
+            
+                ax1.imshow(im_coll_data['median'], cmap='gray_r') 
+                ax1.set_title(r'\textbf{galaxy: median}', fontsize=13)    
+                ax1.set_xlabel(r'\textbf{Pixels}', fontsize=13)
+                ax1.set_ylabel(r'\textbf{Pixels}', fontsize=13) 
+
+                ax2.imshow(im_coll_data['sum'], cmap='gray_r')
+                ax2.set_title(r'\textbf{galaxy: sum}', fontsize=13)        
+                ax2.set_xlabel(r'\textbf{Pixels}', fontsize=13)
+                ax2.set_ylabel(r'\textbf{Pixels}', fontsize=13)
+  
+                gal = patches.Rectangle((gal_region[0],gal_region[1]),
+                        gal_region[3]-gal_region[0],gal_region[2]-gal_region[1],
+                        linewidth=1, edgecolor='#b71c1c', facecolor='none')
+                noise = patches.Rectangle((noise_region[0],noise_region[1]),
+                        noise_region[3]-noise_region[0],noise_region[2]-noise_region[1]
+                        , linewidth=1, edgecolor='#1976d2', facecolor='none')
+
+                # Add the patch to the Axes
+                ax1.add_patch(gal)
+                ax1.add_patch(noise)
+
+                f.subplots_adjust(wspace=0.4)
+                f.savefig("graphs/sanity_checks/stacked/stacked" + 
+                        str(int(cube_id)) + ".pdf")
+
+            graphs_collapsed()
 
             usable_cubes[usable_count][4] = signal_noise
              
