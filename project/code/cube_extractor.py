@@ -66,7 +66,8 @@ def cube_extractor(file_name):
             rl = [25,25] # region limits for x and y directions, makes a square
 
             subcube_data = data[:,y_posn-rl[0]:y_posn+rl[1],x_posn-rl[0]:x_posn+rl[1]]
-            segmentation_data = sdata[y_posn-rl[0]:y_posn+rl[1],x_posn-rl[0]:x_posn+rl[1]]
+            segmentation_data = sdata[y_posn-rl[0]:y_posn+rl[1],
+                    x_posn-rl[0]:x_posn+rl[1]]
 
             if (i_obj == 0):
                 print(cube_id)
