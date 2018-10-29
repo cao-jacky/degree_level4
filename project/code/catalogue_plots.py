@@ -55,6 +55,46 @@ def catalogue_analysis(file_name):
 
     graph_sn_mag(v_mag, flux_sn)
 
+    # I want to run through the entire catalogue, storing various things into indexes:
+    # [0]: cube ID as determined by sextractor (0)
+    # [1]: x-posn from image (376)
+    # [2]: y-posn from image (377)
+    # [3]: RA from image (381)
+    # [4]: Dec from image (382)
+    # [5]: HST 606nm mag (64)
+    # [6]: HST 775nm mag (66)
+    # [7]: redshift from MUSE (81)
+    # [8]: probability of being a star (386)
+    # [9]: flux from image (378)
+    # [10]: flux_err from image (379)
+    # [11]: isoarea from image (381)
+
+    cubes_data = np.zeros((len(file_data), 12))
+
+    for i_object in range(len(file_data)):
+        curr_object = file_data[i_object]
+
+        cubes_data[i_object][0] = curr_object[0] # cube id
+
+        cubes_data[i_object][1] = curr_object[376] # image x-posn
+        cubes_data[i_object][2] = curr_object[377] # image y-posn
+
+        cubes_data[i_object][3] = curr_object[381] # image RA 
+        cubes_data[i_object][4] = curr_object[382] # image Dec
+
+        cubes_data[i_object][5] = curr_object[64] # HST 606nm mag
+        cubes_data[i_object][6] = curr_object[66] # HST 775nm mag
+
+        cubes_data[i_object][7] = curr_object[81] # MUSE redshift
+        cubes_data[i_object][8] = curr_object[386] # probability of being a star
+        cubes_data[i_object][9] = curr_object[378] # image flux
+        cubes_data[i_object][10] = curr_object[379] # image flux error
+        cubes_data[i_object][11] = curr_object[381] # image isoarea
+
+    print(cubes_data)
+
+    # sort by redshift z then cut the objects below the value of 0.3 
+
 
 catalogue_analysis("data/matched_catalogues.fits")
 
