@@ -51,42 +51,46 @@ def cube_extractor(file_name):
     print(sdata)
 
     catalogue = np.load("data/matched_catalogue.npy")
+    # sorting catalogue by the probability that the object is a star
+    catalogue = catalogue[catalogue[:,8].argsort()]
 
     t = process_time()
     for i_obj in range(len(catalogue)):
-        cube_id = int(catalogue[i_obj][0])
-        print("Currently creating cube for " + str(cube_id))
-        x_posn = int(np.rint(catalogue[i_obj][1]))
-        y_posn = int(np.rint(catalogue[i_obj][2]))
+        # we just want to consider the first 300 objects
+        if (i_obj <= 300):
+            cube_id = int(catalogue[i_obj][0])
+            print("Currently creating cube for " + str(cube_id))
+            x_posn = int(np.rint(catalogue[i_obj][1]))
+            y_posn = int(np.rint(catalogue[i_obj][2]))
 
-        rl = [20,20] # region limits for x and y directions, makes a square
+            rl = [25,25] # region limits for x and y directions, makes a square
 
-        subcube_data = data[:,y_posn-rl[0]:y_posn+rl[1],x_posn-rl[0]:x_posn+rl[1]]
-        segmentation_data = sdata[y_posn-rl[0]:y_posn+rl[1],x_posn-rl[0]:x_posn+rl[1]]
+            subcube_data = data[:,y_posn-rl[0]:y_posn+rl[1],x_posn-rl[0]:x_posn+rl[1]]
+            segmentation_data = sdata[y_posn-rl[0]:y_posn+rl[1],x_posn-rl[0]:x_posn+rl[1]]
 
-        if (i_obj == 0):
-            print(cube_id)
-            print(x_posn, y_posn)
-            print(y_posn-rl[0],y_posn+rl[1],x_posn-rl[0],x_posn+rl[1])
-            np.set_printoptions(threshold=np.nan)
-            print(segmentation_data)
+            if (i_obj == 0):
+                print(cube_id)
+                print(x_posn, y_posn)
+                print(y_posn-rl[0],y_posn+rl[1],x_posn-rl[0],x_posn+rl[1])
+                np.set_printoptions(threshold=np.nan)
+                print(segmentation_data)
 
-        # saving both sets of data to one fits file
-        # creating the header
-        hdr = fits.Header()
-        hdr['CTYPE3'] = 'AWAV'
-        hdr['CRVAL3'] = header['CRVAL3']
-        hdr['CRPIX3'] = header['CRPIX3']
-        hdr['CD3_3'] = header['CD3_3']
+            # saving both sets of data to one fits file
+            # creating the header
+            hdr = fits.Header()
+            hdr['CTYPE3'] = 'AWAV'
+            hdr['CRVAL3'] = header['CRVAL3']
+            hdr['CRPIX3'] = header['CRPIX3']
+            hdr['CD3_3'] = header['CD3_3']
 
-        primary_hdu = fits.PrimaryHDU(header=hdr)
-        hdu1 = fits.ImageHDU(subcube_data)
-        hdu2 = fits.ImageHDU(segmentation_data)
+            primary_hdu = fits.PrimaryHDU(header=hdr)
+            hdu1 = fits.ImageHDU(subcube_data)
+            hdu2 = fits.ImageHDU(segmentation_data)
 
-        hdul = fits.HDUList([primary_hdu, hdu1, hdu2])
+            hdul = fits.HDUList([primary_hdu, hdu1, hdu2])
 
-        hdul.writeto("/Volumes/Jacky_Cao/University/level4/project/cubes_better/cube_"
-                + str(cube_id) + ".fits" )
+            hdul.writeto("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" 
+                    + "cube_" + str(cube_id) + ".fits" )
 
     print('Elapsed time in creating cubes: %.2f s' % (process_time() - t))
 
