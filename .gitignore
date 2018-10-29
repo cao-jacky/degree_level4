@@ -1,6 +1,7 @@
 # Folders #
 ###########
 /project/code/data/cubes/
+/project/code/data/cubes_better/
 
 *.swp
 
