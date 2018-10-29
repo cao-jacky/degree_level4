@@ -27,7 +27,7 @@ def graph_sn_mag(x_data, y_data):
     fig, ax = plt.subplots()
     ax.scatter(x_data, y_data, s=7, color="#000000")
 
-    ax.set_xlabel(r'\textbf{HST V-bang magnitude}', fontsize=13)
+    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=13)
     ax.set_ylabel(r'\textbf{MUSE Flux S/N}', fontsize=13)
 
     ax.set_yscale('log')
@@ -40,21 +40,7 @@ def catalogue_analysis(file_name):
 
     file_header = file_read['header']
     file_data = file_read['data']
-
-    curr_cat_row = 0
-    for l in zip(*file_data):
-        if (curr_cat_row == 378):
-            flux = np.array(l)
-        if (curr_cat_row == 379):
-            flux_err = np.array(l)
-        if (curr_cat_row == 64):
-            v_mag = np.array(l)
-        curr_cat_row += 1
     
-    flux_sn = flux / flux_err
-
-    graph_sn_mag(v_mag, flux_sn)
-
     # I want to run through the entire catalogue, storing various things into indexes:
     # [0]: cube ID as determined by sextractor (0)
     # [1]: x-posn from image (376)
@@ -91,9 +77,28 @@ def catalogue_analysis(file_name):
         cubes_data[i_object][10] = curr_object[379] # image flux error
         cubes_data[i_object][11] = curr_object[381] # image isoarea
 
-    print(cubes_data)
+    np.save("data/matched_catalogue_complete", cubes_data)
+
+    # plotting all objects from image against HST catalogue
+    flux = cubes_data[:,9]
+    flux_err = cubes_data[:,10]
+    flux_sn = flux / flux_err
+
+    v_mag = cubes_data[:,5]
+    graph_sn_mag(v_mag, flux_sn)
 
     # sort by redshift z then cut the objects below the value of 0.3 
+    z_limit = (4800/3727) - 1 
+
+    #cubes_data = cubes_data[cubes_data[:,7].argsort()]
+    cubes_data = cubes_data[cubes_data[:,7]>=z_limit, :]
+    
+    np.save("data/matched_catalogue", cubes_data)
+
+    # attempting to deal with the star probability
+    #cubes_data = cubes_data[cubes_data[:,8].argsort()[::-1]]
+    #for i in range(len(cubes_data)):
+        #print(cubes_data[i][0], cubes_data[i][8])
 
 
 catalogue_analysis("data/matched_catalogues.fits")
