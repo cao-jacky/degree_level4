@@ -40,9 +40,9 @@ def catalogue_analysis(file_name):
 
     file_header = file_read['header']
     file_data = file_read['data']
-    
+ 
     # I want to run through the entire catalogue, storing various things into indexes:
-    # [0]: cube ID as determined by sextractor (0)
+    # [0]: cube ID as determined by sextractor (375)
     # [1]: x-posn from image (376)
     # [2]: y-posn from image (377)
     # [3]: RA from image (381)
@@ -60,7 +60,7 @@ def catalogue_analysis(file_name):
     for i_object in range(len(file_data)):
         curr_object = file_data[i_object]
 
-        cubes_data[i_object][0] = curr_object[0] # cube id
+        cubes_data[i_object][0] = curr_object[375] # cube id
 
         cubes_data[i_object][1] = curr_object[376] # image x-posn
         cubes_data[i_object][2] = curr_object[377] # image y-posn
