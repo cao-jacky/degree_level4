@@ -10,8 +10,6 @@ def catalogue_file_reader(cat_file_name):
     """ reads the cube data catalogue """
     fits_file       = fits.open(cat_file_name)
 
-    file_header     = fits_file[0].header
-
     table_header    = fits_file[1].header
     table_data      = fits_file[1].data
     return {'table_header': table_header, 'table_data': table_data} 
@@ -44,74 +42,73 @@ def catalogue_sorter(cat_file_name):
     cat_np_data = cat_np_data[cat_np_data[:,51].argsort()]
     return cat_np_data
 
-def multi_cube_reader(cat_file_name):
+def cube_analyser(cube_id, region_begin, region_end, peak_index): 
+    cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + "cube_"
+        + str(cube_id) + ".fits")
+   
+    cdr_b = int(region_begin)
+    cdr_e = int(region_end)
+    doublet_range = [cdr_b, cdr_e]
+
+    sky_file = "data/skyvariance_csub.fits"
+    peak_loc = int(peak_index)
+     
+    cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
+
+def multi_cube_reader(catalogue_array):
     """ takes sorted catalogue (sorted by 775nm filter) and then runs through the
     specified integer amount of data """
-   
-    doublet_regions_file = open("data/cube_doublet_regions.txt")
-    doublet_num_lines = sum(1 for line in open("data/cube_doublet_regions.txt")) - 1
-    doublet_regions = np.zeros((doublet_num_lines, 5))
+
+    catalogue = np.load(catalogue_array)
+
+    # repeating extractor conditions: sort by probability then consider only top 300
+    # objects
+    catalogue = catalogue[catalogue[:,8].argsort()]
+    catalogue = catalogue[0:300,:]
+     
+    # cubes.txt file structure
+    # [0]: cube id according to sextractor
+    # [1]: doublet region begin in Å
+    # [2]: doublet region end in Å
+    # [3]: the location of the doublet peak (approx)
+    # [4]: 'usability' of the data: 0 is for no, 1 is for yes (usable), 2 is for unsure
+    cubes_file = open("data/cubes.txt")
+    cubes_file_num_lines = sum(1 for line in open("data/cubes.txt")) - 1
+    cubes = np.zeros((cubes_file_num_lines, 5))
     file_row_count = 0
-    for file_line in doublet_regions_file:
+    for file_line in cubes_file:
         file_line = file_line.split()
         if (file_row_count == 0):
             pass
         else:
             for file_col in range(len(file_line)):
-                doublet_regions[file_row_count-1][file_col] = file_line[file_col]
+                cubes[file_row_count-1][file_col] = file_line[file_col]
 
         file_row_count += 1 
 
-    doublet_regions_file.close()
+    cubes_file.close()
 
-    catalogue_sorted = catalogue_sorter(cat_file_name)
-    dim_loc = np.where(catalogue_sorted[:,51] < 23.0)[0]
-    dim_loc = dim_loc[-1]
-    catalogue_bright = catalogue_sorted[0:dim_loc,:]
-   
-    log_file = open('results/analysis_log.txt', 'w')
+    # selecting objects which are brighter than 23.0 magnitude
+    bright_objects = np.where(catalogue[:,5] < 23.0)[0]
 
-    for i_cube in range(len(catalogue_bright)):
-        curr_row = catalogue_bright[i_cube]
-    
-        cube_id = int(curr_row[0])
-        cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"  
-        
-        try:
-            cube_usable = doublet_regions[i_cube][4]
-        except IndexError:
-            cube_usable = 2 
+    for i_obj in bright_objects:
+        curr_obj = catalogue[i_obj]
+        obj_id = int(curr_obj[0])
 
-        if (cube_usable == 2):
-            print("Analysing cube " + str(cube_id))
-            log_file.write("Analysing cube " + str(cube_id) + "\n")
-            doublet_region_info = np.where( doublet_regions[:,0] == cube_id )[0]
-            cube_doublet_region = doublet_regions[doublet_region_info]
-            # if cannot find the region, use region for cube_23
-            if (len(cube_doublet_region) == 0):
-                cube_doublet_region = doublet_regions[0] 
-            else:
-                [cube_doublet_region] = cube_doublet_region
-           
-            cdr_b = int(cube_doublet_region[1])
-            cdr_e = int(cube_doublet_region[2])
-            doublet_range = [cdr_b, cdr_e]
+        # I want to split the reader into: initial read, and then analysed data
 
-            sky_file = "data/skyvariance_csub.fits"
-            peak_loc = int(cube_doublet_region[3])
-             
-            #if (cube_id == 23):
-                #cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
-    
-            cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
-        if (cube_usable == 1):
-            print("Analysis of cube " + str(cube_id) + " has already been performed")
-            log_file.write("Analysis of cube " + str(cube_id) + 
-                    " has already been performed \n")
+        # checking if cube item exists in the cubes text file,
+        obj_cubes_file = np.where(cubes[:,0] == obj_id)[0]
+        if (obj_cubes_file.size > 0):
+            # if it is in the file, run the cube analyser again with details copied
+            # from the cubes.txt file
+            
+            #cube_analyser(obj_id,)
         else:
-            print("Skipping cube " + str(cube_id) + ", it's unusable for whatever "
-                    + "reason")
-            log_file.write("Skipping cube " + str(cube_id) + " it's unusable for"
-                    + " whatever reason \n")
+            # if it isn't in the file, add a row containing default information
+            cube_file = open("data/cubes.txt", "a")
+            cube_file.write(str(obj_id) + "         6100            6350            0       2 \n" )
+            cubes_file.close()
+            cube_analyser(obj_id, 6100, 6350, 0)
 
-#multi_cube_reader("data/catalog.fits")
+multi_cube_reader("data/matched_catalogue.npy")

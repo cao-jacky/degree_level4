@@ -27,7 +27,7 @@ def read_file(file_name):
     fits_file = fits.open(file_name)
 
     header = fits_file[0].header
-    image_data = fits_file[0].data
+    image_data = fits_file[1].data
 
     header_keywords = {'CRVAL3': 0, 'CRPIX3': 0, 'CD3_3': 0}
     # clause to differentiate between CDELT3 and CD3_3
@@ -69,8 +69,8 @@ def image_collapser(file_name):
     for i_ra in range(ra_axis):
         for i_dec in range(dec_axis):
             pixel_data  = image_data[:][:,i_dec][:,i_ra]
-            pd_median   = np.median(pixel_data)
-            pd_sum      = np.sum(pixel_data)
+            pd_median   = np.nanmedian(pixel_data)
+            pd_sum      = np.nansum(pixel_data)
 
             image_median[i_ra][i_dec]   = pd_median
             image_sum[i_ra][i_dec]      = pd_sum
@@ -94,6 +94,8 @@ def spectrum_creator(file_name):
     cp_loc = 0
     if ( cp_bright[0] == cp_bright[1] ):
         cp_loc = cp_bright[0]
+    else: 
+        cp_loc = cp_bright[1]
 
     cp_spec_data    = image_data[:][:,cp_loc[0]][:,cp_loc[1]]
    
@@ -187,9 +189,9 @@ def spectra_stacker(file_name):
 
     curr_file_name = file_name.split('.')
     curr_file_name = curr_file_name[0].split('/')
-    stk_f_n = curr_file_name[2]
+    stk_f_n = curr_file_name[-1]
    
-    data_dir = 'results/' + stk_f_n
+    data_dir = 'cube_results/' + stk_f_n
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
         hdul.writeto(data_dir + '/stacked.fits')
@@ -209,7 +211,7 @@ def spectra_analysis(file_name, sky_file_name, peak):
     wl_soln         = wavelength_solution(file_name)
     sn_data         = sky_noise(sky_file_name)
 
-    galaxy_data   = spectra_data['galaxy'] 
+    galaxy_data   = spectra_data['galaxy']
     # shifting the data down to be approximately on y=0 
     gd_mc   = np.average(galaxy_data) 
     gd_mc   = galaxy_data - gd_mc
@@ -250,9 +252,9 @@ def spectra_analysis(file_name, sky_file_name, peak):
      
     curr_file_name = file_name.split('.')
     curr_file_name = curr_file_name[0].split('/')
-    stk_f_n = curr_file_name[2]
+    stk_f_n = curr_file_name[-1]
    
-    data_dir = 'results/' + stk_f_n
+    data_dir = 'cube_results/' + stk_f_n
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
 
@@ -456,9 +458,9 @@ def otwo_doublet_fitting(file_name, sky_file_name, doublet_region, peak_loc):
     # saving data to text files
     curr_file_name = file_name.split('.')
     curr_file_name = curr_file_name[0].split('/')
-    stk_f_n = curr_file_name[2]
+    stk_f_n = curr_file_name[-1]
 
-    data_dir = 'results/' + stk_f_n
+    data_dir = 'cube_results/' + stk_f_n
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
   
@@ -480,8 +482,8 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
 
     curr_file_name = file_name.split('.')
     curr_file_name = curr_file_name[0].split('/')
-    stk_f_n = curr_file_name[2]
-    data_dir = 'results/' + stk_f_n
+    stk_f_n = curr_file_name[-1]
+    data_dir = 'cube_results/' + stk_f_n
    
     if not os.path.exists(data_dir):
         os.mkdir(data_dir)
@@ -673,4 +675,5 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
 
     plt.close("all")
 
-#analysis("data/cubes/cube_23.fits", "data/skyvariance_csub.fits")
+#analysis("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
+        #"cube_1804.fits", "data/skyvariance_csub.fits", [6100, 6350], 0)
