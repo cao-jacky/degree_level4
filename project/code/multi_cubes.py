@@ -103,7 +103,19 @@ def multi_cube_reader(catalogue_array):
             # if it is in the file, run the cube analyser again with details copied
             # from the cubes.txt file
             
-            #cube_analyser(obj_id,)
+            print("Analysing cube " + str(cube_id))
+            indiv_cube_loc = np.where( cubes[:,0] == cube_id )[0]		
+            indiv_cube_info = cubes[indiv_cube_loc]
+
+            usability = indiv_cube_info[4]
+            if (usability == 2):
+                # only analyse if usability is 2 or unsure
+                cdr_b = int(cube_doublet_region[1])		
+                cdr_e = int(cube_doublet_region[2])			
+                
+                peak_loc = int(cube_doublet_region[3])		
+
+                cube_analyser.analysis(obj_id, cdr_b, cdr_e, peak_loc)
         else:
             # if it isn't in the file, add a row containing default information
             cube_file = open("data/cubes.txt", "a")
