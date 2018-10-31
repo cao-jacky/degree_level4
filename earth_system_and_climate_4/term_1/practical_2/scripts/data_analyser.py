@@ -29,17 +29,56 @@ def data_reader(file_name, array_cols):
     return data_store
 
 def plotter():
-
-    plt.figure()
     foram_data = data_reader("d-18O.txt", 2)
 
+    # foram
+    fig, ax1 = plt.subplots()
     fd_x = foram_data[1:-1,0]
     fd_y = foram_data[1:-1,1]
+    ax1.set_xlabel(r'\textbf{Age (Myr)}', fontsize=13)
+    ax1.set_ylabel(r'\textbf{d18O}', fontsize=13)
+    ax1.set_xlim([0,5])
+    ax1.scatter(fd_x, fd_y, s=2.5, color="#000000")
 
-    print(np.std(fd_y))
+    z = np.polyfit(fd_x, fd_y, 1)
+    p = np.poly1d(z)
+    #ax1.plot(fd_x,p(fd_x),"r--")
 
-    plt.plot(fd_x, fd_y)
+    orbit_data = data_reader("orbit_data.txt", 5)
+    od_x = orbit_data[1:-1,0]
+
+    ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+
+    # eccentricity
+    od_e = orbit_data[1:-1,1]
+    ax2.scatter(od_x, od_e, s=2.5, color="#f44336")
+    ax2.set_ylabel(r'\textbf{Eccentricity}', fontsize=13)
+
+    fig.tight_layout()  # otherwise the right y-label is slightly clipped
     plt.show()
+ 
+    # obliquity
+    plt.figure()
+    od_o = orbit_data[1:-1,2]
+    plt.xlabel(r'\textbf{Age (Myr)}', fontsize=13)
+    plt.ylabel(r'\textbf{Obliquity (radians)}', fontsize=13)
+    plt.scatter(od_x, od_o, s=5)
+
+    # perihelion
+    plt.figure()
+    od_p = orbit_data[1:-1,3]
+    plt.xlabel(r'\textbf{Age (Myr)}', fontsize=13)
+    plt.ylabel(r'\textbf{Perihelion longitude (radians)}', fontsize=13)
+    plt.scatter(od_x, od_p, s=5)
+
+    # precessional index
+    plt.figure()
+    od_pi = orbit_data[1:-1,4]
+    plt.xlabel(r'\textbf{Age (Myr)}', fontsize=13)
+    plt.ylabel(r'\textbf{Precessional index}', fontsize=13)
+    plt.scatter(od_x, od_pi, s=5)
+
+    #plt.show()
 
 plotter()
 
