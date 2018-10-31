@@ -1,6 +1,12 @@
 import numpy as np
 
+import matplotlib
 import matplotlib.pyplot as plt
+from matplotlib import rc
+
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 
 def data_reader(file_name, array_cols):
     open_file_name = open(file_name)
@@ -29,7 +35,6 @@ def plotter():
 
     fd_x = foram_data[1:-1,0]
     fd_y = foram_data[1:-1,1]
-
 
     print(np.std(fd_y))
 

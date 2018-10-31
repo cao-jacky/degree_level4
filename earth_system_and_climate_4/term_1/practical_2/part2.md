@@ -23,7 +23,24 @@ Plotting the benthic foram delta-^{18}O data, we produce the following graph
 	
 	Then as the climate increases in temperature there would be an increase, we can define this at around 3Myr when the data does not follow a wave-like profile anymore, but a linear trend.  
 	
-### retried analysis
+### retried analysis: ability to zoom in on data
 
 - There still appears to be long term trends within the benthic foram data. From 6Myrs ago to 4Myrs ago there appears to be a general sinusoidal change in the d-18O, and from the current epoch to the 4Myr period the general trend appears to be linear - there was a linear increase which could suggest an increase in global temperature. 
-- 
+
+- From 6Myr to 4Myr the data has a higher frequency than the earlier periods. There is a visible difference in the number of peaks and thus the number of changes in global temperature. However with the earlier times, the difference in d-18O is larger.  
+
+	From 6Myr to 5Myr there are approximately 25 peaks which accounts for a period of 1Myr/25=0.04Myr.
+	
+	Then from 4Myr to 5Myr there are roughly 27 peaks which produces a period of 0.0370Myr.
+	
+	3Myr to 4Myr there are approx 28 peaks so 0.0357Myr for the period.
+	
+	2Myr to 3Myr there is approx 22 peaks, 0.0455Myr as the time period for a 'cycle'
+	
+	1Myr to 2Myr there is approx 24 peaks, so 0.0417Myr for the period.
+	
+	Finally, 0Myr to 1Myr there is approx 17 peaks which produces a period of 0.0588Myr.
+	
+- Can I pick out a dominant period/frequency during certain time intervals? What does that mean? 
+
+- The lower frequency oscillations are the one which dramatically change in magnitude in time, we could suggest that as we near the current epoch there is a global shift in temperature which allows for the larger variance in d-18O - the ratio between the 18O and 16O. 
