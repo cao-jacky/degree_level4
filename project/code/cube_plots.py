@@ -7,30 +7,29 @@ from matplotlib import rc
 import multi_cubes
 import cube_reader
 
-def data_matcher(cat_file_name, doublet_file):
-    """ matching our doublet text file which contains the details of run through
-    cubes """
+def data_matcher(catalogue_array, cubes_text_file):
+    """ matching our cubes file which contains the details of processed cubes """
 
-    catalogue_sorted = multi_cubes.catalogue_sorter(cat_file_name)
+    catalogue = np.load(catalogue_array)
 
-    doublet_regions_file = open(doublet_file)
-    doublet_num_lines = sum(1 for line in open(str(doublet_file))) - 1
-    doublet_regions = np.zeros((doublet_num_lines, 5))
+    cubes_file = open(cubes_text_file)
+    cubes_file_num_lines = sum(1 for line in open(str(cubes_text_file))) - 1
+    cubes = np.zeros((cubes_file_num_lines, 5))
     file_row_count = 0
-    for file_line in doublet_regions_file:
+    for file_line in cubes_file:
         file_line = file_line.split()
         if (file_row_count == 0):
             pass
         else:
             for file_col in range(len(file_line)):
-                doublet_regions[file_row_count-1][file_col] = file_line[file_col]
+                cubes[file_row_count-1][file_col] = file_line[file_col]
 
         file_row_count += 1 
 
-    doublet_regions_file.close()
+    cubes_file.close()
 
-    # running through data and finding required information
-    usable_locs = np.where(doublet_regions[:,-1] == 1)[0]
+    # finding which cubes are usable for analysis
+    usable_locs = np.where(cubes[:,-1] == 1)[0]
     
     # producing a 'usable data' array where the indices represent the following:
     # 0 = cube_id
@@ -38,26 +37,26 @@ def data_matcher(cat_file_name, doublet_file):
     # 2 = model redshift
     # 3 = model redshift error
     # 4 = catalogue O[II] flux
-    # 5 = model O[II] flux
+    # 5 = model O[II] flux 
     # 6 = model sigma1 
-    # 7 = catalogue mag star
+    # 7 = catalogue mag star - I could just calculate from the magnitude?
     usable_data = np.zeros((len(usable_locs), 8))
     for i_cube in range(len(usable_locs)):
         cube_index = usable_locs[i_cube]
 
-        cube_id = int(doublet_regions[cube_index][0])
+        cube_id = int(cubes[cube_index][0])
         usable_data[i_cube][0] = cube_id
 
-        # looking at data from catalogue: col 44 has redshift data
-        cat_cube_loc = np.where(catalogue_sorted[:,0] == cube_id)[0]
-        cat_cube_data = catalogue_sorted[cat_cube_loc][0]
+        # looking at data from catalogue, column with index 7 has MUSE redshift 
+        cat_cube_loc = np.where(catalogue[:,0] == cube_id)[0]
+        cat_cube_data = catalogue[cat_cube_loc][0]
 
-        cat_cube_rdst = cat_cube_data[43]
+        cat_cube_rdst = cat_cube_data[7]
         usable_data[i_cube][1] = cat_cube_rdst
 
         # looking at our generated model results
-        final_results_loc = ("results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
-            + "_lmfit.txt")
+        final_results_loc = ("cube_results/cube_" + str(cube_id) + "/cube_" + 
+                str(cube_id) + "_lmfit.txt")
         final_results_file = open(final_results_loc) 
 
         gauss_variables = {'c': 16, 'i1': 15, 'r': 17, 'i2': 18, 'sigma1': 19, 'z': 20}
@@ -80,19 +79,20 @@ def data_matcher(cat_file_name, doublet_file):
 
         final_results_file.close() 
 
-        # O[II] flux contained in column 45
-        cat_cube_flux = cat_cube_data[44]
+        # O[II] flux contained in column 12 and 13 depending on OII3726 or OII3729
+        cat_cube_flux = np.average([cat_cube_data[12], cat_cube_data[13]])
         usable_data[i_cube][4] = cat_cube_flux
 
-        flux_val = (gauss_vars[1] + gauss_vars[3]) * 10**(-20)
+        flux_val = (gauss_vars[1] + gauss_vars[3]) 
         usable_data[i_cube][5] = flux_val
-
-        # M_star is in column 37
-        cat_mag_star = cat_cube_data[36]
-        usable_data[i_cube][7] = cat_mag_star
 
         model_sigma1 = gauss_vars[4]
         usable_data[i_cube][6] = model_sigma1
+
+        # M_star is in column 37
+        #cat_mag_star = cat_cube_data[36]
+        cat_mag_star = 0
+        usable_data[i_cube][7] = cat_mag_star 
     return usable_data
 
 def chisq(model, data, data_err):
@@ -102,8 +102,8 @@ def chisq(model, data, data_err):
     redcsq = csq_final / (len(csq))
     return {'chisq': csq_final, 'redchisq': redcsq}
 
-def plots(file_catalogue, file_doublets):
-    data = data_matcher(file_catalogue, file_doublets)
+def plots(catalogue_array, cubes_text_file):
+    data = data_matcher(catalogue_array, cubes_text_file)
     
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
@@ -151,9 +151,6 @@ def plots(file_catalogue, file_doublets):
         x_min = np.min(flux_model)
         x_max = np.max(flux_model)
 
-        x = np.linspace(x_min, x_max, 1000) 
-        ax.plot(x, x, color="#000000", alpha=0.3, linewidth=1)
-
         ax.scatter(flux_model, flux_cat, color="#000000", s=10)
 
         for i, txt in enumerate(cube_ids):
@@ -184,11 +181,11 @@ def plots(file_catalogue, file_doublets):
    
     redshift()
     flux()
-    mag_sigma()
+    #mag_sigma()
 
-file_catalogue  = "data/catalog.fits"
-file_doublets   = "data/cube_doublet_regions.txt"
-plots(file_catalogue, file_doublets)
+file_catalogue  = "data/matched_catalogue.npy"
+file_cubes      = "data/cubes.txt"
+plots(file_catalogue, file_cubes)
 
 
 

@@ -54,8 +54,10 @@ def catalogue_analysis(file_name):
     # [9]: flux from image (378)
     # [10]: flux_err from image (379)
     # [11]: isoarea from image (381)
+    # [12]: OII3726 flux sum from catalogue (275)
+    # [13]: OII3729 flux sum from catalogue (288)
 
-    cubes_data = np.zeros((len(file_data), 12))
+    cubes_data = np.zeros((len(file_data), 14))
 
     for i_object in range(len(file_data)):
         curr_object = file_data[i_object]
@@ -76,6 +78,9 @@ def catalogue_analysis(file_name):
         cubes_data[i_object][9] = curr_object[378] # image flux
         cubes_data[i_object][10] = curr_object[379] # image flux error
         cubes_data[i_object][11] = curr_object[381] # image isoarea
+
+        cubes_data[i_object][12] = curr_object[275] # OII3726 flux sum
+        cubes_data[i_object][13] = curr_object[288] # OII3729 flux sum
 
     np.save("data/matched_catalogue_complete", cubes_data)
 

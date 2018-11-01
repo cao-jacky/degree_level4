@@ -57,7 +57,6 @@ def highest_sn():
             usable_count += 1
 
     usable_cubes = usable_cubes[usable_cubes[:,1].argsort()[::-1]]
-    #print(usable_cubes)
     return(usable_cubes)
 
 def sky_noise_cut():
@@ -349,8 +348,8 @@ def vband_graphs():
 
     plt.close("all")
 
-#print(highest_sn())
+print(highest_sn())
 #data_cube_analyser(468)
 
-vband_graphs()
+#vband_graphs()
 #cube_noise(23)
