@@ -213,7 +213,7 @@ def vband_graphs():
             ar_noise = cube_noise_data['noise_value']
 
             signal_noise = np.abs(ar_signal / ar_noise)
-            #print(cube_id, ar_signal, ar_noise, signal_noise)
+            print(cube_id, ar_signal, ar_noise, signal_noise)
 
             def abs_region_graphs():
                 plt.figure()
@@ -236,9 +236,6 @@ def vband_graphs():
                         str(int(cube_id)) + ".pdf")
             
             #abs_region_graphs()
-
-            gal_region = cube_noise_data['gal_region']
-            noise_region = cube_noise_data['noise_region']
 
             def graphs_collapsed():
                 cube_file = ("/Volumes/Jacky_Cao/University/level4/project/" + 
@@ -275,47 +272,24 @@ def vband_graphs():
             #graphs_collapsed()
 
             usable_cubes[usable_count][4] = signal_noise
-             
-            # we want to plot the image against magnitude
-            cube_file = ("/Volumes/Jacky_Cao/University/level4/project/" + 
-                        "cubes_better/cube_" + str(cube_id) + ".fits")
-            im_coll_data = cube_reader.image_collapser(cube_file)['median']
-
-            image_region = im_coll_data[gal_region[0]:gal_region[1],
-                    gal_region[2]:gal_region[3]]
-            total_counts = np.sum(image_region)
-            usable_cubes[usable_count][5] = total_counts
-
-            image_noise = np.abs(im_coll_data[noise_region[0]:noise_region[1],
-                    noise_region[2]:noise_region[3]])
-
-            image_shape = ((gal_region[1]-gal_region[0]) * 
-                (gal_region[3]-gal_region[2]))
-            noise_shape = ((noise_region[1]-noise_region[0]) * 
-                (noise_region[3]-noise_region[2]))
-            image_noise = (np.sum(image_noise) * np.sqrt(image_shape/noise_shape))
-
-            print(image_noise)
-
-            usable_cubes[usable_count][6] = np.abs(total_counts / image_noise)
-
             usable_count += 1
 
     #print(usable_cubes)
 
-    plt.figure()
-    plt.scatter(usable_cubes[:,2], usable_cubes[:,1], s=10, color="#000000")
-    plt.title(r'\textbf{V-band mag vs. flux-mag}', fontsize=13)        
-    plt.xlabel(r'\textbf{flux-mag}', fontsize=13)
-    plt.ylabel(r'\textbf{V-band mag}', fontsize=13)
+    fig, ax = plt.subplots()
+    ax.scatter(usable_cubes[:,2], usable_cubes[:,1], s=10, color="#000000")
+
+    cube_ids = usable_cubes[:,0]
+    for i, txt in enumerate(cube_ids):
+        ax.annotate(int(txt), (usable_cubes[i][2], usable_cubes[i][1]))
+
+    ax.set_title(r'\textbf{V-band mag vs. flux-mag}', fontsize=13)        
+    ax.set_xlabel(r'\textbf{flux-mag}', fontsize=13)
+    ax.set_ylabel(r'\textbf{V-band mag}', fontsize=13)
     plt.savefig("graphs/sanity_checks/vband_vs_flux.pdf")
 
     fig, ax = plt.subplots()
     ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=10, color="#000000")
-
-    # plotting a generic line of best fit
-    #ax.plot(np.unique(usable_cubes[:,1]), np.poly1d(np.polyfit(usable_cubes[:,1],
-        #usable_cubes[:,4], 1))(np.unique(usable_cubes[:,1])))
 
     cube_ids = usable_cubes[:,0]
     for i, txt in enumerate(cube_ids):
@@ -324,15 +298,11 @@ def vband_graphs():
     ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)        
     ax.set_xlabel(r'\textbf{V-band mag}', fontsize=13)
     ax.set_ylabel(r'\textbf{S/N}', fontsize=13)
-    ax.set_ylim([0,30])
+    ax.invert_xaxis()
     plt.savefig("graphs/sn_vs_vband.pdf")
 
     fig, ax = plt.subplots()
     ax.scatter(usable_cubes[:,1], usable_cubes[:,6], s=10, color="#000000")
-
-    # plotting a generic line of best fit
-    #ax.plot(np.unique(usable_cubes[:,1]), np.poly1d(np.polyfit(usable_cubes[:,1],
-        #usable_cubes[:,4], 1))(np.unique(usable_cubes[:,1])))
 
     cube_ids = usable_cubes[:,0]
     for i, txt in enumerate(cube_ids):

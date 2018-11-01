@@ -117,7 +117,6 @@ def spectrum_creator(file_name):
     collapsed_spectrum = np.zeros([np.shape(image_data)[0], len(scc_rows)])
     for i_r in range(len(scc_rows)):
         # I want to pull out each pixel and store it into the collapsed spectrum array
-        index = [scc_rows[i_r], scc_cols[i_r]]
         collapsed_spectrum[:,i_r] = image_data[:,scc_rows[i_r],scc_cols[i_r]]
     
     galaxy_spectrum = np.zeros(np.shape(image_data)[0])
@@ -130,35 +129,31 @@ def cube_noise(cube_id):
     cube_file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
             "cube_" + str(cube_id) + ".fits")
     cube_file = read_file(cube_file_name)
-    
+
     image_data = cube_file[1]
     collapsed_data = spectrum_creator(cube_file_name)
+
+    segmentation_data = cube_file[2]
+
+    pixels_data = np.where(segmentation_data == cube_id)
+    pixels_noise = np.where(segmentation_data == 0)
+    pn_rows, pn_cols = pixels_noise
+
+    pd_num = np.shape(pixels_data)[1]  # number of pixels so that a ratio can be 
+    pn_num = np.shape(pixels_noise)[1] # calculated
     
-    id_shape = np.shape(image_data)
-    cd_shape = collapsed_data['shape']
-     
-    last_pixel = image_data[:,-1,-1]
-    
-    # create noise region based off how big the collapsed_data shape
-    if ( cd_shape[1] <= (id_shape[1]/2) ):
-        nr_shape = [10,10]
-    else: 
-        nr_shape = [5,5]
+    # calculating the noise based off the segmentation data
+    noise_spectra = np.zeros([np.shape(image_data)[0], len(pn_rows)])
+    for i_noise in range(len(pn_rows)):
+        noise_spectra[:,i_noise] = image_data[:,pn_rows[i_noise],pn_cols[i_noise]]
 
-    nr_loc = np.array(id_shape[1:]) - np.array(nr_shape)
-    noise_data = image_data[:,nr_loc[1]:id_shape[1], nr_loc[0]:id_shape[2]]
-
-    region_gal = collapsed_data['region']
-    region_noise = [nr_loc[1], id_shape[1], nr_loc[0], id_shape[2]]
-
-    nr_noise = np.zeros(np.shape(noise_data)[0])
-    for i_ax in range(np.shape(noise_data)[0]):
-        col_data = noise_data[i_ax][:]
-        nr_noise[i_ax] = np.sum(col_data)
-
-    noise = np.std(nr_noise) / np.sqrt(id_shape[1]**2/nr_shape[1]**2)
-    return {'noise_data': nr_noise, 'noise_value': noise, 'gal_region': region_gal,
-            'noise_region': region_noise}
+    nr_noise = np.zeros(np.shape(noise_spectra)[0])
+    for i_ax in range(np.shape(noise_spectra)[0]):
+        nr_noise[i_ax] = np.nansum(noise_spectra[i_ax])
+        
+    noise = np.median(nr_noise) * np.sqrt(pd_num**2/pn_num**2)
+    return {'noise_data': nr_noise, 'noise_value': noise, 'pd_num': pd_num, 
+            'pn_num': pn_num}
 
 def spectra_stacker(file_name): 
     """ stacking all spectra together for a stacked spectra image """
