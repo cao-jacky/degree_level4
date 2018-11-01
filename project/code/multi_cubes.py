@@ -95,29 +95,34 @@ def multi_cube_reader(catalogue_array):
         curr_obj = catalogue[i_obj]
         obj_id = int(curr_obj[0])
 
-        # I want to split the reader into: initial read, and then analysed data
-
         # checking if cube item exists in the cubes text file,
         obj_cubes_file = np.where(cubes[:,0] == obj_id)[0]
         if (obj_cubes_file.size > 0):
             # if it is in the file, run the cube analyser again with details copied
             # from the cubes.txt file
-            
-            print("Analysing cube " + str(cube_id))
-            indiv_cube_loc = np.where( cubes[:,0] == cube_id )[0]		
-            indiv_cube_info = cubes[indiv_cube_loc]
+             
+            indiv_cube_loc = np.where( cubes[:,0] == obj_id )[0]		
+            indiv_cube_info = cubes[indiv_cube_loc][0]
 
             usability = indiv_cube_info[4]
             if (usability == 2):
+                print("Reanalysing cube " + str(obj_id))
                 # only analyse if usability is 2 or unsure
-                cdr_b = int(cube_doublet_region[1])		
-                cdr_e = int(cube_doublet_region[2])			
+                cdr_b = int(indiv_cube_info[1])		
+                cdr_e = int(indiv_cube_info[2])			
                 
-                peak_loc = int(cube_doublet_region[3])		
+                peak_loc = int(indiv_cube_info[3])		
 
-                cube_analyser.analysis(obj_id, cdr_b, cdr_e, peak_loc)
+                cube_analyser(obj_id, cdr_b, cdr_e, peak_loc)
+            if (usability == 1):
+                print("Already analysed cube " + str(obj_id))
+                pass
+            if (usability == 0):
+                print("Skipping cube " + str(obj_id))
+                pass
         else:
             # if it isn't in the file, add a row containing default information
+            print("First run of cube " + str(obj_id))
             cube_file = open("data/cubes.txt", "a")
             cube_file.write(str(obj_id) + "         6100            6350            0       2 \n" )
             cubes_file.close()
