@@ -37,12 +37,12 @@ def highest_sn():
             cube_id = int(cube_data[i_cube][0])
             usable_cubes[usable_count][0] = cube_id
 
-            cube_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
-                "_fitting.txt")
+            cube_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id)
+                    + "_fitting.txt")
             cube_file_data = open(cube_file)
 
-            cb_file_lines = sum(1 for line in open("cube_results/cube_" + str(cube_id) + 
-                "/cube_" + str(cube_id) + "_fitting.txt")) - 1
+            cb_file_lines = sum(1 for line in open("cube_results/cube_" + str(cube_id)
+                + "/cube_" + str(cube_id) + "_fitting.txt")) - 1
 
             cb_file_count = 0
             for cb_line in cube_file_data:
@@ -325,7 +325,7 @@ def vband_graphs():
     ax.set_xlabel(r'\textbf{V-band mag}', fontsize=13)
     ax.set_ylabel(r'\textbf{S/N}', fontsize=13)
     ax.set_ylim([0,30])
-    plt.savefig("graphs/sanity_checks/sn_vs_vband.pdf")
+    plt.savefig("graphs/sn_vs_vband.pdf")
 
     fig, ax = plt.subplots()
     ax.scatter(usable_cubes[:,1], usable_cubes[:,6], s=10, color="#000000")
@@ -349,4 +349,3 @@ def vband_graphs():
 #data_cube_analyser(1804)
 
 vband_graphs()
-#cube_noise(23)

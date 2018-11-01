@@ -60,20 +60,20 @@ def data_matcher(catalogue_array, cubes_text_file):
         final_results_file = open(final_results_loc) 
 
         gauss_variables = {'c': 16, 'i1': 15, 'r': 17, 'i2': 18, 'sigma1': 19, 'z': 20}
-        gauss_vars = np.zeros((6))
-        
+        gauss_vars = np.zeros((7))
+       
         curr_line = 0
         curr_var = 0
         for fr_line in final_results_file:
-            if ( 15 <= curr_line <= 20):
+            if ( 15 <= curr_line <= 21):
                 data_line = fr_line.split()
                 gauss_vars[curr_var] = data_line[1]
                 if (curr_line == 20):
                     rdst_err = data_line[3] 
                 curr_var += 1
             curr_line += 1
- 
-        rdst_val = gauss_vars[-1]
+
+        rdst_val = gauss_vars[-2]
         usable_data[i_cube][2] = rdst_val
         usable_data[i_cube][3] = rdst_err
 
@@ -186,6 +186,3 @@ def plots(catalogue_array, cubes_text_file):
 file_catalogue  = "data/matched_catalogue.npy"
 file_cubes      = "data/cubes.txt"
 plots(file_catalogue, file_cubes)
-
-
-

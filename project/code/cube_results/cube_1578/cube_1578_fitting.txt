@@ -1,33 +1,33 @@
-Results produced on 2018-11-01 10:47:20.391509
+Results produced on 2018-11-01 13:19:31.172349
 
 # Model fitting for [OII] Gaussian Doublet 
 ## Initial Parameters 
 'c': 0
-'i1': 3277.725073024975
-'i2': 2521.3269792499805
+'i1': 3282.913389475198
+'i2': 2525.3179919039985
 'sigma_gal': 3
-'z': 0.6671779719090674
+'z': 0.6671741245249581
 
-'sigma_inst': 0.9929277718281381
+'sigma_inst': 0.9929277780227802
 ## Optimal Parameters 
-'c': -95.54154534238029
-'i1': 11309.81320623402
-'i2': 15518.660092290156
-'sigma_gal': 2.6961448872891998
-'z': 0.6664148625254341
+'c': -96.97571177519346
+'i1': 11200.762501815267
+'i2': 15620.155786182217
+'sigma_gal': 2.699244271337641
+'z': 0.6664040169553334
 
-'sigma_inst': 0.9929277718281381
+'sigma_inst': 0.9929277780227802
 # Calculating the signal-to-noise from doublet region 
 Fitting a straight line to the data with parameter: 
-'c': 48.87356998022094
+'c': 47.41902296060406
 
 For this model, the following chi-squared and reduced chi-squared values were produced: nan and nan 
 
 Fitting a gaussian to the data with parameters: 
-'c': -85.33987328293708
-'i1': 26849.97508444092
-'mu': 6213.569108702354
-'sigma1': 3.6041981840185304
+'c': -86.80086277532997
+'i1': 26851.272136541993
+'mu': 6213.5549753043415
+'sigma1': 3.603454968445127
 
 For this model, the following chi-squared and reduced chi-squared values were produced: nan and nan 
 

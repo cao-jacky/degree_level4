@@ -1,4 +1,5 @@
 import os
+import re
 
 import file_writer
 
@@ -29,6 +30,8 @@ def read_file(file_name):
     header = fits_file[0].header
     image_data = fits_file[1].data
 
+    segmentation_data = fits_file[2].data
+
     header_keywords = {'CRVAL3': 0, 'CRPIX3': 0, 'CD3_3': 0}
     # clause to differentiate between CDELT3 and CD3_3
 
@@ -37,7 +40,7 @@ def read_file(file_name):
         hdr_value = header[hdr_key]
         header_keywords[hdr_key] = hdr_value
 
-    return header_keywords, image_data
+    return header_keywords, image_data, segmentation_data
 
 def wavelength_solution(file_name):
     """ wavelength solution in Angstroms """
@@ -78,9 +81,11 @@ def image_collapser(file_name):
     return {'median': image_median, 'sum': image_sum}
 
 def spectrum_creator(file_name):
-    """ creates a combined single spectra from an area around the 'central pixel' """
+    """ creating a spectra from the area as defined in the segementation area """
     file_data   = read_file(file_name)
     image_data  = file_data[1]
+
+    segmentation_data = file_data[2]
 
     collapsed_data  = image_collapser(file_name)
 
@@ -98,24 +103,28 @@ def spectrum_creator(file_name):
         cp_loc = cp_bright[1]
 
     cp_spec_data    = image_data[:][:,cp_loc[0]][:,cp_loc[1]]
-   
-    # galaxy integrated spectrum
-    gal_lim = [int(x / 2) for x in cp_loc]
-    gal_cs_data   = image_data[:,gal_lim[0]:cp_loc[0]+gal_lim[0],
-            gal_lim[1]:cp_loc[1]+gal_lim[1]]
-    gs_shape = np.shape(gal_cs_data)
 
-    gs_data = np.zeros(gs_shape[0])
-    gs_sd = np.zeros(gs_shape[0])
-    for i_ax in range(gs_shape[0]):
-        col_data = gal_cs_data[i_ax][:]
-        gs_data[i_ax] = np.sum(col_data)
-        gs_sd[i_ax] = np.std(col_data)
+    # spectrum as defined by the segmentation area
+    curr_file_name = file_name.split('.')
+    curr_file_name = curr_file_name[0].split('/')
+    stk_f_n = curr_file_name[-1]
+    cube_id = [int(x) for x in re.findall('\d+', stk_f_n)][0]
 
-    gal_region = [gal_lim[0], cp_loc[0]+gal_lim[0], gal_lim[1], cp_loc[1]+gal_lim[1]]
+    # locating where the galaxy pixels are from the cube_id
+    seg_curr_cube = np.where(segmentation_data == cube_id)
+    scc_rows, scc_cols = seg_curr_cube
 
-    return {'central': cp_spec_data, 'galaxy': gs_data, 'shape': gs_shape, 'region':
-            gal_region}
+    collapsed_spectrum = np.zeros([np.shape(image_data)[0], len(scc_rows)])
+    for i_r in range(len(scc_rows)):
+        # I want to pull out each pixel and store it into the collapsed spectrum array
+        index = [scc_rows[i_r], scc_cols[i_r]]
+        collapsed_spectrum[:,i_r] = image_data[:,scc_rows[i_r],scc_cols[i_r]]
+    
+    galaxy_spectrum = np.zeros(np.shape(image_data)[0])
+    for i_ax in range(len(galaxy_spectrum)):
+        galaxy_spectrum[i_ax] = np.sum(collapsed_spectrum[i_ax])
+ 
+    return {'central': cp_spec_data, 'galaxy': galaxy_spectrum}
 
 def cube_noise(cube_id):
     cube_file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
@@ -593,15 +602,6 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
 
         f.subplots_adjust(hspace=0.5)
         f.savefig(data_dir + "/" + stk_f_n + '_spectra.pdf')
-
-        # --- central pixel plotting
-        cps_x1  = np.linspace(sr['begin'], sr['end'], sr['steps'])
-        cps_y1  = spectra_data['central']
-        #plt.title(r'\textbf{spectra: central point}', fontsize=13)    
-        #plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-        #plt.ylabel(r'\textbf{}', fontsize=13)
-        #plt.plot(cps_x1, cps_y1, linewidth=0.5, color="#000000")
-        #plt.savefig('graphs/spectra_central_pixel.pdf') 
 
         # saving our plotting into npy files so they can be used elsewhere
         np.save(data_dir + "/" + stk_f_n + "_cbd_x", cbd_x)
