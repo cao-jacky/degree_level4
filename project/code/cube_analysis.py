@@ -9,8 +9,8 @@ import cube_reader
 import multi_cubes
 
 def highest_sn():
-    cube_data_file = open("data/cube_doublet_regions.txt")
-    cd_num_lines = sum(1 for line in open("data/cube_doublet_regions.txt")) - 1
+    cube_data_file = open("data/cubes.txt")
+    cd_num_lines = sum(1 for line in open("data/cubes.txt")) - 1
     cube_data = np.zeros((cd_num_lines, 5))
 
     file_row_count = 0
@@ -37,11 +37,11 @@ def highest_sn():
             cube_id = int(cube_data[i_cube][0])
             usable_cubes[usable_count][0] = cube_id
 
-            cube_file = ("results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
+            cube_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
                 "_fitting.txt")
             cube_file_data = open(cube_file)
 
-            cb_file_lines = sum(1 for line in open("results/cube_" + str(cube_id) + 
+            cb_file_lines = sum(1 for line in open("cube_results/cube_" + str(cube_id) + 
                 "/cube_" + str(cube_id) + "_fitting.txt")) - 1
 
             cb_file_count = 0
@@ -74,12 +74,12 @@ def find_nearest(array, value):
     return idx
 
 def data_cube_analyser(cube_id):
-    cube_x_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
+    cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy")
-    cube_y_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
+    cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbs_y.npy")
 
-    sky_noise = sky_noise_cut(cube_id)
+    sky_noise = sky_noise_cut()
 
     # let's cut out the region of the O[II] doublet to around where I think the 
     # absorption lines end
@@ -92,22 +92,17 @@ def data_cube_analyser(cube_id):
 
     # we have a region now we want to plot log(flux) vs mag
 
-    cat_file = "data/catalog.fits"
-    cat_data = multi_cubes.catalogue_sorter(cat_file)
+    cat_file = "data/matched_catalogue.npy"
+    cat_data = np.load(cat_file)
     cat_curr_cube = np.where(cat_data[:,0] == cube_id)[0]
 
-    # cat: col 51 contains f606, col 37 uses the magnitude for stars
-    curr_cube_cat_data = cat_data[cat_curr_cube]
-    cat_mag = curr_cube_cat_data[50]
+    # cat: col 5 contains f606
+    curr_cube_cat_data = cat_data[cat_curr_cube][0]
+    cat_mag = curr_cube_cat_data[5]
     
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.rcParams['text.latex.preamble'] = [r'\boldmath']
-
-    plt.figure()
-    plt.plot(cube_x_data, sky_noise, linewidth=0.5, color="#000000")
-    plt.axhline(10, linewidth=0.5, color="#00c853")
-    plt.savefig("graphs/sanity_checks/sky_spectra.pdf")
 
     plt.figure()
     plt.plot(cube_x_data, cube_y_data, linewidth=0.5, color="#000000")
@@ -121,8 +116,8 @@ def vband_graphs():
     plt.rc('font', family='serif')
     plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 
-    cube_data_file = open("data/cube_doublet_regions.txt")
-    cd_num_lines = sum(1 for line in open("data/cube_doublet_regions.txt")) - 1
+    cube_data_file = open("data/cubes.txt")
+    cd_num_lines = sum(1 for line in open("data/cubes.txt")) - 1
     cube_data = np.zeros((cd_num_lines, 5))
 
     file_row_count = 0
@@ -158,10 +153,10 @@ def vband_graphs():
             cube_id = int(cube_data[i_cube][0])
             usable_cubes[usable_count][0] = cube_id
 
-            cube_x_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
-                str(int(cube_id)) + "_cbd_x.npy")
-            cube_y_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
-                str(int(cube_id)) + "_cbs_y.npy")
+            cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" 
+                    + str(int(cube_id)) + "_cbd_x.npy")
+            cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" 
+                    + str(int(cube_id)) + "_cbs_y.npy")
 
             abs_region = [5500, 7000]
             abs_region_indexes = [find_nearest(cube_x_data, x) for x in abs_region]
@@ -170,28 +165,28 @@ def vband_graphs():
             abs_region_x = cube_x_data[ari[0]:ari[1]]
             abs_region_y = cube_y_data[ari[0]:ari[1]]
 
-            abs_flux_median = np.abs(np.median(abs_region_y))
-            abs_flux_average = np.abs(np.average(abs_region_y))
+            abs_flux_median = np.abs(np.nanmedian(abs_region_y))
+            abs_flux_average = np.abs(np.nanmean(abs_region_y))
 
             usable_cubes[usable_count][2] = -2.5 * np.log10(abs_flux_median)
             usable_cubes[usable_count][3] = -2.5 * np.log10(abs_flux_average)
 
-            cat_file = "data/catalog.fits"
-            cat_data = multi_cubes.catalogue_sorter(cat_file)
+            cat_file = "data/matched_catalogue.npy"
+            cat_data = np.load(cat_file)
             cat_curr_cube = np.where(cat_data[:,0] == cube_id)[0]
 
-            # column 51 in the catalogue contains f606nm data which is about V-band
+            # column 5 in the catalogue contains f606nm data which is about V-band
             # v-band has a midpint wavelength of ~551nm
-            vband_mag = cat_data[cat_curr_cube][0][50]
+            vband_mag = cat_data[cat_curr_cube][0][5]
             usable_cubes[usable_count][1] = vband_mag
 
-            # we want to select a region to calculat the signal to noise
-            cube_file = ("results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
-                "_lmfit.txt")
+            # we want to select a region to calculate the signal to noise
+            cube_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
+                    + "_lmfit.txt")
             cube_file_data = open(cube_file)
 
-            cb_file_lines = sum(1 for line in open("results/cube_" + str(cube_id) + 
-                "/cube_" + str(cube_id) + "_lmfit.txt")) - 1
+            cb_file_lines = sum(1 for line in open("cube_results/cube_" + str(cube_id) 
+                + "/cube_" + str(cube_id) + "_lmfit.txt")) - 1
 
             cb_file_count = 0
             for cb_line in cube_file_data:
@@ -246,7 +241,8 @@ def vband_graphs():
             noise_region = cube_noise_data['noise_region']
 
             def graphs_collapsed():
-                cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"
+                cube_file = ("/Volumes/Jacky_Cao/University/level4/project/" + 
+                        "cubes_better/cube_" + str(cube_id) + ".fits")
                 im_coll_data = cube_reader.image_collapser(cube_file)
          
                 f, (ax1, ax2)  = plt.subplots(1, 2)
@@ -281,7 +277,8 @@ def vband_graphs():
             usable_cubes[usable_count][4] = signal_noise
              
             # we want to plot the image against magnitude
-            cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"
+            cube_file = ("/Volumes/Jacky_Cao/University/level4/project/" + 
+                        "cubes_better/cube_" + str(cube_id) + ".fits")
             im_coll_data = cube_reader.image_collapser(cube_file)['median']
 
             image_region = im_coll_data[gal_region[0]:gal_region[1],
@@ -348,8 +345,8 @@ def vband_graphs():
 
     plt.close("all")
 
-print(highest_sn())
-#data_cube_analyser(468)
+#print(highest_sn())
+#data_cube_analyser(1804)
 
-#vband_graphs()
+vband_graphs()
 #cube_noise(23)

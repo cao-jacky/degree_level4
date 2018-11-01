@@ -118,7 +118,8 @@ def spectrum_creator(file_name):
             gal_region}
 
 def cube_noise(cube_id):
-    cube_file_name = "data/cubes/cube_" + str(int(cube_id)) + ".fits" 
+    cube_file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
+            "cube_" + str(cube_id) + ".fits")
     cube_file = read_file(cube_file_name)
     
     image_data = cube_file[1]
