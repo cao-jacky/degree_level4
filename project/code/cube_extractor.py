@@ -8,6 +8,13 @@ import warnings
 from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)
 
+import matplotlib.pyplot as plt
+from matplotlib import rc
+
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+plt.rcParams['text.latex.preamble'] = [r'\boldmath']
+
 def read_cube(file_name):
     fits_file = fits.open(file_name)
 
@@ -95,7 +102,68 @@ def cube_extractor(file_name):
 
     print('Elapsed time in creating cubes: %.2f s' % (process_time() - t))
 
-
-cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
-
+def colour_image_data_extractor(file_name):
+    read_fits_file = read_cube(file_name)
+    data = read_fits_file['data']
     
+    data_shape = np.shape(data)
+    spectro_length = data_shape[0]
+    spectro_third = int(spectro_length / 3)
+
+    r = (data[0:spectro_third, :, :])
+    np.save("/Volumes/Jacky_Cao/University/level4/project/master_cube_r", r)
+
+    g = (data[spectro_third:spectro_third*2, :, :])
+    np.save("/Volumes/Jacky_Cao/University/level4/project/master_cube_g", g)
+
+    b = (data[spectro_third*2:spectro_third*3, :, :])
+    np.save("/Volumes/Jacky_Cao/University/level4/project/master_cube_b", b)
+
+def colour_image_collapser():
+    r = np.load("/Volumes/Jacky_Cao/University/level4/project/master_cube_r.npy")
+    r_new = np.zeros((np.shape(r)[1], np.shape(r)[2]))
+
+    for i_r_x in range(np.shape(r)[1]):
+        for i_r_y in range(np.shape(r)[2]):
+            r_new[i_r_x][i_r_y] = np.nansum(r[:][:,i_r_x][:,i_r_y])
+    np.save("data/frame_r_sum", r_new)
+
+    g = np.load("/Volumes/Jacky_Cao/University/level4/project/master_cube_g.npy")
+    g_new = np.zeros((np.shape(g)[1], np.shape(g)[2]))
+
+    for i_g_x in range(np.shape(g)[1]):
+        for i_g_y in range(np.shape(g)[2]):
+            g_new[i_g_x][i_g_y] = np.nansum(g[:][:,i_g_x][:,i_g_y])
+    np.save("data/frame_g_sum", g_new)
+
+    b = np.load("/Volumes/Jacky_Cao/University/level4/project/master_cube_b.npy")
+    b_new = np.zeros((np.shape(b)[1], np.shape(b)[2]))
+
+    for i_b_x in range(np.shape(b)[1]):
+        for i_b_y in range(np.shape(b)[2]):
+            b_new[i_b_x][i_b_y] = np.nansum(b[:][:,i_b_x][:,i_b_y])
+    np.save("data/frame_b_sum", b_new)
+
+def colour_image():
+    r = np.load("data/frame_r.npy")
+    g = np.load("data/frame_g.npy")
+    b = np.load("data/frame_b.npy")
+
+    rgb_array = np.zeros((r.shape[0], r.shape[1], 3), dtype=float)
+
+    fig = plt.figure()
+    fig.set_size_inches(10,10)
+    rgb_array[:,:,0] = r 
+    rgb_array[:,:,1] = g 
+    rgb_array[:,:,2] = b 
+    plt.imshow(rgb_array, interpolation='nearest', origin='lower')
+    plt.axis('off')
+    plt.savefig('results/cube_colour_imshow.pdf', dpi=(500), bbox_inches='tight',
+            pad_inches=0.0)
+
+#cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
+#colour_image_data_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
+
+#colour_image_collapser()
+colour_image()
+
