@@ -19,17 +19,22 @@ import cube_reader
 
 def kinematics_sdss(cube_id):
 
+    file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
+    if not os.path.exists(file_loc):
+        os.mkdir(file_loc)
+
     ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__))
 
     # reading cube_data
-    cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"
+    cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/cube_"
+        + str(cube_id) + ".fits")
     hdu = fits.open(cube_file)
-    t = hdu[0].data
+    t = hdu[1].data
 
     spectra = cube_reader.spectrum_creator(cube_file)
      
     # using our redshift estimate from lmfit
-    cube_result_file = ("results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
+    cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
             "_lmfit.txt")
     cube_result_file = open(cube_result_file)
 
@@ -40,9 +45,9 @@ def kinematics_sdss(cube_id):
             z = float(curr_line[1])
         line_count += 1
 
-    cube_x_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
+    cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy")
-    cube_y_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
+    cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbs_y.npy")
  
     loglam = np.log10(cube_x_data)
@@ -55,6 +60,11 @@ def kinematics_sdss(cube_id):
     loglam_gal = loglam[mask]
     lam_gal = 10**loglam_gal
     noise = np.full_like(galaxy, 0.0166)       # Assume constant noise per pixel here
+
+    x_data = cube_x_data[mask]
+
+    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_x", x_data)
+    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_data", galaxy)
 
     c = 299792.458                  # speed of light in km/s
     frac = lam_gal[1]/lam_gal[0]    # Constant lambda fraction per pixel
@@ -148,13 +158,14 @@ def kinematics_sdss(cube_id):
         pp = ppxf(templates, galaxy, noise, velscale, start,
             goodpixels=goodpixels, plot=True, moments=4,
             degree=12, vsyst=dv, clean=False, lam=lam_gal) 
-
-    file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
-    if not os.path.exists(file_loc):
-        os.mkdir(file_loc)
+     
     kinematics_file = open(file_loc + "/cube_" + str(int(cube_id)) + 
         "_kinematics.txt", 'w')
 
+    best_fit = pp.bestfit
+    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_model", best_fit)
+    print(pp.apoly)
+    
     kinematics_file.write(f.getvalue())
     kinematics_file.write("")
 

@@ -27,7 +27,7 @@ def ppxf_cube_auto():
     for i_cube in range(len(cubes_to_process)):
         cube_id = int(cubes_to_process[i_cube][0])
 
-        if (cube_id in np.array([468, 145, 129, 130, 552, 687])):
+        if (cube_id in np.array([1162, 112, 722, 764, 769, 760, 1469])):
             pass
         else:
             ppxf_cubes(cube_id)

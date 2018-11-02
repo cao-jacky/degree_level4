@@ -31,13 +31,14 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     cube_id = str(int(cube_id))
 
     # reading cube_data
-    cube_file = "data/cubes/cube_" + str(cube_id) + ".fits"
+    cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/cube_" 
+            + str(cube_id) + ".fits")
     hdu = fits.open(cube_file)
-    t = hdu[0].data
+    t = hdu[1].data
  
     # using our redshift estimate from lmfit
-    cube_result_file = ("results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
-            "_lmfit.txt")
+    cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
+            + "_lmfit.txt")
     cube_result_file = open(cube_result_file)
 
     line_count = 0 
@@ -47,9 +48,9 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
             z = float(curr_line[1])
         line_count += 1
 
-    cube_x_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
+    cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy")
-    cube_y_data = np.load("results/cube_" + str(int(cube_id)) + "/cube_" + 
+    cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbs_y.npy")
 
     # Only use the wavelength range in common between galaxy and stellar library.
