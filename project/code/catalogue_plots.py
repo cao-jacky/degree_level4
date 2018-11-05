@@ -23,16 +23,39 @@ def read_cat(file_name):
     data = fits_file[3].data
     return {'header': header, 'data': data}
 
-def graph_sn_mag(x_data, y_data):
+def graph_sn_mag(x_data, y_data, cubes_data):
     fig, ax = plt.subplots()
-    ax.scatter(x_data, y_data, s=7, color="#000000")
+    ax.scatter(x_data, y_data, s=7, color="#000000", alpha=0.25)
+
+    z_limit = (4800/3727) - 1 
+    small_redshift = cubes_data[cubes_data[:,7]<=z_limit, :]
+    sr_sn = small_redshift[:,9] / small_redshift[:,10]
+    ax.scatter(small_redshift[:,5], sr_sn, s=7, color="#d50000", alpha=0.25)
+
+    large_redshift = cubes_data[cubes_data[:,7]>=z_limit, :]
+    catalogue = large_redshift[large_redshift[:,8].argsort()]
+    catalogue = catalogue[0:300]
+    cat_sn = catalogue[:,9] / catalogue[:,10]
+    ax.scatter(catalogue[:,5], cat_sn, s=7, color="#00c853", alpha=0.25)
 
     ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=13)
     ax.set_ylabel(r'\textbf{MUSE Flux S/N}', fontsize=13)
 
     ax.set_yscale('log')
     ax.invert_xaxis()
-    plt.savefig("graphs/sanity_checks/image_sn_vs_vband.pdf")
+    plt.savefig("graphs/image_sn_vs_vband.pdf")
+    plt.close("all")
+
+def graph_counts_mag(x_data, y_data):
+    fig, ax = plt.subplots()
+    ax.scatter(x_data, y_data, s=7, color="#000000")
+
+    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=13)
+    ax.set_ylabel(r'\textbf{MUSE Counts}', fontsize=13)
+
+    ax.set_yscale('log')
+    ax.invert_xaxis()
+    plt.savefig("graphs/image_counts_vs_vband.pdf")
     plt.close("all")
 
 def catalogue_analysis(file_name):
@@ -90,7 +113,9 @@ def catalogue_analysis(file_name):
     flux_sn = flux / flux_err
 
     v_mag = cubes_data[:,5]
-    graph_sn_mag(v_mag, flux_sn)
+
+    graph_sn_mag(v_mag, flux_sn, cubes_data)
+    graph_counts_mag(v_mag, flux)
 
     # sort by redshift z then cut the objects below the value of 0.3 
     z_limit = (4800/3727) - 1 
