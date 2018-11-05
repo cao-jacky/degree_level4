@@ -19,7 +19,7 @@ def model_data_overlay(cube_id):
     
     plt.figure()
     plt.plot(x_model_data, y_model, linewidth=0.5, color="#000000")
-    plt.plot(x_data, y_data, linewidth=0.5, color="#42a5f5")
+    #plt.plot(x_data, y_data, linewidth=0.5, color="#42a5f5")
     plt.savefig("ppxf_results/data_model.pdf")
 
 

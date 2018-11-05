@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  2 NOV 2018 09:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  5 NOV 2018 10:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -377,12 +377,12 @@ e
 ))
 (./stars_gas_dynamics.toc
 Overfull \hbox (0.87494pt too wide) detected at line 4
- \OT1/cmr/m/n/12 2
+ \OT1/cmr/m/n/12 1
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 5
- \OT1/cmr/m/n/12 2
+ \OT1/cmr/m/n/12 1
  []
 
 
@@ -402,17 +402,17 @@ Overfull \hbox (0.87494pt too wide) detected at line 8
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 9
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 2
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 10
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 2
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 11
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 2
  []
 
 
@@ -422,12 +422,12 @@ Overfull \hbox (0.87494pt too wide) detected at line 12
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 13
- \OT1/cmr/m/n/12 4
+ \OT1/cmr/m/n/12 3
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 14
- \OT1/cmr/m/n/12 4
+ \OT1/cmr/m/n/12 3
  []
 
 )
@@ -442,6 +442,10 @@ Package pdftex.def Info: diagrams/muse_colour_image.pdf  used on input line 88.
 
 (pdftex.def)             Requested size: 241.84842pt x 238.86523pt.
 
+Overfull \hbox (19.22636pt too wide) in paragraph at lines 88--89
+ [] 
+ []
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -451,13 +455,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2] (./stars_gas_dynamics.bbl [3 <./diagrams/muse_colour_image.pdf>]) [4]
+[2 <./diagrams/muse_colour_image.pdf>] (./stars_gas_dynamics.bbl) [3]
 (./stars_gas_dynamics.aux) ) 
 Here is how much of TeX's memory you used:
- 5705 strings out of 492649
- 80467 string characters out of 6129622
- 165030 words of memory out of 5000000
- 9531 multiletter control sequences out of 15000+600000
+ 5709 strings out of 492649
+ 80515 string characters out of 6129622
+ 164021 words of memory out of 5000000
+ 9535 multiletter control sequences out of 15000+600000
  6257 words of font info for 23 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,10n,43p,543b,369s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -468,10 +472,10 @@ c/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmti12.pfb>
-Output written on stars_gas_dynamics.pdf (4 pages, 2509231 bytes).
+Output written on stars_gas_dynamics.pdf (3 pages, 2509229 bytes).
 PDF statistics:
- 46 PDF objects out of 1000 (max. 8388607)
- 31 compressed objects within 1 object stream
+ 43 PDF objects out of 1000 (max. 8388607)
+ 29 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

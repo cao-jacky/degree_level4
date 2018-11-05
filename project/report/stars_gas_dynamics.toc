@@ -1,14 +1,14 @@
 \tocdepth@munge 
 \contentsline {section}{\numberline {}Contents}{1}{}
 \tocdepth@restore 
-\contentsline {section}{\numberline {1}Introduction}{2}{}
-\contentsline {subsection}{\numberline {a}Galaxy classification}{2}{}
+\contentsline {section}{\numberline {1}Introduction}{1}{}
+\contentsline {subsection}{\numberline {a}Galaxy classification}{1}{}
 \contentsline {subsection}{\numberline {b}Data}{2}{}
 \contentsline {subsubsection}{\numberline {1}Hubble Ultra Deep Field}{2}{}
 \contentsline {subsubsection}{\numberline {2}MUSE}{2}{}
-\contentsline {section}{\numberline {2}Analysis}{3}{}
-\contentsline {subsection}{\numberline {a}pPXF}{3}{}
-\contentsline {section}{\numberline {3}Discussion}{3}{}
+\contentsline {section}{\numberline {2}Analysis}{2}{}
+\contentsline {subsection}{\numberline {a}pPXF}{2}{}
+\contentsline {section}{\numberline {3}Discussion}{2}{}
 \contentsline {section}{\numberline {4}Conclusions}{3}{}
-\contentsline {section}{\numberline {}Acknowledgments}{4}{}
-\contentsline {section}{\numberline {}References}{4}{}
+\contentsline {section}{\numberline {}Acknowledgments}{3}{}
+\contentsline {section}{\numberline {}References}{3}{}
