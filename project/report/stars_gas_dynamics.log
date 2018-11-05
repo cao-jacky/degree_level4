@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  5 NOV 2018 11:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  5 NOV 2018 16:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -417,7 +417,7 @@ Overfull \hbox (0.87494pt too wide) detected at line 11
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 12
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 2
  []
 
 
@@ -427,6 +427,11 @@ Overfull \hbox (0.87494pt too wide) detected at line 13
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 14
+ \OT1/cmr/m/n/12 3
+ []
+
+
+Overfull \hbox (0.87494pt too wide) detected at line 15
  \OT1/cmr/m/n/12 3
  []
 
@@ -458,10 +463,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [2 <./diagrams/muse_colour_image.pdf>] (./stars_gas_dynamics.bbl) [3]
 (./stars_gas_dynamics.aux) ) 
 Here is how much of TeX's memory you used:
- 5709 strings out of 492649
- 80515 string characters out of 6129622
+ 5708 strings out of 492649
+ 80512 string characters out of 6129622
  164021 words of memory out of 5000000
- 9535 multiletter control sequences out of 15000+600000
+ 9534 multiletter control sequences out of 15000+600000
  6257 words of font info for 23 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,10n,43p,543b,369s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -472,7 +477,7 @@ c/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmti12.pfb>
-Output written on stars_gas_dynamics.pdf (3 pages, 3992050 bytes).
+Output written on stars_gas_dynamics.pdf (3 pages, 3992292 bytes).
 PDF statistics:
  48 PDF objects out of 1000 (max. 8388607)
  33 compressed objects within 1 object stream

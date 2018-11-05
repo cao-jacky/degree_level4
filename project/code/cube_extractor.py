@@ -161,9 +161,50 @@ def colour_image():
     plt.savefig('results/cube_colour_imshow.pdf', dpi=(500), bbox_inches='tight',
             pad_inches=0.0)
 
+def noise_cube_extractor(file_name):
+    read_fits_file = read_cube(file_name)
+    read_seg_file = read_segmentation("data/segmentation.fits")
+
+    header = read_fits_file['header']
+    data = read_fits_file['data']
+
+    sheader = read_seg_file['header']
+    sdata = read_seg_file['data']
+
+    t = process_time()
+
+    top_left = [865, 328]
+    bottom_right = [905, 294]
+
+    print(bottom_right[1],top_left[1],top_left[0],bottom_right[0])
+
+    subcube_data = data[:,bottom_right[1]:top_left[1],top_left[0]:bottom_right[0]]
+    segmentation_data = sdata[bottom_right[1]:top_left[1],top_left[0]:bottom_right[0]]
+
+    # saving both sets of data to one fits file
+    # creating the header
+    hdr = fits.Header()
+    hdr['CTYPE3'] = 'AWAV'
+    hdr['CRVAL3'] = header['CRVAL3']
+    hdr['CRPIX3'] = header['CRPIX3']
+    hdr['CD3_3'] = header['CD3_3']
+
+    primary_hdu = fits.PrimaryHDU(header=hdr)
+    hdu1 = fits.ImageHDU(subcube_data)
+    hdu2 = fits.ImageHDU(segmentation_data)
+
+    hdul = fits.HDUList([primary_hdu, hdu1, hdu2])
+
+    hdul.writeto("/Volumes/Jacky_Cao/University/level4/project/sky_noise.fits" )
+
+    print('Elapsed time in creating cubes: %.2f s' % (process_time() - t))
+
+
 #cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
 #colour_image_data_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
 
 #colour_image_collapser()
-colour_image()
+#colour_image()
+
+#noise_cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
 
