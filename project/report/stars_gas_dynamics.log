@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  5 NOV 2018 16:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  5 NOV 2018 20:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -106,6 +106,9 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen109
 \Gm@dimlist=\toks17
 )
+(/usr/local/texlive/2018/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2016/05/22 v1.1-161 Sub-captions (AR)
+
 (/usr/local/texlive/2018/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
 
@@ -133,6 +136,9 @@ onskip \begingroup \small \rmfamily \sbox \@tempboxa {\let \\\heading@cr #1: #2
 te \@footnotemark@gobble #1: #2\par \endgroup }{\global \@minipagefalse \hb@xt@
  \hsize {\hfil \unhbox \@tempboxa \hfil }}\endgroup \vskip \belowcaptionskip .
 \c@ContinuedFloat=\count97
+)
+\c@subfigure=\count98
+\c@subtable=\count99
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
 
@@ -163,7 +169,7 @@ Package: epsfig 2017/06/25 v1.7b (e)psfig emulation (SPQR)
 \UL@skip=\skip45
 \UL@hook=\toks18
 \UL@height=\dimen121
-\UL@pe=\count98
+\UL@pe=\count100
 \UL@pixel=\dimen122
 \ULC@box=\box36
 Package: ulem 2012/05/18
@@ -189,13 +195,13 @@ Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count99
+\inf@bad=\count101
 LaTeX Info: Redefining \frac on input line 213.
-\uproot@=\count100
-\leftroot@=\count101
+\uproot@=\count102
+\leftroot@=\count103
 LaTeX Info: Redefining \overline on input line 375.
-\classnum@=\count102
-\DOTSCASE@=\count103
+\classnum@=\count104
+\DOTSCASE@=\count105
 LaTeX Info: Redefining \ldots on input line 472.
 LaTeX Info: Redefining \dots on input line 475.
 LaTeX Info: Redefining \cdots on input line 596.
@@ -204,15 +210,15 @@ LaTeX Info: Redefining \cdots on input line 596.
 \big@size=\dimen126
 LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
-\macc@depth=\count104
-\c@MaxMatrixCols=\count105
+\macc@depth=\count106
+\c@MaxMatrixCols=\count107
 \dotsspace@=\muskip11
-\c@parentequation=\count106
-\dspbrk@lvl=\count107
+\c@parentequation=\count108
+\dspbrk@lvl=\count109
 \tag@help=\toks20
-\row@=\count108
-\column@=\count109
-\maxfields@=\count110
+\row@=\count110
+\column@=\count111
+\maxfields@=\count112
 \andhelp@=\toks21
 \eqnshift@=\dimen127
 \alignsep@=\dimen128
@@ -229,7 +235,7 @@ LaTeX Info: Redefining \] on input line 2818.
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count111
+\etb@tempcnta=\count113
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
@@ -247,21 +253,21 @@ s
 (./stars_gas_dynamics.aux)
 \openout1 = `stars_gas_dynamics.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-Class revtex4 Info: Patching LaTeX tabular. on input line 36.
-Class revtex4 Info: cite was not loaded (OK!) on input line 36.
-Class revtex4 Info: multicol was not loaded (OK!) on input line 36.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+Class revtex4 Info: Patching LaTeX tabular. on input line 39.
+Class revtex4 Info: cite was not loaded (OK!) on input line 39.
+Class revtex4 Info: multicol was not loaded (OK!) on input line 39.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -304,24 +310,24 @@ Package caption Info: Incompatible package detected (regarding \caption).
 \@gobble \else \refstepcounter \@captype \expandafter \@firstofone \fi {\@dblar
 g {\@caption \@captype }}.
 
-Package caption Warning: \caption will not be redefined since it's already
-(caption)                redefined by a document class or package which is
-(caption)                unknown to the caption package.
+Package caption Warning: Forced redefinition of \caption since the
+(caption)                unsupported(!) package option `compatibility=false'
+(caption)                was given.
 See the caption package documentation for explanation.
 
 Package caption Info: End \AtBeginDocument code.
 (/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count112
+\scratchcounter=\count114
 \scratchdimen=\dimen133
 \scratchbox=\box39
-\nofMPsegments=\count113
-\nofMParguments=\count114
+\nofMPsegments=\count115
+\nofMParguments=\count116
 \everyMPshowfont=\toks24
-\MPscratchCnt=\count115
+\MPscratchCnt=\count117
 \MPscratchDim=\dimen134
-\MPnumerator=\count116
-\makeMPintoPDFobject=\count117
+\MPnumerator=\count118
+\makeMPintoPDFobject=\count119
 \everyMPtoPDFconversion=\toks25
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -377,12 +383,12 @@ e
 ))
 (./stars_gas_dynamics.toc
 Overfull \hbox (0.87494pt too wide) detected at line 4
- \OT1/cmr/m/n/12 2
+ \OT1/cmr/m/n/12 1
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 5
- \OT1/cmr/m/n/12 2
+ \OT1/cmr/m/n/12 1
  []
 
 
@@ -402,12 +408,12 @@ Overfull \hbox (0.87494pt too wide) detected at line 8
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 9
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 2
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 10
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 2
  []
 
 
@@ -425,34 +431,28 @@ Overfull \hbox (0.87494pt too wide) detected at line 13
  \OT1/cmr/m/n/12 3
  []
 
-
-Overfull \hbox (0.87494pt too wide) detected at line 14
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (0.87494pt too wide) detected at line 15
- \OT1/cmr/m/n/12 4
- []
-
 )
 \tf@toc=\write3
 \openout3 = `stars_gas_dynamics.toc'.
 
- [1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<diagrams/muse_colour_image.pdf, id=10, 551.40735pt x 554.7866pt>
+
+
+Package natbib Warning: Citation `carroll_astro' on page 1 undefined on input l
+ine 67.
+
+[1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<diagrams/muse_colour_image.pdf, id=10, 554.7866pt x 551.40735pt>
 File: diagrams/muse_colour_image.pdf Graphic file (type pdf)
 <use diagrams/muse_colour_image.pdf>
-Package pdftex.def Info: diagrams/muse_colour_image.pdf  used on input line 86.
+Package pdftex.def Info: diagrams/muse_colour_image.pdf  used on input line 96.
 
-(pdftex.def)             Requested size: 241.84842pt x 243.3365pt.
-
-Overfull \hbox (19.22636pt too wide) in paragraph at lines 86--87
- [] 
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+(pdftex.def)             Requested size: 182.09486pt x 180.98058pt.
+<diagrams/hubble_ultra_deep_field.jpg, id=11, 123.5467pt x 123.5467pt>
+File: diagrams/hubble_ultra_deep_field.jpg Graphic file (type jpg)
+<use diagrams/hubble_ultra_deep_field.jpg>
+Package pdftex.def Info: diagrams/hubble_ultra_deep_field.jpg  used on input li
+ne 102.
+(pdftex.def)             Requested size: 182.09486pt x 182.1167pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -460,31 +460,31 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2 <./diagrams/muse_colour_image.pdf>] (./stars_gas_dynamics.bbl) [3]
-(./stars_gas_dynamics.aux)
+[2 <./diagrams/muse_colour_image.pdf, page is rotated 270 degrees> <./diagrams/
+hubble_ultra_deep_field.jpg>] (./stars_gas_dynamics.bbl)
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
+Package natbib Warning: There were undefined citations.
 
-
- ) 
+[3] (./stars_gas_dynamics.aux) ) 
 Here is how much of TeX's memory you used:
- 5710 strings out of 492649
- 80552 string characters out of 6129622
- 164098 words of memory out of 5000000
- 9536 multiletter control sequences out of 15000+600000
+ 5774 strings out of 492649
+ 81728 string characters out of 6129622
+ 166886 words of memory out of 5000000
+ 9594 multiletter control sequences out of 15000+600000
  6565 words of font info for 24 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,10n,43p,543b,408s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
-r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
-/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on stars_gas_dynamics.pdf (3 pages, 3992432 bytes).
+ 42i,10n,43p,543b,488s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2018/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmti12.pfb>
+Output written on stars_gas_dynamics.pdf (3 pages, 4256451 bytes).
 PDF statistics:
- 48 PDF objects out of 1000 (max. 8388607)
+ 49 PDF objects out of 1000 (max. 8388607)
  33 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

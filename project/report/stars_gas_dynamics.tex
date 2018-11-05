@@ -6,8 +6,11 @@
 
 \renewcommand{\baselinestretch}{1}     % Defines the line spacing
 
+\usepackage{subcaption}
+
 \usepackage[font=small, labelfont=bf]{caption}                      % Defines caption font size and caption title bolded
 \captionsetup[figure]{justification=justified, singlelinecheck=off, font=footnotesize} 
+\captionsetup{compatibility=false}
 
 \usepackage{graphics,graphicx,epsfig,ulem}	% Makes sure all graphics works
 \usepackage{amsmath} 						% Adds mathematical features for equations
@@ -79,24 +82,31 @@ What do I want to say with this? I want to introduce galaxies, the different typ
 
 Duis eget tellus tortor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In tellus nulla, sodales eu pulvinar at, accumsan quis magna. Nunc sed lacus diam. Nam enim mauris, imperdiet ut egestas quis, tincidunt at odio. Ut viverra nulla at libero dictum aliquet. Suspendisse lacus lacus, imperdiet nec elit nec, ullamcorper facilisis ex. 
 
-\subsubsection{Hubble Ultra Deep Field} 
-
-\begin{figure}[!h]
-\begin{center}
-\includegraphics[width=8.5cm]{diagrams/muse_colour_image}
-\caption[]{A colour image of the Hubble Ultra Deep Field created using MUSE spectroscopic data. The wavelength range was split into three components, which were then collapsed to create the three colour bands (R, G, B). For every pixel the median value was found from the reduced spectroscopic data. [I NEED TO ADD THE ACTUAL OPTICAL IMAGE FOR A COMPARISON]}
-\vspace{-5ex}
-\label{fig:muse_colour_image}
-\end{center}
-\end{figure}
-
+\subsubsection{HUDF and MUSE}
 Proin sit amet mauris tincidunt, consectetur nisi ultrices, dapibus elit. Nullam vitae faucibus odio, pharetra ultrices tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
-
-\subsubsection{MUSE} 
 
 To obtain spectroscopic information on the Hubble UDF objects, the Multi-Unit Spectroscopic Explorer or MUSE was employed. This instrument is 
 
 what is MUSE, where it is on the VLT, problems, limitations of MUSE - why it is useful...etc
+
+\onecolumngrid
+
+\begin{figure}
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{diagrams/muse_colour_image}
+    \caption{MUSE HUDF}
+    \label{fig:muse_colour_image}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{diagrams/hubble_ultra_deep_field}
+    \caption{HUDF}
+    \label{fig:hubble_ultra_deep_field}
+  \end{subfigure}
+  \caption[]{(a) A colour image created from the MUSE spectroscopic data of a region from the HUDF. The wavelength range was split into three components, then collapsed to create three bands (R, G, B) and a final colour image produced. (b) The HUDF 2012 as }
+\end{figure}
+
+\twocolumngrid
 
 \section{Analysis} 
 
