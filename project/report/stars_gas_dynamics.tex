@@ -2,13 +2,12 @@
 
 \documentclass[12pt, twocolumn]{revtex4}    % Font size (12pt) and column number (one or two).
 
-\usepackage[a4paper, left=2.5cm, right=2.5cm,
- top=2.5cm, bottom=2.5cm]{geometry}       % Defines paper size and margin length
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}  % Defines paper size and margin length
 
 \renewcommand{\baselinestretch}{1}     % Defines the line spacing
 
-\usepackage[font=small,
-labelfont=bf]{caption}                      % Defines caption font size and caption title bolded
+\usepackage[font=small, labelfont=bf]{caption}                      % Defines caption font size and caption title bolded
+\captionsetup[figure]{justification=justified, singlelinecheck=off, font=footnotesize} 
 
 \usepackage{graphics,graphicx,epsfig,ulem}	% Makes sure all graphics works
 \usepackage{amsmath} 						% Adds mathematical features for equations
@@ -21,7 +20,6 @@ labelfont=bf]{caption}                      % Defines caption font size and capt
 \makeatother
 
 \usepackage{fancyhdr}
-
 
 \pagestyle{fancy}                           % Insert header
 \renewcommand{\headrulewidth}{0pt}
