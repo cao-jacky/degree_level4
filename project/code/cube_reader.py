@@ -208,8 +208,21 @@ def sky_noise(sky_file_name):
     image_data = fits_file[0].data
     return image_data
 
-def spectra_analysis(file_name, sky_file_name, peak):
-    """ correcting data to be in rest frame """    
+def spectra_analysis(file_name, sky_file_name):
+    """ correcting data to be in rest frame """  
+
+    # read file name and select out the id that we are dealing with
+    curr_file_name = file_name.split('.')
+    curr_file_name = curr_file_name[0].split('/')
+    stk_f_n = curr_file_name[-1]
+    cube_id = int(re.search(r'\d+', stk_f_n).group())
+
+    # read catalogue and obtain the HST redshift estimate
+    catalogue = np.load("data/matched_catalogue.npy")
+    cat_loc = np.where(catalogue[:,0] == cube_id)[0]
+    cube_info = catalogue[cat_loc][0]
+ 
+    hst_redshift = cube_info[7]
 
     # spectra and sky noise data
     spectra_data    = spectrum_creator(file_name)
@@ -240,24 +253,27 @@ def spectra_analysis(file_name, sky_file_name, peak):
                 }
             } 
 
-    # Finding peaks with SciPy
-    #gd_peaks = signal.find_peaks_cwt(gd_mc, np.arange(10,15), noise_perc=10)
-    gd_peaks = 0
+    # we can use the redshift from the HST catalogue to define the region to search for
+    # the doublet in
+
+    # lower and upper bound on wavelength range
+    lower_lambda = (1+hst_redshift)*3600
+    upper_lambda = (1+hst_redshift)*3850
 
     # x-axis data
     data_h_range = np.linspace(wl_soln['begin'], wl_soln['end'], wl_soln['steps'])
+    mask = (lower_lambda < data_h_range) & (data_h_range < upper_lambda)
 
+    lambda_data = data_h_range[mask]
+    flux_data = gd_mc[mask] 
+    
     # Finding peaks with PeakUtils
-    pu_peaks = peakutils.indexes(gd_mc, thres=300, thres_abs=True)
-    pu_peaks_x = peakutils.interpolate(data_h_range, gd_mc, pu_peaks)
+    pu_peaks = peakutils.indexes(flux_data, thres=300, thres_abs=True)
+    pu_peaks_x = peakutils.interpolate(lambda_data, flux_data, pu_peaks)
 
     pu_peaks_x = np.sort(pu_peaks_x)
-    pu_peaks_x = pu_peaks_x[wl_soln['begin'] < pu_peaks_x]
-    pu_peaks_x = pu_peaks_x[pu_peaks_x < wl_soln['end']]
-     
-    curr_file_name = file_name.split('.')
-    curr_file_name = curr_file_name[0].split('/')
-    stk_f_n = curr_file_name[-1]
+    pu_peaks_x = pu_peaks_x[lower_lambda < pu_peaks_x]
+    pu_peaks_x = pu_peaks_x[pu_peaks_x < upper_lambda]
    
     data_dir = 'cube_results/' + stk_f_n
     if not os.path.exists(data_dir):
@@ -269,17 +285,16 @@ def spectra_analysis(file_name, sky_file_name, peak):
     peaks_file.write("Number    Wavelength \n")
     for i_peak in range(len(pu_peaks_x)):
         curr_peak = pu_peaks_x[i_peak]
-
         peaks_file.write(str(i_peak) + "  " + str(curr_peak) + "\n")
 
     # manually selecting which peak is the [OII] peak - given in wavelength
-    otwo_wav    = float(pu_peaks_x[peak])  
+    otwo_wav    = float(pu_peaks_x[0])  
     otwo_acc    = float(sl['emis']['[OII]'])
 
     redshift = (otwo_wav / otwo_acc) - 1
 
-    return {'gd_shifted': gd_mc, 'sky_noise': sn_data, 'spectra': sl, 'gd_peaks': 
-            gd_peaks, 'redshift': redshift, 'pu_peaks': pu_peaks_x}
+    return {'gd_shifted': gd_mc, 'sky_noise': sn_data, 'spectra': sl, 'redshift': 
+            redshift, 'pu_peaks': pu_peaks_x}
 
 def find_nearest(array, value):
     """ Find nearest value is an array """
@@ -301,9 +316,9 @@ def chisq(y_model, y_data, y_err):
     red_csq = csq / (len(y_data) - 4)
     return {'chisq': csq, 'chisq_red': red_csq}
 
-def sky_noise_weighting(file_name, sky_file_name, peak_loc):
+def sky_noise_weighting(file_name, sky_file_name):
     """ finding the sky nioise from a small section of the cube data """
-    cs_data     = spectra_analysis(file_name, sky_file_name, peak_loc)
+    cs_data     = spectra_analysis(file_name, sky_file_name)
     cube_data   = cs_data['gd_shifted']
     sn_data     = cs_data['sky_noise']
     wl_soln     = wavelength_solution(file_name)
@@ -367,17 +382,20 @@ def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
     term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
     return (c + term1 + term2)
 
-def otwo_doublet_fitting(file_name, sky_file_name, doublet_region, peak_loc):
-    sa_data     = spectra_analysis(file_name, sky_file_name, peak_loc)
+def otwo_doublet_fitting(file_name, sky_file_name):
+    sa_data     = spectra_analysis(file_name, sky_file_name)
     y_shifted   = sa_data['gd_shifted'] 
     orr         = wavelength_solution(file_name)
-    sn_data     = sky_noise_weighting(file_name, sky_file_name, peak_loc)
+    sn_data     = sky_noise_weighting(file_name, sky_file_name)
+
+    redshift = sa_data['redshift']
 
     # obtaining the OII range and region
-    ## values based off redshifted region
-    #otr         = [5900, 6250] 
+    # lower and upper bound on wavelength range
+    lower_lambda = (1+redshift)*3600
+    upper_lambda = (1+redshift)*3850
 
-    otr = doublet_region
+    otr = [lower_lambda, upper_lambda]
 
     orr_x       = np.linspace(orr['begin'], orr['end'], orr['steps'])
     dt_region   = [find_nearest(orr_x, x) for x in otr]
@@ -479,7 +497,7 @@ def otwo_doublet_fitting(file_name, sky_file_name, doublet_region, peak_loc):
             'lm_init_fit': gss_result.init_fit, 'sn_line': sn_line_rslt.best_fit, 
             'sn_gauss': sn_gauss_rslt.best_fit}
 
-def analysis(file_name, sky_file_name, doublet_region, peak_loc):
+def analysis(file_name, sky_file_name):
     """ Graphs and results from analysing the cube for OII spectra """
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
@@ -498,10 +516,16 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
     # one figure to rule them all
     main_fig = plt.figure(1)
 
+    # calling data once will be enough
+    im_coll_data = image_collapser(file_name)
+    spectra_data = spectrum_creator(file_name)
+    sr = wavelength_solution(file_name) 
+    df_data = otwo_doublet_fitting(file_name, sky_file_name) 
+    gs_data = spectra_analysis(file_name, sky_file_name)
+    snw_data = sky_noise_weighting(file_name, sky_file_name)
+
     # --- for collapsed images ---
-    def graphs_collapsed():
-        im_coll_data = image_collapser(file_name)
- 
+    def graphs_collapsed():  
         f, (ax1, ax2)  = plt.subplots(1, 2)
     
         ax1.imshow(im_coll_data['median'], cmap='gray_r') 
@@ -519,15 +543,6 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
 
     # --- spectra ---
     def graphs_spectra():
-        spectra_data = spectrum_creator(file_name)
-        sr = wavelength_solution(file_name) #spectra_range
-
-        # sliced [OII] region
-        df_data = otwo_doublet_fitting(file_name, sky_file_name, doublet_region,
-                peak_loc) 
-        gs_data = spectra_analysis(file_name, sky_file_name, peak_loc)
-        snw_data = sky_noise_weighting(file_name, sky_file_name, peak_loc)
-       
         f, (ax1, ax2)  = plt.subplots(2, 1) 
 
         # --- redshifted data plotting
@@ -610,10 +625,6 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
     def graphs_otwo_region():
         ot_fig  = plt.figure(6)
 
-        df_data = otwo_doublet_fitting(file_name, sky_file_name, doublet_region,
-                peak_loc) 
-        snw_data = sky_noise_weighting(file_name, sky_file_name, peak_loc)
-
         # plotting the data for the cutout [OII] region
         ot_x    = df_data['x_region']
         ot_y    = df_data['y_region']
@@ -672,4 +683,4 @@ def analysis(file_name, sky_file_name, doublet_region, peak_loc):
     plt.close("all")
 
 #analysis("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
-        #"cube_1804.fits", "data/skyvariance_csub.fits", [6100, 6350], 0)
+        #"cube_1804.fits", "data/skyvariance_csub.fits")
