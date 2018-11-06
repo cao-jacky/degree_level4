@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  5 NOV 2018 20:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  6 NOV 2018 10:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -423,7 +423,7 @@ Overfull \hbox (0.87494pt too wide) detected at line 11
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 12
- \OT1/cmr/m/n/12 2
+ \OT1/cmr/m/n/12 3
  []
 
 
@@ -461,17 +461,22 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [2 <./diagrams/muse_colour_image.pdf, page is rotated 270 degrees> <./diagrams/
-hubble_ultra_deep_field.jpg>] (./stars_gas_dynamics.bbl
+hubble_ultra_deep_field.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 131--132
+[]\OT1/cmr/m/n/12 The au-thor would like to thank
+ []
+
+
+Underfull \hbox (badness 1142) in paragraph at lines 131--132
+\OT1/cmr/m/n/12 project would have been ex-per-i-men-tally
+ []
+
+(./stars_gas_dynamics.bbl
 Underfull \hbox (badness 1248) in paragraph at lines 9--13
  []\OT1/cmr/m/n/10.95 NASA, ESA, S. Beck-with, and HUDF
  []
 
-) [3] (./stars_gas_dynamics.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
-
-
- ) 
+) [3] (./stars_gas_dynamics.aux) ) 
 Here is how much of TeX's memory you used:
  5802 strings out of 492649
  82082 string characters out of 6129622
@@ -480,14 +485,15 @@ Here is how much of TeX's memory you used:
  9846 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,10n,43p,799b,488s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
-r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
-/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/
-local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (3 pages, 4269168 bytes).
+</usr/local/texlive/2018/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmti12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmtt10.pfb>
+Output written on stars_gas_dynamics.pdf (3 pages, 4269412 bytes).
 PDF statistics:
  53 PDF objects out of 1000 (max. 8388607)
  36 compressed objects within 1 object stream

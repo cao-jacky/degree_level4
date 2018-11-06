@@ -42,18 +42,11 @@ def catalogue_sorter(cat_file_name):
     cat_np_data = cat_np_data[cat_np_data[:,51].argsort()]
     return cat_np_data
 
-def cube_analyser(cube_id, region_begin, region_end, peak_index): 
+def cube_analyser(cube_id): 
     cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + "cube_"
         + str(cube_id) + ".fits")
-   
-    cdr_b = int(region_begin)
-    cdr_e = int(region_end)
-    doublet_range = [cdr_b, cdr_e]
-
-    sky_file = "data/skyvariance_csub.fits"
-    peak_loc = int(peak_index)
-     
-    cube_reader.analysis(cube_file, sky_file, doublet_range, peak_loc)
+    sky_file = "data/skyvariance_csub.fits" 
+    cube_reader.analysis(cube_file, sky_file)
 
 def multi_cube_reader(catalogue_array):
     """ takes sorted catalogue (sorted by 775nm filter) and then runs through the
