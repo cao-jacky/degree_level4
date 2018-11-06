@@ -79,7 +79,7 @@ def cube_noise():
 
     cube_noise_data = cube_noise_file[1].data 
     noise = np.sum(np.abs(cube_noise_data))
-    return noise
+    return {'noise_value': noise, 'spectrum_noise': cube_noise_data}
 
 def find_nearest(array, value):
     """ Find nearest value is an array """
@@ -130,25 +130,18 @@ def vband_graphs():
     plt.rc('font', family='serif')
     plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 
-    cube_data_file = open("data/cubes.txt")
-    cd_num_lines = sum(1 for line in open("data/cubes.txt")) - 1
-    cube_data = np.zeros((cd_num_lines, 5))
+    catalogue = np.load("data/matched_catalogue.npy")
+    catalogue = catalogue[catalogue[:,8].argsort()]
+    catalogue = catalogue[0:300,:] 
 
-    file_row_count = 0
-    for file_line in cube_data_file:
-        file_line = file_line.split()
-        if (file_row_count == 0):
-            pass
-        else:
-            for file_col in range(len(file_line)):
-                cube_data[file_row_count-1][file_col] = file_line[file_col]
-        file_row_count += 1 
+    bright_objects = np.where(catalogue[:,5] < 26.0)[0]
 
-    cube_data_file.close()
+    avoid_objects = np.load("data/avoid_objects.npy")
+    more_useless = np.array([0,474,167,1101,1103,744])
 
-    # array to store cube id and signal to noise value
-    usable_count = np.where(cube_data[:,-1] == 1)[0]
-    usable_cubes = np.zeros((len(usable_count),7))
+    # array to store cube id and signal to noise value]
+    usable_cubes = np.zeros((len(bright_objects)-len(avoid_objects)-len(more_useless)+1
+        ,7))
 
     # usable_cubes structure
     # [0] : cube id
@@ -157,14 +150,16 @@ def vband_graphs():
     # [3] : mean for absorption range
     # [4] : signal to noise
     # [5] : total counts for image
-    # [6] : noise for image
+    # [6] : noise for image 
 
     usable_count = 0
-    for i_cube in range(len(cube_data)):
-        usability = int(cube_data[i_cube][-1])
+    for i_cube in bright_objects:
+        curr_obj = catalogue[i_cube]
+        cube_id = int(curr_obj[0]) 
 
-        if ( usability == 1 ):
-            cube_id = int(cube_data[i_cube][0])
+        if (cube_id in avoid_objects or cube_id in more_useless):
+            pass
+        else:
             usable_cubes[usable_count][0] = cube_id
 
             cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" 
@@ -211,24 +206,26 @@ def vband_graphs():
                 cb_file_count += 1
             
             # plotting s/n vs mag
-            abs_region2 = [3700, 4500, 4250]
-            abs_region2z = [x*(1+z) for x in abs_region2]
-            abs_region2_indexes = [find_nearest(cube_x_data, x) for x in abs_region2z]
-            ar2i = abs_region2_indexes
+            lower_lambda = (1+z)*3700
+            upper_lambda = (1+z)*4500
 
+            #-absorption region mask
+            arm = (lower_lambda < cube_x_data) & (cube_x_data < upper_lambda) 
+            
             # cube y data for the absorption region - this is our signal
-            ar_y = cube_y_data[ar2i[0]:ar2i[1]]
-            ar_x = cube_x_data[ar2i[0]:ar2i[1]] 
+            ar_y = cube_y_data[arm]
+            ar_x = cube_x_data[arm] 
 
             cube_noise_data = cube_noise()
+            spectrum_noise = cube_noise_data['spectrum_noise']
 
             # signal and noise
             ar_signal = np.median(ar_y)
-            ar_noise = cube_noise_data['noise_value']
+            ar_noise = np.sum(spectrum_noise)
 
-            signal_noise = np.abs(ar_signal / ar_noise)
+            signal_noise = np.abs(ar_signal/ar_noise)
             print(cube_id, ar_signal, ar_noise, signal_noise)
-
+            
             def abs_region_graphs():
                 plt.figure()
                 plt.plot(cube_x_data, cube_y_data, linewidth=0.5, color="#000000")
@@ -248,7 +245,7 @@ def vband_graphs():
                 plt.ylabel(r'\textbf{Flux}', fontsize=13)
                 plt.savefig("graphs/sanity_checks/absregions/absorption_region_" + 
                         str(int(cube_id)) + ".pdf")
-            
+        
             #abs_region_graphs()
 
             def graphs_collapsed():
@@ -267,7 +264,7 @@ def vband_graphs():
                 ax2.set_title(r'\textbf{galaxy: sum}', fontsize=13)        
                 ax2.set_xlabel(r'\textbf{Pixels}', fontsize=13)
                 ax2.set_ylabel(r'\textbf{Pixels}', fontsize=13)
-  
+
                 gal = patches.Rectangle((gal_region[0],gal_region[1]),
                         gal_region[3]-gal_region[0],gal_region[2]-gal_region[1],
                         linewidth=1, edgecolor='#b71c1c', facecolor='none')
@@ -287,8 +284,6 @@ def vband_graphs():
 
             usable_cubes[usable_count][4] = signal_noise
             usable_count += 1
-
-    #print(usable_cubes)
 
     fig, ax = plt.subplots()
     ax.scatter(usable_cubes[:,2], usable_cubes[:,1], s=10, color="#000000")
@@ -332,6 +327,6 @@ def vband_graphs():
 #print(highest_sn())
 #data_cube_analyser(1804)
 
-#vband_graphs()
+vband_graphs()
 
-cube_noise()
+#cube_noise()

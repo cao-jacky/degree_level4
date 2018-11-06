@@ -403,7 +403,7 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     # obtaining the OII range and region
     # lower and upper bound on wavelength range
     lower_lambda = (1+redshift)*3600
-    upper_lambda = (1+redshift)*3850
+    upper_lambda = (1+redshift)*3750
 
     otr = [lower_lambda, upper_lambda]
 
@@ -692,5 +692,5 @@ def analysis(file_name, sky_file_name):
 
     plt.close("all")
 
-#analysis("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
-        #"cube_1.fits", "data/skyvariance_csub.fits")
+analysis("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
+        "cube_1068.fits", "data/skyvariance_csub.fits")
