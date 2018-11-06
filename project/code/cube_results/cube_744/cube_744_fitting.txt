@@ -1,0 +1,35 @@
+Results produced on 2018-11-06 15:44:39.867259
+
+# Model fitting for [OII] Gaussian Doublet 
+## Initial Parameters 
+'c': 0
+'i1': 144.20193108225743
+'i2': 110.92456237096725
+'sigma_gal': 3
+'z': 1.0980729903444892
+
+'sigma_inst': 3.0000000447034836
+## Optimal Parameters 
+'c': 0.0053351432833453494
+'i1': 359.89648188136835
+'i2': 239.93498774655237
+'sigma_gal': 0.00012587333852794513
+'z': 1.0979523537921898
+
+'sigma_inst': 3.0000000447034836
+# Calculating the signal-to-noise from doublet region 
+Fitting a straight line to the data with parameter: 
+'c': 42.025005210252765
+
+For this model, the following chi-squared and reduced chi-squared values were produced: 527.2332009248712 and 1.2704414480117379 
+
+Fitting a gaussian to the data with parameters: 
+'c': 41.00241048473434
+'i1': 535.7291709117973
+'mu': 7821.973573762312
+'sigma1': 4.18732792023364
+
+For this model, the following chi-squared and reduced chi-squared values were produced: 467.51336956419357 and 1.1265382399137194 
+
+Using the two full values of chi-squared we can calculate a signal to noise value of: 7.727860723426479
+
