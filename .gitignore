@@ -2,6 +2,7 @@
 ###########
 /project/code/data/cubes/
 /project/code/data/cubes_better/
+/project/code/cube_results/cube_*
 
 *.swp
 
