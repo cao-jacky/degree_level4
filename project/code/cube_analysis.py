@@ -137,7 +137,8 @@ def vband_graphs():
     bright_objects = np.where(catalogue[:,5] < 26.0)[0]
 
     avoid_objects = np.load("data/avoid_objects.npy")
-    more_useless = np.array([0,474,167,1101,1103,744])
+    #more_useless = np.array([474,167,1101,1103,744])
+    more_useless = np.array([0])
 
     # array to store cube id and signal to noise value]
     usable_cubes = np.zeros((len(bright_objects)-len(avoid_objects)-len(more_useless)+1
@@ -308,6 +309,7 @@ def vband_graphs():
     ax.set_xlabel(r'\textbf{V-band mag}', fontsize=13)
     ax.set_ylabel(r'\textbf{S/N}', fontsize=13)
     ax.invert_xaxis()
+    ax.set_yscale('log')
     plt.savefig("graphs/sn_vs_vband.pdf")
 
     fig, ax = plt.subplots()

@@ -692,5 +692,5 @@ def analysis(file_name, sky_file_name):
 
     plt.close("all")
 
-analysis("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
-        "cube_1068.fits", "data/skyvariance_csub.fits")
+#analysis("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
+        #"cube_1068.fits", "data/skyvariance_csub.fits")
