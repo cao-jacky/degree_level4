@@ -2,6 +2,7 @@ from astropy.io import fits
 
 import numpy as np
 
+import os
 import re
 
 import cube_reader
@@ -82,43 +83,37 @@ def multi_cube_reader(catalogue_array):
     cubes_file.close()
 
     # selecting objects which are brighter than 23.0 magnitude
-    bright_objects = np.where(catalogue[:,5] < 23.0)[0]
+    bright_objects = np.where(catalogue[:,5] < 26.0)[0]
+    avoid_objects = np.array([357,695,1393,1504,773,1212,1522,1052,609,1656,58,1373,
+        893,742,1293,1572,865,7,1681,761,1475,4,699,1444,1600,819,905,1206,585,468,
+        1529,1092,299,904,356])
 
-    for i_obj in bright_objects:
+    np.save("data/avoid_objects", avoid_objects)
+
+    for i_obj in bright_objects: 
+        curr_obj = catalogue[i_obj]
+        obj_id = int(curr_obj[0]) 
+
+        if (obj_id in avoid_objects):
+            print("Avoiding cube " + str(obj_id))
+            pass
+        else:
+            data_dir = 'cube_results/cube_' + str(obj_id)
+            if not os.path.exists(data_dir):
+                print("Working with cube " + str(obj_id))
+                cube_analyser(obj_id)
+            else:
+                print("Skipping cube " + str(obj_id))
+                pass
+
+    """
+    for i_obj in range(len(catalogue)):
         curr_obj = catalogue[i_obj]
         obj_id = int(curr_obj[0])
 
-        # checking if cube item exists in the cubes text file,
-        obj_cubes_file = np.where(cubes[:,0] == obj_id)[0]
-        if (obj_cubes_file.size > 0):
-            # if it is in the file, run the cube analyser again with details copied
-            # from the cubes.txt file
-             
-            indiv_cube_loc = np.where( cubes[:,0] == obj_id )[0]		
-            indiv_cube_info = cubes[indiv_cube_loc][0]
+        print("Working with cube " + str(obj_id))
+        cube_analyser(obj_id)
+    """
 
-            usability = indiv_cube_info[4]
-            if (usability == 2):
-                print("Reanalysing cube " + str(obj_id))
-                # only analyse if usability is 2 or unsure
-                cdr_b = int(indiv_cube_info[1])		
-                cdr_e = int(indiv_cube_info[2])			
-                
-                peak_loc = int(indiv_cube_info[3])		
-
-                cube_analyser(obj_id, cdr_b, cdr_e, peak_loc)
-            if (usability == 1):
-                print("Already analysed cube " + str(obj_id))
-                pass
-            if (usability == 0):
-                print("Skipping cube " + str(obj_id))
-                pass
-        else:
-            # if it isn't in the file, add a row containing default information
-            print("First run of cube " + str(obj_id))
-            cube_file = open("data/cubes.txt", "a")
-            cube_file.write(str(obj_id) + "         6100            6350            0       2 \n" )
-            cubes_file.close()
-            cube_analyser(obj_id, 6100, 6350, 0)
 
 multi_cube_reader("data/matched_catalogue.npy")

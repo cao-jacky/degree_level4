@@ -6,7 +6,12 @@ from matplotlib import rc
 import matplotlib.patches as patches
 
 import cube_reader
-import multi_cubes
+
+from astropy.io import fits
+
+import warnings
+from astropy.utils.exceptions import AstropyWarning
+warnings.simplefilter('ignore', category=AstropyWarning)
 
 def highest_sn():
     cube_data_file = open("data/cubes.txt")
@@ -68,6 +73,14 @@ def sky_noise_cut():
     sky_data_cut = np.nonzero(sky_file_data > 10)[0] 
     return (sky_data_cut)
 
+def cube_noise():
+    cube_noise_file = "data/cube_noise.fits"
+    cube_noise_file = fits.open(cube_noise_file)
+
+    cube_noise_data = cube_noise_file[1].data 
+    noise = np.sum(np.abs(cube_noise_data))
+    return noise
+
 def find_nearest(array, value):
     """ Find nearest value is an array """
     idx = (np.abs(array-value)).argmin()
@@ -110,7 +123,8 @@ def data_cube_analyser(cube_id):
     
     plt.figure()
     plt.plot(abs_region_x, abs_region_y, linewidth=0.5, color="#000000")
-    plt.savefig("graphs/sanity_checks/cube_" + str(int(cube_id)) + "_abs_spectra.pdf")  
+    plt.savefig("graphs/sanity_checks/cube_" + str(int(cube_id)) + "_abs_spectra.pdf") 
+
 def vband_graphs():
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
@@ -206,7 +220,7 @@ def vband_graphs():
             ar_y = cube_y_data[ar2i[0]:ar2i[1]]
             ar_x = cube_x_data[ar2i[0]:ar2i[1]] 
 
-            cube_noise_data = cube_reader.cube_noise(cube_id)
+            cube_noise_data = cube_noise()
 
             # signal and noise
             ar_signal = np.median(ar_y)
@@ -319,3 +333,5 @@ def vband_graphs():
 #data_cube_analyser(1804)
 
 #vband_graphs()
+
+cube_noise()

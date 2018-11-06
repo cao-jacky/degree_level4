@@ -230,9 +230,10 @@ def spectra_analysis(file_name, sky_file_name):
     sn_data         = sky_noise(sky_file_name)
 
     galaxy_data   = spectra_data['galaxy']
-    # shifting the data down to be approximately on y=0 
-    gd_mc   = np.average(galaxy_data) 
-    gd_mc   = galaxy_data - gd_mc
+
+    # removing baseline from data
+    base = peakutils.baseline(galaxy_data, 3)
+    gd_mc = galaxy_data - base
 
     # scaling sky-noise to be similar to spectra data
     gd_max   = np.amax(galaxy_data)
@@ -262,13 +263,13 @@ def spectra_analysis(file_name, sky_file_name):
 
     # x-axis data
     data_h_range = np.linspace(wl_soln['begin'], wl_soln['end'], wl_soln['steps'])
-    mask = (lower_lambda < data_h_range) & (data_h_range < upper_lambda)
+    mask = (lower_lambda < data_h_range) & (data_h_range < upper_lambda) 
 
     lambda_data = data_h_range[mask]
     flux_data = gd_mc[mask] 
     
     # Finding peaks with PeakUtils
-    pu_peaks = peakutils.indexes(flux_data, thres=300, thres_abs=True)
+    pu_peaks = peakutils.indexes(flux_data, thres=600, thres_abs=True)
     pu_peaks_x = peakutils.interpolate(lambda_data, flux_data, pu_peaks)
 
     pu_peaks_x = np.sort(pu_peaks_x)
@@ -288,10 +289,14 @@ def spectra_analysis(file_name, sky_file_name):
         peaks_file.write(str(i_peak) + "  " + str(curr_peak) + "\n")
 
     # manually selecting which peak is the [OII] peak - given in wavelength
-    otwo_wav    = float(pu_peaks_x[0])  
-    otwo_acc    = float(sl['emis']['[OII]'])
+    if (pu_peaks_x.size != 0):
+        otwo_wav    = float(pu_peaks_x[0])  
+        otwo_acc    = float(sl['emis']['[OII]'])
 
-    redshift = (otwo_wav / otwo_acc) - 1
+        redshift = (otwo_wav / otwo_acc) - 1
+    else:
+        # accepting HST redshift if cannot find peak
+        redshift = hst_redshift
 
     return {'gd_shifted': gd_mc, 'sky_noise': sn_data, 'spectra': sl, 'redshift': 
             redshift, 'pu_peaks': pu_peaks_x}
@@ -317,7 +322,7 @@ def chisq(y_model, y_data, y_err):
     return {'chisq': csq, 'chisq_red': red_csq}
 
 def sky_noise_weighting(file_name, sky_file_name):
-    """ finding the sky nioise from a small section of the cube data """
+    """ finding the sky noise from a small section of the cube data """
     cs_data     = spectra_analysis(file_name, sky_file_name)
     cube_data   = cs_data['gd_shifted']
     sn_data     = cs_data['sky_noise']
@@ -344,8 +349,13 @@ def sky_noise_weighting(file_name, sky_file_name):
     sky_peaks = peakutils.indexes(sn_data, thres=300, thres_abs=True)
     sky_peaks_x = peakutils.interpolate(x_range, sn_data, sky_peaks)
 
-    sky_peak = sky_peaks_x[0]
-    sky_peak_index = find_nearest(sky_peak, x_range)
+    if (sky_peaks_x.size != 0):
+        sky_peak = sky_peaks_x[0]
+        sky_peak_index = find_nearest(sky_peak, x_range)
+    else:
+        sky_peak = 6000
+        sky_peak_index = 0
+
     sky_peak_loc = x_range[sky_peak_index]
 
     sky_peak_range = [sky_peak-100, sky_peak+100]
@@ -380,7 +390,7 @@ def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
     norm = (sigma*np.sqrt(2*np.pi))
     term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma**2))
     term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
-    return (c + term1 + term2)
+    return (c*x + term1 + term2)
 
 def otwo_doublet_fitting(file_name, sky_file_name):
     sa_data     = spectra_analysis(file_name, sky_file_name)
@@ -549,7 +559,7 @@ def analysis(file_name, sky_file_name):
         cbd_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
          
         ## plotting our cube data
-        cbs_y   = gs_data['gd_shifted']
+        cbs_y   = gs_data['gd_shifted'] 
         ax1.plot(cbd_x, cbs_y, linewidth=0.5, color="#000000")
 
         ## plotting our sky noise data
@@ -683,4 +693,4 @@ def analysis(file_name, sky_file_name):
     plt.close("all")
 
 #analysis("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
-        #"cube_1804.fits", "data/skyvariance_csub.fits")
+        #"cube_1.fits", "data/skyvariance_csub.fits")
