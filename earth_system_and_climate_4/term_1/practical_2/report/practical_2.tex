@@ -1,0 +1,54 @@
+%%%%% Document Setup %%%%%%%%
+
+\documentclass[12pt, onecolumn]{revtex4}    % Font size (12pt) and column number (one or two).
+
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}  % Defines paper size and margin length
+
+\renewcommand{\baselinestretch}{1}     % Defines the line spacing
+
+\usepackage{subcaption}
+
+\usepackage[font=small, labelfont=bf]{caption}                      % Defines caption font size and caption title bolded
+\captionsetup[figure]{justification=justified, singlelinecheck=off, font=footnotesize} 
+\captionsetup{compatibility=false}
+
+\usepackage{graphics,graphicx,epsfig,ulem}	% Makes sure all graphics works
+\usepackage{amsmath} 						% Adds mathematical features for equations
+
+\usepackage{etoolbox}                       % Customise date to preferred format
+\makeatletter
+\patchcmd{\frontmatter@RRAP@format}{(}{}{}{}
+\patchcmd{\frontmatter@RRAP@format}{)}{}{}{}
+\renewcommand\Dated@name{}
+\makeatother
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}                           % Insert header
+\renewcommand{\headrulewidth}{0pt}
+\lhead{\small Jacky Cao}                        
+\rhead{\small -}                
+
+\def\thesection{\arabic{section}}
+\def\thesubsection{\alph{subsection}}
+
+\def\bibsection{\section*{References}}        % Position reference section correctly
+
+
+%%%%% Document %%%%%
+\begin{document}                     
+
+
+\title{Testing the milanchokaosjdasjndkjaskd} 
+\date{Submitted: \today{}} \author{Jacky Cao}
+
+
+\maketitle
+%\thispagestyle{plain} % produces page number for front page
+
+-
+
+\bibliographystyle{unsrt}
+\bibliography{pracitcal_2}
+
+\end{document}
