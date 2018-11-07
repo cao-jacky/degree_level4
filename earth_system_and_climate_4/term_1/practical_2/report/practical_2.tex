@@ -15,13 +15,6 @@
 \usepackage{graphics,graphicx,epsfig,ulem}	% Makes sure all graphics works
 \usepackage{amsmath} 						% Adds mathematical features for equations
 
-\usepackage{etoolbox}                       % Customise date to preferred format
-\makeatletter
-\patchcmd{\frontmatter@RRAP@format}{(}{}{}{}
-\patchcmd{\frontmatter@RRAP@format}{)}{}{}{}
-\renewcommand\Dated@name{}
-\makeatother
-
 \usepackage{fancyhdr}
 
 \def\thesection{\arabic{section}}
@@ -38,11 +31,17 @@
 
 \vspace{-4ex}
 
-The Milankovitch-Croll hypothesis describes the potential relation between changes in the Earth-Sun orbit to Earth's planetary climate. If the orbit changes then there will be fluctuations in solar insolation with time and therefore cause climate change. 
+The Milankovitch-Croll hypothesis suggests that changes in the Earth's orbit around the Sun leads to changes in Earth's planetary climate. If the orbit varies then there will be fluctuations in solar insolation which in turn has an effect on the Earth's climate \cite{ruddiman_climate}. We can access and view this climate change through analysing proxy data. Through the usage of deep ocean sediment cores and Earth orbit data, we can explore this hypothesis and attempt to discover if it has any validity or scientific basis. \\
 
-This theory can be tested by analysing $\delta^{18}$O data from sea sediment cores.
+The importance of sediment cores arises from the fact that it contains a reliable trace for measuring the $\delta^{18}$O content during a specific period of Earth history. 
+
+\newpage
+
+%\twocolumngrid
 
 \bibliographystyle{unsrt}
-\bibliography{pracitcal_2}
+\bibliography{practical_2}
+
+\section*{Figures and tables}
 
 \end{document}
