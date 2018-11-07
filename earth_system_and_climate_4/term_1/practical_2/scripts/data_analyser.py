@@ -32,13 +32,21 @@ def plotter():
     foram_data = data_reader("d-18O.txt", 2)
 
     # foram
-    fig, ax1 = plt.subplots()
+    plt.figure(1)
+    plt.subplot(211)
     fd_x = foram_data[1:-1,0]
     fd_y = foram_data[1:-1,1]
-    ax1.set_xlabel(r'\textbf{Age (Myr)}', fontsize=13)
-    ax1.set_ylabel(r'\textbf{d18O}', fontsize=13)
-    ax1.set_xlim([0,5])
-    ax1.scatter(fd_x, fd_y, s=2.5, color="#000000")
+    plt.ylabel(r'\textbf{$\delta^{18}$O}', fontsize=13)
+    plt.xlim([0,1])
+    plt.scatter(fd_x, fd_y, s=2.5, color="#000000")
+    plt.plot(fd_x, fd_y, linewidth=0.5, color="#000000", alpha=0.2)
+
+    plt.subplot(212)
+    plt.xlabel(r'\textbf{Age (Myr)}', fontsize=13)
+    plt.ylabel(r'\textbf{$\delta^{18}$O}', fontsize=13)
+    plt.xlim([4,5])
+    plt.scatter(fd_x, fd_y, s=2.5, color="#000000")
+    plt.plot(fd_x, fd_y, linewidth=0.5, color="#000000", alpha=0.2)
 
     z = np.polyfit(fd_x, fd_y, 1)
     p = np.poly1d(z)
@@ -47,15 +55,16 @@ def plotter():
     orbit_data = data_reader("orbit_data.txt", 5)
     od_x = orbit_data[1:-1,0]
 
-    ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+    #ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
 
     # eccentricity
-    od_e = orbit_data[1:-1,1]
-    ax2.scatter(od_x, od_e, s=2.5, color="#f44336")
-    ax2.set_ylabel(r'\textbf{Eccentricity}', fontsize=13)
+    #od_e = orbit_data[1:-1,1]
+    #ax2.scatter(od_x, od_e, s=2.5, color="#f44336")
+    #ax2.set_ylabel(r'\textbf{Eccentricity}', fontsize=13)
 
-    fig.tight_layout()  # otherwise the right y-label is slightly clipped
-    plt.show()
+    plt.tight_layout()  # otherwise the right y-label is slightly clipped
+    #plt.show()
+    plt.savefig("foram_data.pdf", dpi=500)
  
     # obliquity
     plt.figure()

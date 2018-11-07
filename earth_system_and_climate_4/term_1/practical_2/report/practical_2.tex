@@ -17,6 +17,8 @@
 
 \usepackage{fancyhdr}
 
+\usepackage{textcomp}
+
 \def\thesection{\arabic{section}}
 \def\thesubsection{\alph{subsection}}
 
@@ -31,11 +33,13 @@
 
 \vspace{-4ex}
 
-The Milankovitch-Croll hypothesis suggests that changes in the Earth's orbit around the Sun leads to changes in Earth's planetary climate. If the orbit varies then there will be fluctuations in solar insolation which in turn has an effect on the Earth's climate \cite{ruddiman_climate}. We can access and view this climate change through analysing proxy data. Through the usage of deep ocean sediment cores and Earth orbit data, we can explore this hypothesis and attempt to discover if it has any validity or scientific basis. \\
+The Milankovitch-Croll hypothesis suggests that changes in the Earth's orbit around the Sun leads to changes in the Earth's planetary climate through fluctuations in solar insolation \cite{ruddiman_climate}. We can access and view this change of climate through analysing proxy data. By using deep ocean sediment cores and Earth orbital data, we can explore the hypothesis through performing various data analysis techniques and we hope to uncover whether if it has any validity. \\
 
-The importance of sediment cores arises from the fact that it contains a reliable trace for measuring the $\delta^{18}$O content during a specific period of Earth history. \\
+The importance of sediment cores arises from the fact that they contain a reliable trace for measuring the $\delta^{18}$O ratio across periods of Earth's history. The change in this ratio can provide us with an indication of how the global temperature was fluctuating, this could then be linked to other changes on the Earth such as whether global ice volume was increasing or decreasing. \\
 
-We could further analyse the data by
+Defined from laboratory experiments, for a $\sim 5^{\circ}\mathrm{C}$ temperature increase there is a $\sim 1$\textperthousand\ decrease in the $\delta^{18}$O ratio of the foram shell. Looking at Figure \ref{fig:foram_data} we can see two example periods from Earth's history, a more recent and an older period. We find that in the more recent age the amplitude of the $\delta^{18}$O varies more considerably than from 4 Myr to 5 Myr, this suggests that in more recent times there have been longer periods of cooling and a more dramatic shift in temperature. Whilst less clear as older data is explored, this sinusoidal-trend is prevalent throughout the $\delta^{18}$O data, suggesting that the glacial-interglacial events are part of a normal cycle in Earth's climate. \\
+
+We could suggest that due to the cyclic nature of the foram data, there must be a connection to the cyclical Earth-Sun orbit relationship. However, we must attempt to numerically quantify this to verify or disprove the hypothesis. The data detailing the orbital behaviours of the Earth can be split up into three separate but interlinked phenomena [?]: eccentricity, obliquity, and precession. \\
 
 \newpage
 
@@ -47,5 +51,13 @@ We could further analyse the data by
 \newpage
 
 \section*{Appendices}
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=15cm]{figures/foram_data}
+\caption[]{Plots of the marine benthic foram $\delta^{18}$O data against age since the present day (the holocene). Both data sets have been taken out of a larger set which spans from 0 Myr to 6 Myr. We see that as move closer towards the present day, the periodicity and amplitude is larger which implies that there is a more extreme temperature variation.}
+\vspace{-3ex}
+\label{fig:foram_data}
+\end{center}
+\end{figure}
 
 \end{document}
