@@ -83,10 +83,15 @@ def multi_cube_reader(catalogue_array):
     cubes_file.close()
 
     # selecting objects which are brighter than 23.0 magnitude
-    bright_objects = np.where(catalogue[:,5] < 26.0)[0]
+    bright_objects = np.where(catalogue[:,5] < 32.0)[0]
     avoid_objects = np.array([357,695,1393,1504,773,1212,1522,1052,609,1656,58,1373,
         893,742,1293,1572,865,7,1681,761,1475,4,699,1444,1600,819,905,1206,585,468,
-        1529,1092,299,904,356])
+        1529,1092,299,904,356,620,65,1511,1633,1417,114,282,1722,532,62,1682,833,
+        1223,295,268,1367,1626,1728,661,1726,1484,1745,785,1218,1624,558,418,193,
+        1590,697,1160,667,897,861,153,1430,873,1312,463,271,677,1055,128,342,1707,
+        1203,374,196,1535,1440,1335,774,146,565,1282,184,975,1226,1478,253,1356,
+        502,684,1150,574,572,448,1331,125,1054,457,1589,605,17,1222,837,892,618,281,
+        707])
 
     np.save("data/avoid_objects", avoid_objects)
 
@@ -105,15 +110,5 @@ def multi_cube_reader(catalogue_array):
             else:
                 print("Skipping cube " + str(obj_id))
                 pass
-
-    """
-    for i_obj in range(len(catalogue)):
-        curr_obj = catalogue[i_obj]
-        obj_id = int(curr_obj[0])
-
-        print("Working with cube " + str(obj_id))
-        cube_analyser(obj_id)
-    """
-
 
 multi_cube_reader("data/matched_catalogue.npy")

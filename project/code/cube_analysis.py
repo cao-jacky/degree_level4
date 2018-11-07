@@ -134,7 +134,7 @@ def vband_graphs():
     catalogue = catalogue[catalogue[:,8].argsort()]
     catalogue = catalogue[0:300,:] 
 
-    bright_objects = np.where(catalogue[:,5] < 26.0)[0]
+    bright_objects = np.where(catalogue[:,5] < 32.0)[0]
 
     avoid_objects = np.load("data/avoid_objects.npy")
     #more_useless = np.array([474,167,1101,1103,744])
@@ -293,7 +293,7 @@ def vband_graphs():
     for i, txt in enumerate(cube_ids):
         ax.annotate(int(txt), (usable_cubes[i][2], usable_cubes[i][1]))
 
-    ax.set_title(r'\textbf{V-band mag vs. flux-mag}', fontsize=13)        
+    #ax.set_title(r'\textbf{V-band mag vs. flux-mag}', fontsize=13)        
     ax.set_xlabel(r'\textbf{flux-mag}', fontsize=13)
     ax.set_ylabel(r'\textbf{V-band mag}', fontsize=13)
     plt.savefig("graphs/sanity_checks/vband_vs_flux.pdf")
@@ -303,26 +303,14 @@ def vband_graphs():
 
     cube_ids = usable_cubes[:,0]
     for i, txt in enumerate(cube_ids):
-        ax.annotate(int(txt), (usable_cubes[i][1], usable_cubes[i][4]))
+        ax.annotate(int(txt), (usable_cubes[i][1], usable_cubes[i][4]), alpha=0.2)
 
-    ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)        
-    ax.set_xlabel(r'\textbf{V-band mag}', fontsize=13)
-    ax.set_ylabel(r'\textbf{S/N}', fontsize=13)
+    #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)        
+    ax.set_xlabel(r'\textbf{HST V-band mag}', fontsize=13)
+    ax.set_ylabel(r'\textbf{MUSE Spectrum S/N}', fontsize=13)
     ax.invert_xaxis()
     ax.set_yscale('log')
     plt.savefig("graphs/sn_vs_vband.pdf")
-
-    fig, ax = plt.subplots()
-    ax.scatter(usable_cubes[:,1], usable_cubes[:,6], s=10, color="#000000")
-
-    cube_ids = usable_cubes[:,0]
-    for i, txt in enumerate(cube_ids):
-        ax.annotate(int(txt), (usable_cubes[i][1], usable_cubes[i][6]))
-
-    ax.set_title(r'\textbf{Image S/N vs. V-band mag }', fontsize=13)        
-    ax.set_xlabel(r'\textbf{V-band mag}', fontsize=13)
-    ax.set_ylabel(r'\textbf{S/N for image}', fontsize=13)
-    plt.savefig("graphs/sanity_checks/image_sn_vs_vband.pdf")
 
     plt.close("all")
 
