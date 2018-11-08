@@ -85,8 +85,10 @@ def catalogue_analysis(file_name):
     # [11]: isoarea from image (381)
     # [12]: OII3726 flux sum from catalogue (275)
     # [13]: OII3729 flux sum from catalogue (288)
+    # [14]: HST 435nm mag (62)
+    # [15]: HST 814nm mag (70)
 
-    cubes_data = np.zeros((len(file_data), 14))
+    cubes_data = np.zeros((len(file_data), 16))
 
     for i_object in range(len(file_data)):
         curr_object = file_data[i_object]
@@ -110,6 +112,9 @@ def catalogue_analysis(file_name):
 
         cubes_data[i_object][12] = curr_object[275] # OII3726 flux sum
         cubes_data[i_object][13] = curr_object[288] # OII3729 flux sum
+
+        cubes_data[i_object][14] = curr_object[62] # HST 435nm mag
+        cubes_data[i_object][15] = curr_object[70] # HST 814nm mag
 
     np.save("data/matched_catalogue_complete", cubes_data)
 

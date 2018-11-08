@@ -13,6 +13,10 @@ import warnings
 from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)
 
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+plt.rcParams['text.latex.preamble'] = [r'\boldmath']
+
 def highest_sn():
     cube_data_file = open("data/cubes.txt")
     cd_num_lines = sum(1 for line in open("data/cubes.txt")) - 1
@@ -112,10 +116,6 @@ def data_cube_analyser(cube_id):
     # cat: col 5 contains f606
     curr_cube_cat_data = cat_data[cat_curr_cube][0]
     cat_mag = curr_cube_cat_data[5]
-    
-    plt.rc('text', usetex=True)
-    plt.rc('font', family='serif')
-    plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 
     plt.figure()
     plt.plot(cube_x_data, cube_y_data, linewidth=0.5, color="#000000")
@@ -125,11 +125,22 @@ def data_cube_analyser(cube_id):
     plt.plot(abs_region_x, abs_region_y, linewidth=0.5, color="#000000")
     plt.savefig("graphs/sanity_checks/cube_" + str(int(cube_id)) + "_abs_spectra.pdf") 
 
-def vband_graphs():
-    plt.rc('text', usetex=True)
-    plt.rc('font', family='serif')
-    plt.rcParams['text.latex.preamble'] = [r'\boldmath']
+def f_doublet(c, i1, i2, sigma_gal, z, sigma_inst):
+    """ function for Gaussian doublet """  
+    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
+    l1 = dblt_mu[0] * (1+z)
+    l2 = dblt_mu[1] * (1+z)
 
+    x = 3727
+
+    sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
+
+    norm = (sigma*np.sqrt(2*np.pi))
+    term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma**2))
+    term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
+    return (c*x + term1 + term2)
+
+def graphs(): 
     catalogue = np.load("data/matched_catalogue.npy")
     catalogue = catalogue[catalogue[:,8].argsort()]
     catalogue = catalogue[0:300,:] 
@@ -141,8 +152,8 @@ def vband_graphs():
     more_useless = np.array([0])
 
     # array to store cube id and signal to noise value]
-    usable_cubes = np.zeros((len(bright_objects)-len(avoid_objects)-len(more_useless)+1
-        ,7))
+    usable_cubes = np.zeros((len(bright_objects)-len(avoid_objects)-len(more_useless)
+        +1,14))
 
     # usable_cubes structure
     # [0] : cube id
@@ -152,6 +163,13 @@ def vband_graphs():
     # [4] : signal to noise
     # [5] : total counts for image
     # [6] : noise for image 
+    # [7] : B-I colour
+    # [8] : I1 flux from model fitting
+    # [9] : I2 flux from model fitting
+    # [10] : c from model fitting
+    # [11] : sigma_gal from model fitting
+    # [12] : sigma_inst from model fitting
+    # [13] : z from model fitting
 
     usable_count = 0
     for i_cube in bright_objects:
@@ -200,9 +218,30 @@ def vband_graphs():
 
             cb_file_count = 0
             for cb_line in cube_file_data:
+                if (cb_file_count == 15):
+                    cb_curr_line = cb_line.split()
+                    c = float(cb_curr_line[1])
+                    usable_cubes[usable_count][10] = c
+                if (cb_file_count == 16):
+                    cb_curr_line = cb_line.split()
+                    i1 = float(cb_curr_line[1])
+                    usable_cubes[usable_count][8] = i1 
+                if (cb_file_count == 18):
+                    cb_curr_line = cb_line.split()
+                    i2 = float(cb_curr_line[1])
+                    usable_cubes[usable_count][9] = i2
+                if (cb_file_count == 19):
+                    cb_curr_line = cb_line.split()
+                    sigma_gal = float(cb_curr_line[1])
+                    usable_cubes[usable_count][11] = sigma_gal
                 if (cb_file_count == 20 ):
                     cb_curr_line = cb_line.split()
                     z = float(cb_curr_line[1])
+                    usable_cubes[usable_count][13] = z
+                if (cb_file_count == 21 ):
+                    cb_curr_line = cb_line.split()
+                    sigma_inst = float(cb_curr_line[1])
+                    usable_cubes[usable_count][12] = sigma_inst
 
                 cb_file_count += 1
             
@@ -225,7 +264,8 @@ def vband_graphs():
             ar_noise = np.sum(spectrum_noise)
 
             signal_noise = np.abs(ar_signal/ar_noise)
-            print(cube_id, ar_signal, ar_noise, signal_noise)
+            usable_cubes[usable_count][4] = signal_noise
+            #print(cube_id, ar_signal, ar_noise, signal_noise)
             
             def abs_region_graphs():
                 plt.figure()
@@ -281,11 +321,17 @@ def vband_graphs():
                 f.savefig("graphs/sanity_checks/stacked/stacked" + 
                         str(int(cube_id)) + ".pdf")
 
-            #graphs_collapsed()
+            #graphs_collapsed() 
 
-            usable_cubes[usable_count][4] = signal_noise
+            bband_mag = float(cat_data[cat_curr_cube][0][14])
+            iband_mag = float(cat_data[cat_curr_cube][0][15])
+            usable_cubes[usable_count][7] = bband_mag - iband_mag
+
             usable_count += 1
 
+    #print(usable_cubes)
+
+    # V-BAND VS. FLUX MAG
     fig, ax = plt.subplots()
     ax.scatter(usable_cubes[:,2], usable_cubes[:,1], s=7, color="#000000")
 
@@ -298,6 +344,7 @@ def vband_graphs():
     ax.set_ylabel(r'\textbf{V-band mag}', fontsize=13)
     plt.savefig("graphs/sanity_checks/vband_vs_flux.pdf")
 
+    # S/N VS. V-BAND MAG
     fig, ax = plt.subplots()
     ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=7, color="#000000")
 
@@ -314,11 +361,58 @@ def vband_graphs():
     ax.set_yscale('log')
     plt.savefig("graphs/sn_vs_vband.pdf")
 
+    usable_cubes_no_oii = usable_cubes
+    cubes_to_ignore = np.array([97,139,140,152,157,159,178,1734,1726,1701,1700,1689,
+        1592,1580,1564,1562,1551,1514,1506,1454,1446,1439,1418,1388,1355,1353,1267,
+        1227,1210,1198,1187,1159,1157,1137,1132,1121,217,222,317,338,339,343,361,395,
+        407,421,438,458,459,481,546,551,582,592,651,659,665,687,710,720,737,744,754,
+        789,790,814,834,859,864,878,879,914,965,966,982,1008,1017,1033,1041,1045,
+        1063,1068,1114])
+
+    for i_cube in range(len(cubes_to_ignore)):
+        curr_cube = cubes_to_ignore[i_cube]
+        loc = np.where(usable_cubes[:,0] == curr_cube)
+
+        usable_cubes_no_oii = np.delete(usable_cubes_no_oii, loc, axis=0)
+ 
+
+    # O[II] FLUX VS. GALAXY COLOUR
+    fig, ax = plt.subplots()
+    oii_flux = f_doublet(usable_cubes_no_oii[:,10], usable_cubes_no_oii[:,8], 
+            usable_cubes_no_oii[:,9], usable_cubes_no_oii[:,11], 
+            usable_cubes_no_oii[:,13], usable_cubes_no_oii[:,12])
+    ax.scatter(usable_cubes_no_oii[:,7], oii_flux, s=7, color="#000000")
+
+    cube_ids = usable_cubes[:,0]
+    for i, txt in enumerate(cube_ids):
+        ax.annotate(int(txt), (usable_cubes_no_oii[i][7], oii_flux[i]), alpha=0.2)
+
+    #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)       
+    #ax.tick_params(labelsize=15)
+    ax.set_xlabel(r'\textbf{Galaxy Colour (B-I)}', fontsize=13)
+    ax.set_ylabel(r'\textbf{O[II] Flux}', fontsize=13)
+    #ax.set_ylim([0,50000])
+    plt.savefig("graphs/oii_flux_vs_colour.pdf")
+
+    # O[II] VELOCITY DISPERSION VS. STELLAR MAG
+
+
+    # REDSHIFT DISTRIBUTION OF O[II] EMITTERS 
+    fig, ax = plt.subplots()
+    
+    ax.hist(usable_cubes_no_oii[:,13], facecolor="#000000")
+     
+    #ax.tick_params(labelsize=15)
+    ax.set_xlabel(r'\textbf{Redshift}', fontsize=13)
+    ax.set_ylabel(r'\textbf{Number of galaxies}', fontsize=13)
+    plt.savefig("graphs/redshift_distribution_oii_emitters.pdf")
+
+
     plt.close("all")
 
 #print(highest_sn())
 #data_cube_analyser(1804)
 
-vband_graphs()
+graphs()
 
 #cube_noise()
