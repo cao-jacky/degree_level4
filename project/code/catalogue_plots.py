@@ -38,8 +38,14 @@ def graph_sn_mag(x_data, y_data, cubes_data):
     cat_sn = catalogue[:,9] / catalogue[:,10]
     ax.scatter(catalogue[:,5], cat_sn, s=7, color="#00c853", alpha=0.25)
 
-    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=13)
-    ax.set_ylabel(r'\textbf{MUSE Flux S/N}', fontsize=13)
+    cube_ids = catalogue[:,0]
+    for i, txt in enumerate(cube_ids):
+        pass
+        #ax.annotate(int(txt), (catalogue[:,5][i], cat_sn[i]), alpha=0.2)
+
+    ax.tick_params(labelsize=15)
+    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=15)
+    ax.set_ylabel(r'\textbf{MUSE Image Flux S/N}', fontsize=15)
 
     ax.set_yscale('log')
     ax.invert_xaxis()

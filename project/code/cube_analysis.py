@@ -287,7 +287,7 @@ def vband_graphs():
             usable_count += 1
 
     fig, ax = plt.subplots()
-    ax.scatter(usable_cubes[:,2], usable_cubes[:,1], s=10, color="#000000")
+    ax.scatter(usable_cubes[:,2], usable_cubes[:,1], s=7, color="#000000")
 
     cube_ids = usable_cubes[:,0]
     for i, txt in enumerate(cube_ids):
@@ -299,15 +299,17 @@ def vband_graphs():
     plt.savefig("graphs/sanity_checks/vband_vs_flux.pdf")
 
     fig, ax = plt.subplots()
-    ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=10, color="#000000")
+    ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=7, color="#000000")
 
     cube_ids = usable_cubes[:,0]
     for i, txt in enumerate(cube_ids):
-        ax.annotate(int(txt), (usable_cubes[i][1], usable_cubes[i][4]), alpha=0.2)
+        pass
+        #ax.annotate(int(txt), (usable_cubes[i][1], usable_cubes[i][4]), alpha=0.2)
 
-    #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)        
-    ax.set_xlabel(r'\textbf{HST V-band mag}', fontsize=13)
-    ax.set_ylabel(r'\textbf{MUSE Spectrum S/N}', fontsize=13)
+    #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)       
+    ax.tick_params(labelsize=15)
+    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=15)
+    ax.set_ylabel(r'\textbf{MUSE Spectrum S/N}', fontsize=15)
     ax.invert_xaxis()
     ax.set_yscale('log')
     plt.savefig("graphs/sn_vs_vband.pdf")
