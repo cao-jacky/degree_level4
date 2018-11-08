@@ -383,7 +383,7 @@ def graphs():
             usable_cubes_no_oii[:,13], usable_cubes_no_oii[:,12])
     ax.scatter(usable_cubes_no_oii[:,7], oii_flux, s=7, color="#000000")
 
-    cube_ids = usable_cubes[:,0]
+    cube_ids = usable_cubes_no_oii[:,0]
     for i, txt in enumerate(cube_ids):
         ax.annotate(int(txt), (usable_cubes_no_oii[i][7], oii_flux[i]), alpha=0.2)
 
@@ -406,6 +406,24 @@ def graphs():
     ax.set_xlabel(r'\textbf{Redshift}', fontsize=13)
     ax.set_ylabel(r'\textbf{Number of galaxies}', fontsize=13)
     plt.savefig("graphs/redshift_distribution_oii_emitters.pdf")
+
+    # OII LUMINOSITY VS. REDSHIFT
+    c = 3 * 10**8 # ms^-1
+    H_0 = (75 * 10**3) / (3.09 * 10**(22)) # in SI units s^-1
+    distance = usable_cubes_no_oii[:,13] * c / H_0
+    luminosity = (oii_flux * 4 * np.pi * distance**2) / (3.828*10**26) 
+
+    fig, ax = plt.subplots()
+    ax.scatter(usable_cubes_no_oii[:,13], luminosity, s=7, color="#000000")
+
+    cube_ids = usable_cubes_no_oii[:,0]
+    for i, txt in enumerate(cube_ids):
+        ax.annotate(int(txt), (usable_cubes_no_oii[i][13], luminosity[i]), alpha=0.2)
+  
+    #ax.tick_params(labelsize=15)
+    ax.set_xlabel(r'\textbf{Redshift}', fontsize=13)
+    ax.set_ylabel(r'\textbf{O[II] Luminosity (M$_{\odot}$)}', fontsize=13)
+    plt.savefig("graphs/o_ii_luminosity_vs_redshift.pdf")
 
 
     plt.close("all")
