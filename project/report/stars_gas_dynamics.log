@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  8 NOV 2018 10:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  9 NOV 2018 10:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -253,21 +253,21 @@ s
 (./stars_gas_dynamics.aux)
 \openout1 = `stars_gas_dynamics.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-Class revtex4 Info: Patching LaTeX tabular. on input line 39.
-Class revtex4 Info: cite was not loaded (OK!) on input line 39.
-Class revtex4 Info: multicol was not loaded (OK!) on input line 39.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+Class revtex4 Info: Patching LaTeX tabular. on input line 37.
+Class revtex4 Info: cite was not loaded (OK!) on input line 37.
+Class revtex4 Info: multicol was not loaded (OK!) on input line 37.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -423,7 +423,7 @@ Overfull \hbox (0.87494pt too wide) detected at line 11
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 12
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 2
  []
 
 
@@ -441,28 +441,43 @@ Overfull \hbox (0.87494pt too wide) detected at line 14
 \openout3 = `stars_gas_dynamics.toc'.
 
  [1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<introduction/muse_colour_image.pdf, id=10, 554.7866pt x 551.40735pt>
+<introduction/hubble_tuning_fork.pdf, id=10, 668.4975pt x 427.5975pt>
+File: introduction/hubble_tuning_fork.pdf Graphic file (type pdf)
+<use introduction/hubble_tuning_fork.pdf>
+Package pdftex.def Info: introduction/hubble_tuning_fork.pdf  used on input lin
+e 79.
+(pdftex.def)             Requested size: 220.50885pt x 141.04236pt.
+<introduction/muse_colour_image.pdf, id=11, 554.7866pt x 551.40735pt>
 File: introduction/muse_colour_image.pdf Graphic file (type pdf)
 <use introduction/muse_colour_image.pdf>
 Package pdftex.def Info: introduction/muse_colour_image.pdf  used on input line
- 99.
+ 105.
 (pdftex.def)             Requested size: 182.09486pt x 180.98058pt.
-<introduction/hubble_ultra_deep_field.jpg, id=11, 123.5467pt x 123.5467pt>
+<introduction/hubble_ultra_deep_field.jpg, id=12, 123.5467pt x 123.5467pt>
 File: introduction/hubble_ultra_deep_field.jpg Graphic file (type jpg)
 <use introduction/hubble_ultra_deep_field.jpg>
 Package pdftex.def Info: introduction/hubble_ultra_deep_field.jpg  used on inpu
-t line 105.
+t line 111.
 (pdftex.def)             Requested size: 182.09486pt x 182.1167pt.
-<data/image_sn_vs_vband.pdf, id=12, 462.52798pt x 346.89601pt>
+<data/image_sn_vs_vband.pdf, id=13, 462.52798pt x 346.89601pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
-Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 122.
+Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 135.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
-<data/sn_vs_vband.pdf, id=13, 462.52798pt x 346.89601pt>
+<data/sn_vs_vband.pdf, id=14, 462.52798pt x 346.89601pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
-Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 128.
+Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 141.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 165--166
+[]\OT1/cmr/m/n/12 The au-thor would like to thank
+ []
+
+
+Underfull \hbox (badness 1142) in paragraph at lines 165--166
+\OT1/cmr/m/n/12 project would have been ex-per-i-men-tally
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -470,35 +485,26 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./intro
-duction/hubble_ultra_deep_field.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 150--151
-[]\OT1/cmr/m/n/12 The au-thor would like to thank
- []
-
-
-Underfull \hbox (badness 1142) in paragraph at lines 150--151
-\OT1/cmr/m/n/12 project would have been ex-per-i-men-tally
- []
-
-(./stars_gas_dynamics.bbl
+[2 <./introduction/hubble_tuning_fork.pdf>] (./stars_gas_dynamics.bbl
 Underfull \hbox (badness 1248) in paragraph at lines 9--13
  []\OT1/cmr/m/n/10.95 NASA, ESA, S. Beck-with, and HUDF
  []
 
-) [3 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
+) [3 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./int
+roduction/hubble_ultra_deep_field.jpg> <./data/image_sn_vs_vband.pdf> <./data/s
+n_vs_vband.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
  inclusion: multiple pdfs with page group included in a single page
 >] (./stars_gas_dynamics.aux) ) 
 Here is how much of TeX's memory you used:
- 5818 strings out of 492649
- 82527 string characters out of 6129622
- 165988 words of memory out of 5000000
- 9626 multiletter control sequences out of 15000+600000
- 9846 words of font info for 36 fonts, out of 8000000 for 9000
+ 5825 strings out of 492649
+ 82756 string characters out of 6129622
+ 169905 words of memory out of 5000000
+ 9632 multiletter control sequences out of 15000+600000
+ 10192 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,10n,43p,799b,489s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,10n,43p,799b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pu
@@ -507,10 +513,10 @@ ic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
 /amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmti12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (3 pages, 4323302 bytes).
+Output written on stars_gas_dynamics.pdf (3 pages, 4340754 bytes).
 PDF statistics:
- 76 PDF objects out of 1000 (max. 8388607)
- 53 compressed objects within 1 object stream
+ 87 PDF objects out of 1000 (max. 8388607)
+ 61 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
