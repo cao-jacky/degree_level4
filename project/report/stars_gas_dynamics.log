@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  9 NOV 2018 10:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  9 NOV 2018 14:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -428,7 +428,7 @@ Overfull \hbox (0.87494pt too wide) detected at line 12
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 13
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 2
  []
 
 
@@ -441,12 +441,12 @@ Overfull \hbox (0.87494pt too wide) detected at line 14
 \openout3 = `stars_gas_dynamics.toc'.
 
  [1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<introduction/hubble_tuning_fork.pdf, id=10, 668.4975pt x 427.5975pt>
+<introduction/hubble_tuning_fork.pdf, id=10, 668.4975pt x 422.57875pt>
 File: introduction/hubble_tuning_fork.pdf Graphic file (type pdf)
 <use introduction/hubble_tuning_fork.pdf>
 Package pdftex.def Info: introduction/hubble_tuning_fork.pdf  used on input lin
 e 79.
-(pdftex.def)             Requested size: 220.50885pt x 141.04236pt.
+(pdftex.def)             Requested size: 220.50885pt x 139.38693pt.
 <introduction/muse_colour_image.pdf, id=11, 554.7866pt x 551.40735pt>
 File: introduction/muse_colour_image.pdf Graphic file (type pdf)
 <use introduction/muse_colour_image.pdf>
@@ -498,10 +498,10 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
  inclusion: multiple pdfs with page group included in a single page
 >] (./stars_gas_dynamics.aux) ) 
 Here is how much of TeX's memory you used:
- 5825 strings out of 492649
- 82756 string characters out of 6129622
+ 5826 strings out of 492649
+ 82766 string characters out of 6129622
  169905 words of memory out of 5000000
- 9632 multiletter control sequences out of 15000+600000
+ 9633 multiletter control sequences out of 15000+600000
  10192 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,10n,43p,799b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -513,7 +513,7 @@ ic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
 /amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmti12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (3 pages, 4340754 bytes).
+Output written on stars_gas_dynamics.pdf (3 pages, 4340737 bytes).
 PDF statistics:
  87 PDF objects out of 1000 (max. 8388607)
  61 compressed objects within 1 object stream
