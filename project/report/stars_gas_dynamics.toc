@@ -9,6 +9,6 @@
 \contentsline {subsection}{\numberline {a}Cube extraction}{2}{}
 \contentsline {subsection}{\numberline {b}pPXF}{2}{}
 \contentsline {section}{\numberline {3}Discussion}{2}{}
-\contentsline {section}{\numberline {4}Conclusions}{2}{}
-\contentsline {section}{\numberline {}Acknowledgments}{2}{}
+\contentsline {section}{\numberline {4}Conclusions}{3}{}
+\contentsline {section}{\numberline {}Acknowledgments}{3}{}
 \contentsline {section}{\numberline {}References}{3}{}
