@@ -8,6 +8,7 @@ import matplotlib.patches as patches
 import cube_reader
 
 from astropy.io import fits
+from astropy.cosmology import FlatLambdaCDM
 
 import warnings
 from astropy.utils.exceptions import AstropyWarning
@@ -362,19 +363,25 @@ def graphs():
     plt.savefig("graphs/sn_vs_vband.pdf")
 
     usable_cubes_no_oii = usable_cubes
-    cubes_to_ignore = np.array([97,139,140,152,157,159,178,1734,1726,1701,1700,1689,
+    cubes_to_ignore = np.array([97,139,140,152,157,159,178,1734,1701,1700,1689,
         1592,1580,1564,1562,1551,1514,1506,1454,1446,1439,1418,1388,1355,1353,1267,
         1227,1210,1198,1187,1159,1157,1137,1132,1121,217,222,317,338,339,343,361,395,
         407,421,438,458,459,481,546,551,582,592,651,659,665,687,710,720,737,744,754,
         789,790,814,834,859,864,878,879,914,965,966,982,1008,1017,1033,1041,1045,
         1063,1068,1114])
 
+    cubes_to_ignore_indices = []
+
     for i_cube in range(len(cubes_to_ignore)):
         curr_cube = cubes_to_ignore[i_cube]
-        loc = np.where(usable_cubes[:,0] == curr_cube)
+        loc = np.where(usable_cubes[:,0] == curr_cube)[0].item()
+        cubes_to_ignore_indices.append(loc)
 
-        usable_cubes_no_oii = np.delete(usable_cubes_no_oii, loc, axis=0)
- 
+    cubes_to_ignore_indices = np.sort(np.asarray(cubes_to_ignore_indices))[::-1]
+    
+    for i_cube in range(len(cubes_to_ignore_indices)):
+        index_to_delete = cubes_to_ignore_indices[i_cube]
+        usable_cubes_no_oii = np.delete(usable_cubes_no_oii, index_to_delete, axis=0) 
 
     # O[II] FLUX VS. GALAXY COLOUR
     fig, ax = plt.subplots()
@@ -393,6 +400,7 @@ def graphs():
     ax.set_ylabel(r'\textbf{O[II] Flux}', fontsize=13)
     #ax.set_ylim([0,50000])
     plt.savefig("graphs/oii_flux_vs_colour.pdf")
+    plt.close("all")
 
     # O[II] VELOCITY DISPERSION VS. STELLAR MAG
 
@@ -406,12 +414,12 @@ def graphs():
     ax.set_xlabel(r'\textbf{Redshift}', fontsize=13)
     ax.set_ylabel(r'\textbf{Number of galaxies}', fontsize=13)
     plt.savefig("graphs/redshift_distribution_oii_emitters.pdf")
+    plt.close("all")
 
     # OII LUMINOSITY VS. REDSHIFT
-    c = 3 * 10**8 # ms^-1
-    H_0 = (75 * 10**3) / (3.09 * 10**(22)) # in SI units s^-1
-    distance = usable_cubes_no_oii[:,13] * c / H_0
-    luminosity = (oii_flux * 4 * np.pi * distance**2) / (3.828*10**26) 
+    cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
+    distance = cosmo.luminosity_distance(usable_cubes_no_oii[:,13]).value 
+    luminosity = (oii_flux * 4 * np.pi * distance**2) 
 
     fig, ax = plt.subplots()
     ax.scatter(usable_cubes_no_oii[:,13], luminosity, s=7, color="#000000")
@@ -422,11 +430,10 @@ def graphs():
   
     #ax.tick_params(labelsize=15)
     ax.set_xlabel(r'\textbf{Redshift}', fontsize=13)
-    ax.set_ylabel(r'\textbf{O[II] Luminosity (M$_{\odot}$)}', fontsize=13)
+    ax.set_ylabel(r'\textbf{O[II] Luminosity}', fontsize=13)
     plt.savefig("graphs/o_ii_luminosity_vs_redshift.pdf")
-
-
     plt.close("all")
+ 
 
 #print(highest_sn())
 #data_cube_analyser(1804)
