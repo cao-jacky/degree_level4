@@ -437,6 +437,7 @@ def graphs():
 
     fig, ax = plt.subplots()
     ax.plot(ofs_redshifts, ofs_luminosity, linewidth=0.5, color="#9e9e9e")
+
     ax.scatter(usable_cubes_no_oii[:,13], cubes_luminosity, s=7, color="#000000")
 
     cube_ids = usable_cubes_no_oii[:,0]
@@ -447,7 +448,7 @@ def graphs():
     #ax.tick_params(labelsize=15)
     ax.set_xlabel(r'\textbf{Redshift}', fontsize=13)
     ax.set_ylabel(r'\textbf{O[II] Luminosity}', fontsize=13)
-    #ax.set_yscale('log')
+    ax.set_yscale('log')
     plt.savefig("graphs/o_ii_luminosity_vs_redshift.pdf")
     plt.close("all")
 
