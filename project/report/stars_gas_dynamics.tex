@@ -4,11 +4,12 @@
 
 \usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}  % Defines paper size and margin length
 
+\usepackage{ragged2e}
+
 \renewcommand{\baselinestretch}{1}     % Defines the line spacing
 
 \usepackage{subcaption}
-\usepackage[font=small, labelfont=bf, justification=justified, singlelinecheck=off, font=footnotesize]{caption}                      
-\captionsetup{compatibility=false}
+\usepackage[font=small, labelfont=bf, justification=justified, format=plain, singlelinecheck=off]{caption}\captionsetup{compatibility=false}
 
 \usepackage{graphics,graphicx,epsfig,ulem}	% Makes sure all graphics works
 \usepackage{amsmath} 						% Adds mathematical features for equations
@@ -74,13 +75,11 @@ To begin with we must consider a general picture of galaxies, after which we wil
 
 As we stated previously, a galaxy can be quite broadly defined as a collection of gas, dust, stars and dark matter. But if we were to observe a large enough sample then we would begin to see that the galaxies can be grouped and classified together.
 
-\begin{figure}[!h]
 \begin{center}
-\includegraphics[width=7.75cm]{introduction/hubble_tuning_fork}
-\caption[]{The Hubble Sequence containing three general groupings: ellipticals, spirals, and irregulars. The diagram does not show the evolution of galaxies but their classification. \\ (\textit{This diagram has been adapted from An Introduction to Modern Astrophysics} \cite{carroll_astro}.)}
+\includegraphics[width=1.0\linewidth]{introduction/hubble_tuning_fork}
+\captionof{figure}[Hubble Tuning Fork]{The Hubble Sequence containing three general groupings: ellipticals, spirals, and irregulars. The diagram does not show the evolution of galaxies but their classification. \\ (\textit{This diagram has been adapted from An Introduction to Modern Astrophysics} \cite{carroll_astro}.)}
 \label{fig:hubble_tuning_fork}
 \end{center}
-\end{figure}
 
 This categorisation is called the \textit{Hubble Sequence} or the \textit{Hubble Tuning Fork} \cite{carroll_astro}. From Figure \ref{fig:hubble_tuning_fork} we can see that galaxies can be divided into ellipticals, spirals and irregulars. With ellipticals along the horizontal handle, the two prongs representing normal and barred spirals, and finally irregulars. The sequence itself does not show the evolution of the galaxies, rather it provides a way to view the different morphologies of galaxies on one graph.
 
@@ -105,17 +104,18 @@ what is MUSE, where it is on the VLT, problems, limitations of MUSE - why it is 
 \begin{figure}
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{introduction/muse_colour_image}
-    \caption{MUSE HUDF}
+    \captionsetup{justification=justified}    
+    \caption{MUSE HUDF}               
     \label{fig:muse_colour_image}
   \end{subfigure}
   %
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{introduction/hubble_ultra_deep_field}
+    \captionsetup{justification=justified}    
     \caption{HST HUDF}
     \label{fig:hubble_ultra_deep_field}
   \end{subfigure}
-  \captionsetup{format=hang}
-  \caption[]{(a) A colour image created from the MUSE spectroscopic data of the HUDF. The wavelength range was split into three equal regions and then collapsed to create three bands (R, G, B). A final colour image was produced by combining these separate frames together. (b) The optical HUDF as captured by the Advanced Camera for Surveys instrument on the Hubble Space Telescope \cite{hudf_image}. }
+  \caption[Hubble Ultra Deep Field]{(a) A colour image created from the MUSE spectroscopic data of the HUDF. The wavelength range was split into three equal regions and then collapsed to create three bands (R, G, B). A final colour image was produced by combining these separate frames together. (b) The optical HUDF as captured by the Advanced Camera for Surveys instrument on the Hubble Space Telescope \cite{hudf_image}. }
 \end{figure}
 
 \twocolumngrid
@@ -135,16 +135,18 @@ asdasd
 \begin{figure}
   \begin{subfigure}[b]{0.495\textwidth}
     \includegraphics[width=\textwidth]{data/image_sn_vs_vband}
+    \captionsetup{justification=justified}
     \caption{Image S/N vs. V-band}
     \label{fig:image_sn_vband}
   \end{subfigure}
   %
   \begin{subfigure}[b]{0.495\textwidth}
     \includegraphics[width=\textwidth]{data/sn_vs_vband}
+    \captionsetup{justification=justified}    
     \caption{Spectroscopic S/N vs. V-band}
     \label{fig:spec_sn_vband}
   \end{subfigure}
-  \caption[]{--- }
+  \caption[HUDF Objects]{---}
 \end{figure}
 
 \twocolumngrid
