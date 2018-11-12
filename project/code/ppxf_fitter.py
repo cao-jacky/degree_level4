@@ -14,15 +14,17 @@ def ppxf_cubes(cube_id):
     print("Processing kinematic fitting: ")
     ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id) 
 
+    """
     print("Processing mass fitting with free Balmer & [SII]: ")
     ppxf_fitter_gas_population.population_gas_sdss(cube_id, tie_balmer=False, limit_doublets=False)
     print("")
     print("Processing mass fitting with tied Balmer & [SII]: ")
-    ppxf_fitter_gas_population.population_gas_sdss(cube_id, tie_balmer=True, limit_doublets=True)
+    ppxf_fitter_gas_population.population_gas_sdss(cube_id, tie_balmer=True, limit_doublets=True)"""
     print("\n")
 
 def ppxf_cube_auto():
 
+    """
     cubes_to_process = cube_analysis.highest_sn()
     for i_cube in range(len(cubes_to_process)):
         cube_id = int(cubes_to_process[i_cube][0])
@@ -31,5 +33,9 @@ def ppxf_cube_auto():
             pass
         else:
             ppxf_cubes(cube_id)
+            """
+
+    ppxf_cubes(5)
+
 
 ppxf_cube_auto()
