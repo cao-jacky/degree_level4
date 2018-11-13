@@ -441,13 +441,16 @@ def graphs():
 
     cube_ids = usable_cubes_no_oii[:,0]
     for i, txt in enumerate(cube_ids):
-        ax.annotate(int(txt), (usable_cubes_no_oii[i][13], cubes_luminosity[i]), 
-            alpha=0.2)
+        pass
+        #ax.annotate(int(txt), (usable_cubes_no_oii[i][13], cubes_luminosity[i]), 
+            #alpha=0.2)
   
-    #ax.tick_params(labelsize=15)
-    ax.set_xlabel(r'\textbf{Redshift}', fontsize=13)
-    ax.set_ylabel(r'\textbf{O[II] Luminosity}', fontsize=13)
-    #ax.set_yscale('log')
+    ax.tick_params(labelsize=15)
+    ax.set_xlabel(r'\textbf{Redshift}', fontsize=15)
+    ax.set_ylabel(r'\textbf{O[II] Luminosity}', fontsize=15)
+    ax.set_yscale('log')
+    ax.set_xlim([0.2, 1.5])
+    ax.set_ylim((0.007*10**51,1.7*10**51))
     plt.savefig("graphs/o_ii_luminosity_vs_redshift.pdf")
     plt.close("all")
 
