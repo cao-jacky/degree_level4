@@ -33,10 +33,7 @@ def ppxf_example_kinematics_sauron(cube_id):
     cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy") 
     cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
-        str(int(cube_id)) + "_cbs_y.npy")
-
-    lamRange1 = np.array([np.min(cube_x_data), np.max(cube_x_data)])
-    FWHM_gal = 4.2  # SAURON has an instrumental resolution FWHM of 4.2A.
+        str(int(cube_id)) + "_cbs_y.npy") 
 
     spectra = cube_reader.spectrum_creator(cube_file)
      
@@ -51,6 +48,13 @@ def ppxf_example_kinematics_sauron(cube_id):
             curr_line = crf_line.split()
             z = float(curr_line[1])
         line_count += 1
+
+    #initial_mask = (cube_x_data > 3540 * (1+z))
+    #cube_x_data = cube_x_data[initial_mask] 
+    #cube_y_data = cube_y_data[initial_mask]
+
+    lamRange1 = np.array([np.min(cube_x_data), np.max(cube_x_data)])
+    FWHM_gal = 4.2  # SAURON has an instrumental resolution FWHM of 4.2A.
 
     # If the galaxy is at significant redshift, one should bring the galaxy
     # spectrum roughly to the rest-frame wavelength, before calling pPXF
@@ -70,7 +74,7 @@ def ppxf_example_kinematics_sauron(cube_id):
 
     cube_noise_data = cube_analysis.cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
-    noise = np.abs(spectrum_noise)      # Assume constant noise per pixel here
+    noise = np.abs(spectrum_noise) # Assume constant noise per pixel here
     
     # Read the list of filenames from the Single Stellar Population library
     # by Vazdekis (2010, MNRAS, 404, 1639) http://miles.iac.es/. A subset

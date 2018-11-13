@@ -453,9 +453,6 @@ def graphs():
     ax.set_ylim((0.007*10**51,1.7*10**51))
     plt.savefig("graphs/o_ii_luminosity_vs_redshift.pdf")
     plt.close("all")
-
-
-    ## PLOT FAINT LUMONOSITY MODEL 
  
 
 #print(highest_sn())

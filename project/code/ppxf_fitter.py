@@ -43,7 +43,7 @@ def ppxf_cube_auto():
 
     ppxf_running = open("results/ppxf_kinematics.txt", 'w')
     ppxf_running.write("Cube ID     Reduced chi-squared\n")
-
+    """
     for i_cube in range(len(bright_objects)):
         curr_obj = catalogue[i_cube]
         cube_id = int(curr_obj[0])
@@ -56,9 +56,9 @@ def ppxf_cube_auto():
             kin_fit_chi2 = fit['kinematic_fitting']['reduced_chi2']
             ppxf_running.write(str(cube_id) + "     " + str(kin_fit_chi2) + "\n")
 
-        
+    """ 
 
-    #ppxf_cubes(1804)
+    ppxf_cubes(5)
 
 
 ppxf_cube_auto()

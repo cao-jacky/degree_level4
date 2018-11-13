@@ -65,22 +65,25 @@ def kinematics_sdss(cube_id):
     mask = (loglam > np.log10(3540)) & (loglam < np.log10(7409))
     flux = specNew[mask]
  
-    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
-
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
     loglam_gal = loglam[mask]
     lam_gal = 10**loglam_gal
+
+    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
 
     cube_noise_data = cube_analysis.cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
     ar_noise = np.abs(np.sum(spectrum_noise))
 
     noise = np.abs(spectrum_noise[initial_mask][mask])
+    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_noise", noise)
+
     #noise = np.full_like(galaxy, ar_noise)       # Assume constant noise per pixel here
 
     x_data = cube_x_data[mask]
+    y_data = cube_y_data[mask]
     np.save(file_loc + "/cube_" + str(int(cube_id)) + "_x", x_data)
-    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_data", galaxy)
+    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_y", y_data)
 
     c = 299792.458                  # speed of light in km/s
     frac = lam_gal[1]/lam_gal[0]    # Constant lambda fraction per pixel
