@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  12 NOV 2018 16:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  13 NOV 2018 12:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -432,7 +432,7 @@ Overfull \hbox (0.87494pt too wide) detected at line 8
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 9
- \OT1/cmr/m/n/12 2
+ \OT1/cmr/m/n/12 3
  []
 
 
@@ -447,12 +447,12 @@ Overfull \hbox (0.87494pt too wide) detected at line 11
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 12
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 4
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 13
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 4
  []
 
 
@@ -488,36 +488,32 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 File: introduction/muse_colour_image.pdf Graphic file (type pdf)
 <use introduction/muse_colour_image.pdf>
 Package pdftex.def Info: introduction/muse_colour_image.pdf  used on input line
- 118.
+ 122.
 (pdftex.def)             Requested size: 182.09486pt x 180.98058pt.
 <introduction/hubble_ultra_deep_field.jpg, id=27, 123.5467pt x 123.5467pt>
 File: introduction/hubble_ultra_deep_field.jpg Graphic file (type jpg)
 <use introduction/hubble_ultra_deep_field.jpg>
 Package pdftex.def Info: introduction/hubble_ultra_deep_field.jpg  used on inpu
-t line 125.
+t line 129.
 (pdftex.def)             Requested size: 182.09486pt x 182.1167pt.
 <data/image_sn_vs_vband.pdf, id=28, 462.52798pt x 346.89601pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
-Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 149.
+Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 153.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
 <data/sn_vs_vband.pdf, id=29, 462.52798pt x 346.89601pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
-Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 156.
+Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 160.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
- [3 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
- inclusion: multiple pdfs with page group included in a single page
-> <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./introd
-uction/hubble_ultra_deep_field.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 181--182
+ [3 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./intr
+oduction/hubble_ultra_deep_field.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 185--186
 []\OT1/cmr/m/n/12 The au-thor would like to thank
  []
 
 
-Underfull \hbox (badness 1142) in paragraph at lines 181--182
+Underfull \hbox (badness 1142) in paragraph at lines 185--186
 \OT1/cmr/m/n/12 project would have been ex-per-i-men-tally
  []
 
@@ -526,7 +522,16 @@ Underfull \hbox (badness 1248) in paragraph at lines 9--13
  []\OT1/cmr/m/n/10.95 NASA, ESA, S. Beck-with, and HUDF
  []
 
-) [4] (./stars_gas_dynamics.aux) ) 
+) [4 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
+ inclusion: multiple pdfs with page group included in a single page
+>] (./stars_gas_dynamics.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
+
+
+ ) 
 Here is how much of TeX's memory you used:
  5898 strings out of 492649
  84332 string characters out of 6129622
@@ -535,15 +540,14 @@ Here is how much of TeX's memory you used:
  9538 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,10n,43p,796b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2018/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmti12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (4 pages, 4342471 bytes).
+</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
+r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
+/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/
+local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on stars_gas_dynamics.pdf (4 pages, 4343267 bytes).
 PDF statistics:
  90 PDF objects out of 1000 (max. 8388607)
  63 compressed objects within 1 object stream
