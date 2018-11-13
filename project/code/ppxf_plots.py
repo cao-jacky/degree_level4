@@ -46,6 +46,9 @@ def chi_squared_cal(cube_id):
     res_median = np.median(residual)
     res_stddev = np.std(residual)
 
+    print(noise)
+    print(residual)
+
     mask = ((residual < np.std(residual)) & (residual > -np.std(residual))) 
  
     chi_sq = (y_data[mask] - y_model[mask])**2 / noise[mask]**2
@@ -53,19 +56,22 @@ def chi_squared_cal(cube_id):
 
     total_points = len(noise)
     reduced_chi_sq = total_chi_sq / total_points
-    print(reduced_chi_sq)
+    print(reduced_chi_sq) 
 
     plt.figure()
+
     plt.plot(x_data, y_data, linewidth=0.5, color="#000000")
     plt.plot(x_data, y_model, linewidth=0.5, color="#b71c1c")
     plt.plot(x_data, noise, linewidth=0.5, color="#8e24aa")
+
     plt.axhline(res_stddev, linewidth=0.5, color="#000000", alpha=0.3)
     plt.axhline(-res_stddev, linewidth=0.5, color="#000000", alpha=0.3)
+
     plt.scatter(x_data, residual, s=3, color="#43a047")
     plt.savefig("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + str(int(cube_id))
             + "_fitted.pdf")
 
 
-chi_squared_cal(1804)
+chi_squared_cal(5)
 
 #model_data_overlay(549)
