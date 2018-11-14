@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import cube_analysis
+import ppxf_plots
 
 def ppxf_cubes(cube_id):
     print("")
@@ -43,6 +44,7 @@ def ppxf_cube_auto():
 
     ppxf_running = open("results/ppxf_kinematics.txt", 'w')
     ppxf_running.write("Cube ID     Reduced chi-squared\n")
+
     """
     for i_cube in range(len(bright_objects)):
         curr_obj = catalogue[i_cube]
@@ -52,13 +54,15 @@ def ppxf_cube_auto():
             pass
         else:
             fit = ppxf_cubes(cube_id)
+            ppxf_plots.chi_squared_cal(cube_id)
 
             kin_fit_chi2 = fit['kinematic_fitting']['reduced_chi2']
             ppxf_running.write(str(cube_id) + "     " + str(kin_fit_chi2) + "\n")
+            """
 
-    """ 
 
     ppxf_cubes(5)
+    ppxf_plots.chi_squared_cal(5)
 
 
 ppxf_cube_auto()
