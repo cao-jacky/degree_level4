@@ -40,7 +40,8 @@ def fits_noise_converter(sky_file_name):
     for i in range(data_shape[0]):
         # I want to run through the z-axis (the spectroscopic data) and find the median
         # from each of the graphs
-        noise_spectrum[i] = np.median(data_stacked[:,i])
+        #noise_spectrum[i] = np.median(data_stacked[:,i])
+        noise_spectrum[i] = np.std(data_stacked[:,i])
     
     print(noise_spectrum)
 
@@ -54,7 +55,7 @@ def fits_noise_converter(sky_file_name):
     hdu1 = fits.ImageHDU(noise_spectrum)
     hdul = fits.HDUList([primary_hdu, hdu1])
 
-    #hdul.writeto("/Volumes/Jacky_Cao/University/level4/project/cube_noise.fits" ) 
+    hdul.writeto("/Volumes/Jacky_Cao/University/level4/project/cube_noise_std.fits" ) 
     
 fits_noise_converter("/Volumes/Jacky_Cao/University/level4/project/sky_noise.fits")
 

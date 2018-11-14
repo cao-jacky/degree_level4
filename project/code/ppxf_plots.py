@@ -36,7 +36,7 @@ def chi_squared_cal(cube_id):
             str(int(cube_id)) + "_model.npy")
 
     # scale down y data 
-    y_data = y_data/np.median(y_data)
+    y_data_scaled = y_data/np.median(y_data)
     
     # noise spectra will be used as in the chi-squared calculation
     noise = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
@@ -44,13 +44,13 @@ def chi_squared_cal(cube_id):
 
     noise_stddev = np.std(noise)
     
-    residual = y_data - y_model
+    residual = y_data_scaled - y_model
     res_median = np.median(residual)
     res_stddev = np.std(residual)
 
     mask = ((residual < np.std(residual)) & (residual > -np.std(residual))) 
  
-    chi_sq = (y_data[mask] - y_model[mask])**2 / noise[mask]**2
+    chi_sq = (y_data_scaled[mask] - y_model[mask])**2 / noise[mask]**2
     total_chi_sq = np.sum(chi_sq)
 
     total_points = len(chi_sq)
@@ -59,12 +59,12 @@ def chi_squared_cal(cube_id):
 
     plt.figure()
 
-    plt.plot(x_data, y_data, linewidth=0.1, color="#000000")
-    plt.plot(x_data, y_data+noise_stddev, linewidth=0.1, color="#616161")
-    plt.plot(x_data, y_data-noise_stddev, linewidth=0.1, color="#616161")
+    plt.plot(x_data, y_data_scaled, linewidth=0.1, color="#000000")
+    plt.plot(x_data, y_data_scaled+noise_stddev, linewidth=0.1, color="#616161")
+    plt.plot(x_data, y_data_scaled-noise_stddev, linewidth=0.1, color="#616161")
 
     plt.plot(x_data, y_model, linewidth=0.5, color="#b71c1c")
-    plt.plot(x_data, noise, linewidth=0.5, color="#8e24aa")
+    #plt.plot(x_data, noise, linewidth=0.5, color="#8e24aa")
 
     plt.axhline(res_stddev, linewidth=0.5, color="#000000", alpha=0.3)
     plt.axhline(res_median, linewidth=0.5, color="#000000", alpha=0.3)

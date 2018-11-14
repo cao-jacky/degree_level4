@@ -21,6 +21,14 @@ import cube_analysis
 
 sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits")
 
+def cube_noise():
+    cube_noise_file = "data/cube_noise_std.fits"
+    cube_noise_file = fits.open(cube_noise_file)
+
+    cube_noise_data = cube_noise_file[1].data 
+    noise = np.sum(np.abs(cube_noise_data))
+    return {'noise_value': noise, 'spectrum_noise': cube_noise_data}
+
 def kinematics_sdss(cube_id):
 
     file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
@@ -71,14 +79,14 @@ def kinematics_sdss(cube_id):
 
     np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
 
-    cube_noise_data = cube_analysis.cube_noise()
+    cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
     ar_noise = np.abs(np.sum(spectrum_noise))
 
     noise = np.abs(spectrum_noise[initial_mask][mask])
     np.save(file_loc + "/cube_" + str(int(cube_id)) + "_noise", noise)
 
-    #noise = np.full_like(galaxy, ar_noise)       # Assume constant noise per pixel here
+    #noise = np.full_like(galaxy, ar_noise)    # Assume constant noise per pixel here
 
     x_data = cube_x_data[mask]
     y_data = cube_y_data[mask]

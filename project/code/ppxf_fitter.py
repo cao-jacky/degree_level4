@@ -60,9 +60,9 @@ def ppxf_cube_auto():
             ppxf_running.write(str(cube_id) + "     " + str(kin_fit_chi2) + "\n")
             """
 
-
-    ppxf_cubes(5)
-    ppxf_plots.chi_squared_cal(5)
+    cube_id = 5
+    ppxf_cubes(cube_id)
+    ppxf_plots.chi_squared_cal(cube_id)
 
 
 ppxf_cube_auto()
