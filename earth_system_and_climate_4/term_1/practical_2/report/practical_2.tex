@@ -19,6 +19,8 @@
 
 \usepackage{textcomp}
 
+\usepackage{tabularx}
+
 \def\thesection{\arabic{section}}
 \def\thesubsection{\alph{subsection}}
 
@@ -72,10 +74,35 @@ We could suggest that due to the cyclic nature of the foram data, there must be 
 \begin{figure}[!h]
 \begin{center}
 \includegraphics[width=16cm]{figures/wa_orbital_data}
-\caption[]{The eccentricity, obliquity and perihelion longitude orbital data processed with the wavelet analysis tool in PAST3. The periodicities from the data can be obtained by considering the ``hottest'' areas of each of the heat maps. }
+\caption[]{The eccentricity, obliquity and perihelion longitude orbital data processed with the wavelet analysis tool in PAST3. The periodicities from the data can be obtained by considering the ``hottest'' areas of each of the heat maps. In Table \ref{table:final_results} we summarise the wavelengths which can be obtained from the dashed lines.}
 \vspace{-3ex}
-\label{fig:d18o_redfit}
+\label{fig:wa_orbital_data}
 \end{center}
 \end{figure}
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=11cm]{figures/wa_d18O.pdf}
+\caption[]{Applying the PAST3 wavelet analysis tool to the $\delta^{18}$O benthic foram data we can use this as one of the possible ways to verify if the Milankovitch-Croll hypothesis is valid.}
+\vspace{-3ex}
+\label{fig:wa_d18o}
+\end{center}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{c@{\hskip 20pt}c@{\hskip 20pt}c} 
+ \hline
+  & \textbf{REDFIT Wavelengths (ka)} & \textbf{WA Wavelengths (ka)} \\ [0.5ex] 
+ Eccentricity & - & - \\
+ Obliquity & - & - \\
+ Perihelion Longitude & - & - \\
+ $\delta^{18}$O & 96.3, 41.1, 23.7 & - \\
+ \hline
+\end{tabular}
+\caption{The results of the REDFIT and Wavelet Analysis (WA) analysis on the orbital and benthic foram data. Provided are the wavelengths as found by using the two statistical techniques.}
+\vspace{-0.5em}
+\label{table:final_results}
+\end{table}
 
 \end{document}
