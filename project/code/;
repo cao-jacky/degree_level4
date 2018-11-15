@@ -43,7 +43,8 @@ def chi_squared_cal(cube_id):
             str(int(cube_id)) + "_noise.npy")
     noise_stddev = np.std(noise) 
 
-    noise = noise 
+    noise = noise /np.median(y_data)
+
 
     residual = y_data_scaled - y_model
     res_median = np.median(residual)
