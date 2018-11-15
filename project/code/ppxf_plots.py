@@ -41,15 +41,16 @@ def chi_squared_cal(cube_id):
     # noise spectra will be used as in the chi-squared calculation
     noise = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
             str(int(cube_id)) + "_noise.npy")
+    noise_median = np.median(noise)
     noise_stddev = np.std(noise) 
-
-    noise = noise 
 
     residual = y_data_scaled - y_model
     res_median = np.median(residual)
     res_stddev = np.std(residual)
 
-    mask = ((residual < np.std(residual)) & (residual > -np.std(residual))) 
+    noise = noise 
+
+    mask = ((residual < res_stddev) & (residual > -res_stddev)) 
  
     chi_sq = (y_data_scaled[mask] - y_model[mask])**2 / noise[mask]**2
     total_chi_sq = np.sum(chi_sq)
