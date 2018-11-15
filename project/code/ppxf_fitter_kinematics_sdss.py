@@ -81,12 +81,10 @@ def kinematics_sdss(cube_id):
 
     cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
-    ar_noise = np.abs(np.sum(spectrum_noise))
+    noise = spectrum_noise[initial_mask][mask]
 
-    noise = np.abs(spectrum_noise[initial_mask][mask])
+    noise = noise
     np.save(file_loc + "/cube_" + str(int(cube_id)) + "_noise", noise)
-
-    #noise = np.full_like(galaxy, ar_noise)    # Assume constant noise per pixel here
 
     x_data = cube_x_data[mask]
     y_data = cube_y_data[mask]
@@ -178,8 +176,8 @@ def kinematics_sdss(cube_id):
     goodpixels = util.determine_goodpixels(np.log(lam_gal), lamRange_temp, z)
     
     # sky
-    #skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
-    #skyNew = skyNew[mask]
+    skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
+    skyNew = skyNew[initial_mask][mask]
 
     # Here the actual fit starts. The best fit is plotted on the screen.
     # Gas emission lines are excluded from the pPXF fit using the GOODPIXELS keyword.
@@ -190,7 +188,7 @@ def kinematics_sdss(cube_id):
 
     f = io.StringIO()
     with redirect_stdout(f):
-        pp = ppxf(templates, galaxy, noise, velscale, start,
+        pp = ppxf(templates, galaxy, noise, velscale, start, sky=skyNew,
             goodpixels=goodpixels, plot=True, moments=4,
             degree=12, vsyst=dv, clean=False, lam=lam_gal) 
      
@@ -199,8 +197,7 @@ def kinematics_sdss(cube_id):
 
     best_fit = pp.bestfit
     np.save(file_loc + "/cube_" + str(int(cube_id)) + "_model", best_fit)
-    #print(pp.apoly)
-    
+
     red_chi2 = pp.chi2
     print(pp.chi2)
     
