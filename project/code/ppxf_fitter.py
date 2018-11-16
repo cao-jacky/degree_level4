@@ -44,7 +44,7 @@ def ppxf_cube_auto():
         135, 474, 1103])
 
     ppxf_running = open("results/ppxf_kinematics.txt", 'w')
-    ppxf_running.write("Cube ID     Reduced chi-squared\n")
+    ppxf_running.write("Cube ID     pPXF Reduced chi-squared    Total chi-squared       Reduced chi-squared \n")
 
     """
     for i_cube in range(len(bright_objects)):
@@ -54,16 +54,22 @@ def ppxf_cube_auto():
         if ((cube_id in avoid_objects) or (cube_id in cubes_to_ignore)):
             pass
         else:
-            fit = ppxf_cubes(cube_id)
-            ppxf_plots.chi_squared_cal(cube_id)
+            ppxf_fit = ppxf_cubes(cube_id)
+            chi_squared = ppxf_plots.chi_squared_cal(cube_id)
 
-            kin_fit_chi2 = fit['kinematic_fitting']['reduced_chi2']
-            ppxf_running.write(str(cube_id) + "     " + str(kin_fit_chi2) + "\n")
-            """
+            kin_fit_chi2 = ppxf_fit['kinematic_fitting']['reduced_chi2']
 
+            tot_chi2 = chi_squared['chi2']
+            red_chi2 = chi_squared['redchi2']
+
+            ppxf_running.write(str(cube_id) + "     " + str(kin_fit_chi2) + "     " + 
+                    str(tot_chi2) + "     " + str(red_chi2) + "\n")
+            
+    """
     cube_id = 1804
     ppxf_cubes(cube_id)
     ppxf_plots.chi_squared_cal(cube_id)
+    
 
 
 ppxf_cube_auto()

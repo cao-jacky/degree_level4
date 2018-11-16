@@ -1,1 +1,1 @@
-Cube ID     Reduced chi-squared
+Cube ID     pPXF Reduced chi-squared    Total chi-squared       Reduced chi-squared 
