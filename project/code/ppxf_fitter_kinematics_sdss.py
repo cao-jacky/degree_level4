@@ -81,9 +81,9 @@ def kinematics_sdss(cube_id):
 
     cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
-    noise = spectrum_noise[initial_mask][mask]
+    spec_error = spectrum_noise[initial_mask][mask]
 
-    noise = noise * np.std(noise)
+    noise = spec_error 
     np.save(file_loc + "/cube_" + str(int(cube_id)) + "_noise", noise)
 
     x_data = cube_x_data[mask]
