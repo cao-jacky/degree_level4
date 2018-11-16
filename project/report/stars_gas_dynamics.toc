@@ -7,7 +7,7 @@
 \contentsline {subsection}{\numberline {c}Data}{3}{}
 \contentsline {subsubsection}{\numberline {1}HUDF and MUSE}{3}{}
 \contentsline {section}{\numberline {2}Analysis}{3}{}
-\contentsline {subsection}{\numberline {a}Cube extraction}{3}{}
+\contentsline {subsection}{\numberline {a}Cube extraction}{4}{}
 \contentsline {subsection}{\numberline {b}pPXF}{4}{}
 \contentsline {section}{\numberline {3}Discussion}{4}{}
 \contentsline {section}{\numberline {4}Conclusions}{4}{}
