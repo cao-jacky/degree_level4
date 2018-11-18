@@ -3,44 +3,44 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: practical_2.aux
 The style file: unsrt.bst
 Database file #1: practical_2.bib
-You've used 2 entries,
+You've used 5 entries,
             1791 wiz_defined-function locations,
-            455 strings with 3718 characters,
-and the built_in function-call counts, 346 in all, are:
-= -- 29
-> -- 12
-< -- 0
-+ -- 5
-- -- 3
-* -- 14
-:= -- 60
-add.period$ -- 6
-call.type$ -- 2
-change.case$ -- 2
+            477 strings with 4361 characters,
+and the built_in function-call counts, 1125 in all, are:
+= -- 97
+> -- 46
+< -- 2
++ -- 17
+- -- 12
+* -- 68
+:= -- 181
+add.period$ -- 16
+call.type$ -- 5
+change.case$ -- 5
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 20
-empty$ -- 39
-format.name$ -- 3
-if$ -- 79
+cite$ -- 5
+duplicate$ -- 60
+empty$ -- 115
+format.name$ -- 12
+if$ -- 261
 int.to.chr$ -- 0
-int.to.str$ -- 2
-missing$ -- 4
-newline$ -- 13
-num.names$ -- 2
-pop$ -- 12
+int.to.str$ -- 5
+missing$ -- 7
+newline$ -- 28
+num.names$ -- 7
+pop$ -- 19
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 5
+skip$ -- 27
 stack$ -- 0
-substring$ -- 0
-swap$ -- 2
-text.length$ -- 0
+substring$ -- 37
+swap$ -- 15
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 2
-width$ -- 3
-write$ -- 24
+while$ -- 10
+width$ -- 6
+write$ -- 59

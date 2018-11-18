@@ -35,15 +35,19 @@
 
 \vspace{-4ex}
 
-The Milankovitch-Croll hypothesis suggests that changes in the Earth's orbit around the Sun leads to changes in the Earth's planetary climate through fluctuations in solar insolation \cite{ruddiman_climate}. We can access and view this change of climate through analysing proxy data. By using deep ocean sediment cores and Earth orbital data, we can explore the hypothesis through performing various data analysis techniques and we hope to uncover whether if the theory has any validity. 
+The Milankovitch-Croll hypothesis suggests that changes in the Earth's orbit around the Sun leads to changes in the Earth's planetary climate through fluctuations in solar insolation \cite{ruddiman_climate}. We can access and view this change of climate through analysing proxy data. By using deep ocean sediment cores and Earth orbital data, we can explore the hypothesis through performing various data analysis techniques and we hope to uncover whether if the theory has any validity. \\
 
-The importance of sediment cores arises from the fact that they contain a good trace for measuring the $\delta^{18}$O ratio across periods of Earth's history. The change in this ratio can provide us with an indication of how the global temperature has been fluctuating, this could then be linked to other changes on the Earth such as whether global ice volume was increasing or decreasing. \\
+The importance of sediment cores arises from the fact that they contain a good trace for measuring the $\delta^{18}$O ratio across periods of Earth's history \cite{droxler_climate}. The change in this ratio can provide us with an indication of how the global temperature has been fluctuating, this could then be linked to other changes on the Earth such as whether global ice volume was increasing or decreasing. \\
 
 Defined from laboratory experiments, for a $\sim 5^{\circ}\mathrm{C}$ temperature increase there is a $\sim 1$\textperthousand\ decrease in the $\delta^{18}$O ratio of the foram shell. Looking at Figure \ref{fig:foram_data} we can see two example periods from Earth's history, a more recent and an older period. We find that in the more recent age the amplitude of the $\delta^{18}$O varies more considerably than from 4 Myr to 5 Myr, this suggests that in more recent times there have been longer periods of cooling and a more dramatic shift in temperature. Comparatively, the older $\delta^{18}$O data still has the sinusoidal-trend, suggesting that the glacial-interglacial events are a normal part of Earth's planetary climate cycle. \\
 
+% TODO discuss changes in global ice volume, particularly in the last 2-3 million years
+
 We could suggest that due to the periodic nature of the foram data, there must be a connection to the cyclical Earth-Sun orbital relationship. Through the analysis of such data we can investigate if a connection exists. We can begin by split up the phenomena into three separate but interlinked features, namely eccentricity, obliquity, and precession. \\
 
-The eccentricity describes how elliptical the orbit is of the Earth around the Sun\cite{carroll_astro} 
+The eccentricity describes how elliptical the orbit of the Earth is around the Sun \cite{carroll_astro}. From an initial wavelet analysis using the software PAST3 \cite{past3} we find that there are three wavelengths of interest. In Figure \ref{fig:wa_orbital_data}(a) and from Table \ref{table:final_results} we see that the dominant signal throughout the dataset is 401.7 ka, with 89.1 ka and 100.4 ka as two other signals present. However, the influence of eccentricity on insolation is not independent as eccentricity $\varepsilon$ depends on the angle between the solstices and the perihelion/aphelion $\omega$ on the orbit. This can be summed up to be $\chi= \varepsilon \sin{\omega}$, where $\chi$ is the precessional index. Performing a similar wavelet analysis we can see in Figure \ref{fig:wa_orbital_data}(b) that there is only one main wavelength prevalent at 21.1 ka. Finally obliquity is the third orbital feature to consider, this value represents the tilt of the Earth's axis, with Figure \ref{fig:wa_orbital_data}(c) we can find a wavelength of 39.4 ka. \\ 
+
+Comparison with the ``true'' wavelengths, from Table \ref{table:final_results}
 
 \newpage
 
@@ -93,16 +97,17 @@ The eccentricity describes how elliptical the orbit is of the Earth around the S
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{c@{\hskip 20pt}c@{\hskip 20pt}c} 
+\begin{tabular}{c@{\hskip 20pt}c@{\hskip 20pt}c@{\hskip 20pt}c} 
  \hline
-  & \textbf{REDFIT Wavelengths (ka)} & \textbf{WA Wavelengths (ka)} \\ [0.5ex] 
- Eccentricity & 95.2, 128.2, 416.7 & 89.1, 100.4,  401.7\\
- Obliquity & 41.7 & 39.4 \\
- Perihelion Longitude & 23.8, 22.2 & 21.1 \\
- $\delta^{18}$O & 23.7, 41.1, 96.3  & 38.9, 96.0, 271.5, 945.5, 1247.6 \\
+  & \textbf{``True'' Wavelength (ka)} &\textbf{REDFIT (ka)} & \textbf{WA (ka)} \\ [0.5ex] 
+ Eccentricity & 100, 413 & 95.2, 128.2, 416.7 & 89.1, 100.4,  401.7\\
+ Perihelion Longitude & 23, 100 & 23.8, 22.2 & 21.1 \\
+ Obliquity & 41 & 41.7 & 39.4 \\
+ $\delta^{18}$O & & 23.7, 41.1, 96.3  & 38.9, 96.0, 271.5, \\
+ & & & 945.5, 1247.6 \\
  \hline
 \end{tabular}
-\caption{The results of the REDFIT and Wavelet Analysis (WA) analysis on the orbital and benthic foram data. Provided are the wavelengths as found by using the two statistical techniques.}
+\caption{Table showing the approximate correct values for the periodicity of orbital features \cite{campisano_milankovitch}, plus the results of the REDFIT and Wavelet Analysis (WA) analysis on the orbital and benthic foram data. Provided are the wavelengths as found by using the two statistical techniques.}
 \vspace{-0.5em}
 \label{table:final_results}
 \end{table}

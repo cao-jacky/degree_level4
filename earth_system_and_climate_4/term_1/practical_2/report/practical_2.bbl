@@ -5,9 +5,29 @@ William~F. Ruddiman.
 \newblock {\em Earth's Climate: Past and Future}.
 \newblock W. H. Freeman and Company, 2nd edition, 2008.
 
+\bibitem{droxler_climate}
+Henning~A. Bauch and Helmut Erlenkeuser.
+\newblock Interpreting glacial‐interglacial changes in ice volume and climate
+  from subarctic deep water foraminiferal $\delta^{18}$o.
+\newblock In Andr\'{e}~W. Droxler, Richard~Z. Poore, and Burckle Lloyd~H,
+  editors, {\em Earth's Climate and Orbital Eccentricity: The Marine Isotope
+  Stage 11 Question}, volume 137, pages 87 -- 102. American Geophysical Union,
+  2013.
+
 \bibitem{carroll_astro}
 Bradley~W. Carroll and Dale~A. Ostlie.
 \newblock {\em An Introduction to Modern Astrophysics}.
 \newblock Pearson, 2nd edition, 2007.
+
+\bibitem{past3}
+\O. Hammer, D.~A.~T. Harper, and P.~D. Ryan.
+\newblock Past: Paleontological statistics software package for education and
+  data analysis.
+\newblock {\em Palaeontologia Electronica}, 4(1):9, 2001.
+
+\bibitem{campisano_milankovitch}
+Christopher~J. Campisano.
+\newblock Milankovitch cycles, paleoclimatic change, and hominin evolution.
+\newblock {\em Nature}, 4(3):5, 2012.
 
 \end{thebibliography}
