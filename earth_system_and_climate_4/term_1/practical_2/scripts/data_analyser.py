@@ -42,6 +42,8 @@ def plotter():
     plt.scatter(fd_x, fd_y, s=2.5, color="#000000")
     plt.plot(fd_x, fd_y, linewidth=0.5, color="#000000", alpha=0.2)
 
+    plt.tick_params(labelsize=15)
+
     plt.subplot(212)
     plt.xlabel(r'\textbf{Age (Myr)}', fontsize=15)
     plt.ylabel(r'\textbf{$\delta^{18}$O}', fontsize=15)
@@ -158,7 +160,7 @@ def heatmaps():
 
 
 
-#plotter()
+plotter()
 #d18O_redfit()
 heatmaps()
 
