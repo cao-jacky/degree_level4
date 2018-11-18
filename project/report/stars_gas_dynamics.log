@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  16 NOV 2018 10:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  18 NOV 2018 10:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -466,7 +466,7 @@ Overfull \hbox (0.87494pt too wide) detected at line 10
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 11
- \OT1/cmr/m/n/12 4
+ \OT1/cmr/m/n/12 3
  []
 
 
@@ -486,6 +486,11 @@ Overfull \hbox (0.87494pt too wide) detected at line 14
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 15
+ \OT1/cmr/m/n/12 4
+ []
+
+
+Overfull \hbox (0.87494pt too wide) detected at line 16
  \OT1/cmr/m/n/12 4
  []
 
@@ -527,32 +532,32 @@ t line 140.
 <data/image_sn_vs_vband.pdf, id=28, 462.52798pt x 346.89601pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
-Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 165.
+Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 167.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
 <data/sn_vs_vband.pdf, id=29, 462.52798pt x 346.89601pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
-Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 172.
+Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 174.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
 <data/o_ii_luminosity_vs_redshift.pdf, id=30, 462.52798pt x 346.89601pt>
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
-ne 186.
+ne 188.
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
 [3 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./intro
 duction/hubble_ultra_deep_field.jpg> <./data/o_ii_luminosity_vs_redshift.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 206--207
+Underfull \hbox (badness 10000) in paragraph at lines 208--209
 []\OT1/cmr/m/n/12 The au-thor would like to thank
  []
 
 
-Underfull \hbox (badness 2744) in paragraph at lines 206--207
+Underfull \hbox (badness 2744) in paragraph at lines 208--209
 \OT1/cmr/m/n/12 Dr. M. Swin-bank and Alfie Tiley for
  []
 
 
-Underfull \hbox (badness 1142) in paragraph at lines 206--207
+Underfull \hbox (badness 1142) in paragraph at lines 208--209
 \OT1/cmr/m/n/12 pro-ject would have been ex-per-i-ment-ally
  []
 
@@ -567,10 +572,10 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
  inclusion: multiple pdfs with page group included in a single page
 >] (./stars_gas_dynamics.aux) ) 
 Here is how much of TeX's memory you used:
- 6409 strings out of 492649
- 91619 string characters out of 6129622
+ 6410 strings out of 492649
+ 91630 string characters out of 6129622
  188586 words of memory out of 5000000
- 10189 multiletter control sequences out of 15000+600000
+ 10190 multiletter control sequences out of 15000+600000
  9538 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,10n,43p,874b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -584,7 +589,7 @@ c/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (4 pages, 4391378 bytes).
+Output written on stars_gas_dynamics.pdf (4 pages, 4391590 bytes).
 PDF statistics:
  110 PDF objects out of 1000 (max. 8388607)
  79 compressed objects within 1 object stream
