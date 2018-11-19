@@ -201,6 +201,8 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
     ppxf_variables = pp.sol
     red_chi2 = pp.chi2
 
+    plt.show()
+
     if (perturbation == 0):
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
