@@ -81,9 +81,14 @@ def kinematics_sdss(cube_id):
 
     cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
-    spec_error = spectrum_noise[initial_mask][mask]
+    spec_noise = spectrum_noise[initial_mask][mask]
 
-    noise = spec_error 
+    segmentation_data = hdu[2].data
+    seg_loc_rows, seg_loc_cols = np.where(segmentation_data == cube_id)
+    signal_pixels = len(seg_loc_rows)
+
+    noise = spec_noise * np.sqrt(signal_pixels) / np.median(flux)
+
     np.save(file_loc + "/cube_" + str(int(cube_id)) + "_noise", noise)
 
     x_data = cube_x_data[mask]

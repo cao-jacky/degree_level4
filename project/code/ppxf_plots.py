@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+from astropy.io import fits
+
 import cube_analysis
 
 def model_data_overlay(cube_id):
@@ -37,6 +39,16 @@ def chi_squared_cal(cube_id):
 
     # scaled down y data 
     y_data_scaled = y_data/np.median(y_data)
+
+    # cube data
+    cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/cube_"
+        + str(cube_id) + ".fits")
+    hdu = fits.open(cube_file)
+    segmentation_data = hdu[2].data
+    seg_loc_rows, seg_loc_cols = np.where(segmentation_data == cube_id)
+    signal_pixels = len(seg_loc_rows) 
+
+    print(signal_pixels)
     
     # noise spectra will be used as in the chi-squared calculation
     noise = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
@@ -48,8 +60,12 @@ def chi_squared_cal(cube_id):
     res_median = np.median(residual)
     res_stddev = np.std(residual)
 
-    #noise = noise * np.std(noise)
+    tmp = (np.std(y_data_scaled[0:50]))
+    #noise[:] = tmp
 
+    #noise = noise * np.sqrt(signal_pixels) / np.median(y_data)
+    noise = noise
+    
     mask = ((residual < res_stddev) & (residual > -res_stddev)) 
  
     chi_sq = (y_data_scaled[mask] - y_model[mask])**2 / noise[mask]**2
@@ -58,7 +74,6 @@ def chi_squared_cal(cube_id):
     total_points = len(chi_sq)
     reduced_chi_sq = total_chi_sq / total_points
 
-    print(total_points)
     print(total_chi_sq, reduced_chi_sq) 
 
     plt.figure()
