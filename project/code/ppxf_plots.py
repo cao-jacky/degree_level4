@@ -215,23 +215,22 @@ def sigma_sn():
         cube_id = cubes[i_cube]
         
         # running the best fit fitting routine 
-        best_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0)
+        best_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all")
 
         best_noise = best_fit['noise']
+        best_x = best_fit['x_data']
+        best_y = best_fit['y_data']
 
-        # opening data for the best fitting
-        ppxf_result_file = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + 
-                str(cube_id) + "_kinematics.txt")
-        ppxf_result_file = open(ppxf_result_file)
+        best_variables = best_fit['variables']
+        best_sigma = best_variables[1]
 
-        prf_line_count = 0 
-        for prf_line in ppxf_result_file:
-            if (prf_line_count == 1):
-                curr_line = prf_line.split()
-                sigma_best = float(curr_line[3])
-            prf_line_count += 1
+    
+        # want to consider between CaH and Hdelta, the range to consider (rtc) is
+        rtc = np.array([3969.588, 4101.89]) 
+        rtc_mask = ((best_x > rtc[0]) & (best_x < rtc[1]))
 
-        # want to consider between CaH and Hdelta 
+        best_y_masked = best_y[rtc_mask]
+        
 
 
 #chi_squared_cal(1804)

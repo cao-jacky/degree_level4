@@ -31,7 +31,7 @@ def cube_noise():
     noise = np.sum(np.abs(cube_noise_data))
     return {'noise_value': noise, 'spectrum_noise': cube_noise_data}
 
-def kinematics_sdss(cube_id, perturbation):
+def kinematics_sdss(cube_id, perturbation, fit_range):     
     file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
     if not os.path.exists(file_loc):
         os.mkdir(file_loc) 
@@ -67,6 +67,12 @@ def kinematics_sdss(cube_id, perturbation):
     initial_mask = (cube_x_data > 3540 * (1+z))
     cube_x_data = cube_x_data[initial_mask] 
     cube_y_data = cube_y_data[initial_mask]
+
+    # will need this for when we are considering specific ranges
+    if (fit_range == "all"):
+        pass
+    else:
+        rtc = fit_range
 
     lamRange = np.array([np.min(cube_x_data), np.max(cube_x_data)]) 
     specNew, logLam, velscale = log_rebin(lamRange, cube_y_data)
@@ -212,7 +218,7 @@ def kinematics_sdss(cube_id, perturbation):
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_model", best_fit)
 
         red_chi2 = pp.chi2
-        print("Rough reduced chi-squared from ppxf: " + pp.chi2)
+        print("Rough reduced chi-squared from ppxf: " + str(pp.chi2))
        
         data_to_file = f.getvalue()
 
@@ -245,7 +251,8 @@ def kinematics_sdss(cube_id, perturbation):
     #
     #print, 'Best-fitting redshift z:', (z + 1)*(1 + sol[0]/c) - 1
 
-    return {'reduced_chi2': red_chi2, 'noise': noise}
+    return {'reduced_chi2': red_chi2, 'noise': noise, 'variables': ppxf_variables,
+            'y_data': galaxy, 'x_data': lam_gal}
 
 #------------------------------------------------------------------------------
 
