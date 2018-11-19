@@ -9,6 +9,8 @@ from contextlib import redirect_stdout
 from astropy.io import fits
 import numpy as np
 
+import peakutils
+
 import ppxf as ppxf_package
 from ppxf.ppxf import ppxf
 import ppxf.ppxf_util as util
@@ -76,7 +78,7 @@ def kinematics_sdss(cube_id):
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
     loglam_gal = loglam[mask]
     lam_gal = 10**loglam_gal
-
+    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
     np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
 
     cube_noise_data = cube_noise()
