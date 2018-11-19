@@ -55,7 +55,7 @@ def ppxf_cube_auto():
             pass
         else:
             ppxf_fit = ppxf_cubes(cube_id)
-            chi_squared = ppxf_plots.chi_squared_cal(cube_id)
+            chi_squared = ppxf_plots.fitting_plotter(cube_id)
 
             kin_fit_chi2 = ppxf_fit['kinematic_fitting']['reduced_chi2']
 
@@ -68,7 +68,7 @@ def ppxf_cube_auto():
     """
     cube_id = 1804
     ppxf_cubes(cube_id)
-    ppxf_plots.chi_squared_cal(cube_id)
+    ppxf_plots.fitting_plotter(cube_id)
     
 
 
