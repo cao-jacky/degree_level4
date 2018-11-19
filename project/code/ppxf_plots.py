@@ -207,7 +207,7 @@ def fitting_plotter(cube_id):
 
 def sigma_sn():
     cubes = np.array([1804])
-    to_run = 10 # number of times to run the random generator
+    to_run = 1000 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -245,9 +245,11 @@ def sigma_sn():
         best_noise_masked = best_noise[rtc_mask]
 
         noise_median = np.median(best_noise_masked)
+
+        best_sn = np.median(best_y_masked) / noise_median
         
         for i in range(to_run):
-            ran_number = np.random.normal(0.0,10.0)
+            ran_number = np.random.normal(0.0,1000.0)
             perturbation = noise_median * ran_number    
 
             print("working with " + str(cube_id) + " and perturbation " + 
@@ -259,7 +261,8 @@ def sigma_sn():
             new_variables = new_fit['variables']
             new_sigma = new_variables[1]
 
-            sigma_ratio = (best_sigma - new_sigma) / best_sigma
+            print(new_sigma, best_sigma)
+            sigma_ratio = (new_sigma - best_sigma) / best_sigma
             
             new_x = new_fit['x_data']
             new_y = new_fit['y_data']
@@ -281,6 +284,7 @@ def sigma_sn():
     np.save("data/sigma_vs_sn_data", data)
 
     plt.figure()
+    #plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
     plt.scatter(data[:,:,4], data[:,:,3], color="#000000", s=10)
     plt.savefig("graphs/sigma_vs_sn.pdf")
     plt.close("all") 
