@@ -114,34 +114,31 @@ def fitting_plotter(cube_id):
                 }
             }
 
-    # pPXF produces an offset in the data
-    pu_peaks = peakutils.indexes(y_data_scaled, thres=4, thres_abs=True)
-    pu_peaks_x = peakutils.interpolate(x_data, y_data_scaled, pu_peaks)
-
-    original_peaks_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + 
-            str(cube_id) + "_peaks.txt")
-    original_peaks_file = open(original_peaks_file)
-
-    opf_line_count = 0 
-    for op_crf_line in original_peaks_file:
-        if (opf_line_count == 3):
-            op_curr_line = op_crf_line.split()
-            op_wl = float(op_curr_line[1])
-        opf_line_count += 1
-
-    offset_diff = pu_peaks_x[0] - op_wl
-    #x_data = x_data - offset_diff
-
-    # using our redshift estimate from lmfit
+    # parameters from lmfit
     cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
             + "_lmfit.txt")
     cube_result_file = open(cube_result_file)
 
     line_count = 0 
     for crf_line in cube_result_file:
+        if (line_count == 15):
+            curr_line = crf_line.split()
+            c = float(curr_line[1])
+        if (line_count == 16):
+            curr_line = crf_line.split()
+            i1 = float(curr_line[1])
+        if (line_count == 18):
+            curr_line = crf_line.split()
+            i2 = float(curr_line[1])
+        if (line_count == 19):
+            curr_line = crf_line.split()
+            sigma_gal = float(curr_line[1])
         if (line_count == 20):
             curr_line = crf_line.split()
             z = float(curr_line[1])
+        if (line_count == 21):
+            curr_line = crf_line.split()
+            sigma_inst = float(curr_line[1])
         line_count += 1
 
     plt.figure()
@@ -151,7 +148,14 @@ def fitting_plotter(cube_id):
     plt.plot(x_data, y_data_scaled-noise_stddev, linewidth=0.1, color="#616161", alpha=0.1)
     
     # plotting over the OII doublet
-    #doublet_data = 
+    doublets = np.array([3727.092, 3728.875])
+    dblt_av = np.average(doublets) * (1+z)
+
+    dblt_x_mask = ((x_data > dblt_av-20) & (x_data < dblt_av+20))
+    doublet_x_data = x_data[dblt_x_mask]
+    doublet_data = f_doublet(doublet_x_data, c, i1, i2, sigma_gal, z, sigma_inst)
+    doublet_data = doublet_data / np.median(y_data)
+    plt.plot(doublet_x_data, doublet_data, linewidth=0.5, color="#9c27b0")
 
     max_y = np.max(y_data_scaled)
     # plotting spectral lines
@@ -159,8 +163,15 @@ def fitting_plotter(cube_id):
         spec_line = float(e_val) * (1+z)
         spec_label = e_key
 
-        plt.axvline(x=spec_line, linewidth=0.5, color="#1e88e5", alpha=0.7)
-        plt.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=0.75) 
+        if (e_val in str(doublets)):
+            alpha_line = 0.2
+        else:
+            alpha_line = 0.7
+            
+        alpha_text = 0.75
+
+        plt.axvline(x=spec_line, linewidth=0.5, color="#1e88e5", alpha=alpha_line)
+        plt.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=alpha_text) 
 
     for e_key, e_val in sl['abs'].items():
         spec_line = float(e_val) * (1+z)
@@ -177,8 +188,11 @@ def fitting_plotter(cube_id):
 
     plt.plot(x_data, y_model, linewidth=0.5, color="#b71c1c")
 
-    plt.scatter(x_data, residual, s=3, color="#f44336", alpha=0.5)
-    plt.scatter(x_data[mask], residual[mask], s=3, color="#43a047")
+    residuals_mask = (residual > res_stddev) 
+    rmask = residuals_mask
+
+    #plt.scatter(x_data[rmask], residual[rmask], s=3, color="#f44336", alpha=0.5)
+    #plt.scatter(x_data[mask], residual[mask]-1, s=3, color="#43a047")
 
     #plt.tick_params(labelsize=15)
     plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
