@@ -199,6 +199,7 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
             degree=12, vsyst=dv, clean=False, lam=lam_gal) 
 
     ppxf_variables = pp.sol
+    red_chi2 = pp.chi2
 
     if (perturbation == 0):
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
@@ -217,7 +218,6 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
         best_fit = pp.bestfit
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_model", best_fit)
 
-        red_chi2 = pp.chi2
         print("Rough reduced chi-squared from ppxf: " + str(pp.chi2))
        
         data_to_file = f.getvalue()
@@ -241,7 +241,8 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
                 "_kinematics.pdf")
         plt.savefig(kinematics_graph)
         #plt.show()
-        plt.close("all") 
+        plt.close("all")
+
 
 
     # If the galaxy is at significant redshift z and the wavelength has been
@@ -252,7 +253,7 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
     #print, 'Best-fitting redshift z:', (z + 1)*(1 + sol[0]/c) - 1
 
     return {'reduced_chi2': red_chi2, 'noise': noise, 'variables': ppxf_variables,
-            'y_data': galaxy, 'x_data': lam_gal}
+            'y_data': galaxy, 'x_data': lam_gal, 'redshift': z}
 
 #------------------------------------------------------------------------------
 

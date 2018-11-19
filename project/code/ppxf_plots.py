@@ -206,16 +206,29 @@ def fitting_plotter(cube_id):
     return {'chi2': total_chi_sq,'redchi2': reduced_chi_sq}
 
 def sigma_sn():
-    cubes = np.array([1804,5])
+    cubes = np.array([1804])
+    to_run = 10 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
+
+    # 1st dimension: for every cube there is an array
+    # 2nd dimension: there are same number of rows as to_run variable
+    # 3rd dimension: columns to store data
+    #   [0] : perturbation value [= noise * random number]
+    #   [1] : new signal value [= signal + perturbation]
+    #   [2] : new sigma produced
+    #   [3] : (sigma_best - sigma_new) / sigma_best
+    #   [4] : new signal to noise value  
+    data = np.zeros([len(cubes),to_run,5])
     
     for i_cube in range(len(cubes)):
         cube_id = cubes[i_cube]
         
         # running the best fit fitting routine 
         best_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all")
+
+        z = best_fit['redshift']
 
         best_noise = best_fit['noise']
         best_x = best_fit['x_data']
@@ -224,14 +237,53 @@ def sigma_sn():
         best_variables = best_fit['variables']
         best_sigma = best_variables[1]
 
-    
         # want to consider between CaH and Hdelta, the range to consider (rtc) is
-        rtc = np.array([3969.588, 4101.89]) 
+        rtc = np.array([3969.588, 4101.89]) * (1+z) 
         rtc_mask = ((best_x > rtc[0]) & (best_x < rtc[1]))
 
         best_y_masked = best_y[rtc_mask]
-        
+        best_noise_masked = best_noise[rtc_mask]
 
+        noise_median = np.median(best_noise_masked)
+        
+        for i in range(to_run):
+            ran_number = np.random.normal(0.0,10.0)
+            perturbation = noise_median * ran_number    
+
+            print("working with " + str(cube_id) + " and perturbation " + 
+                    str(perturbation))
+
+            new_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
+                    perturbation, "all")
+
+            new_variables = new_fit['variables']
+            new_sigma = new_variables[1]
+
+            sigma_ratio = (best_sigma - new_sigma) / best_sigma
+            
+            new_x = new_fit['x_data']
+            new_y = new_fit['y_data']
+            
+            new_rtc = np.array([3969.588, 4101.89]) * (1+z) 
+            new_mask = ((new_x > new_rtc[0]) & (new_x < new_rtc[1]))
+
+            new_x = new_x[new_mask]
+            new_y = new_y[new_mask]
+
+            new_signal = np.median(new_y)
+
+            data[i_cube][i][0] = perturbation # perturbation
+            data[i_cube][i][1] = new_signal # new signal
+            data[i_cube][i][2] = new_sigma # new sigma
+            data[i_cube][i][3] = sigma_ratio # sigma ratio
+            data[i_cube][i][4] = new_signal / noise_median # signal to noise
+ 
+    np.save("data/sigma_vs_sn_data", data)
+
+    plt.figure()
+    plt.scatter(data[:,:,4], data[:,:,3], color="#000000", s=10)
+    plt.savefig("graphs/sigma_vs_sn.pdf")
+    plt.close("all") 
 
 #chi_squared_cal(1804)
 #model_data_overlay(549)
