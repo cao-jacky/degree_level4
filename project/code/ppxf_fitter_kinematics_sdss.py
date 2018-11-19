@@ -31,8 +31,7 @@ def cube_noise():
     noise = np.sum(np.abs(cube_noise_data))
     return {'noise_value': noise, 'spectrum_noise': cube_noise_data}
 
-def kinematics_sdss(cube_id):
-
+def kinematics_sdss(cube_id, perturbation):
     file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
     if not os.path.exists(file_loc):
         os.mkdir(file_loc) 
@@ -60,7 +59,10 @@ def kinematics_sdss(cube_id):
     cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy") 
     cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
-        str(int(cube_id)) + "_cbs_y.npy")
+        str(int(cube_id)) + "_cbs_y.npy") 
+
+    # applying the perturbation to the y data
+    cube_y_data = cube_y_data + perturbation
 
     initial_mask = (cube_x_data > 3540 * (1+z))
     cube_x_data = cube_x_data[initial_mask] 
@@ -77,9 +79,7 @@ def kinematics_sdss(cube_id):
  
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
     loglam_gal = loglam[mask]
-    lam_gal = 10**loglam_gal
-    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
-    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
+    lam_gal = 10**loglam_gal 
 
     cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
@@ -90,13 +90,6 @@ def kinematics_sdss(cube_id):
     signal_pixels = len(seg_loc_rows)
 
     noise = spec_noise * np.sqrt(signal_pixels) / np.median(flux)
-
-    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_noise", noise)
-
-    x_data = cube_x_data[mask]
-    y_data = cube_y_data[mask]
-    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_x", x_data)
-    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_y", y_data)
 
     c = 299792.458                  # speed of light in km/s
     frac = lam_gal[1]/lam_gal[0]    # Constant lambda fraction per pixel
@@ -198,35 +191,52 @@ def kinematics_sdss(cube_id):
         pp = ppxf(templates, galaxy, noise, velscale, start, sky=skyNew,
             goodpixels=goodpixels, plot=True, moments=4,
             degree=12, vsyst=dv, clean=False, lam=lam_gal) 
+
+    ppxf_variables = pp.sol
+
+    if (perturbation == 0):
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
+
+        x_data = cube_x_data[mask]
+        y_data = cube_y_data[mask]
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_x", x_data)
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_y", y_data)
+
+        # if best fit i.e. perturbation is 0, save everything
      
-    kinematics_file = open(file_loc + "/cube_" + str(int(cube_id)) + 
-        "_kinematics.txt", 'w')
+        kinematics_file = open(file_loc + "/cube_" + str(int(cube_id)) + 
+            "_kinematics.txt", 'w')
 
-    best_fit = pp.bestfit
-    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_model", best_fit)
+        best_fit = pp.bestfit
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_model", best_fit)
 
-    red_chi2 = pp.chi2
-    print(pp.chi2)
-    
-    kinematics_file.write(f.getvalue())
-    kinematics_file.write("")
+        red_chi2 = pp.chi2
+        print("Rough reduced chi-squared from ppxf: " + pp.chi2)
+       
+        data_to_file = f.getvalue()
 
-    kinematics_file.write("Formal errors: \n")
-    kinematics_file.write("     dV    dsigma   dh3      dh4 \n")
-    kinematics_file.write("".join("%8.2g" % f for f in pp.error*np.sqrt(pp.chi2)) + 
-            "\n")
+        kinematics_file.write(data_to_file)
+        kinematics_file.write("")
 
-    kinematics_file.write('Elapsed time in PPXF: %.2f s' % (process_time() - t) + "\n")
+        kinematics_file.write("Formal errors: \n")
+        kinematics_file.write("     dV    dsigma   dh3      dh4 \n")
+        kinematics_file.write("".join("%8.2g" % f for f in pp.error*np.sqrt(pp.chi2)) 
+                + "\n")
 
-    graph_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
-    if not os.path.exists(graph_loc):
-        os.mkdir(graph_loc) 
+        kinematics_file.write('Elapsed time in PPXF: %.2f s' % (process_time() - t) 
+                + "\n")
 
-    kinematics_graph = (graph_loc + "/cube_" + str(int(cube_id)) + 
-            "_kinematics.pdf")
-    plt.savefig(kinematics_graph)
-    #plt.show()
-    plt.close("all")
+        graph_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
+        if not os.path.exists(graph_loc):
+            os.mkdir(graph_loc) 
+
+        kinematics_graph = (graph_loc + "/cube_" + str(int(cube_id)) + 
+                "_kinematics.pdf")
+        plt.savefig(kinematics_graph)
+        #plt.show()
+        plt.close("all") 
+
 
     # If the galaxy is at significant redshift z and the wavelength has been
     # de-redshifted with the three lines "z = 1.23..." near the beginning of
@@ -235,7 +245,7 @@ def kinematics_sdss(cube_id):
     #
     #print, 'Best-fitting redshift z:', (z + 1)*(1 + sol[0]/c) - 1
 
-    return {'reduced_chi2': red_chi2}
+    return {'reduced_chi2': red_chi2, 'noise': noise}
 
 #------------------------------------------------------------------------------
 

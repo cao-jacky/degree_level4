@@ -69,7 +69,6 @@ def ppxf_cube_auto():
     cube_id = 1804
     ppxf_cubes(cube_id)
     ppxf_plots.fitting_plotter(cube_id)
-    
 
-
-ppxf_cube_auto()
+#ppxf_cube_auto()
+ppxf_plots.sigma_sn()

@@ -4,6 +4,7 @@ import numpy as np
 from astropy.io import fits
 import peakutils
 
+import ppxf_fitter_kinematics_sdss
 import cube_analysis
 
 def model_data_overlay(cube_id):
@@ -192,7 +193,7 @@ def fitting_plotter(cube_id):
     rmask = residuals_mask
 
     #plt.scatter(x_data[rmask], residual[rmask], s=3, color="#f44336", alpha=0.5)
-    #plt.scatter(x_data[mask], residual[mask]-1, s=3, color="#43a047")
+    plt.scatter(x_data[mask], residual[mask]-1, s=3, color="#43a047")
 
     #plt.tick_params(labelsize=15)
     plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
@@ -205,7 +206,33 @@ def fitting_plotter(cube_id):
     return {'chi2': total_chi_sq,'redchi2': reduced_chi_sq}
 
 def sigma_sn():
-    cube = 1804 
+    cubes = np.array([1804,5])
+
+    # I want to store every thing which has been generated - what type of array do I 
+    # need?
+    
+    for i_cube in range(len(cubes)):
+        cube_id = cubes[i_cube]
+        
+        # running the best fit fitting routine 
+        best_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0)
+
+        best_noise = best_fit['noise']
+
+        # opening data for the best fitting
+        ppxf_result_file = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + 
+                str(cube_id) + "_kinematics.txt")
+        ppxf_result_file = open(ppxf_result_file)
+
+        prf_line_count = 0 
+        for prf_line in ppxf_result_file:
+            if (prf_line_count == 1):
+                curr_line = prf_line.split()
+                sigma_best = float(curr_line[3])
+            prf_line_count += 1
+
+        # want to consider between CaH and Hdelta 
+
 
 #chi_squared_cal(1804)
 #model_data_overlay(549)
