@@ -59,7 +59,9 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
     cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy") 
     cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
-        str(int(cube_id)) + "_cbs_y.npy") 
+        str(int(cube_id)) + "_cbs_y.npy")
+
+    cube_x_length = len(cube_x_data)
 
     # applying the perturbation to the y data
     cube_y_data = cube_y_data + perturbation
@@ -201,9 +203,9 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
     ppxf_variables = pp.sol
     red_chi2 = pp.chi2
 
-    plt.show()
+    #plt.show()
 
-    if (perturbation == 0):
+    if (np.sum(perturbation) == 0):
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
 
@@ -255,7 +257,8 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
     #print, 'Best-fitting redshift z:', (z + 1)*(1 + sol[0]/c) - 1
 
     return {'reduced_chi2': red_chi2, 'noise': noise, 'variables': ppxf_variables,
-            'y_data': galaxy, 'x_data': lam_gal, 'redshift': z}
+            'y_data': galaxy, 'x_data': lam_gal, 'redshift': z, 
+            'x_length': cube_x_length}
 
 #------------------------------------------------------------------------------
 

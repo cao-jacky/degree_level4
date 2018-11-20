@@ -207,7 +207,7 @@ def fitting_plotter(cube_id):
 
 def sigma_sn():
     cubes = np.array([1804])
-    to_run = 5 # number of times to run the random generator
+    to_run = 50 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -215,12 +215,11 @@ def sigma_sn():
     # 1st dimension: for every cube there is an array
     # 2nd dimension: there are same number of rows as to_run variable
     # 3rd dimension: columns to store data
-    #   [0] : perturbation value [= noise * random number]
-    #   [1] : new signal value [= signal + perturbation]
-    #   [2] : new sigma produced
-    #   [3] : (sigma_best - sigma_new) / sigma_best
-    #   [4] : new signal to noise value  
-    data = np.zeros([len(cubes),to_run,5])
+    #   [0] : new signal value [= signal + perturbation]
+    #   [1] : new sigma produced
+    #   [2] : (sigma_best - sigma_new) / sigma_best
+    #   [3] : new signal to noise value  
+    data = np.zeros([len(cubes),to_run,4])
     
     for i_cube in range(len(cubes)):
         cube_id = cubes[i_cube]
@@ -249,11 +248,11 @@ def sigma_sn():
         best_sn = np.median(best_y_masked) / noise_median
         
         for i in range(to_run):
-            ran_number = np.random.normal(0.0,1000.0)
+            ran_number = np.random.normal(0.0,1000.0,best_fit['x_length'])
             perturbation = noise_median * ran_number    
 
-            print("working with " + str(cube_id) + " and perturbation " + 
-                    str(perturbation))
+            print("working with " + str(cube_id) + " and index " + 
+                    str(i))
 
             new_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
                     perturbation, "all")
@@ -275,17 +274,22 @@ def sigma_sn():
 
             new_signal = np.median(new_y)
 
-            data[i_cube][i][0] = perturbation # perturbation
-            data[i_cube][i][1] = new_signal # new signal
-            data[i_cube][i][2] = new_sigma # new sigma
-            data[i_cube][i][3] = sigma_ratio # sigma ratio
-            data[i_cube][i][4] = new_signal / noise_median # signal to noise
+            data[i_cube][i][0] = new_signal # new signal
+            data[i_cube][i][1] = new_sigma # new sigma
+            data[i_cube][i][2] = sigma_ratio # sigma ratio
+            data[i_cube][i][3] = new_signal / noise_median # signal to noise
  
     np.save("data/sigma_vs_sn_data", data)
 
     plt.figure()
-    #plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
-    plt.scatter(data[:,:,4], data[:,:,3], color="#000000", s=10)
+    plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
+    plt.scatter(data[:,:,3], data[:,:,2], color="#000000", s=10)
+    #plt.ylim([np.min(data[:,:,3]), np.max(data[:,:,3])])
+
+    plt.xlabel(r'\textbf{S/N}', fontsize=15)
+    plt.ylabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+
+    plt.tight_layout()
     plt.savefig("graphs/sigma_vs_sn.pdf")
     plt.close("all") 
 
