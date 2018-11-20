@@ -207,7 +207,7 @@ def fitting_plotter(cube_id):
 
 def sigma_sn():
     cubes = np.array([1804])
-    to_run = 10 # number of times to run the random generator
+    to_run = 50 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -230,6 +230,8 @@ def sigma_sn():
         z = best_fit['redshift']
 
         best_noise = best_fit['noise']
+        original_noise = best_fit['noise_original']
+
         best_x = best_fit['x_data']
         best_y = best_fit['y_data']
 
@@ -248,12 +250,14 @@ def sigma_sn():
         best_sn = np.median(best_y_masked) / noise_median
 
         original_y = best_fit['y_data_original']
+
+        perturbation = perturbation
         
         for i in range(to_run):
             # upper limit should be 10000
             # lower limit should be
             ran_number = np.random.normal(2,1,best_fit['x_length'])
-            perturbation = noise_median * ran_number
+            perturbation = perturbation + original_noise * ran_number
 
             print("working with " + str(cube_id) + " and index " + 
                     str(i))
@@ -262,7 +266,7 @@ def sigma_sn():
                     perturbation, "all")
 
             new_variables = new_fit['variables']
-            new_sigma = new_variables[1] + best_sigma
+            new_sigma = new_variables[1] 
 
             sigma_ratio = ((new_sigma - best_sigma) / best_sigma)
             

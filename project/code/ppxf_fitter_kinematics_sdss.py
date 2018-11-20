@@ -258,7 +258,7 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
     return {'reduced_chi2': red_chi2, 'noise': noise, 'variables': ppxf_variables,
             'y_data': galaxy, 'x_data': lam_gal, 'redshift': z, 
             'x_length': cube_x_length, 'y_data_original': cube_y_original,
-            'model_data': best_fit}
+            'model_data': best_fit, 'noise_original': spectrum_noise}
 
 #------------------------------------------------------------------------------
 
