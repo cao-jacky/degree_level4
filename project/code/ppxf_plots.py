@@ -207,7 +207,7 @@ def fitting_plotter(cube_id):
 
 def sigma_sn():
     cubes = np.array([1804])
-    to_run = 100 # number of times to run the random generator
+    to_run = 10 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -246,10 +246,14 @@ def sigma_sn():
         noise_median = np.median(best_noise_masked)
 
         best_sn = np.median(best_y_masked) / noise_median
+
+        original_y = best_fit['y_data_original']
         
         for i in range(to_run):
-            ran_number = np.random.normal(100.0,100.0,best_fit['x_length'])
-            perturbation = noise_median * ran_number    
+            # upper limit should be 10000
+            # lower limit should be
+            ran_number = np.random.normal(2,1,best_fit['x_length'])
+            perturbation = noise_median * ran_number
 
             print("working with " + str(cube_id) + " and index " + 
                     str(i))
@@ -258,9 +262,8 @@ def sigma_sn():
                     perturbation, "all")
 
             new_variables = new_fit['variables']
-            new_sigma = new_variables[1]
+            new_sigma = new_variables[1] + best_sigma
 
-            print(new_sigma, best_sigma)
             sigma_ratio = ((new_sigma - best_sigma) / best_sigma)
             
             new_x = new_fit['x_data']
@@ -272,12 +275,18 @@ def sigma_sn():
             new_x = new_x[new_mask]
             new_y = new_y[new_mask]
 
+            new_model = new_fit['model_data']
             new_signal = np.median(new_y)
+
+            new_noise = new_fit['noise'][new_mask]
+            new_noise = np.median(new_noise)
+
+            print(new_sigma, best_sigma, new_signal/new_noise)
 
             data[i_cube][i][0] = new_signal # new signal
             data[i_cube][i][1] = new_sigma # new sigma
             data[i_cube][i][2] = sigma_ratio # sigma ratio
-            data[i_cube][i][3] = new_signal / noise_median # signal to noise
+            data[i_cube][i][3] = new_signal / new_noise # signal to noise
  
     np.save("data/sigma_vs_sn_data", data)
 

@@ -61,6 +61,7 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
     cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbs_y.npy")
 
+    cube_y_original = cube_y_data
     cube_x_length = len(cube_x_data)
 
     # applying the perturbation to the y data
@@ -202,6 +203,7 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
 
     ppxf_variables = pp.sol
     red_chi2 = pp.chi2
+    best_fit = pp.bestfit
 
     #plt.show()
 
@@ -219,7 +221,6 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
         kinematics_file = open(file_loc + "/cube_" + str(int(cube_id)) + 
             "_kinematics.txt", 'w')
 
-        best_fit = pp.bestfit
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_model", best_fit)
 
         print("Rough reduced chi-squared from ppxf: " + str(pp.chi2))
@@ -247,8 +248,6 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
         #plt.show()
         plt.close("all")
 
-
-
     # If the galaxy is at significant redshift z and the wavelength has been
     # de-redshifted with the three lines "z = 1.23..." near the beginning of
     # this procedure, the best-fitting redshift is now given by the following
@@ -258,7 +257,8 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
 
     return {'reduced_chi2': red_chi2, 'noise': noise, 'variables': ppxf_variables,
             'y_data': galaxy, 'x_data': lam_gal, 'redshift': z, 
-            'x_length': cube_x_length}
+            'x_length': cube_x_length, 'y_data_original': cube_y_original,
+            'model_data': best_fit}
 
 #------------------------------------------------------------------------------
 
