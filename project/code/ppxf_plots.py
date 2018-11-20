@@ -239,7 +239,8 @@ def sigma_sn():
         best_sigma = best_variables[1]
 
         # want to consider between CaH and Hdelta, the range to consider (rtc) is
-        rtc = np.array([3969.588, 4101.89]) * (1+z) 
+        #rtc = np.array([3969.588, 4101.89]) * (1+z) 
+        rtc = np.array([4000, 4080]) * (1+z) 
         rtc_mask = ((best_x > rtc[0]) & (best_x < rtc[1]))
 
         best_y_masked = best_y[rtc_mask]
@@ -251,13 +252,13 @@ def sigma_sn():
 
         original_y = best_fit['y_data_original']
 
-        perturbation = perturbation
+        #perturbation = original_noise
         
         for i in range(to_run):
             # upper limit should be 10000
             # lower limit should be
             ran_number = np.random.normal(2,1,best_fit['x_length'])
-            perturbation = perturbation + original_noise * ran_number
+            perturbation = original_noise * ran_number
 
             print("working with " + str(cube_id) + " and index " + 
                     str(i))
@@ -273,7 +274,8 @@ def sigma_sn():
             new_x = new_fit['x_data']
             new_y = new_fit['y_data']
             
-            new_rtc = np.array([3969.588, 4101.89]) * (1+z) 
+            #new_rtc = np.array([3969.588, 4101.89]) * (1+z) 
+            new_rtc = np.array([4000, 4080]) * (1+z) 
             new_mask = ((new_x > new_rtc[0]) & (new_x < new_rtc[1]))
 
             new_x = new_x[new_mask]
