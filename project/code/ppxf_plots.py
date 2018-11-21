@@ -206,8 +206,8 @@ def fitting_plotter(cube_id):
     return {'chi2': total_chi_sq,'redchi2': reduced_chi_sq}
 
 def sigma_sn():
-    cubes = np.array([1804,5])
-    to_run = 100 # number of times to run the random generator
+    cubes = np.array([1804])
+    to_run = 50 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -230,9 +230,6 @@ def sigma_sn():
         z = best_fit['redshift']
 
         best_noise = best_fit['noise']
-        original_noise = best_fit['noise_original']
-
-        or_noise_median = np.median(original_noise)
 
         best_x = best_fit['x_data']
         best_y = best_fit['y_data']
@@ -251,54 +248,52 @@ def sigma_sn():
         noise_median = np.median(best_noise_masked)
 
         best_sn = np.median(best_y_masked) / noise_median
+        
+        # the median of the data and the average of the noise should be similar
+        n1 = np.std(best_y_masked)
+        n2 = np.average(best_noise)
+        print(n1, n2)
 
         original_y = best_fit['y_data_original']
-
-        perturbation = original_noise
+        galaxy_spectrum = original_y 
         
         for i in range(to_run):
-            # upper limit should be 10000
-            # lower limit should be
-            ran_number = np.random.normal(2,1,best_fit['x_length'])
-            perturbation = (np.median(perturbation) * ran_number)
+            # generating a random noise distribution using a mean of 0 and the 
+            # standard deviation of the original galaxy spectrum within a region
+            random_noise = np.abs(np.random.normal(0, n1, best_fit['x_length']))
+            
+            # adding noise to the (new and same) galaxy spectrum
+            galaxy_spectrum = galaxy_spectrum + random_noise
+            print(galaxy_spectrum)
 
             print("working with " + str(cube_id) + " and index " + str(i))
 
             new_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
-                    perturbation, "all")
+                    galaxy_spectrum, "all")
 
             new_variables = new_fit['variables']
             new_sigma = new_variables[1] 
 
-            sigma_ratio = np.abs((new_sigma - best_sigma) / best_sigma)
+            sigma_ratio = np.abs(new_sigma - best_sigma) / best_sigma
             
             new_x = new_fit['x_data']
             new_y = new_fit['y_data']
-            
-            #new_rtc = np.array([3969.588, 4101.89]) * (1+z) 
-            new_rtc = np.array([4000, 4080]) * (1+z) 
-            new_mask = ((new_x > new_rtc[0]) & (new_x < new_rtc[1]))
+             
+            new_mask = ((new_x > rtc[0]) & (new_x < rtc[1]))
 
             new_x = new_x[new_mask]
             new_y = new_y[new_mask]
 
             new_model = new_fit['model_data']
             new_signal = np.median(new_y)
-
-            new_noise = new_fit['noise'][new_mask]
-            new_noise = np.median(new_noise)
-
-            perturbation_noise = new_fit['perturbation'][new_mask]
-            perturbation_noise = np.median(perturbation_noise)
-
-            signal_const = np.median(best_y_masked) # signal remains the same
+            new_noise = np.std(new_y)
  
-            print(new_sigma, best_sigma, signal_const/perturbation_noise, perturbation_noise)
+            print(new_sigma, best_sigma, new_signal/new_noise, new_noise)
 
             data[i_cube][i][0] = new_signal # new signal
             data[i_cube][i][1] = new_sigma # new sigma
             data[i_cube][i][2] = sigma_ratio # sigma ratio
-            data[i_cube][i][3] = signal_const / perturbation_noise # signal to noise
+            data[i_cube][i][3] = new_signal / new_noise # signal to noise
  
     np.save("data/sigma_vs_sn_data", data)
 

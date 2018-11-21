@@ -31,7 +31,7 @@ def cube_noise():
     noise = np.sum(np.abs(cube_noise_data))
     return {'noise_value': noise, 'spectrum_noise': cube_noise_data}
 
-def kinematics_sdss(cube_id, perturbation, fit_range):     
+def kinematics_sdss(cube_id, y_data, fit_range):     
     file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
     if not os.path.exists(file_loc):
         os.mkdir(file_loc) 
@@ -58,15 +58,16 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
 
     cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy") 
-    cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
-        str(int(cube_id)) + "_cbs_y.npy")
+    if (np.sum(y_data) == 0):
+        cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
+            str(int(cube_id)) + "_cbs_y.npy")
+    else:
+        cube_y_data = y_data
 
     cube_y_original = cube_y_data
     cube_x_length = len(cube_x_data)
 
     # applying the perturbation to the y data
-    cube_y_data = cube_y_data + perturbation
-
     initial_mask = (cube_x_data > 3540 * (1+z))
     cube_x_data = cube_x_data[initial_mask] 
     cube_y_data = cube_y_data[initial_mask]
@@ -93,17 +94,10 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
     cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
     spec_noise = spectrum_noise[initial_mask][mask]
-
+    
     segmentation_data = hdu[2].data
     seg_loc_rows, seg_loc_cols = np.where(segmentation_data == cube_id)
     signal_pixels = len(seg_loc_rows) 
-    
-    if (np.sum(perturbation) == 0):
-        perturbation_sliced = 0
-    else:
-        perturbation_sliced = perturbation[initial_mask][mask] + spec_noise
-        perturbation_sliced = ((perturbation_sliced * np.sqrt(signal_pixels)) 
-                / np.median(flux))
 
     noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux)
 
@@ -214,7 +208,7 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
 
     #plt.show()
 
-    if (np.sum(perturbation) == 0):
+    if (np.sum(y_data) == 0):
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
 
@@ -265,8 +259,7 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
     return {'reduced_chi2': red_chi2, 'noise': noise, 'variables': ppxf_variables,
             'y_data': galaxy, 'x_data': lam_gal, 'redshift': z, 
             'x_length': cube_x_length, 'y_data_original': cube_y_original,
-            'model_data': best_fit, 'noise_original': spectrum_noise, 'perturbation': 
-            perturbation_sliced}
+            'model_data': best_fit, 'noise_original': spectrum_noise}
 
 #------------------------------------------------------------------------------
 
