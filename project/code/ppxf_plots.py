@@ -232,6 +232,8 @@ def sigma_sn():
         best_noise = best_fit['noise']
         original_noise = best_fit['noise_original']
 
+        or_noise_median = np.median(original_noise)
+
         best_x = best_fit['x_data']
         best_y = best_fit['y_data']
 
@@ -252,13 +254,13 @@ def sigma_sn():
 
         original_y = best_fit['y_data_original']
 
-        #perturbation = original_noise
+        perturbation = np.median(original_noise)
         
         for i in range(to_run):
             # upper limit should be 10000
             # lower limit should be
             ran_number = np.random.normal(2,1,best_fit['x_length'])
-            perturbation = original_noise * ran_number
+            perturbation = perturbation + or_noise_median * ran_number
 
             print("working with " + str(cube_id) + " and index " + 
                     str(i))
@@ -287,12 +289,12 @@ def sigma_sn():
             new_noise = new_fit['noise'][new_mask]
             new_noise = np.median(new_noise)
 
-            print(new_sigma, best_sigma, new_signal/new_noise)
+            print(new_sigma, best_sigma, np.median(best_y_masked)/new_noise, new_noise)
 
             data[i_cube][i][0] = new_signal # new signal
             data[i_cube][i][1] = new_sigma # new sigma
             data[i_cube][i][2] = sigma_ratio # sigma ratio
-            data[i_cube][i][3] = new_signal / new_noise # signal to noise
+            data[i_cube][i][3] = np.median(best_y_masked) / new_noise # signal to noise
  
     np.save("data/sigma_vs_sn_data", data)
 
