@@ -207,7 +207,7 @@ def fitting_plotter(cube_id):
 
 def sigma_sn():
     cubes = np.array([1804])
-    to_run = 100 # number of times to run the random generator
+    to_run = 500 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -247,20 +247,21 @@ def sigma_sn():
 
         noise_median = np.median(best_noise_masked)
 
-        best_sn = np.median(best_y_masked) / noise_median
+        best_sn = best_y_masked / best_noise_masked
+        average_best_sn = np.average(best_sn)
         
         # the median of the data and the average of the noise should be similar
         n1 = np.std(best_y_masked)
-        n2 = np.average(best_noise)
+        n2 = np.average(best_noise_masked)
         print(n1, n2)
 
         original_y = best_fit['y_data_original']
         galaxy_spectrum = original_y 
-        
+ 
         for i in range(to_run):
             # generating a random noise distribution using a mean of 0 and the 
             # standard deviation of the original galaxy spectrum within a region
-            random_noise = np.abs(np.random.normal(0, n1, best_fit['x_length']))
+            random_noise = np.abs(np.random.normal(0, n1, len(galaxy_spectrum)))
             
             # adding noise to the (new and same) galaxy spectrum
             galaxy_spectrum = galaxy_spectrum + random_noise
@@ -284,16 +285,20 @@ def sigma_sn():
             new_x = new_x[new_mask]
             new_y = new_y[new_mask]
 
-            new_model = new_fit['model_data']
-            new_signal = np.median(new_y)
-            new_noise = np.std(new_y)
- 
-            print(new_sigma, best_sigma, new_signal/new_noise, new_noise)
+            non_scaled_y = new_fit['non_scaled_y'][new_mask]
 
-            data[i_cube][i][0] = new_signal # new signal
+            new_signal = new_y            
+            new_noise = np.std(new_y)
+
+            new_sn = new_signal / new_noise
+            new_sn = np.average(new_sn)
+ 
+            print(new_sigma, best_sigma, new_sn, new_noise, np.average(new_y))
+
+            data[i_cube][i][0] = np.median(new_signal) # new signal
             data[i_cube][i][1] = new_sigma # new sigma
             data[i_cube][i][2] = sigma_ratio # sigma ratio
-            data[i_cube][i][3] = new_signal / new_noise # signal to noise
+            data[i_cube][i][3] = new_sn # signal to noise
  
     np.save("data/sigma_vs_sn_data", data)
 

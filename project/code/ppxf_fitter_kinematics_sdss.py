@@ -65,7 +65,6 @@ def kinematics_sdss(cube_id, y_data, fit_range):
         cube_y_data = y_data
 
     cube_y_original = cube_y_data
-    cube_x_length = len(cube_x_data)
 
     # applying the perturbation to the y data
     initial_mask = (cube_x_data > 3540 * (1+z))
@@ -90,6 +89,9 @@ def kinematics_sdss(cube_id, y_data, fit_range):
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
     loglam_gal = loglam[mask]
     lam_gal = 10**loglam_gal 
+
+    # galaxy spectrum not scaled 
+    galaxy_ns = flux
 
     cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
@@ -258,7 +260,7 @@ def kinematics_sdss(cube_id, y_data, fit_range):
 
     return {'reduced_chi2': red_chi2, 'noise': noise, 'variables': ppxf_variables,
             'y_data': galaxy, 'x_data': lam_gal, 'redshift': z, 
-            'x_length': cube_x_length, 'y_data_original': cube_y_original,
+            'y_data_original': cube_y_original, 'non_scaled_y': galaxy_ns,
             'model_data': best_fit, 'noise_original': spectrum_noise}
 
 #------------------------------------------------------------------------------
