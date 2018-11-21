@@ -96,9 +96,16 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
 
     segmentation_data = hdu[2].data
     seg_loc_rows, seg_loc_cols = np.where(segmentation_data == cube_id)
-    signal_pixels = len(seg_loc_rows)
+    signal_pixels = len(seg_loc_rows) 
+    
+    if (np.sum(perturbation) == 0):
+        perturbation_sliced = 0
+    else:
+        perturbation_sliced = perturbation[initial_mask][mask] + spec_noise
+        perturbation_sliced = ((perturbation_sliced * np.sqrt(signal_pixels)) 
+                / np.median(flux))
 
-    noise = spec_noise * np.sqrt(signal_pixels) / np.median(flux)
+    noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux)
 
     c = 299792.458                  # speed of light in km/s
     frac = lam_gal[1]/lam_gal[0]    # Constant lambda fraction per pixel
@@ -258,7 +265,8 @@ def kinematics_sdss(cube_id, perturbation, fit_range):
     return {'reduced_chi2': red_chi2, 'noise': noise, 'variables': ppxf_variables,
             'y_data': galaxy, 'x_data': lam_gal, 'redshift': z, 
             'x_length': cube_x_length, 'y_data_original': cube_y_original,
-            'model_data': best_fit, 'noise_original': spectrum_noise}
+            'model_data': best_fit, 'noise_original': spectrum_noise, 'perturbation': 
+            perturbation_sliced}
 
 #------------------------------------------------------------------------------
 
