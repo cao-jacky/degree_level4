@@ -207,7 +207,7 @@ def fitting_plotter(cube_id):
 
 def sigma_sn():
     cubes = np.array([1804])
-    to_run = 500 # number of times to run the random generator
+    to_run = 3 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -253,21 +253,27 @@ def sigma_sn():
         # the median of the data and the average of the noise should be similar
         n1 = np.std(best_y_masked)
         n2 = np.average(best_noise_masked)
-        print(n1, n2)
+        print(n1, n2, average_best_sn, np.average(best_y_masked/np.var(best_y_masked)))
 
         original_y = best_fit['y_data_original']
         galaxy_spectrum = original_y 
+
+        n_std = np.std(best_noise_masked)
  
         for i in range(to_run):
+            print("working with " + str(cube_id) + " and index " + str(i))
+
             # generating a random noise distribution using a mean of 0 and the 
             # standard deviation of the original galaxy spectrum within a region
-            random_noise = np.abs(np.random.normal(0, n1, len(galaxy_spectrum)))
-            
-            # adding noise to the (new and same) galaxy spectrum
-            galaxy_spectrum = galaxy_spectrum + random_noise
-            print(galaxy_spectrum)
+            random_noise = (np.random.normal(0, n_std, len(galaxy_spectrum)))
 
-            print("working with " + str(cube_id) + " and index " + str(i))
+            # I've produced 1 standard deviations worth of noise with the above 
+            # random_noise variable
+
+            # adding the noise to the galaxy_spectrum variable -> the standard 
+            # deviation of which should always be increasing
+            galaxy_spectrum = galaxy_spectrum + (random_noise)
+            print(np.std(galaxy_spectrum))
 
             new_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
                     galaxy_spectrum, "all")
@@ -286,14 +292,14 @@ def sigma_sn():
             new_y = new_y[new_mask]
 
             non_scaled_y = new_fit['non_scaled_y'][new_mask]
-
+            
             new_signal = new_y            
-            new_noise = np.std(new_y)
+            new_noise = np.var(new_y)
 
             new_sn = new_signal / new_noise
             new_sn = np.average(new_sn)
  
-            print(new_sigma, best_sigma, new_sn, new_noise, np.average(new_y))
+            print(new_sigma, best_sigma, new_sn, new_noise)
 
             data[i_cube][i][0] = np.median(new_signal) # new signal
             data[i_cube][i][1] = new_sigma # new sigma

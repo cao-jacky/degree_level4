@@ -88,7 +88,7 @@ def kinematics_sdss(cube_id, y_data, fit_range):
  
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
     loglam_gal = loglam[mask]
-    lam_gal = 10**loglam_gal 
+    lam_gal = 10**loglam_gal
 
     # galaxy spectrum not scaled 
     galaxy_ns = flux
