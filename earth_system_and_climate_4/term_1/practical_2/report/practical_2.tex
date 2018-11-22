@@ -9,7 +9,8 @@
 \usepackage{subcaption}
 
 \usepackage[font=small, labelfont=bf]{caption}                      % Defines caption font size and caption title bolded
-\captionsetup[figure]{justification=justified, singlelinecheck=off, font=footnotesize} 
+\captionsetup[figure]{justification=justified, singlelinecheck, font=small} 
+\captionsetup[table]{justification=justified, singlelinecheck=off, font=small} 
 \captionsetup{compatibility=false}
 
 \usepackage{graphics,graphicx,epsfig,ulem}	% Makes sure all graphics works
@@ -37,22 +38,18 @@
 
 The Milankovitch-Croll hypothesis suggests that changes in the Earth's orbit around the Sun leads to changes in the Earth's planetary climate through fluctuations in solar insolation \cite{ruddiman_climate}. We can access and view this change of climate through analysing proxy data. By using deep ocean sediment cores and Earth orbital data, we can explore the hypothesis and it's validity through performing various data analysis techniques. \\
 
-We begin with the importance of sediment cores. Their usefulness arises from the fact that they contain a good trace for measuring the $\delta^{18}$O ratio across periods of Earth's history \cite{droxler_climate}. The change in this ratio can provide us with an indication of how the global temperature has been fluctuating across eras, this could then be linked to other climate changes such as whether the global ice volume has been increasing or decreasing. \\
+We begin with the importance of sediment cores. Their usefulness arises from the fact that they contain a trace for measuring the $\delta^{18}$O ratio across periods of Earth's history \cite{droxler_climate}. The change in this value can provide us with an indication of how the global temperature has been fluctuating across eras and it can tell us about global ice volume. \\
 
-Defined from laboratory experiments, for a $\sim 5^{\circ}\mathrm{C}$ temperature increase there is an $\sim 1$\textperthousand\ decrease in the $\delta^{18}$O ratio of a foram shell. As ice-sheets melt, more $^{16}$O is released into the ocean, thus reducing the ratio. Looking at Figure \ref{fig:foram_data} we can see the sediment core data for two periods from Earth's history. In the more recent age the amplitude of the $\delta^{18}$O varies more considerably than from 4 Myr to 5 Myr, suggesting that close to present times there have been longer periods of cooling due to a more dramatic shift in temperature. With a cooler climate, there would be a larger amount of ice on the planet. Comparing with the older $\delta^{18}$O data, we see that it still features the sinusoidal like trend, albeit with a smaller amplitude. This suggests that the glacial-interglacial events are a normal part of Earth's planetary climate cycle. \\
+Defined from laboratory experiments, for a $\sim 5^{\circ}\mathrm{C}$ temperature increase there is an $\sim 1$\textperthousand\ decrease in the $\delta^{18}$O ratio of a foram shell. As ice-sheets melt, more $^{16}$O is released into the oceans, thus reducing the ratio. Looking at Figure \ref{fig:foram_data} we can see the sediment core data for two periods from Earth's history. In the more recent age the amplitude of the $\delta^{18}$O varies more considerably than from 4 Myr to 5 Myr, suggesting that close to present times the temperature has shifted dramatically leading to longer periods of cooling. With a cooler climate, there would be a larger amount of ice on the planet. Comparing with the older $\delta^{18}$O data, we see that it still features the sinusoidal-like trend, albeit with a smaller amplitude. This suggests that the glacial-interglacial events are a normal part of Earth's planetary climate cycle and could be related to the cyclical Earth-Sun orbital relationship. \\
 
 % not a fan of the above paragraph, it's a bit convoluted
 % TODO discuss changes in global ice volume, particularly in the last 2-3 million years
 
-It is then not difficult to suggest that there might be a connection between glacials-interglacials and the cyclical Earth-Sun orbital relationship. Through the analysis of such astrophysical data and paired with sediment cores we can further our investigation. \\
+In looking at our astrophysical data there are three concepts to consider, namely eccentricity, precession, and obliquity. The former describes the ellipticity of the Earth's orbit around the Sun \cite{carroll_astro}, it's effect on insolation is not entirely independent as the eccentricity also depends on the orbital angle between the solstices and the position of perihelion/aphelion. We can produce a precessional index value with $\chi= \varepsilon \sin{\omega}$, where $\varepsilon$ is the eccentricity and $\omega$ is the angle. Finally we can define obliquity as the value which describes the degree of tilt of the Earth's axis. \\
 
-To start with, we can can consider the each of the separate but interlinked features, namely eccentricity, obliquity, and precession. The former describes the ellipticity of the Earth's orbit around the Sun \cite{carroll_astro}, however the effect of eccentricity $\varepsilon$ on insolation is not entirely independent as the eccentricity also depends on the orbital angle between the solstices and the position of perihelion/aphelion $\omega$. This can be summarised as $\chi= \varepsilon \sin{\omega}$, where $\chi$ is the precessional index. Finally, the obliquity is given as the value which describes the degree of tilt of the Earth's axis. \\
-
-With these definitions in mind, we can proceed to evaluate the orbital data by applying two statistical analysis techniques. The first of which is wavelet analysis (WA), using the software package PAST3 \cite{past3} we can obtain heatmaps as shown in \ref{fig:wa_orbital_data}. Parsing the data through WA allows us to pick out the dominant frequencies in the data \\
+With these definitions in mind, we can proceed to evaluate and verify that our orbital data agrees with literature by applying two statistical analysis techniques. The first of which is \textit{wavelet analysis} (WA), by using the WA tool in PAST3 \cite{past3} we can obtain heatmaps which contain the dominant frequencies from a dataset. As shown in Figure \ref{fig:wa_orbital_data} (a)-(c) and summarised in Table \ref{table:final_results}, we can compare the obtained values to the literature wavelengths and find that there is an average $\sim 96 \%$ agreement. Our second tool is REDFIT analysis, an example of method applied to the benthic foram data can be seen in Figure \ref{fig:d18o_redfit}, where frequencies can be matched up to peaks which have a height greater than the $95\%$ confidence interval  \\
 
 If we are able to so that the tools can be used on the $\delta^{18}$O foram data as well. \\
-
-The eccentricity describes how elliptical the orbit of the Earth is around the Sun \cite{carroll_astro}. From an initial wavelet analysis using the software PAST3 \cite{past3} we find that there are three wavelengths of interest. In Figure \ref{fig:wa_orbital_data}(a) and from Table \ref{table:final_results} we see that the dominant signal throughout the dataset is 401.7 ka, with 89.1 ka and 100.4 ka as two other signals present. However, the influence of eccentricity on insolation is not independent as eccentricity $\varepsilon$ depends on the angle between the solstices and the perihelion/aphelion $\omega$ on the orbit. This can be summed up to be $\chi= \varepsilon \sin{\omega}$, where $\chi$ is the precessional index. Performing a similar wavelet analysis we can see in Figure \ref{fig:wa_orbital_data}(b) that there is only one main wavelength prevalent at 21.1 ka. Finally obliquity is the third orbital feature to consider, this value represents the tilt of the Earth's axis, with Figure \ref{fig:wa_orbital_data}(c) we can find a wavelength of 39.4 ka. \\ 
 
 Comparison with the ``true'' wavelengths, from Table \ref{table:final_results} 
 
@@ -69,7 +66,7 @@ Comparison with the ``true'' wavelengths, from Table \ref{table:final_results}
 \begin{figure}[!h]
 \begin{center}
 \includegraphics[width=11cm]{figures/foram_data}
-\caption[]{Plots of the marine benthic foram $\delta^{18}$O data against age since the present day (the holocene). Both data sets have been taken out of a larger set which spans from 0 Myr to 6 Myr. We see that as we move closer towards the present day, the periodicity and amplitude is larger which implies that there is a more extreme temperature variation.}
+\caption[]{Plots of the marine benthic foram $\delta^{18}$O data against age, with increasing time to the right. Both data sets have been taken out of a larger set which spans from 0 Myr to 6 Myr. As we move closer towards the present day, the periodicity and amplitude is larger which implies more extreme temperature variations so longer glacial-interglacials and a larger change in the global ice volume.}
 \vspace{-3ex}
 \label{fig:foram_data}
 \end{center}
@@ -78,7 +75,7 @@ Comparison with the ``true'' wavelengths, from Table \ref{table:final_results}
 \begin{figure}[!h]
 \begin{center}
 \includegraphics[width=16cm]{figures/wa_orbital_data}
-\caption[]{The eccentricity, obliquity and perihelion longitude orbital data processed with the wavelet analysis tool in PAST3. The periodicities from the data can be obtained by considering the ``hottest'' areas of each of the heat maps. In Table \ref{table:final_results} we summarise the wavelengths which can be obtained from the dashed lines.}
+\caption[]{The eccentricity, obliquity and perihelion longitude (precession) orbital data which has been processed with the wavelet analysis tool in PAST3. The periodicities from the data can be obtained by considering the ``hottest'' areas of each of the heat maps (i.e. the red/orange areas). Values for the wavelength can be found with $2^y \times P$, where $y$ is the y-axis height of the hot region, and $P$ is the period of time between the data points. In Table \ref{table:final_results} we summarise the wavelengths which correspond to the dashed-line heights.}
 \vspace{-3ex}
 \label{fig:wa_orbital_data}
 \end{center}
@@ -87,7 +84,7 @@ Comparison with the ``true'' wavelengths, from Table \ref{table:final_results}
 \begin{figure}[!h]
 \begin{center}
 \includegraphics[width=11cm]{figures/wa_d18O.pdf}
-\caption[]{Applying the PAST3 wavelet analysis tool to the $\delta^{18}$O benthic foram data we can use this as one of the possible ways to verify if the Milankovitch-Croll hypothesis is valid.}
+\caption[]{The result from applying the PAST3 wavelet analysis tool to the $\delta^{18}$O benthic foram data, the wavelengths found are summarised in Table \ref{table:final_results}. The results are similar to those found in the orbital data, which could imply that orbital forcing does have an influence on glacial-interglacial climate.}
 \vspace{-3ex}
 \label{fig:wa_d18o}
 \end{center}
@@ -96,7 +93,7 @@ Comparison with the ``true'' wavelengths, from Table \ref{table:final_results}
 \begin{figure}[!h]
 \begin{center}
 \includegraphics[width=11cm]{figures/d18O_redfit}
-\caption[]{The benthic foram $\delta^{18}$O data analysed using the REDFIT spectral analysis tool in PAST3.}
+\caption[]{The benthic foram $\delta^{18}$O data analysed using the REDFIT spectral analysis tool in PAST3. Three dominant signals can be seen as coloured in green, they are defined as the main signals as they have a height greater than the $95\%$ confidence interval (the red curve). The same results can be found in Table \ref{table:final_results}, and comparing to the ``true'' wavelengths we also find similarities which further strengthens the possibility that the Milankovitch-Croll hypothesis has some validity.}
 \vspace{-3ex}
 \label{fig:d18o_redfit}
 \end{center}
@@ -114,7 +111,7 @@ Comparison with the ``true'' wavelengths, from Table \ref{table:final_results}
  & & & 945.5, 1247.6 \\
  \hline
 \end{tabular}
-\caption{Table showing three columns of wavelength data: the approximate correct wavelengths for the periodicity of the orbital features \cite{campisano_milankovitch}, and the results of the REDFIT analysis and Wavelet Analysis (WA) on the orbital and benthic foram data.}
+\caption{Table showing different sets of wavelength data: the approximate correct wavelengths for the periodicity of the orbital features \cite{campisano_milankovitch}, the results of the REDFIT spectral analysis and Wavelet Analysis (WA) on the orbital and benthic foram data. We find that as tools both REDFIT and WA are able to obtain similar periodicities which then agree with the literature values. }
 \vspace{-0.5em}
 \label{table:final_results}
 \end{table}
