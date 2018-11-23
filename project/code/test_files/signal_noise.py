@@ -101,7 +101,7 @@ def multiple_spectrums():
         # fitting a gaussian to the new spectrum
         new_gauss_params = Parameters()
         new_gauss_params.add('a', value=bgm['a'])
-        new_gauss_params.add('scale', value=bgm['scale'], min=0.0)
+        new_gauss_params.add('scale', value=bgm['scale'])
         new_gauss_params.add('mean', value=bgm['mean'], min=bgm['mean']-1, 
                 max=bgm['mean']+1)
         new_gauss_params.add('sigma', value=bgm['sigma'])
