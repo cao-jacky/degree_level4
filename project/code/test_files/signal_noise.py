@@ -3,27 +3,56 @@ from matplotlib import rc
 
 import numpy as np
 
+from lmfit import Parameters, Model
+
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = [r'\boldmath']
+
+def gauss(x, a, scale, mean, sigma):
+    sigma_term = 1 / (sigma*np.sqrt(2*np.pi))
+    exp_term = np.exp(-(1/2)*((x-mean)/(sigma))**2)
+    return a + scale*sigma_term*exp_term
 
 def original_signal_generator():
     np.random.seed(0) # seeding the random numpy generator to create an original signal
 
     x_length = 1000
     x_data = np.arange(0, x_length, 1)
-
+    
     continuum_level = 100
+
+    # adding a gaussian profile to the data
+    gauss_std = 1.0
+    scale = 10.0
+    y_gauss = gauss(x_data, continuum_level, scale, x_length/2, gauss_std)
+ 
     noise = np.random.normal(0, 1, x_length)
+    #y_data = np.full(x_length, continuum_level)
+    y_data = y_gauss + noise
 
-    y_data = np.full(x_length, continuum_level)
-    y_data = y_data + noise
+    # refitting using lmfit to verify parameter values
+    gauss_params = Parameters()
+    gauss_params.add('a', value=continuum_level)
+    gauss_params.add('scale', value=scale, min=0.0)
+    gauss_params.add('mean', value=x_length/2)
+    gauss_params.add('sigma', value=gauss_std)
 
+    gauss_model = Model(gauss)
+    gauss_result = gauss_model.fit(y_data, x=x_data, params=gauss_params)
+
+    optimal_params = gauss_result.best_values
+    print(optimal_params)
+
+    model_gauss = gauss(x_data, optimal_params['a'], optimal_params['scale'], 
+            optimal_params['mean'], optimal_params['sigma']) 
+    
     signal_to_noise = y_data / np.std(y_data)
     print(np.average(signal_to_noise))
  
     plt.figure()
     plt.plot(x_data, y_data, linewidth=0.5, color="#000000")
+    plt.plot(x_data, model_gauss, linewidth=0.5, color="#e53935")
 
     plt.xlabel(r'\textbf{x-axis}', fontsize=15)
     plt.ylabel(r'\textbf{y-axis}', fontsize=15)
@@ -32,7 +61,7 @@ def original_signal_generator():
     plt.savefig("signal_noise_graphs/signal_"+str(continuum_level)+".pdf")
     plt.close("all")
 
-    return {'x': x_data, 'y': y_data}
+    return {'x': x_data, 'y': y_data, 'gauss_parameters': optimal_params}
 
 def multiple_spectrums():
     original_galaxy = original_signal_generator()
