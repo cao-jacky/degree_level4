@@ -23,12 +23,12 @@ def original_signal_generator():
     continuum_level = 100
 
     # adding a gaussian profile to the data
-    gauss_std = 1.0
+    gauss_std = 10
     scale = 10.0
     mean = x_length/2
     y_gauss = gauss(x_data, continuum_level, scale, mean, gauss_std)
  
-    noise = np.random.normal(0, 1, x_length)
+    noise = np.random.normal(0, 0.25, x_length)
     #y_data = np.full(x_length, continuum_level)
     y_data = y_gauss + noise
 
@@ -57,6 +57,7 @@ def original_signal_generator():
     plt.figure()
     plt.plot(x_data, y_data, linewidth=0.5, color="#000000")
     plt.plot(x_data, model_gauss, linewidth=0.5, color="#e53935")
+    plt.plot(x_data, y_gauss, linewidth=0.5, color="#ffc107")
 
     plt.xlabel(r'\textbf{x-axis}', fontsize=15)
     plt.ylabel(r'\textbf{y-axis}', fontsize=15)
@@ -78,7 +79,7 @@ def multiple_spectrums():
 
     best_sigma = bgm['sigma']
 
-    runs = 100
+    runs = 200
 
     # data to store
     # 1st dimension: number of runs
@@ -94,7 +95,7 @@ def multiple_spectrums():
 
     for i in range(runs):
         np.random.seed()
-        new_noise = np.random.normal(0, 1, len(original_x))
+        new_noise = np.random.normal(0, 0.25, len(original_x))
         #print(np.std(spectrum))
         spectrum = spectrum + new_noise
 
@@ -102,8 +103,8 @@ def multiple_spectrums():
         new_gauss_params = Parameters()
         new_gauss_params.add('a', value=bgm['a'])
         new_gauss_params.add('scale', value=bgm['scale'])
-        new_gauss_params.add('mean', value=bgm['mean'], min=bgm['mean']-1, 
-                max=bgm['mean']+1)
+        new_gauss_params.add('mean', value=bgm['mean'], min=bgm['mean']-5, 
+                max=bgm['mean']+5)
         new_gauss_params.add('sigma', value=bgm['sigma'])
 
         new_gauss_model = Model(gauss)
@@ -178,6 +179,18 @@ def multiple_spectrums():
 
     plt.tight_layout()
     plt.savefig("signal_noise_results/sigma_diff_vs_sn.pdf")
+    plt.close("all")
+
+    # plotting abs(sigma_in-sigma_out)/sigma_in vs S/N from 10 to 0 
+    plt.figure()
+    plt.plot(data[:,1], data[:,3], linewidth=0.5, color="#000000")
+
+    plt.xlabel(r'\textbf{signal to noise}', fontsize=15)
+    plt.ylabel(r'\textbf{$\mid\sigma_{in}-\sigma_{out}\mid$/$\sigma_{in}$}', fontsize=15)
+
+    plt.xlim([0,10])
+    plt.tight_layout()
+    plt.savefig("signal_noise_results/sigma_diff_vs_sn_0to10.pdf")
     plt.close("all")
 
 
