@@ -207,7 +207,7 @@ def fitting_plotter(cube_id):
 
 def sigma_sn():
     cubes = np.array([1804])
-    to_run = 50 # number of times to run the random generator
+    to_run = 200 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -229,7 +229,7 @@ def sigma_sn():
 
         z = best_fit['redshift']
 
-        best_noise = best_fit['noise']
+        best_noise = best_fit['noise_original']
 
         best_x = best_fit['x_data']
         best_y = best_fit['y_data']
@@ -259,6 +259,8 @@ def sigma_sn():
         galaxy_spectrum = original_y 
 
         n_std = np.std(best_noise_masked)
+
+        # THE NOISE HAS BEEN SCALED RIGHT? THEREFORE WE HAVE TO SCALE IT BACK UP???
  
         for i in range(to_run):
             print("working with " + str(cube_id) + " and index " + str(i))
@@ -267,6 +269,7 @@ def sigma_sn():
             # standard deviation of the original galaxy spectrum within a region
             random_noise = np.random.normal(0, n_std, len(galaxy_spectrum))
             galaxy_spectrum = galaxy_spectrum + random_noise
+            print(n_std, np.std(random_noise))
 
             new_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
                     galaxy_spectrum, "all")
@@ -289,8 +292,8 @@ def sigma_sn():
             new_signal = new_y            
             new_noise = np.std(new_y)
 
-            new_sn = new_signal / new_noise
-            new_sn = np.average(new_sn)
+            new_sn_total = new_signal / new_noise
+            new_sn = np.average(new_sn_total)
  
             print(new_sigma, best_sigma, new_sn, new_noise)
 
@@ -298,6 +301,19 @@ def sigma_sn():
             data[i_cube][i][1] = new_sigma # new sigma
             data[i_cube][i][2] = sigma_ratio # sigma ratio
             data[i_cube][i][3] = new_sn # signal to noise
+
+            plt.figure() 
+            plt.plot(best_x[new_mask], best_y[new_mask], linewidth=0.5, 
+                    color="#8bc34a")
+            plt.plot(new_x, new_y, linewidth=0.5, color="#000000")
+
+            plt.xlabel(r'\textbf{S/N}', fontsize=15)
+            plt.ylabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+
+            plt.tight_layout()
+            plt.savefig("graphs/sigma_noise/cube_" + str(cube_id) + 
+                    "_" + str(i) + ".pdf")
+            plt.close("all") 
  
     np.save("data/sigma_vs_sn_data", data)
 
