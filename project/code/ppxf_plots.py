@@ -207,7 +207,7 @@ def fitting_plotter(cube_id):
 
 def sigma_sn():
     cubes = np.array([1804])
-    to_run = 3 # number of times to run the random generator
+    to_run = 50 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -265,15 +265,8 @@ def sigma_sn():
 
             # generating a random noise distribution using a mean of 0 and the 
             # standard deviation of the original galaxy spectrum within a region
-            random_noise = (np.random.normal(0, n_std, len(galaxy_spectrum)))
-
-            # I've produced 1 standard deviations worth of noise with the above 
-            # random_noise variable
-
-            # adding the noise to the galaxy_spectrum variable -> the standard 
-            # deviation of which should always be increasing
-            galaxy_spectrum = galaxy_spectrum + (random_noise)
-            print(np.std(galaxy_spectrum))
+            random_noise = np.random.normal(0, n_std, len(galaxy_spectrum))
+            galaxy_spectrum = galaxy_spectrum + random_noise
 
             new_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
                     galaxy_spectrum, "all")
@@ -281,7 +274,7 @@ def sigma_sn():
             new_variables = new_fit['variables']
             new_sigma = new_variables[1] 
 
-            sigma_ratio = np.abs(new_sigma - best_sigma) / best_sigma
+            sigma_ratio = np.abs(best_sigma-new_sigma) / best_sigma
             
             new_x = new_fit['x_data']
             new_y = new_fit['y_data']
@@ -291,10 +284,10 @@ def sigma_sn():
             new_x = new_x[new_mask]
             new_y = new_y[new_mask]
 
-            non_scaled_y = new_fit['non_scaled_y'][new_mask]
+            #non_scaled_y = new_fit['non_scaled_y'][new_mask]
             
             new_signal = new_y            
-            new_noise = np.var(new_y)
+            new_noise = np.std(new_y)
 
             new_sn = new_signal / new_noise
             new_sn = np.average(new_sn)
