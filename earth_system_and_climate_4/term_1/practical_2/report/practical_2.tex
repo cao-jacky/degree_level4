@@ -40,14 +40,15 @@ The Milankovitch-Croll hypothesis suggests that changes in the Earth's orbit aro
 
 Defined from laboratory experiments, a $\sim 5^{\circ}\mathrm{C}$ temperature increase leads to an $\sim 1$\textperthousand\ decrease in the $\delta^{18}$O ratio. As ice-sheets melt, more $^{16}$O is released into the oceans, thus reducing the ratio. Sediment core data for an early and late period of Earth's history (Fig. \ref{fig:foram_data}) shows that in the more recent age the temperature had been shifting more dramatically as the amplitude of the $\delta^{18}$O had been varying more considerably than from 4 Myr to 5 Myr. This would have lead to longer periods of cooling and with a cooler climate, there would be a larger amount of global ice. In both sets of $\delta^{18}$O data, there features a sinusoidal-like trend, albeit the historical data has a smaller amplitude. This suggests that the glacial-interglacial events are a normal part of Earth's planetary climate cycle and could be related to the cyclical Earth-Sun orbital relationship. \\
 
-% not a fan of the above paragraph, it's a bit convoluted
-% TODO discuss changes in global ice volume, particularly in the last 2-3 million years
-
 In looking at the astrophysical data there are three concepts to consider: (i) eccentricity, (ii) precession, and (iii) obliquity. The former describes the ellipticity of the Earth's orbit around the Sun \cite{carroll_astro}, it's effect on insolation however is not entirely independent as the eccentricity also depends on the orbital angle between the solstices and the position of perihelion/aphelion. A precessional index value can be produced with $\chi= \varepsilon \sin{\omega}$, where $\varepsilon$ is the eccentricity and $\omega$ is the angle. Finally the obliquity can be defined as the value which describes the degree of tilt of the Earth's axis. \\
 
-With these definitions in mind, we can proceed to evaluate and verify that our orbital data agrees with literature by applying two statistical analysis techniques. The first tool is \textit{wavelet analysis} (WA), by using the WA tool in PAST3 \cite{past3} heatmaps (Fig. \ref{fig:wa_orbital_data}) can be obtained which contain the dominant frequencies from a dataset. The second technique to employ is \textit{REDFIT} analysis, frequencies (Fig. \ref{fig:d18o_redfit}) can be picked out by finding peaks which have a height greater than a $95\%$ confidence interval. \\
+With these definitions in mind, we can proceed to evaluate and verify that our orbital data agrees with literature by applying two statistical analysis techniques. The first tool is \textit{wavelet transform} (WT) analysis, by using the WT tool in PAST3 \cite{past3} heatmaps (Fig. \ref{fig:wa_orbital_data}) can be obtained which contain the dominant frequencies from a dataset. The second technique to employ is \textit{REDFIT} analysis, frequencies (Fig. \ref{fig:d18o_redfit}) can be picked out by finding peaks which have a height greater than a $95\%$ confidence interval. \\
 
-Processing the orbital data with these two tools we can obtain results (Table \ref{table:final_results}) which have an average $\sim 96 \%$ agreement when compared with literature wavelengths. Knowing that the methods are valid and that they produce accurate results, the $\delta^{18}$O foram data can be analysed to obtain the dominant frequencies. \\
+Processing the orbital data with these two tools we can obtain results (Table \ref{table:final_results}) which have an average $\sim 96 \%$ agreement when compared with literature wavelengths. Knowing that the methods are valid and that they produce accurate results, the $\delta^{18}$O foram data can be analysed using the same tools. \\
+
+There is a signal which can be attributed to the obliquity as wavelengths of 41.1 ka (REDFIT) and 38.9 ka (WT) are comparable to the required 41 ka. However from the WT analysis whilst this is the strongest (hottest) signal, it is only prevalent from 0.15 Myr to 1.28 Myr. There is a complete disappearance which could be attributed to the rise of a potential eccentricity signal of 96.0 ka which spans from $\sim 1.28$ Myr to 4.80 Myr. A similar wavelength can be found from REDFIT, 96.3 ka, this then suggests that the eccentricity periodicity is verified in the $\delta^{18}$O data [?]. \\
+
+We can summarise the results from that examination (Table \ref{table:final_results}) and through comparisons with literature values and the our previously analysed orbital data, it can be suggested that the Milankovitch-Croll hypothesis has some merit as the results do agree. The issue arises is 
 
 \newpage
 
@@ -71,7 +72,7 @@ Processing the orbital data with these two tools we can obtain results (Table \r
 \begin{figure}[!h]
 \begin{center}
 \includegraphics[width=16cm]{figures/wa_orbital_data}
-\caption[]{The eccentricity, obliquity and perihelion longitude (precession) orbital data which has been processed with the wavelet analysis tool in PAST3. The periodicities from the data can be obtained by considering the ``hottest'' areas of each of the heat maps (i.e. the red/orange areas). Values for the wavelength can be found with $2^y \times P$, where $y$ is the y-axis height of the hot region, and $P$ is the period of time between the data points. In Table \ref{table:final_results} we summarise the wavelengths which correspond to the dashed-line heights.}
+\caption[]{The eccentricity, obliquity and perihelion longitude (precession) orbital data which has been processed with the wavelet transform analysis tool in PAST3. The periodicities from the data can be obtained by considering the ``hottest'' areas of each of the heat maps (i.e. the red/orange areas). Values for the wavelength can be found with $2^y \times P$, where $y$ is the y-axis height of the hot region, and $P$ is the period of time between the data points. In Table \ref{table:final_results} we summarise the wavelengths which correspond to the dashed-line heights.}
 \vspace{-3ex}
 \label{fig:wa_orbital_data}
 \end{center}
@@ -80,7 +81,7 @@ Processing the orbital data with these two tools we can obtain results (Table \r
 \begin{figure}[!h]
 \begin{center}
 \includegraphics[width=11cm]{figures/wa_d18O.pdf}
-\caption[]{The result from applying the PAST3 wavelet analysis tool to the $\delta^{18}$O benthic foram data, the wavelengths found are summarised in Table \ref{table:final_results}. The results are similar to those found in the orbital data, which could imply that orbital forcing does have an influence on glacial-interglacial climate.}
+\caption[]{The result from applying the PAST3 wavelet transform analysis tool to the $\delta^{18}$O benthic foram data, the wavelengths found are summarised in Table \ref{table:final_results}. The results are similar to those found in the orbital data, which could imply that orbital forcing does have an influence on glacial-interglacial climate.}
 \vspace{-3ex}
 \label{fig:wa_d18o}
 \end{center}
@@ -99,7 +100,7 @@ Processing the orbital data with these two tools we can obtain results (Table \r
 \centering
 \begin{tabular}{c@{\hskip 20pt}c@{\hskip 20pt}c@{\hskip 20pt}c} 
  \hline
-  & \textbf{``True'' (ka)} &\textbf{REDFIT (ka)} & \textbf{WA (ka)} \\ [0.5ex] 
+  & \textbf{Literature (ka)} &\textbf{REDFIT (ka)} & \textbf{WT (ka)} \\ [0.5ex] 
  Eccentricity & 100, 413 & 95.2, 128.2, 416.7 & 89.1, 100.4,  401.7\\
  Perihelion Longitude & 23, 100 & 23.8, 22.2 & 21.1 \\
  Obliquity & 41 & 41.7 & 39.4 \\
@@ -107,7 +108,7 @@ Processing the orbital data with these two tools we can obtain results (Table \r
  & & & 945.5, 1247.6 \\
  \hline
 \end{tabular}
-\caption{Table showing different sets of wavelength data: the approximate correct wavelengths for the periodicity of the orbital features \cite{campisano_milankovitch}, the results of the REDFIT spectral analysis and Wavelet Analysis (WA) on the orbital and benthic foram data. We find that as tools both REDFIT and WA are able to obtain similar periodicities which then agree with the literature values. }
+\caption{Table showing different sets of wavelength data: the approximate correct wavelengths for the periodicity of the orbital features \cite{campisano_milankovitch}, the results of the REDFIT spectral analysis and Wavelet Transform (WT) analysis on the orbital and benthic foram data. We find that as tools both REDFIT and WT are able to obtain similar periodicities which then agree with the literature values. }
 \vspace{-0.5em}
 \label{table:final_results}
 \end{table}
