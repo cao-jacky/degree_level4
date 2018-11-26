@@ -40,7 +40,7 @@ def original_signal_generator():
     gauss_params.add('a', value=continuum_level)
     gauss_params.add('scale', value=scale, min=0.0)
     gauss_params.add('mean', value=mean)
-    gauss_params.add('sigma', value=gauss_std)
+    gauss_params.add('sigma', value=gauss_std, vary=False)
 
     gauss_model = Model(gauss)
     gauss_result = gauss_model.fit(y_data, x=x_data, params=gauss_params)
@@ -79,7 +79,7 @@ def multiple_spectrums():
 
     best_sigma = bgm['sigma']
 
-    runs = 400
+    runs = 200
 
     # data to store
     # 1st dimension: number of runs
@@ -95,7 +95,7 @@ def multiple_spectrums():
 
     for i in range(runs):
         np.random.seed()
-        new_noise = np.random.normal(0, 0.25, len(original_x))
+        new_noise = 20*np.random.normal(0, 0.25, len(original_x))
         #print(np.std(spectrum))
         spectrum = spectrum + new_noise
 
@@ -105,7 +105,7 @@ def multiple_spectrums():
         new_gauss_params.add('scale', value=bgm['scale'], min=0.0)
         new_gauss_params.add('mean', value=bgm['mean'], min=bgm['mean']-5, 
                 max=bgm['mean']+5)
-        new_gauss_params.add('sigma', value=bgm['sigma'])
+        new_gauss_params.add('sigma', value=bgm['sigma'], min=9.9)
 
         new_gauss_model = Model(gauss)
         new_gauss_result = new_gauss_model.fit(spectrum, x=original_x, 

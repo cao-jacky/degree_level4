@@ -1,7 +1,6 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  24 NOV 2018 17:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  26 NOV 2018 13:22
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
 **stars_gas_dynamics.tex
 (./stars_gas_dynamics.tex
@@ -568,8 +567,8 @@ Underfull \hbox (badness 1248) in paragraph at lines 19--23
 
 ) [4 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
 
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
- inclusion: multiple pdfs with page group included in a single page
+pdfTeX warning: pdflatex (file ./data/sn_vs_vband.pdf): PDF inclusion: multiple
+ pdfs with page group included in a single page
 >] (./stars_gas_dynamics.aux) ) 
 Here is how much of TeX's memory you used:
  6410 strings out of 492649
@@ -589,7 +588,7 @@ c/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (4 pages, 4391594 bytes).
+Output written on stars_gas_dynamics.pdf (4 pages, 4391595 bytes).
 PDF statistics:
  110 PDF objects out of 1000 (max. 8388607)
  79 compressed objects within 1 object stream
