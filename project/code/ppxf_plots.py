@@ -207,7 +207,7 @@ def fitting_plotter(cube_id):
 
 def sigma_sn():
     cubes = np.array([1804, 765, 5])
-    to_run = 100 # number of times to run the random generator
+    to_run = 1000 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
