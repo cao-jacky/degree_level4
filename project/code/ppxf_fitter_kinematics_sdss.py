@@ -64,12 +64,26 @@ def kinematics_sdss(cube_id, y_data, fit_range):
     else:
         cube_y_data = y_data
 
+    cube_x_original = cube_x_data
     cube_y_original = cube_y_data
 
     # applying the perturbation to the y data
     initial_mask = (cube_x_data > 3540 * (1+z))
-    cube_x_data = cube_x_data[initial_mask] 
-    cube_y_data = cube_y_data[initial_mask]
+    cube_x_data = cube_x_original[initial_mask] 
+    cube_y_data = cube_y_original[initial_mask]
+
+    # calculating the signal to noise
+    sn_region = np.array([4000, 4080]) * (1+z) 
+    sn_region_mask = ((cube_x_data > sn_region[0]) & (cube_x_data < sn_region[1]))
+    
+    cube_y_sn_region = cube_y_data[sn_region_mask]
+    cy_sn_mean = np.mean(cube_y_sn_region)
+    cy_sn_std = np.std(cube_y_sn_region)
+    cy_sn = cy_sn_mean / cy_sn_std
+
+    print("s/n:")
+    print(cy_sn, cy_sn_mean, cy_sn_std)
+
 
     # will need this for when we are considering specific ranges
     if (fit_range == "all"):
@@ -205,6 +219,8 @@ def kinematics_sdss(cube_id, y_data, fit_range):
             degree=12, vsyst=dv, clean=False, lam=lam_gal) 
 
     ppxf_variables = pp.sol
+    ppxf_errors = pp.error
+
     red_chi2 = pp.chi2
     best_fit = pp.bestfit
 
@@ -261,7 +277,8 @@ def kinematics_sdss(cube_id, y_data, fit_range):
     return {'reduced_chi2': red_chi2, 'noise': noise, 'variables': ppxf_variables,
             'y_data': galaxy, 'x_data': lam_gal, 'redshift': z, 
             'y_data_original': cube_y_original, 'non_scaled_y': galaxy_ns,
-            'model_data': best_fit, 'noise_original': spec_noise}
+            'model_data': best_fit, 'noise_original': spec_noise,
+            'errors': ppxf_errors}
 
 #------------------------------------------------------------------------------
 

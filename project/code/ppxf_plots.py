@@ -206,8 +206,8 @@ def fitting_plotter(cube_id):
     return {'chi2': total_chi_sq,'redchi2': reduced_chi_sq}
 
 def sigma_sn():
-    cubes = np.array([1804])
-    to_run = 1000 # number of times to run the random generator
+    cubes = np.array([1804, 765, 5])
+    to_run = 100 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -218,8 +218,13 @@ def sigma_sn():
     #   [0] : new signal value [= signal + perturbation]
     #   [1] : new sigma produced
     #   [2] : (sigma_best - sigma_new) / sigma_best
-    #   [3] : new signal to noise value  
-    data = np.zeros([len(cubes),to_run,4])
+    #   [3] : new signal to noise value 
+    #   [4] : new velocity produced
+    #   [5] : (vel_best - vel_new) / vel_best
+    #   [6] : sigma error
+    #   [7] : velocity error
+
+    data = np.zeros([len(cubes),to_run,8])
     
     for i_cube in range(len(cubes)):
         cube_id = cubes[i_cube]
@@ -236,6 +241,7 @@ def sigma_sn():
 
         best_variables = best_fit['variables']
         best_sigma = best_variables[1]
+        best_vel = best_variables[0]
 
         # want to consider between CaH and Hdelta, the range to consider (rtc) is
         #rtc = np.array([3969.588, 4101.89]) * (1+z) 
@@ -254,7 +260,6 @@ def sigma_sn():
         n1 = np.std(best_y_masked)
         n2 = np.average(best_noise_masked)
         print(n1, n2, average_best_sn, np.average(best_y_masked/np.var(best_y_masked)))
-
         original_y = best_fit['y_data_original']
         galaxy_spectrum = original_y 
 
@@ -268,6 +273,11 @@ def sigma_sn():
             # generating a random noise distribution using a mean of 0 and the 
             # standard deviation of the original galaxy spectrum within a region
             random_noise = np.random.normal(0, n_std, len(galaxy_spectrum))
+            if (i > int(3/4 * to_run)):
+                random_noise = random_noise
+            else:
+                random_noise = 4 * random_noise
+
             galaxy_spectrum = galaxy_spectrum + random_noise
             print(n_std, np.std(random_noise))
 
@@ -275,9 +285,11 @@ def sigma_sn():
                     galaxy_spectrum, "all")
 
             new_variables = new_fit['variables']
-            new_sigma = new_variables[1] 
+            new_sigma = new_variables[1]
+            new_vel = new_variables[0]
 
             sigma_ratio = np.abs(best_sigma-new_sigma) / best_sigma
+            vel_ratio = np.abs(best_vel-new_vel) / best_vel
             
             new_x = new_fit['x_data']
             new_y = new_fit['y_data']
@@ -295,12 +307,23 @@ def sigma_sn():
             new_sn_total = new_signal / new_noise
             new_sn = np.average(new_sn_total)
  
-            print(new_sigma, best_sigma, new_sn, new_noise)
+            print(new_sigma, best_sigma, new_sn)
+
+            errors = new_fit['errors']
+            error_sigma = errors[1]
+            error_vel = errors[0]
 
             data[i_cube][i][0] = np.median(new_signal) # new signal
             data[i_cube][i][1] = new_sigma # new sigma
             data[i_cube][i][2] = sigma_ratio # sigma ratio
+
             data[i_cube][i][3] = new_sn # signal to noise
+
+            data[i_cube][i][4] = new_vel # new velocity
+            data[i_cube][i][5] = vel_ratio # velocity ratio
+
+            data[i_cube][i][6] = error_sigma # sigma error
+            data[i_cube][i][7] = error_vel # velocity error
 
             plt.figure() 
             plt.plot(best_x[new_mask], best_y[new_mask], linewidth=0.5, 
@@ -319,7 +342,8 @@ def sigma_sn():
 
     plt.figure()
     #plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
-    plt.scatter(data[:,:,3], data[:,:,2], color="#000000", s=10)
+    for i in range(len(data[:])):
+        plt.scatter(data[i][:,3], data[i][:,2], c=np.random.rand(3,), s=10)
     #plt.ylim([np.min(data[:,:,3]), np.max(data[:,:,3])])
 
     plt.xlabel(r'\textbf{S/N}', fontsize=15)
@@ -328,6 +352,19 @@ def sigma_sn():
     plt.tight_layout()
     plt.savefig("graphs/sigma_vs_sn.pdf")
     plt.close("all") 
+
+    plt.figure()
+    for i in range(len(data[:])):
+        plt.scatter(data[i][:,3], data[i][:,5], c=np.random.rand(3,), s=10)
+ 
+    plt.xlabel(r'\textbf{S/N}', fontsize=15)
+    plt.ylabel(r'\textbf{$\frac{\Delta \sigma_{vel}}{\sigma_{vel_{best}}}$}', 
+            fontsize=15)
+
+    plt.tight_layout()
+    plt.savefig("graphs/sigma_vel_vs_sn.pdf")
+    plt.close("all") 
+
 
 #chi_squared_cal(1804)
 #model_data_overlay(549)
