@@ -349,6 +349,7 @@ def graphs():
     #ax.set_title(r'\textbf{V-band mag vs. flux-mag}', fontsize=13)        
     ax.set_xlabel(r'\textbf{flux-mag}', fontsize=13)
     ax.set_ylabel(r'\textbf{V-band mag}', fontsize=13)
+    plt.tight_layout()
     plt.savefig("graphs/sanity_checks/vband_vs_flux.pdf")
 
     # S/N VS. V-BAND MAG
@@ -366,6 +367,7 @@ def graphs():
     ax.set_ylabel(r'\textbf{MUSE Spectrum S/N}', fontsize=15)
     ax.invert_xaxis()
     ax.set_yscale('log')
+    plt.tight_layout()
     plt.savefig("graphs/sn_vs_vband.pdf")
 
     usable_cubes_no_oii = usable_cubes
@@ -410,6 +412,7 @@ def graphs():
     #ax.tick_params(labelsize=15)
     ax.set_xlabel(r'\textbf{Galaxy Colour (B-I)}', fontsize=13)
     ax.set_ylabel(r'\textbf{O[II] Flux}', fontsize=13)
+    plt.tight_layout()
     plt.savefig("graphs/oii_flux_vs_colour.pdf")
     plt.close("all")
 
@@ -424,6 +427,7 @@ def graphs():
     #ax.tick_params(labelsize=15)
     ax.set_xlabel(r'\textbf{Redshift}', fontsize=13)
     ax.set_ylabel(r'\textbf{Number of galaxies}', fontsize=13)
+    plt.tight_layout()
     plt.savefig("graphs/redshift_distribution_oii_emitters.pdf")
     plt.close("all")
 
@@ -451,6 +455,7 @@ def graphs():
     ax.set_yscale('log')
     ax.set_xlim([0.2, 1.5])
     ax.set_ylim((0.007*10**51,1.7*10**51))
+    plt.tight_layout()
     plt.savefig("graphs/o_ii_luminosity_vs_redshift.pdf")
     plt.close("all")
  

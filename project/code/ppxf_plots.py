@@ -455,10 +455,35 @@ def data_reprocessor():
     plt.xscale('log')
     plt.tight_layout()
     plt.savefig("graphs/reprocessed_sn_vs_sigma.pdf")
-    plt.close("all") 
+    plt.close("all")
+
+def data_graphs():
+    data = data = np.load("data/sigma_vs_sn_data.npy")
+
+    # colours list
+    colours = [
+            "#ab47bc",
+            "#2196f3",
+            "#ff9800"
+            ]
+
+    # delta(sigma) vs. pPXF error
+    plt.figure()
+    for i in range(len(data[:])):
+        plt.scatter(data[i][:,6], data[i][:,3], c=colours[i], s=10, alpha=0.2)
+
+    plt.ylabel(r'\textbf{pPXF error}', fontsize=15)
+    plt.xlabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig("graphs/sigma_vs_ppxf_error.pdf")
+    plt.close("all")
 
 
 #chi_squared_cal(1804)
 #model_data_overlay(549)
 
 data_reprocessor()
+#data_graphs()

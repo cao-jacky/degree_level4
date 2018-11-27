@@ -1,6 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  26 NOV 2018 13:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  27 NOV 2018 14:07
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
 **stars_gas_dynamics.tex
 (./stars_gas_dynamics.tex
@@ -465,7 +466,7 @@ Overfull \hbox (0.87494pt too wide) detected at line 10
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 11
- \OT1/cmr/m/n/12 3
+ \OT1/cmr/m/n/12 4
  []
 
 
@@ -490,7 +491,7 @@ Overfull \hbox (0.87494pt too wide) detected at line 15
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 16
- \OT1/cmr/m/n/12 4
+ \OT1/cmr/m/n/12 5
  []
 
 )
@@ -520,78 +521,85 @@ Underfull \hbox (badness 1635) in paragraph at lines 97--98
 File: introduction/muse_colour_image.pdf Graphic file (type pdf)
 <use introduction/muse_colour_image.pdf>
 Package pdftex.def Info: introduction/muse_colour_image.pdf  used on input line
- 133.
+ 135.
 (pdftex.def)             Requested size: 182.09486pt x 180.98058pt.
 <introduction/hubble_ultra_deep_field.jpg, id=27, 123.5467pt x 123.5467pt>
 File: introduction/hubble_ultra_deep_field.jpg Graphic file (type jpg)
 <use introduction/hubble_ultra_deep_field.jpg>
 Package pdftex.def Info: introduction/hubble_ultra_deep_field.jpg  used on inpu
-t line 140.
+t line 142.
 (pdftex.def)             Requested size: 182.09486pt x 182.1167pt.
-<data/image_sn_vs_vband.pdf, id=28, 462.52798pt x 346.89601pt>
+[3 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./intro
+duction/hubble_ultra_deep_field.jpg>]
+<data/image_sn_vs_vband.pdf, id=40, 462.52798pt x 346.89601pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
-Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 167.
+Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 173.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
-<data/sn_vs_vband.pdf, id=29, 462.52798pt x 346.89601pt>
+<data/sn_vs_vband.pdf, id=41, 462.52798pt x 346.89601pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
-Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 174.
+Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 180.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
-<data/o_ii_luminosity_vs_redshift.pdf, id=30, 462.52798pt x 346.89601pt>
+<data/o_ii_luminosity_vs_redshift.pdf, id=42, 462.52798pt x 346.89601pt>
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
-ne 188.
+ne 194.
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
-[3 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./intro
-duction/hubble_ultra_deep_field.jpg> <./data/o_ii_luminosity_vs_redshift.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 208--209
+
+Underfull \hbox (badness 10000) in paragraph at lines 214--215
 []\OT1/cmr/m/n/12 The au-thor would like to thank
  []
 
 
-Underfull \hbox (badness 2744) in paragraph at lines 208--209
+Underfull \hbox (badness 2744) in paragraph at lines 214--215
 \OT1/cmr/m/n/12 Dr. M. Swin-bank and Alfie Tiley for
  []
 
 
-Underfull \hbox (badness 1142) in paragraph at lines 208--209
+Underfull \hbox (badness 1142) in paragraph at lines 214--215
 \OT1/cmr/m/n/12 pro-ject would have been ex-per-i-ment-ally
  []
 
-(./stars_gas_dynamics.bbl
+(./stars_gas_dynamics.bbl [4 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband
+.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
+ inclusion: multiple pdfs with page group included in a single page
+> <./data/o_ii_luminosity_vs_redshift.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/o_ii_luminosity_vs_re
+dshift.pdf): PDF inclusion: multiple pdfs with page group included in a single 
+page
+>]
 Underfull \hbox (badness 1248) in paragraph at lines 19--23
  []\OT1/cmr/m/n/10.95 NASA, ESA, S. Beck-with, and HUDF
  []
 
-) [4 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
-
-pdfTeX warning: pdflatex (file ./data/sn_vs_vband.pdf): PDF inclusion: multiple
- pdfs with page group included in a single page
->] (./stars_gas_dynamics.aux) ) 
+) [5] (./stars_gas_dynamics.aux) ) 
 Here is how much of TeX's memory you used:
- 6410 strings out of 492649
- 91630 string characters out of 6129622
- 188586 words of memory out of 5000000
- 10190 multiletter control sequences out of 15000+600000
+ 6411 strings out of 492649
+ 91640 string characters out of 6129622
+ 183600 words of memory out of 5000000
+ 10191 multiletter control sequences out of 15000+600000
  9538 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,10n,43p,874b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2018/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmti12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (4 pages, 4391595 bytes).
+</usr/local/texlive/2018/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmti12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmtt10.pfb>
+Output written on stars_gas_dynamics.pdf (5 pages, 4392943 bytes).
 PDF statistics:
- 110 PDF objects out of 1000 (max. 8388607)
- 79 compressed objects within 1 object stream
+ 112 PDF objects out of 1000 (max. 8388607)
+ 80 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
