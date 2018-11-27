@@ -11,6 +11,6 @@
 \contentsline {subsection}{\numberline {a}Cube extraction}{4}{}
 \contentsline {subsection}{\numberline {b}Line fittings and pPXF}{4}{}
 \contentsline {section}{\numberline {3}Discussion}{4}{}
-\contentsline {section}{\numberline {4}Conclusions}{4}{}
-\contentsline {section}{\numberline {}Acknowledgments}{4}{}
+\contentsline {section}{\numberline {4}Conclusions}{5}{}
+\contentsline {section}{\numberline {}Acknowledgments}{5}{}
 \contentsline {section}{\numberline {}References}{5}{}

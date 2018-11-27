@@ -448,8 +448,9 @@ def data_reprocessor():
     running_median3 = [np.median(Y_sn[idx==k]) for k in range(total_bins2)]
     plt.plot(running_median3, bins-delta/2, c="#000000", lw=1.5, alpha=0.8)
 
+    plt.tick_params(labelsize=15)
     plt.ylabel(r'\textbf{S/N}', fontsize=15)
-    plt.xlabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+    plt.xlabel(r'\textbf{$\Delta \sigma$ / $\sigma_{best}$}', fontsize=15)
 
     plt.xlim([10**(-4),100])
     plt.xscale('log')
@@ -463,6 +464,7 @@ def data_graphs():
     # colours list
     colours = [
             "#ab47bc",
+            "#43a047",
             "#2196f3",
             "#ff9800"
             ]
@@ -486,4 +488,4 @@ def data_graphs():
 #model_data_overlay(549)
 
 data_reprocessor()
-#data_graphs()
+data_graphs()
