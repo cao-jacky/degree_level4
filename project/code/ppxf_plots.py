@@ -206,8 +206,8 @@ def fitting_plotter(cube_id):
     return {'chi2': total_chi_sq,'redchi2': reduced_chi_sq}
 
 def sigma_sn():
-    cubes = np.array([1804, 765, 5])
-    to_run = 1000 # number of times to run the random generator
+    cubes = np.array([1804, 765, 5, 1])
+    to_run = 300 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
     # need?
@@ -264,8 +264,6 @@ def sigma_sn():
         galaxy_spectrum = original_y 
 
         n_std = np.average(best_noise_masked)
-
-        # THE NOISE HAS BEEN SCALED RIGHT? THEREFORE WE HAVE TO SCALE IT BACK UP???
  
         for i in range(to_run):
             print("working with " + str(cube_id) + " and index " + str(i))
@@ -276,7 +274,7 @@ def sigma_sn():
             if (i > int(3/4 * to_run)):
                 random_noise = random_noise
             else:
-                random_noise = 4 * random_noise
+                random_noise = 10 * random_noise
 
             galaxy_spectrum = galaxy_spectrum + random_noise
             print(n_std, np.std(random_noise))
