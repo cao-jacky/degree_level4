@@ -363,27 +363,65 @@ def sigma_sn():
     plt.savefig("graphs/sigma_vel_vs_sn.pdf")
     plt.close("all")
 
-def data_reprocessor():
-    data = np.load("data/sigma_vs_sn_data.npy")
-
     plt.figure()
     #plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
     for i in range(len(data[:])):
-        plt.scatter(data[i][:,3], data[i][:,2], c=np.random.rand(3,), s=10)
+        plt.scatter(data[i][:,2], data[i][:,3], c=np.random.rand(3,), s=10)
     #plt.ylim([np.min(data[:,:,3]), np.max(data[:,:,3])])
+
+    plt.ylabel(r'\textbf{S/N}', fontsize=15)
+    plt.xlabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+
+    plt.tight_layout()
+    plt.savefig("graphs/sn_vs_sigma.pdf")
+    plt.close("all") 
+
+def data_reprocessor():
+    data = np.load("data/sigma_vs_sn_data.npy")
+
+    total_bins1 = 60
+    X = data[:,:,3]
+    
+    bins = np.linspace(X.min(), X.max(), total_bins1)
+    delta = bins[1]-bins[0]
+    idx  = np.digitize(X,bins)
+
+    # colours list
+    colours = [
+            "#ab47bc",
+            "#43a047",
+            "#2196f3",
+            "#ff9800"
+            ]
+
+    # delta(sigma) vs. S/N
+    plt.figure()
+    for i in range(len(data[:])):
+        plt.scatter(data[i][:,3], data[i][:,2], c=colours[i], s=10, alpha=0.2)
+
+    # running median calculator
+    Y_sigma = data[:,:,2]
+    running_median1 = [np.median(Y_sigma[idx==k]) for k in range(total_bins1)]
+    plt.plot(bins-delta/2, running_median1, c="#000000", lw=1.5, alpha=0.8)
 
     plt.xlabel(r'\textbf{S/N}', fontsize=15)
     plt.ylabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
 
+    plt.ylim([10**(-4),100])
     plt.yscale('log')
     plt.tight_layout()
     plt.savefig("graphs/reprocessed_sigma_vs_sn.pdf")
     plt.close("all") 
 
+    # delta(sigma_vel) vs. S/N
     plt.figure()
     for i in range(len(data[:])):
-        plt.scatter(data[i][:,3], data[i][:,5], c=np.random.rand(3,), s=10)
- 
+        plt.scatter(data[i][:,3], data[i][:,5], c=colours[i], s=10, alpha=0.2) 
+
+    Y_sigma_vel = data[:,:,2]
+    running_median2 = [np.median(Y_sigma_vel[idx==k]) for k in range(total_bins1)]
+    plt.plot(bins-delta/2, running_median2, c="#000000", lw=1.5, alpha=0.8)
+
     plt.xlabel(r'\textbf{S/N}', fontsize=15)
     plt.ylabel(r'\textbf{$\frac{\Delta \sigma_{vel}}{\sigma_{vel_{best}}}$}', 
             fontsize=15)
@@ -393,6 +431,31 @@ def data_reprocessor():
     plt.tight_layout()
     plt.savefig("graphs/reprocessed_sigma_vel_vs_sn.pdf")
     plt.close("all")
+
+    # S/N vs. delta(sigma)
+    total_bins2 = 60
+    X_sigma = data[:,:,3]
+    
+    bins = np.linspace(X_sigma.min(), X_sigma.max(), total_bins2)
+    delta = bins[1]-bins[0]
+    idx  = np.digitize(X_sigma,bins)
+
+    plt.figure()
+    for i in range(len(data[:])):
+        plt.scatter(data[i][:,2], data[i][:,3], c=colours[i], s=10, alpha=0.2)
+
+    Y_sn = data[:,:,2]
+    running_median3 = [np.median(Y_sn[idx==k]) for k in range(total_bins2)]
+    plt.plot(running_median3, bins-delta/2, c="#000000", lw=1.5, alpha=0.8)
+
+    plt.ylabel(r'\textbf{S/N}', fontsize=15)
+    plt.xlabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+
+    plt.xlim([10**(-4),100])
+    plt.xscale('log')
+    plt.tight_layout()
+    plt.savefig("graphs/reprocessed_sn_vs_sigma.pdf")
+    plt.close("all") 
 
 
 #chi_squared_cal(1804)
