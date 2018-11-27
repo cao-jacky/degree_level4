@@ -363,8 +363,41 @@ def sigma_sn():
 
     plt.tight_layout()
     plt.savefig("graphs/sigma_vel_vs_sn.pdf")
+    plt.close("all")
+
+def data_reprocessor():
+    data = np.load("data/sigma_vs_sn_data.npy")
+
+    plt.figure()
+    #plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
+    for i in range(len(data[:])):
+        plt.scatter(data[i][:,3], data[i][:,2], c=np.random.rand(3,), s=10)
+    #plt.ylim([np.min(data[:,:,3]), np.max(data[:,:,3])])
+
+    plt.xlabel(r'\textbf{S/N}', fontsize=15)
+    plt.ylabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig("graphs/reprocessed_sigma_vs_sn.pdf")
     plt.close("all") 
+
+    plt.figure()
+    for i in range(len(data[:])):
+        plt.scatter(data[i][:,3], data[i][:,5], c=np.random.rand(3,), s=10)
+ 
+    plt.xlabel(r'\textbf{S/N}', fontsize=15)
+    plt.ylabel(r'\textbf{$\frac{\Delta \sigma_{vel}}{\sigma_{vel_{best}}}$}', 
+            fontsize=15)
+
+    plt.ylim([10**(-8),0.001])
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig("graphs/reprocessed_sigma_vel_vs_sn.pdf")
+    plt.close("all")
 
 
 #chi_squared_cal(1804)
 #model_data_overlay(549)
+
+data_reprocessor()
