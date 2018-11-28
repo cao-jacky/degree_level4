@@ -32,12 +32,36 @@ def ranged_fitting(cube_id):
     # fitting for the full, original spectrum
     original = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all")
 
+    ori_vars = original['variables']
+    ori_errors = original['errors']
+
     # we want to fit for three different regions
-    ranges = {
-            {},
-            {},
-            {}
-            }
+    ranges = np.array([[3540, 3860],[3860, 4180],[4180, 4500]])
+
+    # I want an array to store the parameters that pPXF finds as well
+    fit_vars = np.zeros([len(ranges)+1, 4])
+
+    # storing original best parameters and errors
+    fit_vars[0][0] = ori_vars[0]
+    fit_vars[0][1] = ori_vars[1]
+
+    fit_vars[0][2] = ori_errors[0]
+    fit_vars[0][3] = ori_errors[1]
+
+    for i_range in range(len(ranges)):
+        rtc = ranges[i_range]
+        ranged_fitting = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, rtc)
+
+        rf_vars = ranged_fitting['variables']
+        rf_errors = ranged_fitting['errors']
+
+        fit_vars[i_range+1][0] = rf_vars[0]
+        fit_vars[i_range+1][1] = rf_vars[1]
+
+        fit_vars[i_range+1][2] = rf_errors[0]
+        fit_vars[i_range+1][3] = rf_errors[1]
+
+    print(fit_vars)
 
 def ppxf_cube_auto():
 
@@ -80,8 +104,9 @@ def ppxf_cube_auto():
             
     """
     cube_id = 1804
-    ppxf_cubes(cube_id)
-    ppxf_plots.fitting_plotter(cube_id)
+    #ppxf_cubes(cube_id)
+    ranged_fitting(cube_id)
+    #ppxf_plots.fitting_plotter(cube_id)
 
 ppxf_cube_auto()
 #ppxf_plots.sigma_sn()

@@ -31,6 +31,182 @@ def cube_noise():
     noise = np.sum(np.abs(cube_noise_data))
     return {'noise_value': noise, 'spectrum_noise': cube_noise_data}
 
+def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
+    """ function for Gaussian doublet """  
+    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
+    l1 = dblt_mu[0] * (1+z)
+    l2 = dblt_mu[1] * (1+z)
+
+    sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
+
+    norm = (sigma*np.sqrt(2*np.pi))
+    term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma**2))
+    term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
+    return (c*x + term1 + term2)
+
+def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
+    # parameters from lmfit
+    cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
+            + "_lmfit.txt")
+    cube_result_file = open(cube_result_file)
+
+    line_count = 0 
+    for crf_line in cube_result_file:
+        if (line_count == 15):
+            curr_line = crf_line.split()
+            c = float(curr_line[1])
+        if (line_count == 16):
+            curr_line = crf_line.split()
+            i1 = float(curr_line[1])
+        if (line_count == 18):
+            curr_line = crf_line.split()
+            i2 = float(curr_line[1])
+        if (line_count == 19):
+            curr_line = crf_line.split()
+            sigma_gal = float(curr_line[1])
+        if (line_count == 20):
+            curr_line = crf_line.split()
+            z = float(curr_line[1])
+        if (line_count == 21):
+            curr_line = crf_line.split()
+            sigma_inst = float(curr_line[1])
+        line_count += 1
+
+    # scaled down y data 
+    y_data_scaled = y_data/np.median(y_data)
+
+    # opening cube to obtain the segmentation data
+    cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/cube_"
+        + str(cube_id) + ".fits")
+    hdu = fits.open(cube_file)
+    segmentation_data = hdu[2].data
+    seg_loc_rows, seg_loc_cols = np.where(segmentation_data == cube_id)
+    signal_pixels = len(seg_loc_rows) 
+
+    # noise spectra will be used as in the chi-squared calculation
+    noise_median = np.median(noise)
+    noise_stddev = np.std(noise) 
+
+    residual = y_data_scaled - y_model
+    res_median = np.median(residual)
+    res_stddev = np.std(residual)
+
+    noise = noise
+
+    mask = ((residual < res_stddev) & (residual > -res_stddev)) 
+ 
+    chi_sq = (y_data_scaled[mask] - y_model[mask])**2 / noise[mask]**2
+    total_chi_sq = np.sum(chi_sq)
+
+    total_points = len(chi_sq)
+    reduced_chi_sq = total_chi_sq / total_points
+
+    print("Cube " + str(cube_id) + " has a reduced chi-squared of " + 
+            str(reduced_chi_sq))
+
+    # spectral lines
+    sl = {
+            'emis': {
+                '':             '3727.092', 
+                'OII':          '3728.875',
+                'HeI':          '3889.0',
+                'SII':          '4072.3',
+                'H$\delta$':    '4101.89',
+                'H$\gamma$':    '4341.68'
+                },
+            'abs': {
+                r'H$\theta$':   '3798.976',
+                'H$\eta$':      '3836.47',
+                'CaK':          '3934.777',
+                'CaH':          '3969.588',
+                'G':            '4305.61' 
+                },
+            'iron': {
+                'FeI1':     '4132.0581',
+                'FeI2':     '4143.8682',
+                'FeI3':     '4202.0293', 
+                'FeI4':     '4216.1836',
+                'FeI5':     '4250.7871',
+                'FeI6':     '4260.4746',
+                'FeI7':     '4271.7607',
+                'FeI8':     '4282.4028',
+                }
+            }
+ 
+    plt.figure()
+
+    plt.plot(x_data, y_data_scaled, linewidth=1.1, color="#000000")
+    plt.plot(x_data, y_data_scaled+noise_stddev, linewidth=0.1, color="#616161", alpha=0.1)
+    plt.plot(x_data, y_data_scaled-noise_stddev, linewidth=0.1, color="#616161", alpha=0.1)
+    
+    # plotting over the OII doublet
+    doublets = np.array([3727.092, 3728.875])
+    dblt_av = np.average(doublets) * (1+z)
+
+    if (ranges[0] > dblt_av):
+        pass
+    else:
+        dblt_x_mask = ((x_data > dblt_av-20) & (x_data < dblt_av+20))
+        doublet_x_data = x_data[dblt_x_mask]
+        doublet_data = f_doublet(doublet_x_data, c, i1, i2, sigma_gal, z, sigma_inst)
+        doublet_data = doublet_data / np.median(y_data)
+        plt.plot(doublet_x_data, doublet_data, linewidth=0.5, color="#9c27b0")
+
+    max_y = np.max(y_data_scaled)
+    # plotting spectral lines
+    for e_key, e_val in sl['emis'].items():
+        spec_line = float(e_val) * (1+z)
+        spec_label = e_key
+
+        if (e_val in str(doublets)):
+            alpha_line = 0.2
+        else:
+            alpha_line = 0.7
+            
+        alpha_text = 0.75
+
+        plt.axvline(x=spec_line, linewidth=0.5, color="#1e88e5", alpha=alpha_line)
+        plt.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=alpha_text,
+                weight="bold", fontsize=15) 
+
+    for e_key, e_val in sl['abs'].items():
+        spec_line = float(e_val) * (1+z)
+        spec_label = e_key
+
+        plt.axvline(x=spec_line, linewidth=0.5, color="#ff8f00", alpha=0.7)
+        plt.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=0.75,
+                weight="bold", fontsize=15)
+
+    # iron spectral lines
+    for e_key, e_val in sl['iron'].items(): 
+        spec_line = float(e_val) * (1+z)
+
+        plt.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
+
+    plt.plot(x_data, y_model, linewidth=1.5, color="#b71c1c")
+
+    residuals_mask = (residual > res_stddev) 
+    rmask = residuals_mask
+
+    #plt.scatter(x_data[rmask], residual[rmask], s=3, color="#f44336", alpha=0.5)
+    plt.scatter(x_data[mask], residual[mask]-1, s=3, color="#43a047")
+
+    plt.xlim([ranges[0], ranges[1]])
+
+    plt.tick_params(labelsize=15)
+    plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
+    plt.ylabel(r'\textbf{Relative Flux}', fontsize=15)
+    plt.tight_layout()
+ 
+    # range specifier for file name
+    range_string = str(ranges[0]) + "_" + str(ranges[1])
+
+    plt.savefig("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + str(int(cube_id))
+            + "_" + range_string + "_fitted.pdf")
+
+    plt.close("all")
+
+
 def kinematics_sdss(cube_id, y_data, fit_range):     
     file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
     if not os.path.exists(file_loc):
@@ -84,11 +260,22 @@ def kinematics_sdss(cube_id, y_data, fit_range):
     #print("s/n:")
     #print(cy_sn, cy_sn_mean, cy_sn_std)
 
+    # cube noise
+    cube_noise_data = cube_noise()
+    spectrum_noise = cube_noise_data['spectrum_noise']
+    spec_noise = spectrum_noise[initial_mask] 
+
     # will need this for when we are considering specific ranges
-    if (fit_range == "all"):
+    if (isinstance(fit_range, str)):
         pass
     else:
-        rtc = fit_range
+        rtc = fit_range * (1+z) # create a new mask and mask our x and y data
+        rtc_mask = ((cube_x_data > rtc[0]) & (cube_x_data < rtc[1]))
+
+        cube_x_data = cube_x_data[rtc_mask]
+        cube_y_data = cube_y_data[rtc_mask]
+
+        spec_noise = spec_noise[rtc_mask]
 
     lamRange = np.array([np.min(cube_x_data), np.max(cube_x_data)]) 
     specNew, logLam, velscale = log_rebin(lamRange, cube_y_data)
@@ -105,16 +292,24 @@ def kinematics_sdss(cube_id, y_data, fit_range):
 
     # galaxy spectrum not scaled 
     galaxy_ns = flux
-
-    cube_noise_data = cube_noise()
-    spectrum_noise = cube_noise_data['spectrum_noise']
-    spec_noise = spectrum_noise[initial_mask][mask]
     
     segmentation_data = hdu[2].data
     seg_loc_rows, seg_loc_cols = np.where(segmentation_data == cube_id)
     signal_pixels = len(seg_loc_rows) 
 
+    spec_noise = spec_noise[mask]
+
     noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux)
+
+    # sky noise
+    skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
+    skyNew = skyNew[initial_mask]
+
+    if (isinstance(fit_range, str)):
+        pass
+    else:
+        skyNew = skyNew[rtc_mask]
+    skyNew = skyNew[mask]
 
     c = 299792.458                  # speed of light in km/s
     frac = lam_gal[1]/lam_gal[0]    # Constant lambda fraction per pixel
@@ -198,11 +393,7 @@ def kinematics_sdss(cube_id, y_data, fit_range):
 
     #lam_gal_alt = lam_gal * (1+z)
     #lamRange_temp = [np.min(lam_temp), np.max(lam_temp)]
-    goodpixels = util.determine_goodpixels(np.log(lam_gal), lamRange_temp, z)
-    
-    # sky
-    skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
-    skyNew = skyNew[initial_mask][mask]
+    goodpixels = util.determine_goodpixels(np.log(lam_gal), lamRange_temp, z) 
 
     # Here the actual fit starts. The best fit is plotted on the screen.
     # Gas emission lines are excluded from the pPXF fit using the GOODPIXELS keyword.
@@ -223,14 +414,16 @@ def kinematics_sdss(cube_id, y_data, fit_range):
     red_chi2 = pp.chi2
     best_fit = pp.bestfit
 
+    x_data = cube_x_data[mask]
+    y_data = cube_y_data[mask]
+
+    #print(ppxf_variables)
     #plt.show()
 
-    if (np.sum(y_data) == 0):
+    if (np.sum(y_data) == 0 and isinstance(fit_range, str)):
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
-
-        x_data = cube_x_data[mask]
-        y_data = cube_y_data[mask]
+ 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_x", x_data)
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_y", y_data)
 
@@ -267,6 +460,10 @@ def kinematics_sdss(cube_id, y_data, fit_range):
         plt.savefig(kinematics_graph)
         #plt.show()
         plt.close("all")
+    if not isinstance(fit_range, str):
+        # saving graphs if not original range
+        fit_range = fit_range * (1+z)
+        fitting_plotter(cube_id, fit_range, x_data, y_data, best_fit, noise)
 
     # If the galaxy is at significant redshift z and the wavelength has been
     # de-redshifted with the three lines "z = 1.23..." near the beginning of
