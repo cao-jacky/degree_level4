@@ -67,7 +67,7 @@ def kinematics_sdss(cube_id, y_data, fit_range):
     cube_x_original = cube_x_data
     cube_y_original = cube_y_data
 
-    # applying the perturbation to the y data
+    # masking the data to ignore initial 'noise' / non-features
     initial_mask = (cube_x_data > 3540 * (1+z))
     cube_x_data = cube_x_original[initial_mask] 
     cube_y_data = cube_y_original[initial_mask]
@@ -81,9 +81,8 @@ def kinematics_sdss(cube_id, y_data, fit_range):
     cy_sn_std = np.std(cube_y_sn_region)
     cy_sn = cy_sn_mean / cy_sn_std
 
-    print("s/n:")
-    print(cy_sn, cy_sn_mean, cy_sn_std)
-
+    #print("s/n:")
+    #print(cy_sn, cy_sn_mean, cy_sn_std)
 
     # will need this for when we are considering specific ranges
     if (fit_range == "all"):
@@ -257,6 +256,8 @@ def kinematics_sdss(cube_id, y_data, fit_range):
         kinematics_file.write('Elapsed time in PPXF: %.2f s' % (process_time() - t) 
                 + "\n")
 
+
+        plt.tight_layout()
         graph_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
         if not os.path.exists(graph_loc):
             os.mkdir(graph_loc) 

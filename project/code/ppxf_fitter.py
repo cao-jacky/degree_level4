@@ -13,8 +13,9 @@ def ppxf_cubes(cube_id):
     print("")
     print("Currently processing on cube " + str(int(cube_id)))
     print("Processing kinematic fitting: ")
-    kin_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id) 
+    kin_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all") 
 
+    # don't need to consider mass fittings, just kinematic ones
     """
     print("Processing mass fitting with free Balmer & [SII]: ")
     ppxf_fitter_gas_population.population_gas_sdss(cube_id, tie_balmer=False, limit_doublets=False)
@@ -25,6 +26,18 @@ def ppxf_cubes(cube_id):
     """
 
     return {'kinematic_fitting': kin_fit}
+
+def ranged_fitting(cube_id):
+    """ fitting pPXF for different ranges """
+    # fitting for the full, original spectrum
+    original = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all")
+
+    # we want to fit for three different regions
+    ranges = {
+            {},
+            {},
+            {}
+            }
 
 def ppxf_cube_auto():
 
@@ -70,5 +83,5 @@ def ppxf_cube_auto():
     ppxf_cubes(cube_id)
     ppxf_plots.fitting_plotter(cube_id)
 
-#ppxf_cube_auto()
-ppxf_plots.sigma_sn()
+ppxf_cube_auto()
+#ppxf_plots.sigma_sn()

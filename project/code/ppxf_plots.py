@@ -172,14 +172,16 @@ def fitting_plotter(cube_id):
         alpha_text = 0.75
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#1e88e5", alpha=alpha_line)
-        plt.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=alpha_text) 
+        plt.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=alpha_text,
+                weight="bold", fontsize=15) 
 
     for e_key, e_val in sl['abs'].items():
         spec_line = float(e_val) * (1+z)
         spec_label = e_key
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#ff8f00", alpha=0.7)
-        plt.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=0.75)
+        plt.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=0.75,
+                weight="bold", fontsize=15)
 
     # iron spectral lines
     for e_key, e_val in sl['iron'].items(): 
@@ -195,9 +197,10 @@ def fitting_plotter(cube_id):
     #plt.scatter(x_data[rmask], residual[rmask], s=3, color="#f44336", alpha=0.5)
     plt.scatter(x_data[mask], residual[mask]-1, s=3, color="#43a047")
 
-    #plt.tick_params(labelsize=15)
+    plt.tick_params(labelsize=15)
     plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
     plt.ylabel(r'\textbf{Relative Flux}', fontsize=15)
+    plt.tight_layout()
     plt.savefig("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + str(int(cube_id))
             + "_fitted.pdf")
 
