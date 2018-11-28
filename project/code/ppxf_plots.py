@@ -144,7 +144,7 @@ def fitting_plotter(cube_id):
 
     plt.figure()
 
-    plt.plot(x_data, y_data_scaled, linewidth=0.1, color="#000000")
+    plt.plot(x_data, y_data_scaled, linewidth=1.1, color="#000000")
     plt.plot(x_data, y_data_scaled+noise_stddev, linewidth=0.1, color="#616161", alpha=0.1)
     plt.plot(x_data, y_data_scaled-noise_stddev, linewidth=0.1, color="#616161", alpha=0.1)
     
@@ -189,7 +189,7 @@ def fitting_plotter(cube_id):
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
 
-    plt.plot(x_data, y_model, linewidth=0.5, color="#b71c1c")
+    plt.plot(x_data, y_model, linewidth=1.5, color="#b71c1c")
 
     residuals_mask = (residual > res_stddev) 
     rmask = residuals_mask
