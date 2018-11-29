@@ -13,6 +13,13 @@ plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 
+# The notifier function
+def notify(title, subtitle, message):
+    t = '-title {!r}'.format(title)
+    s = '-subtitle {!r}'.format(subtitle)
+    m = '-message {!r}'.format(message)
+    os.system('terminal-notifier {}'.format(' '.join([m, t, s])))
+
 def ppxf_cubes(cube_id):
     print("")
     print("Currently processing on cube " + str(int(cube_id)))
@@ -84,7 +91,6 @@ def ppxf_cube_auto():
     ppxf_running = open("results/ppxf_kinematics.txt", 'w')
     ppxf_running.write("Cube ID     pPXF Reduced chi-squared    Total chi-squared       Reduced chi-squared \n")
 
-
     # we want to fit for different regions, providing an array to our region fitting
     # routine of different regions to consider for each cube
     ranges = np.array([
@@ -109,6 +115,11 @@ def ppxf_cube_auto():
 
     # I'll also need to consider error bars at one point as well
 
+    # Calling the function
+    notify(title    = 'ppxf_fitter.py',
+           subtitle = ' ',
+           message  = 'Beginning processor')
+
     for i_cube in range(len(bright_objects)):
         curr_obj = catalogue[i_cube]
         cube_id = int(curr_obj[0])
@@ -119,13 +130,14 @@ def ppxf_cube_auto():
             pass
         else:
             # fitting full standard spectrum
-            ppxf_fit = ppxf_cubes(cube_id)
-            chi_squared = ppxf_plots.fitting_plotter(cube_id)
+            ppxf_fit = ppxf_cubes(cube_id) # running using pPXF function above
+            # using saved data, rerun analysis to find chi^2s
+            ppxf_analysis = ppxf_plots.fitting_plotter(cube_id) 
 
             kin_fit_chi2 = ppxf_fit['kinematic_fitting']['reduced_chi2']
 
-            tot_chi2 = chi_squared['chi2']
-            red_chi2 = chi_squared['redchi2']
+            tot_chi2 = ppxf_analysis['chi2']
+            red_chi2 = ppxf_analysis['redchi2']
 
             ppxf_running.write(str(cube_id) + "     " + str(kin_fit_chi2) + "     " + 
                     str(tot_chi2) + "     " + str(red_chi2) + "\n") 
