@@ -83,7 +83,8 @@ def ppxf_cube_auto():
         407,421,438,458,459,481,546,551,582,592,651,659,665,687,710,720,737,744,754,
         789,790,814,834,859,864,878,879,914,965,966,982,1008,1017,1033,1041,1045,
         1063,1068,1114,1162, 112, 722, 764, 769, 760, 1469, 733, 1453, 723, 378,
-        135, 474, 1103, 1118, 290, 1181, 1107, 6])
+        135, 474, 1103, 1118, 290, 1181, 1107, 6, 490, 258, 538, 643, 1148, 872,
+        1693, 1387, 406, 163, 167, 150, 1320, 1397, 545, 721, 1694, 508, 1311])
 
     ppxf_running = open("results/ppxf_kinematics.txt", 'w')
     ppxf_running.write("Cube ID     pPXF Reduced chi-squared    Total chi-squared       Reduced chi-squared \n")
@@ -122,23 +123,25 @@ def ppxf_cube_auto():
         if ((cube_id in avoid_objects) or (cube_id in cubes_to_ignore)):
             pass
         else:
-            print("Currently processing on cube " + str(int(cube_id)))
+            print("Currently processing cube " + str(int(cube_id)))
 
-            # fitting full standard spectrum
-            # running using pPXF function above
-            ppxf_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all") 
+            variables = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
+                    + "_variables.npy")
+            if not os.path.exists(variables):
+                # fitting full standard spectrum, and only running if a numpy
+                # variables file is not found - saves me the effort of waiting
+                ppxf_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, 
+                        "all")
+
+                ppxf_vars = ppxf_fit['variables']
+                np.save("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
+                    + "_variables.npy", ppxf_vars)
+            else:
+                ppxf_vars = np.load(variables)
+
             # using saved data, rerun analysis to find chi^2s
             ppxf_analysis = ppxf_plots.fitting_plotter(cube_id) 
 
-            kin_fit_chi2 = ppxf_fit['reduced_chi2']
-
-            tot_chi2 = ppxf_analysis['chi2']
-            red_chi2 = ppxf_analysis['redchi2']
-
-            ppxf_running.write(str(cube_id) + "     " + str(kin_fit_chi2) + "     " + 
-                    str(tot_chi2) + "     " + str(red_chi2) + "\n")
-
-            ppxf_vars = ppxf_fit['variables']
             sigma_stars = ppxf_vars[1]
             data[i_cube][0][2] = sigma_stars
 

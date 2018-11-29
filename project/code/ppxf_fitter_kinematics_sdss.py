@@ -299,8 +299,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     spec_noise = spec_noise[mask]
 
-    noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux)
-    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_noise", noise)
+    noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux) 
 
     # sky noise
     skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
@@ -427,6 +426,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
  
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_x", x_data)
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_y", y_data)
+
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_noise", noise)
 
         # if best fit i.e. perturbation is 0, save everything
      

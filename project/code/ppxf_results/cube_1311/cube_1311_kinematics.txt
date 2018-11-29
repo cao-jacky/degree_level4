@@ -1,0 +1,9 @@
+Best Fit:       Vel     sigma        h3        h4
+ comp. 0:    152762         1     0.010    -0.004
+chi2/DOF: 1.771
+method = capfit ; Jac calls: 5 ; Func calls: 29 ; Status: 2
+Nonzero Templates:  9  /  162
+Formal errors: 
+     dV    dsigma   dh3      dh4 
+ 8.8e+03 1.8e+04 9.7e+03 2.6e+04
+Elapsed time in PPXF: 1.73 s
