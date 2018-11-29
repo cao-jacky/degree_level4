@@ -1,5 +1,9 @@
 import os
 
+import sys
+sys.path.insert(0, '/Users/jackycao/Documents/Projects/scripts/')
+import personal_scripts
+
 import ppxf_fitter_kinematics_sdss
 import ppxf_fitter_gas_population
 
@@ -12,13 +16,6 @@ import ppxf_plots
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = [r'\boldmath']
-
-# The notifier function
-def notify(title, subtitle, message):
-    t = '-title {!r}'.format(title)
-    s = '-subtitle {!r}'.format(subtitle)
-    m = '-message {!r}'.format(message)
-    os.system('terminal-notifier {}'.format(' '.join([m, t, s])))
 
 def ppxf_cubes(cube_id):
     print("")
@@ -77,7 +74,7 @@ def ppxf_cube_auto():
     catalogue = catalogue[catalogue[:,8].argsort()]
     catalogue = catalogue[0:300,:] 
 
-    bright_objects = np.where(catalogue[:,5] < 23.5)[0]
+    bright_objects = np.where(catalogue[:,5] < 25.0)[0]
 
     avoid_objects = np.load("data/avoid_objects.npy")
     cubes_to_ignore = np.array([97,139,140,152,157,159,178,1734,1701,1700,1689,
@@ -86,7 +83,7 @@ def ppxf_cube_auto():
         407,421,438,458,459,481,546,551,582,592,651,659,665,687,710,720,737,744,754,
         789,790,814,834,859,864,878,879,914,965,966,982,1008,1017,1033,1041,1045,
         1063,1068,1114,1162, 112, 722, 764, 769, 760, 1469, 733, 1453, 723, 378,
-        135, 474, 1103, 1118])
+        135, 474, 1103, 1118, 290, 1181, 1107, 6])
 
     ppxf_running = open("results/ppxf_kinematics.txt", 'w')
     ppxf_running.write("Cube ID     pPXF Reduced chi-squared    Total chi-squared       Reduced chi-squared \n")
@@ -101,7 +98,6 @@ def ppxf_cube_auto():
         [3750, 4500]
         ])
 
-        
     # want an array to store various velocity dispersions
     # 1st dimension: an array to store data on every individual cube
     # 2nd dimension: rows of data corresponding to each different range which we are
@@ -116,10 +112,7 @@ def ppxf_cube_auto():
     # I'll also need to consider error bars at one point as well
 
     # Calling the function
-    notify(title    = 'ppxf_fitter.py',
-           subtitle = ' ',
-           message  = 'Beginning processor')
-
+    
     for i_cube in range(len(bright_objects)):
         curr_obj = catalogue[i_cube]
         cube_id = int(curr_obj[0])
@@ -129,20 +122,27 @@ def ppxf_cube_auto():
         if ((cube_id in avoid_objects) or (cube_id in cubes_to_ignore)):
             pass
         else:
+            print("Currently processing on cube " + str(int(cube_id)))
+
             # fitting full standard spectrum
-            ppxf_fit = ppxf_cubes(cube_id) # running using pPXF function above
+            # running using pPXF function above
+            ppxf_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all") 
             # using saved data, rerun analysis to find chi^2s
             ppxf_analysis = ppxf_plots.fitting_plotter(cube_id) 
 
-            kin_fit_chi2 = ppxf_fit['kinematic_fitting']['reduced_chi2']
+            kin_fit_chi2 = ppxf_fit['reduced_chi2']
 
             tot_chi2 = ppxf_analysis['chi2']
             red_chi2 = ppxf_analysis['redchi2']
 
             ppxf_running.write(str(cube_id) + "     " + str(kin_fit_chi2) + "     " + 
-                    str(tot_chi2) + "     " + str(red_chi2) + "\n") 
+                    str(tot_chi2) + "     " + str(red_chi2) + "\n")
 
-            # now I want reaccess the lmfit file
+            ppxf_vars = ppxf_fit['variables']
+            sigma_stars = ppxf_vars[1]
+            data[i_cube][0][2] = sigma_stars
+
+            # now I want reaccess the lmfit file to find OII sigma
             cube_result_file = open("cube_results/cube_" + str(cube_id) + "/cube_" + 
                     str(cube_id) + "_lmfit.txt")
         
@@ -160,7 +160,12 @@ def ppxf_cube_auto():
             data[i_cube][0][1] = sigma
  
             # considering different ranges in the spectrum
-            #rf = ranged_fitting(cube_id) 
+        
+            #rf = ranged_fitting(cube_id, ranges)
+            rf = np.array([0])
+            print(rf)
+            for i_rf in range(len(rf)):
+                pass
 
     # removing data which doesn't have an O[II] doublet for us to compare to
     sigma_doublet_vals = data[:][:,0][:,1]
@@ -168,9 +173,8 @@ def ppxf_cube_auto():
     data = np.delete(data, sigma_doublet_zeros, 0)
     print(data)
 
-
     # working with just one cube
-    #cube_id = 1804
+    cube_id = 1129
     #ppxf_cubes(cube_id)
     #ranged_fitting(cube_id)
     #ppxf_plots.fitting_plotter(cube_id)
@@ -178,10 +182,14 @@ def ppxf_cube_auto():
     # we want to plot sigma_stars vs. to sigma_OII
     fig, ax = plt.subplots()
 
-    #ax.scatter(rdst_model, rdst_cat, color="#000000", s=10)
+    ax.scatter(data[:][:,0][:,1], data[:][:,0][:,2], color="#000000", s=10)
 
-    #for i, txt in enumerate(cube_ids):
-        #ax.annotate(int(txt), (rdst_model[i], rdst_cat[i]))
+    for i in range(len(data[:][:,0])):
+        curr_id = data[:][i,0][0]
+        curr_x = data[:][i,0][1]
+        curr_y = data[:][i,0][2]
+
+        ax.annotate(int(curr_id), (curr_x, curr_y))
 
     ax.tick_params(labelsize=15)
     ax.set_ylabel(r'\textbf{$\sigma_{*}$}', fontsize=15)
@@ -193,6 +201,7 @@ def ppxf_cube_auto():
 
     # tells system to play a sound to alert that work has been finished
     os.system('afplay /System/Library/Sounds/Glass.aiff')
+    personal_scripts.notifications("ppxf_fitter", "Script has finished!")
 
 ppxf_cube_auto()
 #ppxf_plots.sigma_sn()
