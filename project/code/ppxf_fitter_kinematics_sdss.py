@@ -207,7 +207,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
     plt.close("all")
 
 
-def kinematics_sdss(cube_id, y_data, fit_range):     
+def kinematics_sdss(cube_id, y_data_var, fit_range):     
     file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
     if not os.path.exists(file_loc):
         os.mkdir(file_loc) 
@@ -234,11 +234,11 @@ def kinematics_sdss(cube_id, y_data, fit_range):
 
     cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy") 
-    if (np.sum(y_data) == 0):
+    if (np.sum(y_data_var) == 0):
         cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
             str(int(cube_id)) + "_cbs_y.npy")
     else:
-        cube_y_data = y_data
+        cube_y_data = y_data_var
 
     cube_x_original = cube_x_data
     cube_y_original = cube_y_data
@@ -419,8 +419,8 @@ def kinematics_sdss(cube_id, y_data, fit_range):
 
     #print(ppxf_variables)
     #plt.show()
-
-    if (np.sum(y_data) == 0 and isinstance(fit_range, str)):
+    
+    if ((np.sum(y_data_var) == 0) and isinstance(fit_range, str)):
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
  

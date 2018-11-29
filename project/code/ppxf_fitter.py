@@ -9,6 +9,10 @@ import matplotlib.pyplot as plt
 import cube_analysis
 import ppxf_plots
 
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+plt.rcParams['text.latex.preamble'] = [r'\boldmath']
+
 def ppxf_cubes(cube_id):
     print("")
     print("Currently processing on cube " + str(int(cube_id)))
@@ -27,16 +31,13 @@ def ppxf_cubes(cube_id):
 
     return {'kinematic_fitting': kin_fit}
 
-def ranged_fitting(cube_id):
+def ranged_fitting(cube_id, ranges):
     """ fitting pPXF for different ranges """
     # fitting for the full, original spectrum
     original = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all")
 
     ori_vars = original['variables']
     ori_errors = original['errors']
-
-    # we want to fit for three different regions
-    ranges = np.array([[3540, 3860],[3860, 4180],[4180, 4500]])
 
     # I want an array to store the parameters that pPXF finds as well
     fit_vars = np.zeros([len(ranges)+1, 4])
@@ -61,15 +62,15 @@ def ranged_fitting(cube_id):
         fit_vars[i_range+1][2] = rf_errors[0]
         fit_vars[i_range+1][3] = rf_errors[1]
 
-    print(fit_vars)
+    return {'fitted_variables': fit_vars}
+
 
 def ppxf_cube_auto():
-
     catalogue = np.load("data/matched_catalogue.npy")
     catalogue = catalogue[catalogue[:,8].argsort()]
     catalogue = catalogue[0:300,:] 
 
-    bright_objects = np.where(catalogue[:,5] < 24.0)[0]
+    bright_objects = np.where(catalogue[:,5] < 23.5)[0]
 
     avoid_objects = np.load("data/avoid_objects.npy")
     cubes_to_ignore = np.array([97,139,140,152,157,159,178,1734,1701,1700,1689,
@@ -78,19 +79,46 @@ def ppxf_cube_auto():
         407,421,438,458,459,481,546,551,582,592,651,659,665,687,710,720,737,744,754,
         789,790,814,834,859,864,878,879,914,965,966,982,1008,1017,1033,1041,1045,
         1063,1068,1114,1162, 112, 722, 764, 769, 760, 1469, 733, 1453, 723, 378,
-        135, 474, 1103])
+        135, 474, 1103, 1118])
 
     ppxf_running = open("results/ppxf_kinematics.txt", 'w')
     ppxf_running.write("Cube ID     pPXF Reduced chi-squared    Total chi-squared       Reduced chi-squared \n")
 
-    """
+
+    # we want to fit for different regions, providing an array to our region fitting
+    # routine of different regions to consider for each cube
+    ranges = np.array([
+        [3540, 3860],
+        [3860, 4180],
+        [4180, 4500],
+        [3500, 3750],
+        [3750, 4500]
+        ])
+
+        
+    # want an array to store various velocity dispersions
+    # 1st dimension: an array to store data on every individual cube
+    # 2nd dimension: rows of data corresponding to each different range which we are
+    #                considering i.e. full spectrum, OII region, absorption regon
+    # 3rd dimension: columns storing corresponding data 
+    #   [0] : cube_id 
+    #   [1] : OII doublet velocity dispersion 
+    #   [2] : sigma for the entire spectrum or regions corresponding to the limits in
+    #         ranges
+    data = np.zeros([len(bright_objects), 1+len(ranges), 3])
+
+    # I'll also need to consider error bars at one point as well
+
     for i_cube in range(len(bright_objects)):
         curr_obj = catalogue[i_cube]
         cube_id = int(curr_obj[0])
 
+        data[i_cube][0][0] = cube_id
+
         if ((cube_id in avoid_objects) or (cube_id in cubes_to_ignore)):
             pass
         else:
+            # fitting full standard spectrum
             ppxf_fit = ppxf_cubes(cube_id)
             chi_squared = ppxf_plots.fitting_plotter(cube_id)
 
@@ -100,13 +128,59 @@ def ppxf_cube_auto():
             red_chi2 = chi_squared['redchi2']
 
             ppxf_running.write(str(cube_id) + "     " + str(kin_fit_chi2) + "     " + 
-                    str(tot_chi2) + "     " + str(red_chi2) + "\n")
-            
-    """
-    cube_id = 1804
+                    str(tot_chi2) + "     " + str(red_chi2) + "\n") 
+
+            # now I want reaccess the lmfit file
+            cube_result_file = open("cube_results/cube_" + str(cube_id) + "/cube_" + 
+                    str(cube_id) + "_lmfit.txt")
+        
+            line_count = 0 
+            for crf_line in cube_result_file:
+                if (line_count == 19):
+                    curr_line = crf_line.split()
+                    sigma_gal = float(curr_line[1])
+                if (line_count == 21):
+                    curr_line = crf_line.split()
+                    sigma_inst = float(curr_line[1])
+                line_count += 1
+
+            sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
+            data[i_cube][0][1] = sigma
+ 
+            # considering different ranges in the spectrum
+            #rf = ranged_fitting(cube_id) 
+
+    # removing data which doesn't have an O[II] doublet for us to compare to
+    sigma_doublet_vals = data[:][:,0][:,1]
+    sigma_doublet_zeros = np.where(sigma_doublet_vals == 0)[0]
+    data = np.delete(data, sigma_doublet_zeros, 0)
+    print(data)
+
+
+    # working with just one cube
+    #cube_id = 1804
     #ppxf_cubes(cube_id)
-    ranged_fitting(cube_id)
+    #ranged_fitting(cube_id)
     #ppxf_plots.fitting_plotter(cube_id)
+
+    # we want to plot sigma_stars vs. to sigma_OII
+    fig, ax = plt.subplots()
+
+    #ax.scatter(rdst_model, rdst_cat, color="#000000", s=10)
+
+    #for i, txt in enumerate(cube_ids):
+        #ax.annotate(int(txt), (rdst_model[i], rdst_cat[i]))
+
+    ax.tick_params(labelsize=15)
+    ax.set_ylabel(r'\textbf{$\sigma_{*}$}', fontsize=15)
+    ax.set_xlabel(r'\textbf{$\sigma_{OII}$}', fontsize=15)
+
+    fig.tight_layout()
+    fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")
+    plt.close("all") 
+
+    # tells system to play a sound to alert that work has been finished
+    os.system('afplay /System/Library/Sounds/Glass.aiff')
 
 ppxf_cube_auto()
 #ppxf_plots.sigma_sn()
