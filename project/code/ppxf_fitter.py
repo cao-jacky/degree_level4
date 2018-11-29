@@ -84,7 +84,8 @@ def ppxf_cube_auto():
         789,790,814,834,859,864,878,879,914,965,966,982,1008,1017,1033,1041,1045,
         1063,1068,1114,1162, 112, 722, 764, 769, 760, 1469, 733, 1453, 723, 378,
         135, 474, 1103, 1118, 290, 1181, 1107, 6, 490, 258, 538, 643, 1148, 872,
-        1693, 1387, 406, 163, 167, 150, 1320, 1397, 545, 721, 1694, 508, 1311])
+        1693, 1387, 406, 163, 167, 150, 1320, 1397, 545, 721, 1694, 508, 1311,
+        205])
 
     ppxf_running = open("results/ppxf_kinematics.txt", 'w')
     ppxf_running.write("Cube ID     pPXF Reduced chi-squared    Total chi-squared       Reduced chi-squared \n")
@@ -108,7 +109,9 @@ def ppxf_cube_auto():
     #   [1] : OII doublet velocity dispersion 
     #   [2] : sigma for the entire spectrum or regions corresponding to the limits in
     #         ranges
-    data = np.zeros([len(bright_objects), 1+len(ranges), 3])
+    #   [3] : OII doublet velocity dispersion error
+    #   [4] : error for sigma from pPXF
+    data = np.zeros([len(bright_objects), 1+len(ranges), 5])
 
     # I'll also need to consider error bars at one point as well
 
@@ -127,23 +130,32 @@ def ppxf_cube_auto():
 
             variables = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
                     + "_variables.npy")
-            if not os.path.exists(variables):
+            errors = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
+                    + "_errors.npy")
+
+            if not (os.path.exists(variables) and os.path.exists(errors)):
                 # fitting full standard spectrum, and only running if a numpy
                 # variables file is not found - saves me the effort of waiting
                 ppxf_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, 
                         "all")
 
                 ppxf_vars = ppxf_fit['variables']
-                np.save("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
-                    + "_variables.npy", ppxf_vars)
+                np.save(variables, ppxf_vars)
+
+                ppxf_errors = ppxf_fit['errors']
+                np.save(errors, ppxf_errors)
             else:
                 ppxf_vars = np.load(variables)
+                ppxf_errors = np.load(errors)
 
             # using saved data, rerun analysis to find chi^2s
             ppxf_analysis = ppxf_plots.fitting_plotter(cube_id) 
 
             sigma_stars = ppxf_vars[1]
             data[i_cube][0][2] = sigma_stars
+
+            sigma_stars_error = ppxf_errors[1]
+            data[i_cube][0][4] = sigma_stars_error
 
             # now I want reaccess the lmfit file to find OII sigma
             cube_result_file = open("cube_results/cube_" + str(cube_id) + "/cube_" + 
@@ -154,6 +166,7 @@ def ppxf_cube_auto():
                 if (line_count == 19):
                     curr_line = crf_line.split()
                     sigma_gal = float(curr_line[1])
+                    sigma_gal_error = float(curr_line[3])
                 if (line_count == 21):
                     curr_line = crf_line.split()
                     sigma_inst = float(curr_line[1])
@@ -161,6 +174,8 @@ def ppxf_cube_auto():
 
             sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
             data[i_cube][0][1] = sigma
+            
+            data[i_cube][0][3] = sigma_gal_error
  
             # considering different ranges in the spectrum
         
@@ -185,7 +200,10 @@ def ppxf_cube_auto():
     # we want to plot sigma_stars vs. to sigma_OII
     fig, ax = plt.subplots()
 
-    ax.scatter(data[:][:,0][:,1], data[:][:,0][:,2], color="#000000", s=10)
+    # yerr=data[:][:,0][:,4]
+    ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], xerr=data[:][:,0][:,3], 
+            color="#000000", fmt="o", elinewidth=1.0, 
+            capsize=5, capthick=1.0)
 
     for i in range(len(data[:][:,0])):
         curr_id = data[:][i,0][0]
