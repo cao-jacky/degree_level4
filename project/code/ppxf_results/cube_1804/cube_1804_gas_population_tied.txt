@@ -1,22 +1,22 @@
 Best Fit:       Vel     sigma        h3        h4
- comp. 0:    154410       598     0.300    -0.300
- comp. 1:    154306       667
- comp. 2:    153669       132
-chi2/DOF: 320.8
-method = capfit ; Jac calls: 16 ; Func calls: 325 ; Status: 4
-Gas Reddening E(B-V): 5.384
-Nonzero Templates:  27  /  153
+ comp. 0:    153448         0     0.081     0.240
+ comp. 1:    153473       180
+ comp. 2:    153473       117
+chi2/DOF: 7.456
+method = capfit ; Jac calls: 11 ; Func calls: 226 ; Status: 3
+Gas Reddening E(B-V): 0.000
+Nonzero Templates:  15  /  153
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 gas_component   name       flux       err      V     sig
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Comp: 1        Balmer      24.33      0.13  154306   667
-Comp: 2  [OII]3726_d1      33.24      0.15  153669   132
-Comp: 2  [OII]3726_d2      46.78      0.16  153669   132
+Comp: 1        Balmer          0      0.54  153473   180
+Comp: 2  [OII]3726_d1      34.32         1  153473   117
+Comp: 2  [OII]3726_d2      63.33       1.2  153473   117
 ---------------------------------------------------------
-Desired Delta Chi^2: 43.82
-Current Delta Chi^2: 3.07e+05
-Elapsed time in PPXF: 16.21 s
+Desired Delta Chi^2: 46.75
+Current Delta Chi^2: 7056
+Elapsed time in PPXF: 10.94 s
 
-Weighted <logAge> [yr]: 9.57
-Weighted <[M/H]>: 0.11
-M/L_r: 1.152
+Weighted <logAge> [yr]: 8.62
+Weighted <[M/H]>: 0.13
+M/L_r: 0.4919

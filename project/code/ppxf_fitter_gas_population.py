@@ -188,6 +188,8 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
             lam=wave, clean=False, regul=1./regul_err, reg_dim=reg_dim,
             component=component, gas_component=gas_component,
             gas_names=gas_names, gas_reddening=gas_reddening)
+    
+    best_variables = pp.sol
 
     tied = "_free"
     if ( tie_balmer == True and limit_doublets == True ):
@@ -242,6 +244,8 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
             "_gas_populations" + tied + ".pdf")
     plt.savefig(gas_populations_graph)
     plt.close("all")
+
+    return {'variables': best_variables}
 
 ##############################################################################
 

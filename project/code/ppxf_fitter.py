@@ -87,9 +87,6 @@ def ppxf_cube_auto():
         1693, 1387, 406, 163, 167, 150, 1320, 1397, 545, 721, 1694, 508, 1311,
         205])
 
-    ppxf_running = open("results/ppxf_kinematics.txt", 'w')
-    ppxf_running.write("Cube ID     pPXF Reduced chi-squared    Total chi-squared       Reduced chi-squared \n")
-
     # we want to fit for different regions, providing an array to our region fitting
     # routine of different regions to consider for each cube
     ranges = np.array([
@@ -111,7 +108,8 @@ def ppxf_cube_auto():
     #         ranges
     #   [3] : OII doublet velocity dispersion error
     #   [4] : error for sigma from pPXF
-    data = np.zeros([len(bright_objects), 1+len(ranges), 5])
+    #   [5] : OII doublet velocity dispersion from pPXF
+    data = np.zeros([len(bright_objects), 1+len(ranges), 6])
 
     bright_objects = np.array([0])
     catalogue = np.array([[1804]])
@@ -148,9 +146,21 @@ def ppxf_cube_auto():
                 ppxf_errors = np.load(errors)
 
             # Processing the gas fitting to obtain a fitting for the OII doublet
-            gas_fit = ppxf_fitter_gas_population.population_gas_sdss(cube_id, 
+            # fitting for free vs. tied Balmer & [SII]
+            gas_fit1 = ppxf_fitter_gas_population.population_gas_sdss(cube_id, 
                     tie_balmer=False, limit_doublets=False)
-            
+            gas_fit2 = ppxf_fitter_gas_population.population_gas_sdss(cube_id, 
+                    tie_balmer=True, limit_doublets=True)
+
+            gas_fit1_vars = gas_fit1['variables']
+            gas_fit2_vars = gas_fit2['variables']
+
+            gf1_oii = gas_fit1_vars[2][1]
+            gf2_oii = gas_fit2_vars[2][1]
+
+            gas_fit_oii = np.average([gf1_oii, gf2_oii])
+            data[i_cube][0][5] = gas_fit_oii
+
             # using saved data, rerun analysis to find chi^2s
             ppxf_analysis = ppxf_plots.fitting_plotter(cube_id) 
 
