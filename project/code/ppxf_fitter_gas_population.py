@@ -60,13 +60,11 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     specNew, logLam, velscale = log_rebin(lamRange, cube_y_data)
     lam = np.exp(logLam)
 
-    loglam = np.log10(lam)
-
     # Only use the wavelength range in common between galaxy and stellar library.
-    mask = (loglam > 6000) & (loglam < 7200)
+    mask = (lam > 6000) & (lam < 7200)
     flux = specNew[mask]
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
-    wave = loglam[mask]
+    wave = lam[mask]
 
     # sky noise
     sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits") 
@@ -85,7 +83,7 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     # A constant noise is not a bad approximation in the fitted wavelength
     # range and reduces the noise in the fit.
     #
-    noise = np.full_like(galaxy, 0.01635)  # Assume constant noise per pixel here
+    #noise = np.full_like(galaxy, 0.01635)  # Assume constant noise per pixel here
 
     # cube noise
     cube_noise_data = ppxf_fitter_kinematics_sdss.cube_noise()
