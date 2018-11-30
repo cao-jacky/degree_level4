@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 import cube_analysis
 import ppxf_plots
 
+from astropy.cosmology import FlatLambdaCDM
+
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = [r'\boldmath']
@@ -85,7 +87,9 @@ def ppxf_cube_auto():
         1063,1068,1114,1162, 112, 722, 764, 769, 760, 1469, 733, 1453, 723, 378,
         135, 474, 1103, 1118, 290, 1181, 1107, 6, 490, 258, 538, 643, 1148, 872,
         1693, 1387, 406, 163, 167, 150, 1320, 1397, 545, 721, 1694, 508, 1311,
-        205])
+        205, 738])
+
+    gas_avoid = np.array([1, 175, 895, 540, 414, 549, 849, 1075])
 
     # we want to fit for different regions, providing an array to our region fitting
     # routine of different regions to consider for each cube
@@ -111,8 +115,8 @@ def ppxf_cube_auto():
     #   [5] : OII doublet velocity dispersion from pPXF
     data = np.zeros([len(bright_objects), 1+len(ranges), 6])
 
-    bright_objects = np.array([0])
-    catalogue = np.array([[1804]])
+    #bright_objects = np.array([0])
+    #catalogue = np.array([[1804]])
     
     for i_cube in range(len(bright_objects)):
         curr_obj = catalogue[i_cube]
@@ -147,18 +151,32 @@ def ppxf_cube_auto():
 
             # Processing the gas fitting to obtain a fitting for the OII doublet
             # fitting for free vs. tied Balmer & [SII]
-            gas_fit1 = ppxf_fitter_gas_population.population_gas_sdss(cube_id, 
-                    tie_balmer=False, limit_doublets=False)
-            gas_fit2 = ppxf_fitter_gas_population.population_gas_sdss(cube_id, 
-                    tie_balmer=True, limit_doublets=True)
+            gas_fit = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
+                    + "_gas_fit.npy")
 
-            gas_fit1_vars = gas_fit1['variables']
-            gas_fit2_vars = gas_fit2['variables']
+            if not (os.path.exists(gas_fit)):
+                if (cube_id in gas_avoid):
+                    pass
+                else:
+                    gas_fit1 = ppxf_fitter_gas_population.population_gas_sdss(cube_id, 
+                            tie_balmer=False, limit_doublets=False)
+                    gas_fit2 = ppxf_fitter_gas_population.population_gas_sdss(cube_id, 
+                            tie_balmer=True, limit_doublets=True)
 
-            gf1_oii = gas_fit1_vars[2][1]
-            gf2_oii = gas_fit2_vars[2][1]
+                    gas_fit1_vars = gas_fit1['variables']
+                    gas_fit2_vars = gas_fit2['variables']
 
-            gas_fit_oii = np.average([gf1_oii, gf2_oii])
+                    gf1_oii = gas_fit1_vars[2][1]
+                    gf2_oii = gas_fit2_vars[2][1]
+
+                    gas_fit_oii = np.average([gf1_oii, gf2_oii])
+
+                    gas_fit_vars = np.array([gf1_oii, gf2_oii, gas_fit_oii])
+                    np.save(gas_fit, gas_fit_vars)
+            else:
+                gfvs = np.load(gas_fit)
+                gas_fit_oii = gfvs[2]
+
             data[i_cube][0][5] = gas_fit_oii
 
             # using saved data, rerun analysis to find chi^2s
@@ -180,13 +198,22 @@ def ppxf_cube_auto():
                     curr_line = crf_line.split()
                     sigma_gal = float(curr_line[1])
                     sigma_gal_error = float(curr_line[3])
+                if (line_count == 20):
+                    curr_line = crf_line.split()
+                    z = float(curr_line[1])
                 if (line_count == 21):
                     curr_line = crf_line.split()
                     sigma_inst = float(curr_line[1])
                 line_count += 1
 
             sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
-            data[i_cube][0][1] = sigma
+            
+            # converting sigma into kms^-1 units (?): sigma is in wavelength units
+            # therefore apply lambda*v=c, therefore v = c/lambda
+            c = 299792.458 # speed of light in kms^-1
+            v = c / (sigma * 10**(3)) # velocity dispersion as a velocity
+
+            data[i_cube][0][1] = v
             
             data[i_cube][0][3] = sigma_gal_error
  
@@ -211,27 +238,53 @@ def ppxf_cube_auto():
     #ppxf_plots.fitting_plotter(cube_id)
 
     # we want to plot sigma_stars vs. to sigma_OII
-    fig, ax = plt.subplots()
+    def sigma_stars_vs_sigma_oii():
+        fig, ax = plt.subplots()
 
-    # yerr=data[:][:,0][:,4]
-    ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], xerr=data[:][:,0][:,3], 
-            color="#000000", fmt="o", elinewidth=1.0, 
-            capsize=5, capthick=1.0)
+        # yerr=data[:][:,0][:,4]
+        ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], xerr=data[:][:,0][:,3], 
+                color="#000000", fmt="o", elinewidth=1.0, 
+                capsize=5, capthick=1.0)
 
-    for i in range(len(data[:][:,0])):
-        curr_id = data[:][i,0][0]
-        curr_x = data[:][i,0][1]
-        curr_y = data[:][i,0][2]
+        for i in range(len(data[:][:,0])):
+            curr_id = data[:][i,0][0]
+            curr_x = data[:][i,0][1]
+            curr_y = data[:][i,0][2]
 
-        ax.annotate(int(curr_id), (curr_x, curr_y))
+            ax.annotate(int(curr_id), (curr_x, curr_y))
 
-    ax.tick_params(labelsize=15)
-    ax.set_ylabel(r'\textbf{$\sigma_{*}$}', fontsize=15)
-    ax.set_xlabel(r'\textbf{$\sigma_{OII}$}', fontsize=15)
+        ax.tick_params(labelsize=15)
+        ax.set_ylabel(r'\textbf{$\sigma_{*}$}', fontsize=15)
+        ax.set_xlabel(r'\textbf{$\sigma_{OII}$}', fontsize=15)
 
-    fig.tight_layout()
-    fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")
-    plt.close("all") 
+        fig.tight_layout()
+        fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")
+        plt.close("all") 
+
+    def oii_lmfit_vs_oii_ppxf():
+        fig, ax = plt.subplots()
+
+        for i in range(len(data[:][:,0])):
+            curr_id = data[:][i,0][0]
+            if (curr_id in gas_avoid):
+                pass 
+            else:
+                curr_x = data[:][i,0][1]
+                curr_y = data[:][i,0][5]
+                ax.scatter(curr_x, curr_y, color="#000000", s=10)
+
+                ax.annotate(int(curr_id), (curr_x, curr_y))
+
+        ax.tick_params(labelsize=15)
+        ax.set_xlabel(r'\textbf{$\sigma_{OII_{lmfit}}$}', fontsize=15)
+        ax.set_ylabel(r'\textbf{$\sigma_{OII_{pPXF}}$}', fontsize=15)
+
+        fig.tight_layout()
+        fig.savefig("graphs/oii_ppxf_vs_oii_lmfit.pdf")
+        plt.close("all") 
+
+    sigma_stars_vs_sigma_oii()
+    oii_lmfit_vs_oii_ppxf()
 
     # tells system to play a sound to alert that work has been finished
     os.system('afplay /System/Library/Sounds/Glass.aiff')
