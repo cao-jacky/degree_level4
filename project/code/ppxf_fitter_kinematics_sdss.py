@@ -206,6 +206,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
 
     plt.close("all")
 
+##############################################################################
 
 def kinematics_sdss(cube_id, y_data_var, fit_range):     
     file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))

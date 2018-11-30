@@ -2,6 +2,8 @@ from time import process_time
 import os
 from os import path
 
+import glob
+
 import io
 from contextlib import redirect_stdout
 
@@ -17,6 +19,7 @@ import ppxf.miles_util as lib
 from ppxf.ppxf_util import log_rebin
 
 import cube_reader
+import ppxf_fitter_kinematics_sdss
 
 import warnings
 from astropy.utils.exceptions import AstropyWarning
@@ -25,11 +28,6 @@ warnings.simplefilter('ignore', category=AstropyWarning)
 ##############################################################################
 
 def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
-
-    ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__)) 
-
-    cube_id = str(int(cube_id))
-
     # reading cube_data
     cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/cube_" 
             + str(cube_id) + ".fits")
@@ -53,15 +51,27 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbs_y.npy")
 
-    # Only use the wavelength range in common between galaxy and stellar library.
-    #
-    mask = (cube_x_data > 6000) & (cube_x_data < 7200)
-    flux = cube_y_data[mask]
-    galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
-    wave = cube_x_data[mask]
+    # masking the data to ignore initial 'noise' / non-features
+    initial_mask = (cube_x_data > 3540 * (1+z))
+    cube_x_data = cube_x_data[initial_mask] 
+    cube_y_data = cube_y_data[initial_mask]
 
-    sky_data = cube_reader.sky_noise("data/skyvariance_csub.fits") 
-    sky_noise = sky_data[mask]
+    lamRange = np.array([np.min(cube_x_data), np.max(cube_x_data)]) 
+    specNew, logLam, velscale = log_rebin(lamRange, cube_y_data)
+    lam = np.exp(logLam)
+
+    loglam = np.log10(lam)
+
+    # Only use the wavelength range in common between galaxy and stellar library.
+    mask = (loglam > 6000) & (loglam < 7200)
+    flux = specNew[mask]
+    galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
+    wave = loglam[mask]
+
+    # sky noise
+    sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits") 
+    skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
+    skyNew = skyNew[initial_mask]
  
     # The SDSS wavelengths are in vacuum, while the MILES ones are in air.
     # For a rigorous treatment, the SDSS vacuum wavelengths should be
@@ -77,6 +87,17 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     #
     noise = np.full_like(galaxy, 0.01635)  # Assume constant noise per pixel here
 
+    # cube noise
+    cube_noise_data = ppxf_fitter_kinematics_sdss.cube_noise()
+    spectrum_noise = cube_noise_data['spectrum_noise']
+    spec_noise = spectrum_noise[initial_mask][mask]
+
+    segmentation_data = hdu[2].data
+    seg_loc_rows, seg_loc_cols = np.where(segmentation_data == cube_id)
+    signal_pixels = len(seg_loc_rows) 
+
+    noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux)
+
     # The velocity step was already chosen by the SDSS pipeline
     # and we convert it below to km/s
     #
@@ -85,8 +106,9 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     FWHM_gal = 2.76  # SDSS has an approximate instrumental resolution FWHM of 2.76A.
 
     #------------------- Setup templates -----------------------
-
+    ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__))
     pathname = ppxf_dir + '/miles_models/Mun1.30*.fits'
+
     miles = lib.miles(pathname, velscale, FWHM_gal)
 
     # The stellar templates are reshaped below into a 2-dim array with each

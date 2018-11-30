@@ -113,9 +113,8 @@ def ppxf_cube_auto():
     #   [4] : error for sigma from pPXF
     data = np.zeros([len(bright_objects), 1+len(ranges), 5])
 
-    # I'll also need to consider error bars at one point as well
-
-    # Calling the function
+    bright_objects = np.array([0])
+    catalogue = np.array([[1804]])
     
     for i_cube in range(len(bright_objects)):
         curr_obj = catalogue[i_cube]
@@ -128,26 +127,30 @@ def ppxf_cube_auto():
         else:
             print("Currently processing cube " + str(int(cube_id)))
 
+            # Processing the kinematic fitting
             variables = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
                     + "_variables.npy")
             errors = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
                     + "_errors.npy")
-
             if not (os.path.exists(variables) and os.path.exists(errors)):
                 # fitting full standard spectrum, and only running if a numpy
                 # variables file is not found - saves me the effort of waiting
-                ppxf_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, 
-                        "all")
+                kinematic_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
+                        0, "all")
 
-                ppxf_vars = ppxf_fit['variables']
+                ppxf_vars = kinematic_fit['variables']
                 np.save(variables, ppxf_vars)
 
-                ppxf_errors = ppxf_fit['errors']
+                ppxf_errors = kinematic_fit['errors']
                 np.save(errors, ppxf_errors)
             else:
                 ppxf_vars = np.load(variables)
                 ppxf_errors = np.load(errors)
 
+            # Processing the gas fitting to obtain a fitting for the OII doublet
+            gas_fit = ppxf_fitter_gas_population.population_gas_sdss(cube_id, 
+                    tie_balmer=False, limit_doublets=False)
+            
             # using saved data, rerun analysis to find chi^2s
             ppxf_analysis = ppxf_plots.fitting_plotter(cube_id) 
 
