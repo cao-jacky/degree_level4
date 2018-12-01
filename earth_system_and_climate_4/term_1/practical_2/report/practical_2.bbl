@@ -7,8 +7,8 @@ William~F. Ruddiman.
 
 \bibitem{droxler_climate}
 Henning~A. Bauch and Helmut Erlenkeuser.
-\newblock Interpreting glacial‐interglacial changes in ice volume and climate
-  from subarctic deep water foraminiferal $\delta^{18}$o.
+\newblock {Interpreting glacial‐interglacial changes in ice volume and
+  climate from subarctic deep water foraminiferal $\delta^{18}$O}.
 \newblock In Andr\'{e}~W. Droxler, Richard~Z. Poore, and Burckle Lloyd~H,
   editors, {\em Earth's Climate and Orbital Eccentricity: The Marine Isotope
   Stage 11 Question}, volume 137, pages 87 -- 102. American Geophysical Union,
@@ -24,6 +24,12 @@ Bradley~W. Carroll and Dale~A. Ostlie.
 \newblock Past: Paleontological statistics software package for education and
   data analysis.
 \newblock {\em Palaeontologia Electronica}, 4(1):9, 2001.
+
+\bibitem{berger_climate}
+Andr\'{e}~L. Berger.
+\newblock Long-term variations of daily insolation and quaternary climatic
+  changes.
+\newblock {\em {Journal of the Atmospheric Sciences}}, 35:2362--2367, 1978.
 
 \bibitem{campisano_milankovitch}
 Christopher~J. Campisano.
