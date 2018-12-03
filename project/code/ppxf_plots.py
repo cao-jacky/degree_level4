@@ -209,7 +209,7 @@ def fitting_plotter(cube_id):
     return {'chi2': total_chi_sq,'redchi2': reduced_chi_sq}
 
 def sigma_sn():
-    cubes = np.array([1804, 765, 5, 1])
+    cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
     to_run = 300 # number of times to run the random generator
 
     # I want to store every thing which has been generated - what type of array do I 
@@ -226,8 +226,9 @@ def sigma_sn():
     #   [5] : (vel_best - vel_new) / vel_best
     #   [6] : sigma error
     #   [7] : velocity error
+    #   [8] : (sigma_best - sigma_new) 
 
-    data = np.zeros([len(cubes),to_run,8])
+    data = np.zeros([len(cubes),to_run,9])
     
     for i_cube in range(len(cubes)):
         cube_id = cubes[i_cube]
@@ -290,6 +291,8 @@ def sigma_sn():
             new_vel = new_variables[0]
 
             sigma_ratio = np.abs(best_sigma-new_sigma) / best_sigma
+            sigma_diff = np.abs(best_sigma-new_sigma)
+
             vel_ratio = np.abs(best_vel-new_vel) / best_vel
             
             new_x = new_fit['x_data']
@@ -326,6 +329,8 @@ def sigma_sn():
             data[i_cube][i][6] = error_sigma # sigma error
             data[i_cube][i][7] = error_vel # velocity error
 
+            data[i_cube][i][8] = sigma_diff # sigma difference
+
             plt.figure() 
             plt.plot(best_x[new_mask], best_y[new_mask], linewidth=0.5, 
                     color="#8bc34a")
@@ -341,43 +346,66 @@ def sigma_sn():
  
     np.save("data/sigma_vs_sn_data", data)
 
-    plt.figure()
-    #plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
-    for i in range(len(data[:])):
-        plt.scatter(data[i][:,3], data[i][:,2], c=np.random.rand(3,), s=10)
-    #plt.ylim([np.min(data[:,:,3]), np.max(data[:,:,3])])
+    def sigma_vs_sn():
+        plt.figure()
+        #plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
+        for i in range(len(data[:])):
+            plt.scatter(data[i][:,3], data[i][:,2], c=np.random.rand(3,), s=10)
+        #plt.ylim([np.min(data[:,:,3]), np.max(data[:,:,3])])
 
-    plt.xlabel(r'\textbf{S/N}', fontsize=15)
-    plt.ylabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+        plt.xlabel(r'\textbf{S/N}', fontsize=15)
+        plt.ylabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
 
-    plt.tight_layout()
-    plt.savefig("graphs/sigma_vs_sn.pdf")
-    plt.close("all") 
+        plt.tight_layout()
+        plt.savefig("graphs/sigma_vs_sn.pdf")
+        plt.close("all") 
 
-    plt.figure()
-    for i in range(len(data[:])):
-        plt.scatter(data[i][:,3], data[i][:,5], c=np.random.rand(3,), s=10)
- 
-    plt.xlabel(r'\textbf{S/N}', fontsize=15)
-    plt.ylabel(r'\textbf{$\frac{\Delta \sigma_{vel}}{\sigma_{vel_{best}}}$}', 
-            fontsize=15)
+    def sigma_vel_vs_sn():
+        plt.figure()
+        for i in range(len(data[:])):
+            plt.scatter(data[i][:,3], data[i][:,5], c=np.random.rand(3,), s=10)
+     
+        plt.xlabel(r'\textbf{S/N}', fontsize=15)
+        plt.ylabel(r'\textbf{$\frac{\Delta \sigma_{vel}}{\sigma_{vel_{best}}}$}', 
+                fontsize=15)
 
-    plt.tight_layout()
-    plt.savefig("graphs/sigma_vel_vs_sn.pdf")
-    plt.close("all")
+        plt.tight_layout()
+        plt.savefig("graphs/sigma_vel_vs_sn.pdf")
+        plt.close("all")
 
-    plt.figure()
-    #plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
-    for i in range(len(data[:])):
-        plt.scatter(data[i][:,2], data[i][:,3], c=np.random.rand(3,), s=10)
-    #plt.ylim([np.min(data[:,:,3]), np.max(data[:,:,3])])
+    def sn_vs_sigma():
+        plt.figure()
+        #plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
+        for i in range(len(data[:])):
+            plt.scatter(data[i][:,2], data[i][:,3], c=np.random.rand(3,), s=10)
+        #plt.ylim([np.min(data[:,:,3]), np.max(data[:,:,3])])
 
-    plt.ylabel(r'\textbf{S/N}', fontsize=15)
-    plt.xlabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+        plt.ylabel(r'\textbf{S/N}', fontsize=15)
+        plt.xlabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
 
-    plt.tight_layout()
-    plt.savefig("graphs/sn_vs_sigma.pdf")
-    plt.close("all") 
+        plt.tight_layout()
+        plt.savefig("graphs/sn_vs_sigma.pdf")
+        plt.close("all") 
+
+    def sn_vs_sigma_diff():
+        plt.figure()
+        #plt.scatter(best_sn, best_sigma/best_sigma, color="#b71c1c", s=10)
+        for i in range(len(data[:])):
+            plt.scatter(data[i][:,8], data[i][:,3], c=np.random.rand(3,), s=10)
+        #plt.ylim([np.min(data[:,:,3]), np.max(data[:,:,3])])
+
+        plt.ylabel(r'\textbf{S/N}', fontsize=15)
+        plt.xlabel(r'\textbf{$\Delta \sigma$}', fontsize=15)
+
+        plt.tight_layout()
+        plt.savefig("graphs/sn_vs_sigma.pdf")
+        plt.close("all") 
+
+
+    sigma_vs_sn()
+    sigma_vel_vs_sn()
+    sn_vs_sigma()
+    sn_vs_sigma_diff()
 
 def data_reprocessor():
     data = np.load("data/sigma_vs_sn_data.npy")

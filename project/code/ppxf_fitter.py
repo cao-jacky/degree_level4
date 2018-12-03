@@ -290,5 +290,5 @@ def ppxf_cube_auto():
     os.system('afplay /System/Library/Sounds/Glass.aiff')
     personal_scripts.notifications("ppxf_fitter", "Script has finished!")
 
-ppxf_cube_auto()
-#ppxf_plots.sigma_sn()
+#ppxf_cube_auto()
+ppxf_plots.sigma_sn()
