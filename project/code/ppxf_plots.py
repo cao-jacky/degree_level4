@@ -1,3 +1,9 @@
+import os
+
+import sys
+sys.path.insert(0, '/Users/jackycao/Documents/Projects/scripts/')
+import personal_scripts
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -228,7 +234,7 @@ def sigma_sn():
     #   [7] : velocity error
     #   [8] : (sigma_best - sigma_new) 
 
-    data = np.zeros([len(cubes),to_run,9])
+    data = np.zeros([len(cubes),to_run,8])
     
     for i_cube in range(len(cubes)):
         cube_id = cubes[i_cube]
@@ -398,7 +404,7 @@ def sigma_sn():
         plt.xlabel(r'\textbf{$\Delta \sigma$}', fontsize=15)
 
         plt.tight_layout()
-        plt.savefig("graphs/sn_vs_sigma.pdf")
+        plt.savefig("graphs/delta_sn_vs_sigma.pdf")
         plt.close("all") 
 
 
@@ -410,84 +416,100 @@ def sigma_sn():
 def data_reprocessor():
     data = np.load("data/sigma_vs_sn_data.npy")
 
-    total_bins1 = 60
-    X = data[:,:,3]
-    
-    bins = np.linspace(X.min(), X.max(), total_bins1)
-    delta = bins[1]-bins[0]
-    idx  = np.digitize(X,bins)
-
     # colours list
     colours = [
-            "#ab47bc",
+            "#f44336",
+            "#d81b60",
+            "#8e24aa",
+            "#5e35b1",
+            "#3949ab",
+            "#1e88e5",
+            "#0097a7",
             "#43a047",
-            "#2196f3",
-            "#ff9800"
+            "#fbc02d",
+            "#616161"
             ]
 
-    # delta(sigma) vs. S/N
-    plt.figure()
-    for i in range(len(data[:])):
-        plt.scatter(data[i][:,3], data[i][:,2], c=colours[i], s=10, alpha=0.2)
+    def sn_vs_delta_sigma_sigma():
+        total_bins1 = 400
+        X = data[:,:,3] # x-axis should be fractional error
+        
+        bins = np.linspace(X.min(), X.max(), total_bins1)
+        delta = bins[1]-bins[0]
+        idx  = np.digitize(X,bins)
 
-    # running median calculator
-    Y_sigma = data[:,:,2]
-    running_median1 = [np.median(Y_sigma[idx==k]) for k in range(total_bins1)]
-    plt.plot(bins-delta/2, running_median1, c="#000000", lw=1.5, alpha=0.8)
+        #####
+        # S/N vs. delta(sigma)/sigma
+        plt.figure()
+        for i in range(len(data[:])): 
+            plt.scatter(data[i][:,2], data[i][:,3], c=colours[i], s=10, alpha=0.2)
+            
+        # running median calculator
+        Y_sigma = data[:,:,2] # y-axis should be signal to noise
+        running_median1 = [np.median(Y_sigma[idx==k]) for k in range(total_bins1)]
+        plt.plot(running_median1, bins-delta/2, c="#000000", lw=1.5, alpha=0.7)
 
-    plt.xlabel(r'\textbf{S/N}', fontsize=15)
-    plt.ylabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+        plt.ylabel(r'\textbf{S/N}', fontsize=15)
+        plt.xlabel(r'\textbf{$\Delta \sigma / \sigma_{best}$}', fontsize=15)
 
-    plt.ylim([10**(-4),100])
-    plt.yscale('log')
-    plt.tight_layout()
-    plt.savefig("graphs/reprocessed_sigma_vs_sn.pdf")
-    plt.close("all") 
+        #plt.xlim([10**(-4),100])
+        #plt.yscale('log')
+        plt.tight_layout()
+        plt.savefig("graphs/reprocessed_sn_vs_delta_sigma_sigma.pdf")
+        plt.close("all") 
 
-    # delta(sigma_vel) vs. S/N
-    plt.figure()
-    for i in range(len(data[:])):
-        plt.scatter(data[i][:,3], data[i][:,5], c=colours[i], s=10, alpha=0.2) 
+        #####
+        # S/N vs. delta(sigma_vel)/sigma_vel
+        plt.figure()
+        for i in range(len(data[:])):
+            plt.scatter(data[i][:,5], data[i][:,3], c=colours[i], s=10, alpha=0.2) 
 
-    Y_sigma_vel = data[:,:,2]
-    running_median2 = [np.median(Y_sigma_vel[idx==k]) for k in range(total_bins1)]
-    plt.plot(bins-delta/2, running_median2, c="#000000", lw=1.5, alpha=0.8)
+        Y_sigma_vel = data[:,:,5]
+        running_median2 = [np.median(Y_sigma_vel[idx==k]) for k in range(total_bins1)]
+        plt.plot(running_median2, bins-delta/2, c="#000000", lw=1.5, alpha=0.7)
 
-    plt.xlabel(r'\textbf{S/N}', fontsize=15)
-    plt.ylabel(r'\textbf{$\frac{\Delta \sigma_{vel}}{\sigma_{vel_{best}}}$}', 
-            fontsize=15)
+        plt.ylabel(r'\textbf{S/N}', fontsize=15)
+        plt.xlabel(r'\textbf{$\Delta \sigma_{vel} / \sigma_{vel_{best}}$}', 
+                fontsize=15)
 
-    plt.ylim([10**(-8),0.001])
-    plt.yscale('log')
-    plt.tight_layout()
-    plt.savefig("graphs/reprocessed_sigma_vel_vs_sn.pdf")
-    plt.close("all")
+        plt.xlim([-np.min(data[:,:,5]),0.0021])
+        #plt.xscale('log')
+        plt.tight_layout()
+        plt.savefig("graphs/reprocessed_sn_vs_d_sigma_vel_sigma_vel.pdf")
+        plt.close("all")
 
-    # S/N vs. delta(sigma)
-    total_bins2 = 60
-    X_sigma = data[:,:,3]
-    
-    bins = np.linspace(X_sigma.min(), X_sigma.max(), total_bins2)
-    delta = bins[1]-bins[0]
-    idx  = np.digitize(X_sigma,bins)
+    def sn_vs_delta_sigma():
+        # S/N vs. delta(sigma)
+        total_bins2 = 400
+        X_sigma = data[:,:,3]
+        
+        bins = np.linspace(X_sigma.min(), X_sigma.max(), total_bins2)
+        delta = bins[1]-bins[0]
+        idx  = np.digitize(X_sigma,bins)
 
-    plt.figure()
-    for i in range(len(data[:])):
-        plt.scatter(data[i][:,2], data[i][:,3], c=colours[i], s=10, alpha=0.2)
+        plt.figure()
+        for i in range(len(data[:])):
+            plt.scatter(data[i][:,8], data[i][:,3], c=colours[i], s=10, alpha=0.2)
 
-    Y_sn = data[:,:,2]
-    running_median3 = [np.median(Y_sn[idx==k]) for k in range(total_bins2)]
-    plt.plot(running_median3, bins-delta/2, c="#000000", lw=1.5, alpha=0.8)
+        Y_sn = data[:,:,8]
+        running_median3 = [np.median(Y_sn[idx==k]) for k in range(total_bins2)]
+        plt.plot(running_median3, bins-delta/2, c="#000000", lw=1.5, alpha=0.7)
 
-    plt.tick_params(labelsize=15)
-    plt.ylabel(r'\textbf{S/N}', fontsize=15)
-    plt.xlabel(r'\textbf{$\Delta \sigma$ / $\sigma_{best}$}', fontsize=15)
+        plt.tick_params(labelsize=15)
+        plt.ylabel(r'\textbf{S/N}', fontsize=15)
+        plt.xlabel(r'\textbf{$\Delta \sigma$}', fontsize=15)
 
-    plt.xlim([10**(-4),100])
-    plt.xscale('log')
-    plt.tight_layout()
-    plt.savefig("graphs/reprocessed_sn_vs_sigma.pdf")
-    plt.close("all")
+        #plt.ylim([10**(-8),100])
+        #plt.yscale('log')
+        plt.tight_layout()
+        plt.savefig("graphs/reprocessed_sn_vs_delta_sigma.pdf")
+        plt.close("all")
+
+    sn_vs_delta_sigma_sigma()
+    sn_vs_delta_sigma()
+
+    os.system('afplay /System/Library/Sounds/Glass.aiff')
+    personal_scripts.notifications("ppxf_plots", "Reprocessed plots have been plotted!")
 
 def data_graphs():
     data = data = np.load("data/sigma_vs_sn_data.npy")
@@ -518,5 +540,5 @@ def data_graphs():
 #chi_squared_cal(1804)
 #model_data_overlay(549)
 
-#data_reprocessor()
+data_reprocessor()
 #data_graphs()
