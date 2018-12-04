@@ -62,11 +62,11 @@ def ranged_fitting(cube_id, ranges):
         rf_vars = ranged_fitting['variables']
         rf_errors = ranged_fitting['errors']
 
-        fit_vars[i_range+1][0] = rf_vars[0]
-        fit_vars[i_range+1][1] = rf_vars[1]
+        fit_vars[i_range+1][0] = rf_vars[0] # sigma velocity
+        fit_vars[i_range+1][1] = rf_vars[1] # sigma velocity dispersion
 
-        fit_vars[i_range+1][2] = rf_errors[0]
-        fit_vars[i_range+1][3] = rf_errors[1]
+        fit_vars[i_range+1][2] = rf_errors[0] # sigma velocity error
+        fit_vars[i_range+1][3] = rf_errors[1] # sigma velocity dispersion error
 
     return {'fitted_variables': fit_vars}
 
@@ -89,10 +89,13 @@ def ppxf_cube_auto():
         1693, 1387, 406, 163, 167, 150, 1320, 1397, 545, 721, 1694, 508, 1311,
         205, 738])
 
-    gas_avoid = np.array([1, 175, 895, 540, 414, 549, 849, 1075])
+    gas_avoid = np.array([1, 175, 895, 540, 414, 549, 849, 1075]) 
 
     # we want to fit for different regions, providing an array to our region fitting
     # routine of different regions to consider for each cube
+    #
+    # this array is here as we need to create our data array based off how many 
+    # ranges it contains
     ranges = np.array([
         [3540, 3860],
         [3860, 4180],
@@ -113,11 +116,17 @@ def ppxf_cube_auto():
     #   [3] : OII doublet velocity dispersion error
     #   [4] : error for sigma from pPXF
     #   [5] : OII doublet velocity dispersion from pPXF
-    data = np.zeros([len(bright_objects), 1+len(ranges), 6])
+    #   [6] : V-band magnitude from catalogue
+    #   [7] : S/N for each cube
+    #   [8] : range beginning which is considered
+    #   [9] : range end which is considered 
+    data = np.zeros([len(bright_objects), 1+len(ranges), 10])
 
+    # testing code for just pPXF
     #bright_objects = np.array([0])
-    #catalogue = np.array([[1804]])
-    
+    #cloc = np.where([catalogue[:,0] == 1804])[1]
+    #catalogue = catalogue[cloc]
+
     for i_cube in range(len(bright_objects)):
         curr_obj = catalogue[i_cube]
         cube_id = int(curr_obj[0])
@@ -127,7 +136,7 @@ def ppxf_cube_auto():
         if ((cube_id in avoid_objects) or (cube_id in cubes_to_ignore)):
             pass
         else:
-            print("Currently processing cube " + str(int(cube_id)))
+            print("Currently processing cube " + str(int(cube_id))) 
 
             # Processing the kinematic fitting
             variables = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
@@ -213,23 +222,54 @@ def ppxf_cube_auto():
             c = 299792.458 # speed of light in kms^-1
             v = c / (sigma * 10**(3)) # velocity dispersion as a velocity
 
-            data[i_cube][0][1] = v
-            
-            data[i_cube][0][3] = sigma_gal_error
+            # the 'sigma' aka velocity dispersion and the associated error
+            data[i_cube][0][1] = c / (sigma * 10**(3))             
+            data[i_cube][0][3] = c / (sigma_gal_error * 10**(3))   
+
+            # V-band magnitude (HST 606nm) from catalogue
+            data[i_cube][0][6] = curr_obj[5]
+
+            # calculating S/N for each cube
+            cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" 
+                    + str(int(cube_id)) + "_cbd_x.npy") 
+            cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_"
+                    + str(int(cube_id)) + "_cbs_y.npy")
+
+            sn_region = np.array([4000, 4080]) * (1+z) 
+            sn_region_mask = ((cube_x_data > sn_region[0]) & 
+                    (cube_x_data < sn_region[1]))
+
+            cube_y_sn_region = cube_y_data[sn_region_mask]
+            cy_sn_mean = np.mean(cube_y_sn_region)
+            cy_sn_std = np.std(cube_y_sn_region)
+            cy_sn = cy_sn_mean / cy_sn_std
+
+            data[i_cube][0][7] = cy_sn
  
-            # considering different ranges in the spectrum
-        
-            #rf = ranged_fitting(cube_id, ranges)
-            rf = np.array([0])
-            print(rf)
-            for i_rf in range(len(rf)):
-                pass
+            # considering different ranges in the spectrum 
+            rf = ranged_fitting(cube_id, ranges) # running finder 
+            fit_vars = rf['fitted_variables']
+            for i_rtc in range(len(ranges)):
+                ci = i_rtc+1 # current index in the data array
+                # cycling through each individual range and then storing into our
+                # data array
+                data[i_cube][ci][0] = cube_id
+
+                # velocity dispersion and it's error
+                data[i_cube][ci][2] = fit_vars[ci][1]
+                data[i_cube][ci][4] = fit_vars[ci][3]
+
+                # ranges used in the fittings
+                data[i_cube][ci][8] = ranges[i_rtc][0]
+                data[i_cube][ci][9] = ranges[i_rtc][1]           
 
     # removing data which doesn't have an O[II] doublet for us to compare to
     sigma_doublet_vals = data[:][:,0][:,1]
     sigma_doublet_zeros = np.where(sigma_doublet_vals == 0)[0]
     data = np.delete(data, sigma_doublet_zeros, 0)
     print(data)
+
+    np.save("data/ppxf_fitter_data", data)
 
     # working with just one cube
     cube_id = 1129
@@ -283,12 +323,84 @@ def ppxf_cube_auto():
         fig.savefig("graphs/oii_ppxf_vs_oii_lmfit.pdf")
         plt.close("all") 
 
+    def sn_vs_v_band():
+        fig, ax = plt.subplots()
+
+        ax.scatter(data[:][:,0][:,6], data[:][:,0][:,7], color="#000000", s=10)
+
+        for i in range(len(data[:][:,0])):
+            curr_id = data[:][i,0][0]
+            curr_x = data[:][i,0][6]
+            curr_y = data[:][i,0][7]
+
+            ax.annotate(int(curr_id), (curr_x, curr_y))
+
+        ax.tick_params(labelsize=15)
+        ax.set_ylabel(r'\textbf{S/N}', fontsize=15)
+        ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=15)
+
+        fig.tight_layout()
+        fig.savefig("graphs/ppxf_sn_vs_v_band.pdf")
+        plt.close("all") 
+
+    def region_graphs():
+        # graphs to consider for regions: lam_1 vs lam_2, lam_2 vs lam_3, 
+        # lam_3 vs lam_4, lam_4 vs lam_5
+        fig, ax = plt.subplots()
+
+        for i in range(len(data[:][:,0])):
+            for i_range in range(4):
+                sigma_x = data[:][i,i_range+1][2]
+                sigma_y = data[:][i,i_range+2][2]
+
+                print(sigma_x)
+                print(sigma_y)
+
+                ax.scatter(sigma_x, sigma_y, color="#000000", s=10)
+
+        ax.tick_params(labelsize=15)
+        ax.set_xlabel(r'\textbf{$\sigma_{'+str(i_range+1)+'}$}', fontsize=15)
+        ax.set_ylabel(r'\textbf{$\sigma_{'+str(i_range+2)+'}$}', fontsize=15)
+
+        fig.tight_layout()
+        fig.savefig("graphs/regions/sigma_ranges_"+str(i_range)+".pdf")
+        plt.close("all") 
+
     sigma_stars_vs_sigma_oii()
     oii_lmfit_vs_oii_ppxf()
+    sn_vs_v_band()
+    region_graphs()
 
     # tells system to play a sound to alert that work has been finished
     os.system('afplay /System/Library/Sounds/Glass.aiff')
     personal_scripts.notifications("ppxf_fitter", "Script has finished!")
 
-ppxf_cube_auto()
+def region_graphs_with_data():
+    data = np.load("data/ppxf_fitter_data.npy")
+    # graphs to consider for regions: lam_1 vs lam_2, lam_2 vs lam_3, 
+    # lam_3 vs lam_4, lam_4 vs lam_5
+
+    fig, ax = plt.subplots()
+
+    for i in range(len(data[:][:,0])):
+        for i_range in range(4):
+            sigma_x = data[:][i,i_range+1][2]
+            sigma_y = data[:][i,i_range+2][2]
+
+            print(sigma_x)
+            print(sigma_y)
+
+            ax.scatter(sigma_x, sigma_y, color="#000000", s=10)
+
+    ax.tick_params(labelsize=15)
+    ax.set_xlabel(r'\textbf{$\sigma_{'+str(i_range+1)+'}$}', fontsize=15)
+    ax.set_ylabel(r'\textbf{$\sigma_{'+str(i_range+2)+'}$}', fontsize=15)
+
+    fig.tight_layout()
+    fig.savefig("graphs/regions/sigma_ranges_"+str(i_range)+".pdf")
+    plt.close("all") 
+
+
+#ppxf_cube_auto()
 #ppxf_plots.sigma_sn()
+region_graphs_with_data()
