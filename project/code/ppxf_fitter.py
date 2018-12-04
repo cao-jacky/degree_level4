@@ -380,26 +380,25 @@ def region_graphs_with_data():
     # graphs to consider for regions: lam_1 vs lam_2, lam_2 vs lam_3, 
     # lam_3 vs lam_4, lam_4 vs lam_5
 
-    fig, ax = plt.subplots()
-
-    for i in range(len(data[:][:,0])):
-        for i_range in range(4):
+    for i_range in range(4):
+        fig, ax = plt.subplots()
+        for i in range(len(data[:][:,0])):
             sigma_x = data[:][i,i_range+1][2]
             sigma_y = data[:][i,i_range+2][2]
 
-            print(sigma_x)
-            print(sigma_y)
-
             ax.scatter(sigma_x, sigma_y, color="#000000", s=10)
 
-    ax.tick_params(labelsize=15)
-    ax.set_xlabel(r'\textbf{$\sigma_{'+str(i_range+1)+'}$}', fontsize=15)
-    ax.set_ylabel(r'\textbf{$\sigma_{'+str(i_range+2)+'}$}', fontsize=15)
+            curr_id = data[:][i,0][0]
+            
+            ax.annotate(int(curr_id), (sigma_x, sigma_y))
 
-    fig.tight_layout()
-    fig.savefig("graphs/regions/sigma_ranges_"+str(i_range)+".pdf")
-    plt.close("all") 
+        ax.tick_params(labelsize=15)
+        ax.set_xlabel(r'\textbf{$\sigma_{'+str(i_range+1)+'}$}', fontsize=15)
+        ax.set_ylabel(r'\textbf{$\sigma_{'+str(i_range+2)+'}$}', fontsize=15)
 
+        fig.tight_layout()
+        fig.savefig("graphs/regions/sigma_ranges_"+str(i_range)+".pdf")
+        plt.close("all") 
 
 #ppxf_cube_auto()
 #ppxf_plots.sigma_sn()
