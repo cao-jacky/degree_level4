@@ -70,6 +70,30 @@ def ranged_fitting(cube_id, ranges):
 
     return {'fitted_variables': fit_vars}
 
+def region_graphs_with_data():
+    data = np.load("data/ppxf_fitter_data.npy")
+    # graphs to consider for regions: lam_1 vs lam_2, lam_2 vs lam_3, 
+    # lam_3 vs lam_4, lam_4 vs lam_5
+
+    for i_range in range(4):
+        fig, ax = plt.subplots()
+        for i in range(len(data[:][:,0])):
+            sigma_x = data[:][i,i_range+1][2]
+            sigma_y = data[:][i,i_range+2][2]
+
+            ax.scatter(sigma_x, sigma_y, color="#000000", s=10)
+
+            curr_id = data[:][i,0][0]
+            
+            ax.annotate(int(curr_id), (sigma_x, sigma_y))
+
+        ax.tick_params(labelsize=15)
+        ax.set_xlabel(r'\textbf{$\sigma_{'+str(i_range+1)+'}$}', fontsize=15)
+        ax.set_ylabel(r'\textbf{$\sigma_{'+str(i_range+2)+'}$}', fontsize=15)
+
+        fig.tight_layout()
+        fig.savefig("graphs/regions/sigma_ranges_"+str(i_range)+".pdf")
+        plt.close("all") 
 
 def ppxf_cube_auto():
     catalogue = np.load("data/matched_catalogue.npy")
@@ -343,63 +367,17 @@ def ppxf_cube_auto():
         fig.savefig("graphs/ppxf_sn_vs_v_band.pdf")
         plt.close("all") 
 
-    def region_graphs():
-        # graphs to consider for regions: lam_1 vs lam_2, lam_2 vs lam_3, 
-        # lam_3 vs lam_4, lam_4 vs lam_5
-        fig, ax = plt.subplots()
-
-        for i in range(len(data[:][:,0])):
-            for i_range in range(4):
-                sigma_x = data[:][i,i_range+1][2]
-                sigma_y = data[:][i,i_range+2][2]
-
-                print(sigma_x)
-                print(sigma_y)
-
-                ax.scatter(sigma_x, sigma_y, color="#000000", s=10)
-
-        ax.tick_params(labelsize=15)
-        ax.set_xlabel(r'\textbf{$\sigma_{'+str(i_range+1)+'}$}', fontsize=15)
-        ax.set_ylabel(r'\textbf{$\sigma_{'+str(i_range+2)+'}$}', fontsize=15)
-
-        fig.tight_layout()
-        fig.savefig("graphs/regions/sigma_ranges_"+str(i_range)+".pdf")
-        plt.close("all") 
 
     sigma_stars_vs_sigma_oii()
     oii_lmfit_vs_oii_ppxf()
     sn_vs_v_band()
-    region_graphs()
+
+    region_graphs_with_data() # calling function before this function to plot data
 
     # tells system to play a sound to alert that work has been finished
     os.system('afplay /System/Library/Sounds/Glass.aiff')
     personal_scripts.notifications("ppxf_fitter", "Script has finished!")
 
-def region_graphs_with_data():
-    data = np.load("data/ppxf_fitter_data.npy")
-    # graphs to consider for regions: lam_1 vs lam_2, lam_2 vs lam_3, 
-    # lam_3 vs lam_4, lam_4 vs lam_5
-
-    for i_range in range(4):
-        fig, ax = plt.subplots()
-        for i in range(len(data[:][:,0])):
-            sigma_x = data[:][i,i_range+1][2]
-            sigma_y = data[:][i,i_range+2][2]
-
-            ax.scatter(sigma_x, sigma_y, color="#000000", s=10)
-
-            curr_id = data[:][i,0][0]
-            
-            ax.annotate(int(curr_id), (sigma_x, sigma_y))
-
-        ax.tick_params(labelsize=15)
-        ax.set_xlabel(r'\textbf{$\sigma_{'+str(i_range+1)+'}$}', fontsize=15)
-        ax.set_ylabel(r'\textbf{$\sigma_{'+str(i_range+2)+'}$}', fontsize=15)
-
-        fig.tight_layout()
-        fig.savefig("graphs/regions/sigma_ranges_"+str(i_range)+".pdf")
-        plt.close("all") 
-
 #ppxf_cube_auto()
 #ppxf_plots.sigma_sn()
-region_graphs_with_data()
+#region_graphs_with_data()

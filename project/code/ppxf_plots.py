@@ -447,7 +447,16 @@ def data_reprocessor():
         # running median calculator
         Y_sigma = data[:,:,2] # y-axis should be signal to noise
         running_median1 = [np.median(Y_sigma[idx==k]) for k in range(total_bins1)]
-        plt.plot(running_median1, bins-delta/2, c="#000000", lw=1.5, alpha=0.7)
+
+        rm1 = np.array(running_median1)        
+        y_data1 = (bins-delta/2)
+
+        plt.plot(rm1, y_data1, c="#000000", lw=1.5, alpha=0.7)
+
+        idx = np.isfinite(rm1) # mask to mask out finite values
+        fitted_poly = np.poly1d(np.polyfit(rm1[idx], y_data1[idx], 4))
+        t = np.linspace(np.min(y_data1), np.max(y_data1), 200)
+        plt.plot(fitted_poly(t), t, c="#d32f2f", lw=1.5, alpha=0.8)
 
         plt.ylabel(r'\textbf{S/N}', fontsize=15)
         plt.xlabel(r'\textbf{$\Delta \sigma / \sigma_{best}$}', fontsize=15)
@@ -460,23 +469,25 @@ def data_reprocessor():
 
         #####
         # S/N vs. delta(sigma_vel)/sigma_vel
-        plt.figure()
-        for i in range(len(data[:])):
-            plt.scatter(data[i][:,5], data[i][:,3], c=colours[i], s=10, alpha=0.2) 
+        def sn_del_sigma_vel():
+            plt.figure()
+            for i in range(len(data[:])):
+                plt.scatter(data[i][:,5], data[i][:,3], c=colours[i], s=10, alpha=0.2) 
 
-        Y_sigma_vel = data[:,:,5]
-        running_median2 = [np.median(Y_sigma_vel[idx==k]) for k in range(total_bins1)]
-        plt.plot(running_median2, bins-delta/2, c="#000000", lw=1.5, alpha=0.7)
+            Y_sigma_vel = data[:,:,5]
+            running_median2 = [np.median(Y_sigma_vel[idx==k]) for k in 
+                    range(total_bins1)]
+            plt.plot(running_median2, bins-delta/2, c="#000000", lw=1.5, alpha=0.7)
 
-        plt.ylabel(r'\textbf{S/N}', fontsize=15)
-        plt.xlabel(r'\textbf{$\Delta \sigma_{vel} / \sigma_{vel_{best}}$}', 
-                fontsize=15)
+            plt.ylabel(r'\textbf{S/N}', fontsize=15)
+            plt.xlabel(r'\textbf{$\Delta \sigma_{vel} / \sigma_{vel_{best}}$}', 
+                    fontsize=15)
 
-        plt.xlim([-np.min(data[:,:,5]),0.0021])
-        #plt.xscale('log')
-        plt.tight_layout()
-        plt.savefig("graphs/reprocessed_sn_vs_d_sigma_vel_sigma_vel.pdf")
-        plt.close("all")
+            plt.xlim([-np.min(data[:,:,5]),0.0021])
+            #plt.xscale('log')
+            plt.tight_layout()
+            plt.savefig("graphs/reprocessed_sn_vs_d_sigma_vel_sigma_vel.pdf")
+            plt.close("all")
 
     def sn_vs_delta_sigma():
         # S/N vs. delta(sigma)
@@ -540,5 +551,5 @@ def data_graphs():
 #chi_squared_cal(1804)
 #model_data_overlay(549)
 
-#data_reprocessor()
+data_reprocessor()
 #data_graphs()
