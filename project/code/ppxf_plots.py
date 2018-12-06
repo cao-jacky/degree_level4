@@ -547,9 +547,74 @@ def data_graphs():
     plt.savefig("graphs/sigma_vs_ppxf_error.pdf")
     plt.close("all")
 
+def oii_plots():
+    data = np.load("data/ppxf_fitter_data.npy")
+    
+    for i in range(len(data[:][:,0])):
+        cube_id = int(data[:][i,0][0])
+
+        sigma_lmfit = data[:][i,0][1] # lmfit
+        sigma_ppxf = data[:][i,0][5] # ppxf
+
+        # originally sigma_new=c / (sigma_old * 10**(3)) 
+
+        c = 299792.458 # speed of light in kms^-1
+        sigma_lmfit = (c/sigma_lmfit) * 10**(-3)
+        sigma_ppxf = (c/sigma_ppxf) * 10**(-3)
+
+        print(sigma_lmfit, sigma_ppxf)
+
+        # variables for the Gaussian doublet from lmfit
+        cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + 
+                str(cube_id) + "_lmfit.txt")
+        cube_result_file = open(cube_result_file)
+
+        line_count = 0 
+        for crf_line in cube_result_file:
+            if (line_count == 15):
+                curr_line = crf_line.split()
+                c = float(curr_line[1])
+            if (line_count == 16):
+                curr_line = crf_line.split()
+                i1 = float(curr_line[1])
+            if (line_count == 18):
+                curr_line = crf_line.split()
+                i2 = float(curr_line[1])
+            if (line_count == 19):
+                curr_line = crf_line.split()
+                sigma_gal = float(curr_line[1])
+            if (line_count == 20):
+                curr_line = crf_line.split()
+                z = float(curr_line[1])
+            if (line_count == 21):
+                curr_line = crf_line.split()
+                sigma_inst = float(curr_line[1])
+            line_count += 1
+        
+        x = np.linspace(3500, 4000, 500) * (1+z)
+
+        fit_lmfit = f_doublet(x, c, i1, i2, sigma_lmfit, z, sigma_inst)
+        fit_ppxf = f_doublet(x, c, i1, i2, sigma_ppxf, z, sigma_inst)
+
+        fig, ax = plt.subplots()
+
+        ax.plot(x, fit_lmfit, color="#000000", lw=1.5)
+        ax.plot(x, fit_ppxf, color="#e53935", lw=1.5)
+
+
+        ax.tick_params(labelsize=15)
+        ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
+        ax.set_xlabel(r'\textbf{Wavelenght \AA}', fontsize=15)
+
+        fig.tight_layout()
+        fig.savefig("graphs/doublets/cube_"+str(cube_id)+".pdf")
+        plt.close("all") 
+
 
 #chi_squared_cal(1804)
 #model_data_overlay(549)
 
-data_reprocessor()
+#data_reprocessor()
 #data_graphs()
+
+oii_plots()

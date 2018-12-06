@@ -1,21 +1,21 @@
 Best Fit:       Vel     sigma        h3        h4
- comp. 0:    153448         0     0.078     0.241
- comp. 1:    152219       257
- comp. 2:    153473       117
-chi2/DOF: 7.447
-method = capfit ; Jac calls: 8 ; Func calls: 155 ; Status: 3
-Nonzero Templates:  16  /  153
+ comp. 0:    153397       193     0.178    -0.300
+ comp. 1:    153103         1
+ comp. 2:    153471       124
+chi2/DOF: 7.327
+method = capfit ; Jac calls: 11 ; Func calls: 213 ; Status: 3
+Nonzero Templates:  20  /  153
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 gas_component   name       flux       err      V     sig
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Comp: 1        Hdelta          0      0.34  152219   257
-Comp: 2     [OII]3726      52.45       0.4  153473   117
-Comp: 2     [OII]3729      45.22      0.49  153473   117
+Comp: 1        Hdelta          0      0.16  153103     1
+Comp: 2     [OII]3726      46.76      0.46  153471   124
+Comp: 2     [OII]3729      39.72       0.4  153471   124
 ---------------------------------------------------------
-Desired Delta Chi^2: 46.75
-Current Delta Chi^2: 7046
-Elapsed time in PPXF: 4.86 s
+Desired Delta Chi^2: 40
+Current Delta Chi^2: 5061
+Elapsed time in PPXF: 6.55 s
 
-Weighted <logAge> [yr]: 8.61
-Weighted <[M/H]>: 0.132
-M/L_r: 0.4894
+Weighted <logAge> [yr]: 8.65
+Weighted <[M/H]>: 0.111
+M/L_r: 0.5087

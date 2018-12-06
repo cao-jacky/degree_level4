@@ -187,7 +187,7 @@ def ppxf_cube_auto():
             gas_fit = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
                     + "_gas_fit.npy")
 
-            if not (os.path.exists(gas_fit)):
+            if (os.path.exists(gas_fit)):
                 if (cube_id in gas_avoid):
                     pass
                 else:
@@ -207,8 +207,11 @@ def ppxf_cube_auto():
                     gas_fit_vars = np.array([gf1_oii, gf2_oii, gas_fit_oii])
                     np.save(gas_fit, gas_fit_vars)
             else:
-                gfvs = np.load(gas_fit)
-                gas_fit_oii = gfvs[2]
+                if (cube_id in gas_avoid):
+                    pass
+                else:
+                    gfvs = np.load(gas_fit)
+                    gas_fit_oii = gfvs[2]
 
             data[i_cube][0][5] = gas_fit_oii
 

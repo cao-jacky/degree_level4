@@ -56,6 +56,11 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     cube_x_data = cube_x_data[initial_mask] 
     cube_y_data = cube_y_data[initial_mask]
 
+    # doublet region
+    otr = ((cube_x_data < 4200*(1+z)))
+    cube_x_data = cube_x_data[otr]
+    cube_y_data = cube_y_data[otr]
+
     lamRange = np.array([np.min(cube_x_data), np.max(cube_x_data)]) 
     specNew, logLam, velscale = log_rebin(lamRange, cube_y_data)
     lam = np.exp(logLam)
@@ -69,7 +74,7 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     # sky noise
     sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits") 
     skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
-    skyNew = skyNew[initial_mask]
+    skyNew = skyNew[initial_mask][otr]
  
     # The SDSS wavelengths are in vacuum, while the MILES ones are in air.
     # For a rigorous treatment, the SDSS vacuum wavelengths should be
@@ -88,7 +93,7 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     # cube noise
     cube_noise_data = ppxf_fitter_kinematics_sdss.cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
-    spec_noise = spectrum_noise[initial_mask][mask]
+    spec_noise = spectrum_noise[initial_mask][otr][mask]
 
     segmentation_data = hdu[2].data
     seg_loc_rows, seg_loc_cols = np.where(segmentation_data == cube_id)
