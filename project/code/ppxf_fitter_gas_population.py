@@ -260,7 +260,7 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
              #" Fit with free Balmer lines and [SII] doublet: \n" +
              #"===============================================\n")
 
-    #population_gas_sdss(cube_id=23,tie_balmer=False, limit_doublets=False)
+    #population_gas_sdss(cube_id=554,tie_balmer=False, limit_doublets=False)
 
     #print("\n=======================================================\n" +
              #" Fit with tied Balmer lines and limited [SII] doublet: \n" +
