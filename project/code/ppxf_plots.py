@@ -726,8 +726,7 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets, cube_y):
             gas_names=gas_names, gas_reddening=gas_reddening)
     
     best_variables = pp.sol
-    print(best_variables)
-
+    
     tied = "_free"
     if ( tie_balmer == True and limit_doublets == True ):
         tied = "_tied"
@@ -785,8 +784,6 @@ def oii_plots():
 
         sigma_lmfit = data[:][i,0][1] # lmfit
         sigma_ppxf = data[:][i,0][5] # ppxf
-
-        # originally sigma_new=c / (sigma_old * 10**(3)) 
 
         c = 299792.458 # speed of light in kms^-1
         sigma_lmfit = (c/sigma_lmfit) * 10**(-3)
@@ -869,6 +866,8 @@ def sigma_ranges(sigma_input):
             sigma_inst = float(curr_line[1])
         line_count += 1
 
+    sigma_inst = 0 
+
     cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy") 
     cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
@@ -913,6 +912,16 @@ def sigma_ranges(sigma_input):
     gas_fit = population_gas_sdss(1804, tie_balmer=False, limit_doublets=False, 
             cube_y=cube_y_data)
 
+    sigma_ppxf = gas_fit['variables']
+    #sigma_ppxf1 = speed_of_light / (sigma_ppxf[1][1] * 10**(3)) 
+    #sigma_ppxf2 = speed_of_light / (sigma_ppxf[2][1] * 10**(3)) 
+   
+    sigma_ppxf1 = sigma_ppxf[1][1]
+    sigma_ppxf2 = sigma_ppxf[2][1]
+
+    print(opti_pms)
+    print(sigma_input,sigma_inst, sigma_ppxf1, sigma_ppxf2)
+
     fig, ax = plt.subplots()
 
     ax.plot(cube_x_data, cube_y_data, color="#000000", lw=1.5)
@@ -942,21 +951,28 @@ def sigma_ranges(sigma_input):
             ".pdf")
     plt.close("all") 
 
-    return gas_fit['variables'] 
+    return gas_fit['variables'], opti_pms
 
 def oii_doublet_testing():  
     x = np.arange(50,300,10)
-    sigma_data = np.zeros([len(x), 3])
+    sigma_data = np.zeros([len(x), 4])
     for i in range(len(x)):
         stc = x[i] # sigma to consider
         processed = sigma_ranges(stc)
+
+        ppxf_vars = processed[0]
         
-        sigma_ppxf1 = processed[1][1]
-        sigma_ppxf2 = processed[2][1]
+        sigma_ppxf1 = ppxf_vars[1][1]
+        sigma_ppxf2 = ppxf_vars[2][1]
+
+        gas_vars = processed[1]
+
+        sigma_gas = gas_vars['sigma_gal']
 
         sigma_data[i][0] = stc
         sigma_data[i][1] = sigma_ppxf1
         sigma_data[i][2] = sigma_ppxf2
+        sigma_data[i][3] = sigma_gas
 
     print(sigma_data)
 
@@ -967,7 +983,7 @@ def oii_doublet_testing():
     
     ax.tick_params(labelsize=15)
     ax.set_ylabel(r'\textbf{Sigma Input}', fontsize=15)
-    ax.set_xlabel(r'\textbf{Sigma Output}', fontsize=15)
+    ax.set_xlabel(r'\textbf{Sigma Output}', fontsize=15) 
 
     cube_id = 1804
     # variables for the Gaussian doublet from lmfit
@@ -980,8 +996,7 @@ def oii_doublet_testing():
         if (line_count == 20):
             curr_line = crf_line.split()
             z = float(curr_line[1])
-
-    ax.set_xlim([3720*(1+z),3740*(1+z)])
+        line_count += 1
 
     fig.tight_layout()
     fig.savefig("graphs/doublets/sigma_input_vs_sigma_output.pdf")
@@ -994,4 +1009,5 @@ def oii_doublet_testing():
 #data_graphs()
 
 #oii_plots()
+#sigma_ranges(250)
 oii_doublet_testing()
