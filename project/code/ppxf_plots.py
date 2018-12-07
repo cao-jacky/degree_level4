@@ -839,7 +839,7 @@ def oii_plots():
         fig.savefig("graphs/doublets/cube_"+str(cube_id)+".pdf")
         plt.close("all") 
 
-def oii_doublet_testing():
+def sigma_ranges(sigma_input):
     cube_id = 1804
 
     # variables for the Gaussian doublet from lmfit
@@ -874,13 +874,11 @@ def oii_doublet_testing():
     cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbs_y.npy")
 
-    #x = np.linspace(3723, 3733, 500) * (1+z)
     x = cube_x_data
 
     speed_of_light = 299792.458 # speed of light in kms^-1
-    sigma_input = 250
+
     sigma_input = (speed_of_light/sigma_input) * 10**(-3)
-    print(sigma_gal, sigma_input)
 
     example_doublet = f_doublet(x, c, i1, i2, sigma_input, z, sigma_inst)
 
@@ -910,8 +908,6 @@ def oii_doublet_testing():
     range_begin = np.where(cube_x_data < dlt_min)[0][-1]
     range_end = np.where(cube_x_data < dlt_max)[0][-1]
 
-    print(range_begin, range_end)
-
     cube_y_data[range_begin:range_end] = example_doublet[range_begin:range_end]
 
     gas_fit = population_gas_sdss(1804, tie_balmer=False, limit_doublets=False, 
@@ -926,7 +922,8 @@ def oii_doublet_testing():
     ax.set_xlabel(r'\textbf{Wavelength \AA}', fontsize=15)
 
     fig.tight_layout()
-    fig.savefig("graphs/doublets/test_cube_"+str(cube_id)+"_spectra.pdf")
+    fig.savefig("graphs/doublets/test_cube_"+str(cube_id)+"_"+str(sigma_input)+
+            "_spectra.pdf")
     plt.close("all") 
 
     fig, ax = plt.subplots()
@@ -941,8 +938,54 @@ def oii_doublet_testing():
     ax.set_xlim([3720*(1+z),3740*(1+z)])
 
     fig.tight_layout()
-    fig.savefig("graphs/doublets/test_cube_"+str(cube_id)+".pdf")
+    fig.savefig("graphs/doublets/test_cube_"+str(cube_id)+"_"+str(sigma_input)+
+            ".pdf")
     plt.close("all") 
+
+    return gas_fit['variables'] 
+
+def oii_doublet_testing():  
+    x = np.arange(50,300,10)
+    sigma_data = np.zeros([len(x), 3])
+    for i in range(len(x)):
+        stc = x[i] # sigma to consider
+        processed = sigma_ranges(stc)
+        
+        sigma_ppxf1 = processed[1][1]
+        sigma_ppxf2 = processed[2][1]
+
+        sigma_data[i][0] = stc
+        sigma_data[i][1] = sigma_ppxf1
+        sigma_data[i][2] = sigma_ppxf2
+
+    print(sigma_data)
+
+    fig, ax = plt.subplots()
+
+    x_axis = (sigma_data[:,1] + sigma_data[:,2])/2
+    ax.scatter(x_axis, sigma_data[:,0], color="#000000", s=10)
+    
+    ax.tick_params(labelsize=15)
+    ax.set_ylabel(r'\textbf{Sigma Input}', fontsize=15)
+    ax.set_xlabel(r'\textbf{Sigma Output}', fontsize=15)
+
+    cube_id = 1804
+    # variables for the Gaussian doublet from lmfit
+    cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + 
+            str(cube_id) + "_lmfit.txt")
+    cube_result_file = open(cube_result_file)
+
+    line_count = 0 
+    for crf_line in cube_result_file:
+        if (line_count == 20):
+            curr_line = crf_line.split()
+            z = float(curr_line[1])
+
+    ax.set_xlim([3720*(1+z),3740*(1+z)])
+
+    fig.tight_layout()
+    fig.savefig("graphs/doublets/sigma_input_vs_sigma_output.pdf")
+    plt.close("all")
 
 #chi_squared_cal(1804)
 #model_data_overlay(549)
