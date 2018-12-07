@@ -866,7 +866,7 @@ def sigma_ranges(sigma_input):
             sigma_inst = float(curr_line[1])
         line_count += 1
 
-    sigma_inst = 0 
+    #sigma_inst = 0 
 
     cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy") 
@@ -978,7 +978,7 @@ def oii_doublet_testing():
 
     fig, ax = plt.subplots()
 
-    x_axis = (sigma_data[:,1] + sigma_data[:,2])/2
+    x_axis = np.sqrt(sigma_data[:,1]**2 - sigma_data[:,2]**2)
     ax.scatter(x_axis, sigma_data[:,0], color="#000000", s=10)
     
     ax.tick_params(labelsize=15)
