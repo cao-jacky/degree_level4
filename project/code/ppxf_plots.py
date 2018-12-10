@@ -564,7 +564,8 @@ def data_graphs():
     plt.savefig("graphs/sigma_vs_ppxf_error.pdf")
     plt.close("all")
 
-def population_gas_sdss(cube_id, tie_balmer, limit_doublets, cube_y):
+def population_gas_sdss(cube_id, tie_balmer, limit_doublets, cube_y, cube_x, 
+        noise_array):
     # reading cube_data
     cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/cube_" 
             + str(cube_id) + ".fits")
@@ -585,6 +586,8 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets, cube_y):
 
     cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy")
+
+    cube_x_data = cube_x
     cube_y_data = cube_y
 
     # masking the data to ignore initial 'noise' / non-features
@@ -601,11 +604,6 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets, cube_y):
     flux = specNew[mask]
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
     wave = lam[mask]
-
-    # sky noise
-    sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits") 
-    skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
-    skyNew = skyNew[initial_mask]
  
     # The SDSS wavelengths are in vacuum, while the MILES ones are in air.
     # For a rigorous treatment, the SDSS vacuum wavelengths should be
@@ -622,9 +620,11 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets, cube_y):
     #noise = np.full_like(galaxy, 0.01635)  # Assume constant noise per pixel here
 
     # cube noise
-    cube_noise_data = ppxf_fitter_kinematics_sdss.cube_noise()
-    spectrum_noise = cube_noise_data['spectrum_noise']
-    spec_noise = spectrum_noise[initial_mask][mask]
+    #cube_noise_data = ppxf_fitter_kinematics_sdss.cube_noise()
+    #spectrum_noise = cube_noise_data['spectrum_noise']
+    #spec_noise = spectrum_noise[initial_mask][mask]
+
+    spec_noise = np.abs(noise_array[mask])
 
     segmentation_data = hdu[2].data
     seg_loc_rows, seg_loc_cols = np.where(segmentation_data == cube_id)
@@ -637,7 +637,8 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets, cube_y):
     #
     c = 299792.458  # speed of light in km/s
     velscale = c*np.log(wave[1]/wave[0])  # eq.(8) of Cappellari (2017)
-    FWHM_gal = 2.76  # SDSS has an approximate instrumental resolution FWHM of 2.76A.
+    #FWHM_gal = 4/6  # SDSS has an approximate instrumental resolution FWHM of 2.76A.
+    FWHM_gal = 0.000001
 
     #------------------- Setup templates -----------------------
     ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__))
@@ -731,7 +732,7 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets, cube_y):
     if ( tie_balmer == True and limit_doublets == True ):
         tied = "_tied"
 
-    gas_populations_file = open("graphs/doublets/cube_" + str(int(cube_id)) + 
+    gas_populations_file = open("graphs/doublet_testing/cube_" + str(int(cube_id)) + 
             "_gas_population" + tied + ".txt", 'w')
 
     gas_populations_file.write(f.getvalue())
@@ -769,7 +770,7 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets, cube_y):
     #plt.pause(1)
     #plt.show()
  
-    gas_populations_graph = ("graphs/doublets/cube_" + str(int(cube_id)) + 
+    gas_populations_graph = ("graphs/doublet_testing/cube_" + str(int(cube_id)) + 
             "_gas_populations" + tied + ".pdf")
     plt.savefig(gas_populations_graph)
     plt.close("all")
@@ -1003,12 +1004,114 @@ def oii_doublet_testing():
     plt.close("all")
 
 def custom_oii_testing():
-    # let's say we want a spectrum is from 6000Å to 7000Å
-    spectrum = np.zeros([2000]) # the spacing is 0.5Å  
-    x_range = np.linspace(6000,7000,2000) 
+    sigma_tc = np.arange(50,500,10)
+    sigma_data = np.zeros([len(sigma_tc), 4])
+
+    for i in range(len(sigma_tc)):
+        # let's say we want a spectrum is from 6000Å to 7000Å
+        #spectrum = np.zeros([2000])  
+        x_range = np.linspace(6000,7000,2000) # the spacing is 0.5Å 
+
+        cube_id = 1804
+
+        # variables for the Gaussian doublet from lmfit
+        cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + 
+                str(cube_id) + "_lmfit.txt")
+        cube_result_file = open(cube_result_file)
+
+        line_count = 0 
+        for crf_line in cube_result_file:
+            if (line_count == 15):
+                curr_line = crf_line.split()
+                c = float(curr_line[1])
+            if (line_count == 16):
+                curr_line = crf_line.split()
+                i1 = float(curr_line[1])
+            if (line_count == 18):
+                curr_line = crf_line.split()
+                i2 = float(curr_line[1])
+            if (line_count == 19):
+                curr_line = crf_line.split()
+                sigma_gal = float(curr_line[1])
+            if (line_count == 20):
+                curr_line = crf_line.split()
+                z = float(curr_line[1])
+            if (line_count == 21):
+                curr_line = crf_line.split()
+                sigma_inst = float(curr_line[1])
+            line_count += 1 
+
+        speed_of_light = 299792.458 # speed of light in kms^-1
+
+        #sigma_input = 500
+        stc = sigma_tc[i] # sigma to consider
+        sigma_input = stc
+        sigma_input = (speed_of_light/sigma_input) * 10**(-3)
+
+        # creating a spectra which runs from 6000Å to 7000Å - 
+        y_spectra = f_doublet(x_range, c, i1, i2, sigma_input, z, sigma_inst)
+
+        fig, ax = plt.subplots()
+
+        ax.plot(x_range, y_spectra, color="#000000", lw=0.5)
+        
+        ax.tick_params(labelsize=15)
+        ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
+        ax.set_xlabel(r'\textbf{Wavelength \AA}', fontsize=15)
+
+        fig.tight_layout()
+        fig.savefig("graphs/doublet_testing/test_cube_"+str(cube_id)+"_"+str(sigma_input)+
+                "_no_noise_spectra.pdf")
+        plt.close("all")
+
+        # adding noise to that spectrum
+        np.random.seed(0)
+        noise = np.random.normal(0,100,2000) 
+
+        y_spectra = y_spectra + noise
+       
+        gas_fit = population_gas_sdss(1804, tie_balmer=False, limit_doublets=False, 
+                cube_y=y_spectra, cube_x=x_range, noise_array=noise)
+
+        fig, ax = plt.subplots()
+
+        ax.plot(x_range, y_spectra, color="#000000", lw=0.5)
+        
+        ax.tick_params(labelsize=15)
+        ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
+        ax.set_xlabel(r'\textbf{Wavelength \AA}', fontsize=15)
+
+        fig.tight_layout()
+        fig.savefig("graphs/doublet_testing/test_cube_"+str(cube_id)+"_"+str(sigma_input)+
+                "_spectra.pdf")
+        plt.close("all") 
+
+                
+        ppxf_vars = gas_fit['variables']
+        print(ppxf_vars)
+        
+        sigma_ppxf1 = ppxf_vars[1][1]
+        sigma_ppxf2 = ppxf_vars[2][1]
+
+        #gas_vars = processed[1]
+        #sigma_gas = gas_vars['sigma_gal']
+
+        sigma_data[i][0] = stc
+        sigma_data[i][1] = sigma_ppxf1
+        sigma_data[i][2] = sigma_ppxf2
+        #sigma_data[i][3] = sigma_gas       
+    print(sigma_data)
+
+    fig, ax = plt.subplots()
+
+    x_axis = np.sqrt(sigma_data[:,1]**2 - sigma_data[:,2]**2)
+    ax.scatter(x_axis, sigma_data[:,0], color="#000000", s=10)
+    
+    ax.tick_params(labelsize=15)
+    ax.set_ylabel(r'\textbf{Sigma Input}', fontsize=15)
+    ax.set_xlabel(r'\textbf{Sigma Output}', fontsize=15) 
 
     cube_id = 1804
-
     # variables for the Gaussian doublet from lmfit
     cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + 
             str(cube_id) + "_lmfit.txt")
@@ -1016,45 +1119,14 @@ def custom_oii_testing():
 
     line_count = 0 
     for crf_line in cube_result_file:
-        if (line_count == 15):
-            curr_line = crf_line.split()
-            c = float(curr_line[1])
-        if (line_count == 16):
-            curr_line = crf_line.split()
-            i1 = float(curr_line[1])
-        if (line_count == 18):
-            curr_line = crf_line.split()
-            i2 = float(curr_line[1])
-        if (line_count == 19):
-            curr_line = crf_line.split()
-            sigma_gal = float(curr_line[1])
         if (line_count == 20):
             curr_line = crf_line.split()
             z = float(curr_line[1])
-        if (line_count == 21):
-            curr_line = crf_line.split()
-            sigma_inst = float(curr_line[1])
-        line_count += 1 
-
-    speed_of_light = 299792.458 # speed of light in kms^-1
-
-    sigma_input = 250
-    sigma_input = (speed_of_light/sigma_input) * 10**(-3)
-
-    example_doublet = f_doublet(x_range, c, i1, i2, sigma_input, z, sigma_inst)
-    
-    fig, ax = plt.subplots()
-
-    ax.plot(x_range, example_doublet, color="#000000", lw=0.5)
-    
-    ax.tick_params(labelsize=15)
-    ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
-    ax.set_xlabel(r'\textbf{Wavelength \AA}', fontsize=15)
+        line_count += 1
 
     fig.tight_layout()
-    fig.savefig("graphs/doublet_testing/test_cube_"+str(cube_id)+"_"+str(sigma_input)+
-            "_spectra.pdf")
-    plt.close("all") 
+    fig.savefig("graphs/doublet_testing/sigma_input_vs_sigma_output.pdf")
+    plt.close("all")
 
 
 #chi_squared_cal(1804)
