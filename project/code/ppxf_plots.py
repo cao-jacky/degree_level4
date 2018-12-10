@@ -637,8 +637,8 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets, cube_y, cube_x,
     #
     c = 299792.458  # speed of light in km/s
     velscale = c*np.log(wave[1]/wave[0])  # eq.(8) of Cappellari (2017)
-    #FWHM_gal = 4/6  # SDSS has an approximate instrumental resolution FWHM of 2.76A.
-    FWHM_gal = 0.000001
+    FWHM_gal = 4/6  # SDSS has an approximate instrumental resolution FWHM of 2.76A.
+    #FWHM_gal = 0.000001
 
     #------------------- Setup templates -----------------------
     ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__))
@@ -1082,8 +1082,8 @@ def custom_oii_testing():
         ax.set_xlabel(r'\textbf{Wavelength \AA}', fontsize=15)
 
         fig.tight_layout()
-        fig.savefig("graphs/doublet_testing/test_cube_"+str(cube_id)+"_"+str(sigma_input)+
-                "_spectra.pdf")
+        fig.savefig("graphs/doublet_testing/test_cube_"+str(cube_id)+"_"+
+                str(sigma_input)+"_spectra.pdf")
         plt.close("all") 
 
                 
@@ -1102,6 +1102,8 @@ def custom_oii_testing():
         #sigma_data[i][3] = sigma_gas       
     print(sigma_data)
 
+    np.save("cube_results/sigma_data", sigma_data)
+
     fig, ax = plt.subplots()
 
     x_axis = np.sqrt(sigma_data[:,1]**2 - sigma_data[:,2]**2)
@@ -1111,22 +1113,33 @@ def custom_oii_testing():
     ax.set_ylabel(r'\textbf{Sigma Input}', fontsize=15)
     ax.set_xlabel(r'\textbf{Sigma Output}', fontsize=15) 
 
-    cube_id = 1804
-    # variables for the Gaussian doublet from lmfit
-    cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + 
-            str(cube_id) + "_lmfit.txt")
-    cube_result_file = open(cube_result_file)
-
-    line_count = 0 
-    for crf_line in cube_result_file:
-        if (line_count == 20):
-            curr_line = crf_line.split()
-            z = float(curr_line[1])
-        line_count += 1
-
     fig.tight_layout()
     fig.savefig("graphs/doublet_testing/sigma_input_vs_sigma_output.pdf")
     plt.close("all")
+
+def oii_doublet_plotter():
+    sigma_data = np.load("cube_results/sigma_data.npy")
+
+    fig, ax = plt.subplots()
+
+    x_axis = np.sqrt(sigma_data[:,1]**2 - sigma_data[:,2]**2)
+    ax.scatter(x_axis, sigma_data[:,0], color="#000000", s=10)
+
+    s_line = np.linspace(0,500,500)# straight line
+
+    ax.plot(s_line, s_line, lw=1.5, c="#000000")
+    
+    ax.tick_params(labelsize=15)
+    ax.set_ylabel(r'\textbf{Sigma Input}', fontsize=15)
+    ax.set_xlabel(r'\textbf{Sigma Output}', fontsize=15)
+
+    ax.set_xlim([0,500])
+    ax.set_ylim([0,500])
+
+    fig.tight_layout()
+    fig.savefig("graphs/doublet_testing/sigma_input_vs_sigma_output_1_1.pdf")
+    plt.close("all")
+
 
 
 #chi_squared_cal(1804)
@@ -1139,4 +1152,5 @@ def custom_oii_testing():
 #sigma_ranges(250)
 #oii_doublet_testing()
 
-custom_oii_testing()
+#custom_oii_testing()
+oii_doublet_plotter()
