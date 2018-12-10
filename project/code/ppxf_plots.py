@@ -1005,7 +1005,7 @@ def oii_doublet_testing():
 
 def custom_oii_testing():
     sigma_tc = np.arange(50,500,10)
-    sigma_data = np.zeros([len(sigma_tc), 4])
+    sigma_data = np.zeros([len(sigma_tc), 3])
 
     for i in range(len(sigma_tc)):
         # let's say we want a spectrum is from 6000Å to 7000Å
@@ -1070,7 +1070,7 @@ def custom_oii_testing():
 
         y_spectra = y_spectra + noise
        
-        gas_fit = population_gas_sdss(1804, tie_balmer=False, limit_doublets=False, 
+        gas_fit = population_gas_sdss(1804, tie_balmer=True, limit_doublets=True, 
                 cube_y=y_spectra, cube_x=x_range, noise_array=noise)
 
         fig, ax = plt.subplots()
@@ -1085,21 +1085,16 @@ def custom_oii_testing():
         fig.savefig("graphs/doublet_testing/test_cube_"+str(cube_id)+"_"+
                 str(sigma_input)+"_spectra.pdf")
         plt.close("all") 
-
                 
         ppxf_vars = gas_fit['variables']
-        print(ppxf_vars)
         
         sigma_ppxf1 = ppxf_vars[1][1]
         sigma_ppxf2 = ppxf_vars[2][1]
 
-        #gas_vars = processed[1]
-        #sigma_gas = gas_vars['sigma_gal']
-
         sigma_data[i][0] = stc
         sigma_data[i][1] = sigma_ppxf1
         sigma_data[i][2] = sigma_ppxf2
-        #sigma_data[i][3] = sigma_gas       
+
     print(sigma_data)
 
     np.save("cube_results/sigma_data", sigma_data)
@@ -1133,11 +1128,11 @@ def oii_doublet_plotter():
     ax.set_ylabel(r'\textbf{Sigma Input}', fontsize=15)
     ax.set_xlabel(r'\textbf{Sigma Output}', fontsize=15)
 
-    ax.set_xlim([0,500])
-    ax.set_ylim([0,500])
+    ax.set_xlim([0,1000])
+    ax.set_ylim([0,1000])
 
     fig.tight_layout()
-    fig.savefig("graphs/doublet_testing/sigma_input_vs_sigma_output_1_1.pdf")
+    fig.savefig("graphs/doublet_testing/sigma_input_vs_sigma_output_1_1_tied.pdf")
     plt.close("all")
 
 
