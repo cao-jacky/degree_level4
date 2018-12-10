@@ -924,7 +924,7 @@ def sigma_ranges(sigma_input):
 
     fig, ax = plt.subplots()
 
-    ax.plot(cube_x_data, cube_y_data, color="#000000", lw=1.5)
+    ax.plot(cube_x_data, cube_y_data, color="#000000", lw=0.5)
     
     ax.tick_params(labelsize=15)
     ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
@@ -937,8 +937,8 @@ def sigma_ranges(sigma_input):
 
     fig, ax = plt.subplots()
 
-    ax.plot(x, example_doublet, color="#000000", lw=1.5)
-    ax.plot(x, lmfit_gauss, color="#f44336", lw=1.5)
+    ax.plot(x, example_doublet, color="#000000", lw=0.5)
+    ax.plot(x, lmfit_gauss, color="#f44336", lw=0.5)
     
     ax.tick_params(labelsize=15)
     ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
@@ -1002,6 +1002,61 @@ def oii_doublet_testing():
     fig.savefig("graphs/doublets/sigma_input_vs_sigma_output.pdf")
     plt.close("all")
 
+def custom_oii_testing():
+    # let's say we want a spectrum is from 6000Å to 7000Å
+    spectrum = np.zeros([2000]) # the spacing is 0.5Å  
+    x_range = np.linspace(6000,7000,2000) 
+
+    cube_id = 1804
+
+    # variables for the Gaussian doublet from lmfit
+    cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + 
+            str(cube_id) + "_lmfit.txt")
+    cube_result_file = open(cube_result_file)
+
+    line_count = 0 
+    for crf_line in cube_result_file:
+        if (line_count == 15):
+            curr_line = crf_line.split()
+            c = float(curr_line[1])
+        if (line_count == 16):
+            curr_line = crf_line.split()
+            i1 = float(curr_line[1])
+        if (line_count == 18):
+            curr_line = crf_line.split()
+            i2 = float(curr_line[1])
+        if (line_count == 19):
+            curr_line = crf_line.split()
+            sigma_gal = float(curr_line[1])
+        if (line_count == 20):
+            curr_line = crf_line.split()
+            z = float(curr_line[1])
+        if (line_count == 21):
+            curr_line = crf_line.split()
+            sigma_inst = float(curr_line[1])
+        line_count += 1 
+
+    speed_of_light = 299792.458 # speed of light in kms^-1
+
+    sigma_input = 250
+    sigma_input = (speed_of_light/sigma_input) * 10**(-3)
+
+    example_doublet = f_doublet(x_range, c, i1, i2, sigma_input, z, sigma_inst)
+    
+    fig, ax = plt.subplots()
+
+    ax.plot(x_range, example_doublet, color="#000000", lw=0.5)
+    
+    ax.tick_params(labelsize=15)
+    ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
+    ax.set_xlabel(r'\textbf{Wavelength \AA}', fontsize=15)
+
+    fig.tight_layout()
+    fig.savefig("graphs/doublet_testing/test_cube_"+str(cube_id)+"_"+str(sigma_input)+
+            "_spectra.pdf")
+    plt.close("all") 
+
+
 #chi_squared_cal(1804)
 #model_data_overlay(549)
 
@@ -1010,4 +1065,6 @@ def oii_doublet_testing():
 
 #oii_plots()
 #sigma_ranges(250)
-oii_doublet_testing()
+#oii_doublet_testing()
+
+custom_oii_testing()
