@@ -1010,8 +1010,8 @@ def oii_doublet_testing():
     plt.close("all")
 
 def custom_oii_testing():
-    sigma_tc = np.arange(50,500,10)
-    sigma_data = np.zeros([len(sigma_tc), 4])
+    sigma_tc = np.arange(490,500,10)
+    sigma_data = np.zeros([len(sigma_tc), 3])
 
     for i in range(len(sigma_tc)):
         # let's say we want a spectrum is from 6000Å to 7000Å
@@ -1108,30 +1108,10 @@ def custom_oii_testing():
 
         ppxf_og_y = gas_fit['og_y']
 
-        # I could refit the spectra onto the final pPXF fitting in a round fashion...
-        # now I want to fit a Gaussian over this
-        gss_pars = Parameters()
-        gss_pars.add('c', value=c)
-        gss_pars.add('i1', value=i1, min=0.0)
-        gss_pars.add('r', value=1.3, min=0.5, max=1.5)
-        gss_pars.add('i2', expr='i1/r', min=0.0)
-        gss_pars.add('sigma_gal', value=sigma_input)
-        gss_pars.add('z', value=z)
-        gss_pars.add('sigma_inst', value=sigma_inst, vary=False)
-
-        gss_model = Model(f_doublet)
-        gss_result = gss_model.fit(ppxf_fit, x=ppxf_x, params=gss_pars)
-
-        opti_pms = gss_result.best_values
-
-        ppxf_refit = f_doublet(ppxf_x, opti_pms['c'], opti_pms['i1'], opti_pms['i2'], 
-                opti_pms['sigma_gal'], opti_pms['z'], opti_pms['sigma_inst'])
-
         fig, ax = plt.subplots()
 
-        ax.plot(ppxf_x, ppxf_og_y, color="#000000", lw=1.5, alpha=0.2)
-        ax.plot(ppxf_x, ppxf_fit, color="#e53935", lw=1.5, alpha=0.7, linestyle='-')
-        ax.plot(ppxf_x, ppxf_refit, c="#00c853", lw=1.5, alpha=0.7)
+        ax.plot(ppxf_x, ppxf_og_y, color="#000000", lw=1.5)
+        ax.plot(ppxf_x, ppxf_fit, color="#e53935", lw=1.5)
 
         ax.tick_params(labelsize=15)
         ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
@@ -1142,7 +1122,7 @@ def custom_oii_testing():
                 str(sigma_input_save)+"_spectra.pdf")
         plt.close("all")
 
-        sigma_data[i][3] = (speed_of_light/opti_pms['sigma_gal']) * 10**(-3)
+        # I could refit the spectra onto the final pPXF fitting in a round fashion...
 
     print(sigma_data)
 
@@ -1166,8 +1146,8 @@ def oii_doublet_plotter():
 
     fig, ax = plt.subplots()
 
-    #x_axis = np.sqrt(sigma_data[:,1]**2 - sigma_data[:,2]**2)
-    ax.scatter(sigma_data[:,3], sigma_data[:,0], color="#000000", s=10)
+    x_axis = np.sqrt(sigma_data[:,1]**2 - sigma_data[:,2]**2)
+    ax.scatter(x_axis, sigma_data[:,0], color="#000000", s=10)
 
     s_line = np.linspace(0,500,500)# straight line
 
@@ -1177,8 +1157,8 @@ def oii_doublet_plotter():
     ax.set_ylabel(r'\textbf{Sigma Input}', fontsize=15)
     ax.set_xlabel(r'\textbf{Sigma Output}', fontsize=15)
 
-    ax.set_xlim([0,500])
-    ax.set_ylim([0,500])
+    ax.set_xlim([0,1000])
+    ax.set_ylim([0,1000])
 
     fig.tight_layout()
     fig.savefig("graphs/doublet_testing/sigma_input_vs_sigma_output_1_1_tied.pdf")
@@ -1196,5 +1176,5 @@ def oii_doublet_plotter():
 #sigma_ranges(250)
 #oii_doublet_testing()
 
-#custom_oii_testing()
-oii_doublet_plotter()
+custom_oii_testing()
+#oii_doublet_plotter()
