@@ -949,7 +949,7 @@ def sigma_ranges(sigma_input):
     
     ax.tick_params(labelsize=15)
     ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
-    ax.set_xlabel(r'\textbf{Wavelength \AA}', fontsize=15)
+    ax.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
 
     ax.set_xlim([3720*(1+z),3740*(1+z)])
 
