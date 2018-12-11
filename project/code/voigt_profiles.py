@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.special import wofz
 
 from lmfit import Parameters, Model
+from lmfit.models import VoigtModel
 
 import sys
 sys.path.insert(0, '/Users/jackycao/Documents/Projects/scripts/')
@@ -54,31 +55,27 @@ def voigt_fitter(cube_id):
         line_count += 1
 
     # masking out the region of CaH and CaK
-    calc_rgn = np.array([3910,4000]) * (1+z)
-    #calc_rgn = np.array([3910,3950]) * (1+z)
+    #calc_rgn = np.array([3910,4000]) * (1+z)
+    calc_rgn = np.array([3910,3950]) * (1+z)
     calc_mask = ((model_wl > calc_rgn[0]) & (model_wl < calc_rgn[1]))
     
     data_wl_masked = model_wl[calc_mask]
     data_spec_masked = model_spec[calc_mask]
 
-    np.set_printoptions(threshold=np.nan)
-
-    print(data_spec_masked)
-
     # Applying the lmfit routine to fit two Voigt profiles over our spectra data
     vgt_pars = Parameters()
-    vgt_pars.add('c', value=np.average(data_spec_masked))
-    vgt_pars.add('a1', value=0.1)
-    vgt_pars.add('g1', value=0.1, min=0.0)
-    vgt_pars.add('a2', value=0.1)
-    vgt_pars.add('g2', value=0.1, min=0.0)
+    vgt_pars.add('amplitude', value=-0.1, max=0.0)
+    vgt_pars.add('center', value=3934.777*(1+z), vary=False)
+    vgt_pars.add('sigma', value=5, min=0.0)
+    vgt_pars.add('gamma', value=0.01)
 
-    vgt_model = Model(cah_cak_voigt)
-    vgt_result = vgt_model.fit(data_spec_masked, x=data_wl_masked, params=vgt_pars)
+    voigt = VoigtModel()
+
+    #vgt_model = Model(voigt)
+    vgt_result = voigt.fit(data_spec_masked, x=data_wl_masked, params=vgt_pars)
 
     opt_pars = vgt_result.best_values
-    opt_model = cah_cak_voigt(data_wl_masked, opt_pars['c'], opt_pars['a1'], 
-            opt_pars['g1'], opt_pars['a2'], opt_pars['g2'])
+    best_fit = vgt_result.best_fit
     #opt_model = V(data_wl_masked, opt_pars['alpha'], opt_pars['gamma'])
 
     print(opt_pars)
@@ -86,7 +83,7 @@ def voigt_fitter(cube_id):
     # Plotting the spectra
     fig, ax = plt.subplots() 
     ax.plot(data_wl_masked, data_spec_masked, lw=1.5, c="#000000")
-    ax.plot(data_wl_masked, opt_model, lw=1.5, c="#e53935")
+    ax.plot(data_wl_masked, best_fit, lw=1.5, c="#e53935")
 
     ax.tick_params(labelsize=15)
     ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
