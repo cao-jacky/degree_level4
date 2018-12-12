@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.special import wofz
 
 from lmfit import Parameters, Model
-from lmfit.models import VoigtModel
+from lmfit.models import VoigtModel, ConstantModel
 
 import sys
 sys.path.insert(0, '/Users/jackycao/Documents/Projects/scripts/')
@@ -55,24 +55,35 @@ def voigt_fitter(cube_id):
         line_count += 1
 
     # masking out the region of CaH and CaK
-    #calc_rgn = np.array([3910,4000]) * (1+z)
-    calc_rgn = np.array([3910,3950]) * (1+z)
-    calc_mask = ((model_wl > calc_rgn[0]) & (model_wl < calc_rgn[1]))
+    calc_rgn = np.array([3910,4000]) * (1+z)
+    #calc_rgn = np.array([3910,3950]) * (1+z)
     
-    data_wl_masked = model_wl[calc_mask]
-    data_spec_masked = model_spec[calc_mask]
+    data_mask = ((data_wl > calc_rgn[0]) & (data_wl < calc_rgn[1]))
+    data_wl_masked = data_wl[data_mask]
+    data_spec_masked = data_spec[data_mask]
+
+    data_spec_masked = data_spec_masked / np.median(data_spec_masked)
+    
+    model_mask = ((model_wl > calc_rgn[0]) & (model_wl < calc_rgn[1]))
+    model_wl_masked = model_wl[model_mask]
+    model_spec_masked = model_spec[model_mask]
 
     # Applying the lmfit routine to fit two Voigt profiles over our spectra data
     vgt_pars = Parameters()
-    vgt_pars.add('amplitude', value=-0.1, max=0.0)
-    vgt_pars.add('center', value=3934.777*(1+z), vary=False)
-    vgt_pars.add('sigma', value=5, min=0.0)
-    vgt_pars.add('gamma', value=0.01)
+    vgt_pars.add('v1_amplitude', value=-0.1, max=0.0)
+    vgt_pars.add('v1_center', value=3934.777*(1+z), min=3930*(1+z), max=3940*(1+z))
+    vgt_pars.add('v1_sigma', value=5, min=0.0)
+    vgt_pars.add('v1_gamma', value=0.01)
+    vgt_pars.add('c', value=0)
+    vgt_pars.add('v2_amplitude', value=-0.1, max=0.0)
+    vgt_pars.add('v2_center', value=3969.588*(1+z), min=3950*(1+z), max=3975*(1+z))
+    vgt_pars.add('v2_sigma', value=5, min=0.0)
+    vgt_pars.add('v2_gamma', value=0.01)
 
-    voigt = VoigtModel()
+    voigt = VoigtModel(prefix='v1_') + ConstantModel() + VoigtModel(prefix='v2_')
 
     #vgt_model = Model(voigt)
-    vgt_result = voigt.fit(data_spec_masked, x=data_wl_masked, params=vgt_pars)
+    vgt_result = voigt.fit(model_spec_masked, x=model_wl_masked, params=vgt_pars)
 
     opt_pars = vgt_result.best_values
     best_fit = vgt_result.best_fit
@@ -81,9 +92,10 @@ def voigt_fitter(cube_id):
     print(opt_pars)
 
     # Plotting the spectra
-    fig, ax = plt.subplots() 
+    fig, ax = plt.subplots()
     ax.plot(data_wl_masked, data_spec_masked, lw=1.5, c="#000000")
-    ax.plot(data_wl_masked, best_fit, lw=1.5, c="#e53935")
+    ax.plot(model_wl_masked, model_spec_masked, lw=1.5, c="#00c853")
+    ax.plot(model_wl_masked, best_fit, lw=1.5, c="#e53935")
 
     ax.tick_params(labelsize=15)
     ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
