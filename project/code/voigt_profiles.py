@@ -95,7 +95,7 @@ def voigt_fitter(cube_id):
 
     # Plotting the spectra
     fig, ax = plt.subplots()
-    ax.plot(data_wl_masked, data_spec_masked, lw=1.5, c="#000000")
+    ax.plot(data_wl_masked, data_spec_masked, lw=1.5, c="#000000", alpha=0.3)
     ax.plot(model_wl_masked, model_spec_masked, lw=1.5, c="#00c853")
     ax.plot(model_wl_masked, best_fit, lw=1.5, c="#e53935")
 
