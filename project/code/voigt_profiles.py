@@ -74,13 +74,15 @@ def voigt_fitter(cube_id):
     vgt_pars.add('v1_center', value=3934.777*(1+z), min=3930*(1+z), max=3940*(1+z))
     vgt_pars.add('v1_sigma', value=5, min=0.0)
     vgt_pars.add('v1_gamma', value=0.01)
-    vgt_pars.add('c', value=0)
+
     vgt_pars.add('v2_amplitude', value=-0.1, max=0.0)
     vgt_pars.add('v2_center', value=3969.588*(1+z), min=3950*(1+z), max=3975*(1+z))
     vgt_pars.add('v2_sigma', value=5, min=0.0)
     vgt_pars.add('v2_gamma', value=0.01)
 
-    voigt = VoigtModel(prefix='v1_') + ConstantModel() + VoigtModel(prefix='v2_')
+    vgt_pars.add('c', value=0)
+
+    voigt = VoigtModel(prefix='v1_') + VoigtModel(prefix='v2_') + ConstantModel()
 
     #vgt_model = Model(voigt)
     vgt_result = voigt.fit(model_spec_masked, x=model_wl_masked, params=vgt_pars)
