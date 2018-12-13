@@ -393,8 +393,8 @@ def ppxf_cube_auto():
             ax.annotate(int(curr_id), (curr_x, curr_y))
 
         ax.tick_params(labelsize=15)
-        ax.set_ylabel(r'\textbf{Fitted Voigt Sigmas}', fontsize=15)
-        ax.set_xlabel(r'\textbf{pPXF Voigt Sigmas}', fontsize=15)
+        ax.set_xlabel(r'\textbf{Fitted Voigt Sigmas}', fontsize=15)
+        ax.set_ylabel(r'\textbf{pPXF Voigt Sigmas}', fontsize=15)
 
         fig.tight_layout()
         fig.savefig("graphs/voigt_sigmas.pdf")
