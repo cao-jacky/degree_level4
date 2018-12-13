@@ -320,6 +320,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     wdisp = np.full(data_shape, 1, dtype=float) # Intrinsic dispersion of every pixel
 
     fwhm_gal = 2.51*wdisp*dlam_gal # Resolution FWHM of every pixel, in Angstroms
+    #fwhm_gal = 4/6*wdisp*dlam_gal
     velscale = np.log(frac)*c       # Constant velocity scale in km/s per pixel
 
     # If the galaxy is at significant redshift, one should bring the galaxy

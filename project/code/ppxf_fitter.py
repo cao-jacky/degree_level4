@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 import cube_analysis
 import ppxf_plots
 
+import voigt_profiles
+
 from astropy.cosmology import FlatLambdaCDM
 
 plt.rc('text', usetex=True)
@@ -144,7 +146,9 @@ def ppxf_cube_auto():
     #   [7] : S/N for each cube
     #   [8] : range beginning which is considered
     #   [9] : range end which is considered 
-    data = np.zeros([len(bright_objects), 1+len(ranges), 10])
+    #   [10] : pPXF sigma from Voigt profile fitter
+    #   [11] : sigma from our own Voigt fitter
+    data = np.zeros([len(bright_objects), 1+len(ranges), 12])
 
     # testing code for just pPXF
     #bright_objects = np.array([0])
@@ -182,12 +186,18 @@ def ppxf_cube_auto():
                 ppxf_vars = np.load(variables)
                 ppxf_errors = np.load(errors)
 
+            # Processing the Voigt Profiles
+            voigt_sigmas = voigt_profiles.voigt_fitter(cube_id)['sigmas']
+
+            data[i_cube][0][10] = voigt_sigmas[0]
+            data[i_cube][0][11] = voigt_sigmas[1]
+
             # Processing the gas fitting to obtain a fitting for the OII doublet
             # fitting for free vs. tied Balmer & [SII]
             gas_fit = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
                     + "_gas_fit.npy")
 
-            if (os.path.exists(gas_fit)):
+            if not (os.path.exists(gas_fit)):
                 if (cube_id in gas_avoid):
                     pass
                 else:
@@ -299,7 +309,7 @@ def ppxf_cube_auto():
     np.save("data/ppxf_fitter_data", data)
 
     # working with just one cube
-    cube_id = 1129
+    #cube_id = 1129
     #ppxf_cubes(cube_id)
     #ranged_fitting(cube_id)
     #ppxf_plots.fitting_plotter(cube_id)
@@ -370,10 +380,30 @@ def ppxf_cube_auto():
         fig.savefig("graphs/ppxf_sn_vs_v_band.pdf")
         plt.close("all") 
 
+    def voigt_sigmas():
+        fig, ax = plt.subplots()
+
+        ax.scatter(data[:][:,0][:,11], data[:][:,0][:,10], color="#000000", s=10)
+
+        for i in range(len(data[:][:,0])):
+            curr_id = data[:][i,0][0]
+            curr_x = data[:][i,0][11]
+            curr_y = data[:][i,0][10]
+
+            ax.annotate(int(curr_id), (curr_x, curr_y))
+
+        ax.tick_params(labelsize=15)
+        ax.set_ylabel(r'\textbf{Fitted Voigt Sigmas}', fontsize=15)
+        ax.set_xlabel(r'\textbf{pPXF Voigt Sigmas}', fontsize=15)
+
+        fig.tight_layout()
+        fig.savefig("graphs/voigt_sigmas.pdf")
+        plt.close("all")
 
     sigma_stars_vs_sigma_oii()
     oii_lmfit_vs_oii_ppxf()
     sn_vs_v_band()
+    voigt_sigmas()
 
     region_graphs_with_data() # calling function before this function to plot data
 
@@ -381,6 +411,6 @@ def ppxf_cube_auto():
     os.system('afplay /System/Library/Sounds/Glass.aiff')
     personal_scripts.notifications("ppxf_fitter", "Script has finished!")
 
-#ppxf_cube_auto()
+ppxf_cube_auto()
 #ppxf_plots.sigma_sn()
 #region_graphs_with_data()

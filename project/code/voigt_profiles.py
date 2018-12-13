@@ -130,4 +130,4 @@ def example_voigt_plotter():
     plt.close("all")
 
 #example_voigt_plotter()
-voigt_fitter(1129)
+voigt_fitter(849)

@@ -1184,7 +1184,33 @@ def oii_doublet_plotter():
     fig.savefig("graphs/doublet_testing/sigma_input_vs_sigma_output_1_1_tied.pdf")
     plt.close("all")
 
+def voigt_sigmas():
+    data = np.load("data/ppxf_fitter_data.npy")
 
+    fig, ax = plt.subplots()
+
+    ax.scatter(data[:][:,0][:,11], data[:][:,0][:,10], color="#000000", s=10)
+
+    for i in range(len(data[:][:,0])):
+        curr_id = data[:][i,0][0]
+        curr_x = data[:][i,0][11]
+        curr_y = data[:][i,0][10]
+
+        ax.annotate(int(curr_id), (curr_x, curr_y))
+
+    x = np.linspace(0,160,200)
+    ax.plot(x, x, lw=1.5, c="#000000", alpha=0.5)
+
+    ax.tick_params(labelsize=15)
+    ax.set_xlabel(r'\textbf{Fitted Voigt Sigmas}', fontsize=15)
+    ax.set_ylabel(r'\textbf{pPXF Voigt Sigmas}', fontsize=15)
+
+    ax.set_xlim([0,160])
+    ax.set_ylim([0,160])
+
+    fig.tight_layout()
+    fig.savefig("graphs/voigt_sigmas_1_1.pdf")
+    plt.close("all")
 
 #chi_squared_cal(1804)
 #model_data_overlay(549)
@@ -1197,4 +1223,6 @@ def oii_doublet_plotter():
 #oii_doublet_testing()
 
 #custom_oii_testing()
-oii_doublet_plotter()
+#oii_doublet_plotter()
+
+voigt_sigmas()
