@@ -15,6 +15,8 @@ import ppxf_plots
 
 import voigt_profiles
 
+from shutil import copyfile
+
 from astropy.cosmology import FlatLambdaCDM
 
 plt.rc('text', usetex=True)
@@ -166,6 +168,12 @@ def ppxf_cube_auto():
         else:
             print("Currently processing cube " + str(int(cube_id))) 
 
+            cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" +
+                    "cube_" + str(cube_id) + ".fits")
+            desktop_folder_file = ("/Users/jackycao/Desktop/fits_files/" + "cube_" + 
+                    str(cube_id) + ".fits") 
+            #copyfile(cube_file, desktop_folder_file)
+
             # Processing the kinematic fitting
             variables = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
                     + "_variables.npy")
@@ -284,6 +292,7 @@ def ppxf_cube_auto():
             data[i_cube][0][7] = cy_sn
  
             # considering different ranges in the spectrum 
+            """
             rf = ranged_fitting(cube_id, ranges) # running finder 
             fit_vars = rf['fitted_variables']
             for i_rtc in range(len(ranges)):
@@ -298,7 +307,7 @@ def ppxf_cube_auto():
 
                 # ranges used in the fittings
                 data[i_cube][ci][8] = ranges[i_rtc][0]
-                data[i_cube][ci][9] = ranges[i_rtc][1]           
+                data[i_cube][ci][9] = ranges[i_rtc][1]"""           
 
     # removing data which doesn't have an O[II] doublet for us to compare to
     sigma_doublet_vals = data[:][:,0][:,1]
