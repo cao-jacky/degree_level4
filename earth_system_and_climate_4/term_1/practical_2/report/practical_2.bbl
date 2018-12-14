@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{ruddiman_climate}
 William~F. Ruddiman.
@@ -13,11 +13,6 @@ Henning~A. Bauch and Helmut Erlenkeuser.
   editors, {\em Earth's Climate and Orbital Eccentricity: The Marine Isotope
   Stage 11 Question}, volume 137, pages 87 -- 102. American Geophysical Union,
   2013.
-
-\bibitem{carroll_astro}
-Bradley~W. Carroll and Dale~A. Ostlie.
-\newblock {\em An Introduction to Modern Astrophysics}.
-\newblock Pearson, 2nd edition, 2007.
 
 \bibitem{past3}
 \O. Hammer, D.~A.~T. Harper, and P.~D. Ryan.
@@ -36,6 +31,22 @@ M.~E. Raymo, L.~E. Lisiecki, and Kerim~H. Nisancioglu.
 \newblock {Plio-Pleistocene Ice Volume, Antarctic Climate, and the Global
   $\delta^{18}$O Record}.
 \newblock {\em Science}, 313(5786):492--495, 2006.
+
+\bibitem{sowers_climate}
+T.~Sowers and M.~Bender.
+\newblock Climate records covering the last deglaciation.
+\newblock {\em Science}, 269(5221):210--214, 1995.
+
+\bibitem{broecker_terminationii}
+Wallace~S. Broecker and Gideon~M. Henderson.
+\newblock {The sequence of events surrounding Termination II and their
+  implications for the cause of the glacial-interglacial CO$_{2}$ changes}.
+\newblock {\em American Geophysical Union}, 13(4):352--364, 1998.
+
+\bibitem{sigman_atmosphere}
+Daniel~M. Sigman and Edward~A. Boyle.
+\newblock Glacial/interglacial variations in atmospheric carbon dioxide.
+\newblock {\em Nature}, 407(6806):859--869, 2000.
 
 \bibitem{archer_pco2}
 D.~Archer, A.~Winguth, D.~Lea, and N.~Mahowald.
