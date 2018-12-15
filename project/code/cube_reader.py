@@ -114,6 +114,9 @@ def spectrum_creator(file_name):
     seg_curr_cube = np.where(segmentation_data == cube_id)
     scc_rows, scc_cols = seg_curr_cube
 
+    #np.set_printoptions(threshold=np.nan)
+    #print(segmentation_data)
+
     collapsed_spectrum = np.zeros([np.shape(image_data)[0], len(scc_rows)])
     for i_r in range(len(scc_rows)):
         # I want to pull out each pixel and store it into the collapsed spectrum array
@@ -121,9 +124,10 @@ def spectrum_creator(file_name):
     
     galaxy_spectrum = np.zeros(np.shape(image_data)[0])
     for i_ax in range(len(galaxy_spectrum)):
-        galaxy_spectrum[i_ax] = np.sum(collapsed_spectrum[i_ax])
+        galaxy_spectrum[i_ax] = np.nansum(collapsed_spectrum[i_ax])
  
-    return {'central': cp_spec_data, 'galaxy': galaxy_spectrum}
+    return {'central': cp_spec_data, 'galaxy': galaxy_spectrum, 
+            'segmentation': segmentation_data}
 
 def cube_noise(cube_id):
     cube_file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
@@ -686,11 +690,14 @@ def analysis(file_name, sky_file_name):
         plt.ylim([-500,5000]) # setting manual limits for now
         plt.savefig(data_dir + "/" + stk_f_n + '_otwo_region.pdf')
 
-    graphs_collapsed()
-    graphs_spectra()
-    graphs_otwo_region()
+    #graphs_collapsed()
+    #graphs_spectra()
+    #graphs_otwo_region()
 
     plt.close("all")
+
+    return {'image_data': im_coll_data, 'spectra_data': spectra_data, 'sr': sr,
+            'df_data': df_data, 'gs_data': gs_data, 'snw_data': snw_data}
 
 #analysis("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
         #"cube_1068.fits", "data/skyvariance_csub.fits")

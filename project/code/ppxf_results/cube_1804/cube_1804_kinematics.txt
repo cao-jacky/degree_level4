@@ -5,5 +5,5 @@ method = capfit; Jac calls: 3; Func calls: 20; Status: 4
 Nonzero Templates: 18 / 162
 Formal errors: 
      dV    dsigma   dh3      dh4 
-      23      25    0.13   0.081
-Elapsed time in PPXF: 1.95 s
+      23      25    0.13   0.082
+Elapsed time in PPXF: 2.61 s
