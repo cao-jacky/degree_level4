@@ -15,6 +15,8 @@ import ppxf_plots
 
 import voigt_profiles
 
+import diagnostics
+
 from shutil import copyfile
 
 from astropy.cosmology import FlatLambdaCDM
@@ -166,7 +168,10 @@ def ppxf_cube_auto():
         if ((cube_id in avoid_objects) or (cube_id in cubes_to_ignore)):
             pass
         else:
-            print("Currently processing cube " + str(int(cube_id))) 
+            print("Currently processing cube " + str(int(cube_id)))
+
+            # Running diagnostics tool for the cool
+            diagnostics.diag_results(cube_id)
 
             cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" +
                     "cube_" + str(cube_id) + ".fits")
@@ -315,7 +320,7 @@ def ppxf_cube_auto():
     data = np.delete(data, sigma_doublet_zeros, 0)
     print(data)
 
-    np.save("data/ppxf_fitter_data", data)
+    #np.save("data/ppxf_fitter_data", data)
 
     # working with just one cube
     #cube_id = 1129
@@ -409,12 +414,12 @@ def ppxf_cube_auto():
         fig.savefig("graphs/voigt_sigmas.pdf")
         plt.close("all")
 
-    sigma_stars_vs_sigma_oii()
-    oii_lmfit_vs_oii_ppxf()
-    sn_vs_v_band()
-    voigt_sigmas()
+    #sigma_stars_vs_sigma_oii()
+    #oii_lmfit_vs_oii_ppxf()
+    #sn_vs_v_band()
+    #voigt_sigmas()
 
-    region_graphs_with_data() # calling function before this function to plot data
+    #region_graphs_with_data() # calling function before this function to plot data
 
     # tells system to play a sound to alert that work has been finished
     os.system('afplay /System/Library/Sounds/Glass.aiff')
