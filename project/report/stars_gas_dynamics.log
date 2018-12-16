@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  10 DEC 2018 11:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  16 DEC 2018 16:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -478,22 +478,22 @@ Overfull \hbox (0.87494pt too wide) detected at line 12
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 13
- \OT1/cmr/m/n/12 6
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 14
- \OT1/cmr/m/n/12 7
+ \OT1/cmr/m/n/12 6
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 15
- \OT1/cmr/m/n/12 7
+ \OT1/cmr/m/n/12 6
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 16
- \OT1/cmr/m/n/12 7
+ \OT1/cmr/m/n/12 6
  []
 
 
@@ -566,18 +566,18 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/o_ii_luminosity_vs_re
 dshift.pdf): PDF inclusion: multiple pdfs with page group included in a single 
 page
 >]
-<data/reprocessed_sn_vs_sigma.pdf, id=87, 462.52798pt x 346.89601pt>
-File: data/reprocessed_sn_vs_sigma.pdf Graphic file (type pdf)
-<use data/reprocessed_sn_vs_sigma.pdf>
-Package pdftex.def Info: data/reprocessed_sn_vs_sigma.pdf  used on input line 2
-12.
+<data/reprocessed_sn_vs_delta_sigma.pdf, id=87, 462.52798pt x 346.89601pt>
+File: data/reprocessed_sn_vs_delta_sigma.pdf Graphic file (type pdf)
+<use data/reprocessed_sn_vs_delta_sigma.pdf>
+Package pdftex.def Info: data/reprocessed_sn_vs_delta_sigma.pdf  used on input 
+line 212.
 (pdftex.def)             Requested size: 227.62206pt x 170.71628pt.
  (./stars_gas_dynamics.bbl [6 <./data/cube_1804_fitted.pdf> <./data/reprocessed
-_sn_vs_sigma.pdf
+_sn_vs_delta_sigma.pdf
 
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/reprocessed_sn_vs_sig
-ma.pdf): PDF inclusion: multiple pdfs with page group included in a single page
-
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/reprocessed_sn_vs_del
+ta_sigma.pdf): PDF inclusion: multiple pdfs with page group included in a singl
+e page
 >]) [7] (./stars_gas_dynamics.aux)
 
 LaTeX Warning: There were multiply-defined labels.
@@ -585,7 +585,7 @@ LaTeX Warning: There were multiply-defined labels.
  ) 
 Here is how much of TeX's memory you used:
  6417 strings out of 492649
- 91953 string characters out of 6129622
+ 91983 string characters out of 6129622
  183648 words of memory out of 5000000
  10195 multiletter control sequences out of 15000+600000
  9538 words of font info for 35 fonts, out of 8000000 for 9000
@@ -601,10 +601,10 @@ sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
 /local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/
 local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/l
 ocal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (7 pages, 4510322 bytes).
+Output written on stars_gas_dynamics.pdf (7 pages, 4538813 bytes).
 PDF statistics:
  159 PDF objects out of 1000 (max. 8388607)
- 116 compressed objects within 2 object streams
+ 110 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
