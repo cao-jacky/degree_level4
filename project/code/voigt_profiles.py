@@ -65,19 +65,21 @@ def voigt_fitter(cube_id):
     vgt_pars.add('sigma_inst', value=sigma_inst, vary=False)
     vgt_pars.add('sigma_gal', value=1.0, min=0.0)
 
+    """
     vgt_pars.add('v1_amplitude', value=-0.1, max=0.0)
     vgt_pars.add('v1_center', value=3934.777*(1+z), min=3930*(1+z), max=3940*(1+z))
     vgt_pars.add('v1_sigma', expr='sqrt(sigma_inst**2 + sigma_gal**2)', min=0.0)
-    #vgt_pars.add('v1_gamma', value=0.01)
+    #vgt_pars.add('v1_gamma', value=0.01)"""
 
     vgt_pars.add('v2_amplitude', value=-0.1, max=0.0)
     vgt_pars.add('v2_center', value=3969.588*(1+z), min=3950*(1+z), max=3975*(1+z))
-    vgt_pars.add('v2_sigma', expr='v1_sigma', min=0.0)
+    vgt_pars.add('v2_sigma', expr='sqrt(sigma_inst**2 + sigma_gal**2)', min=0.0)
     #vgt_pars.add('v2_gamma', value=0.01) 
 
     vgt_pars.add('c', value=0)
 
-    voigt = VoigtModel(prefix='v1_') + VoigtModel(prefix='v2_') + ConstantModel()
+    #voigt = VoigtModel(prefix='v1_') + VoigtModel(prefix='v2_') + ConstantModel()
+    voigt = VoigtModel(prefix='v2_') + ConstantModel()
 
     #vgt_model = Model(voigt)
     vgt_result = voigt.fit(model_spec_masked, x=model_wl_masked, params=vgt_pars)
@@ -97,13 +99,15 @@ def voigt_fitter(cube_id):
     ax.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
 
     fig.tight_layout()
-    fig.savefig("graphs/voigt_fittings/cubes/cube_"+str(cube_id)+"_voigt.pdf")
+    fig.savefig("graphs/voigt_fittings/cubes/cube_"+str(cube_id)+"_cah_voigt.pdf")
     plt.close("all")
 
     # obtaining sigmas
     # from pPXF
     sigma_ppxf = best_fit_vars[1]
-    sigma_opt = opt_pars['v1_sigma']
+    sigma_opt = opt_pars['v2_sigma']
+
+    print(opt_pars)
 
     speed_of_light = 299792.458 # speed of light in kms^-1
     sigma_opt_kms = (speed_of_light/sigma_opt) * 10**(-3)
@@ -130,4 +134,4 @@ def example_voigt_plotter():
     plt.close("all")
 
 #example_voigt_plotter()
-voigt_fitter(849)
+voigt_fitter(1804)
