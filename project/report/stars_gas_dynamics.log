@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  17 DEC 2018 16:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  17 DEC 2018 20:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -437,13 +437,18 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 (./stars_gas_dynamics.toc
+Overfull \hbox (0.87494pt too wide) detected at line 4
+ \OT1/cmr/m/n/12 1
+ []
+
+
 Overfull \hbox (0.87494pt too wide) detected at line 5
  \OT1/cmr/m/n/12 2
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 6
- \OT1/cmr/m/n/12 2
+ \OT1/cmr/m/n/12 3
  []
 
 
@@ -483,22 +488,17 @@ Overfull \hbox (0.87494pt too wide) detected at line 13
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 14
- \OT1/cmr/m/n/12 6
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 15
- \OT1/cmr/m/n/12 6
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 16
- \OT1/cmr/m/n/12 6
- []
-
-
-Overfull \hbox (0.87494pt too wide) detected at line 17
- \OT1/cmr/m/n/12 7
+ \OT1/cmr/m/n/12 5
  []
 
 )
@@ -506,12 +506,12 @@ Overfull \hbox (0.87494pt too wide) detected at line 17
 \openout3 = `stars_gas_dynamics.toc'.
 
  [1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<introduction/hubble_tuning_fork.pdf, id=10, 668.4975pt x 422.57875pt>
+<introduction/hubble_tuning_fork.pdf, id=15, 668.4975pt x 422.57875pt>
 File: introduction/hubble_tuning_fork.pdf Graphic file (type pdf)
 <use introduction/hubble_tuning_fork.pdf>
 Package pdftex.def Info: introduction/hubble_tuning_fork.pdf  used on input lin
 e 86.
-(pdftex.def)             Requested size: 227.62206pt x 143.88765pt.
+(pdftex.def)             Requested size: 222.62206pt x 140.72812pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -520,43 +520,52 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [2 <./introduction/hubble_tuning_fork.pdf>]
-<introduction/muse_colour_image.pdf, id=26, 554.7866pt x 551.40735pt>
+Underfull \hbox (badness 1635) in paragraph at lines 101--102
+[]\OT1/cmr/m/n/12 Irregular galax-ies have no no-tice-able
+ []
+
+<introduction/muse_colour_image.pdf, id=31, 554.7866pt x 551.40735pt>
 File: introduction/muse_colour_image.pdf Graphic file (type pdf)
 <use introduction/muse_colour_image.pdf>
 Package pdftex.def Info: introduction/muse_colour_image.pdf  used on input line
  139.
 (pdftex.def)             Requested size: 182.09486pt x 180.98058pt.
-<introduction/hubble_ultra_deep_field.jpg, id=27, 123.5467pt x 123.5467pt>
+<introduction/hubble_ultra_deep_field.jpg, id=32, 123.5467pt x 123.5467pt>
 File: introduction/hubble_ultra_deep_field.jpg Graphic file (type jpg)
 <use introduction/hubble_ultra_deep_field.jpg>
 Package pdftex.def Info: introduction/hubble_ultra_deep_field.jpg  used on inpu
 t line 146.
 (pdftex.def)             Requested size: 182.09486pt x 182.1167pt.
- [3]
-<data/image_sn_vs_vband.pdf, id=31, 462.52798pt x 346.89601pt>
+[3 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./intro
+duction/hubble_ultra_deep_field.jpg>]
+<data/image_sn_vs_vband.pdf, id=45, 462.52798pt x 346.89601pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
 Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 177.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
-<data/sn_vs_vband.pdf, id=32, 462.52798pt x 346.89601pt>
+<data/sn_vs_vband.pdf, id=46, 462.52798pt x 346.89601pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
 Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 184.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
-<data/o_ii_luminosity_vs_redshift.pdf, id=33, 462.52798pt x 346.89601pt>
+<data/o_ii_luminosity_vs_redshift.pdf, id=47, 462.52798pt x 346.89601pt>
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
 ne 198.
-(pdftex.def)             Requested size: 227.62206pt x 170.71628pt.
- [4 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./intr
-oduction/hubble_ultra_deep_field.jpg>]
-<data/cube_1804_fitted.pdf, id=46, 462.52798pt x 346.89601pt>
+(pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
+<data/cube_1804_fitted.pdf, id=48, 462.52798pt x 346.89601pt>
 File: data/cube_1804_fitted.pdf Graphic file (type pdf)
 <use data/cube_1804_fitted.pdf>
 Package pdftex.def Info: data/cube_1804_fitted.pdf  used on input line 210.
-(pdftex.def)             Requested size: 273.14923pt x 204.8733pt.
- [5 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
+(pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
+<data/reprocessed_sn_vs_delta_sigma.pdf, id=49, 462.52798pt x 346.89601pt>
+File: data/reprocessed_sn_vs_delta_sigma.pdf Graphic file (type pdf)
+<use data/reprocessed_sn_vs_delta_sigma.pdf>
+Package pdftex.def Info: data/reprocessed_sn_vs_delta_sigma.pdf  used on input 
+line 216.
+(pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
+ [4 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
  inclusion: multiple pdfs with page group included in a single page
@@ -565,46 +574,73 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/o_ii_luminosity_vs_re
 dshift.pdf): PDF inclusion: multiple pdfs with page group included in a single 
 page
->]
-<data/reprocessed_sn_vs_delta_sigma.pdf, id=87, 462.52798pt x 346.89601pt>
-File: data/reprocessed_sn_vs_delta_sigma.pdf Graphic file (type pdf)
-<use data/reprocessed_sn_vs_delta_sigma.pdf>
-Package pdftex.def Info: data/reprocessed_sn_vs_delta_sigma.pdf  used on input 
-line 216.
-(pdftex.def)             Requested size: 273.14923pt x 204.8733pt.
- (./stars_gas_dynamics.bbl [6 <./data/cube_1804_fitted.pdf> <./data/reprocessed
-_sn_vs_delta_sigma.pdf
+> <./data/cube_1804_fitted.pdf
 
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/reprocessed_sn_vs_del
-ta_sigma.pdf): PDF inclusion: multiple pdfs with page group included in a singl
-e page
->]) [7] (./stars_gas_dynamics.aux)
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/cube_1804_fitted.pdf)
+: PDF inclusion: multiple pdfs with page group included in a single page
+>]
+Underfull \hbox (badness 10000) in paragraph at lines 230--231
+[]\OT1/cmr/m/n/12 The au-thor would like to thank
+ []
+
+
+Underfull \hbox (badness 2744) in paragraph at lines 230--231
+\OT1/cmr/m/n/12 Dr. M. Swin-bank and Alfie Tiley for
+ []
+
+
+Underfull \hbox (badness 1142) in paragraph at lines 230--231
+\OT1/cmr/m/n/12 pro-ject would have been ex-per-i-ment-ally
+ []
+
+(./stars_gas_dynamics.bbl
+Underfull \hbox (badness 3058) in paragraph at lines 4--8
+ \OT1/cmr/m/n/10.95 ity at $\OML/cmm/m/it/10.95 z < \OT1/cmr/m/n/10.95 8$ and i
+ts Im-plic-a-tions.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4--8
+ |   []\OT1/cmr/m/n/10.95 , 830(83):17,
+ []
+
+
+Underfull \hbox (badness 1248) in paragraph at lines 25--29
+ []\OT1/cmr/m/n/10.95 NASA, ESA, S. Beck-with, and HUDF
+ []
+
+) [5 <./data/reprocessed_sn_vs_delta_sigma.pdf>] (./stars_gas_dynamics.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 6418 strings out of 492649
- 91993 string characters out of 6129622
- 183648 words of memory out of 5000000
- 10196 multiletter control sequences out of 15000+600000
- 9538 words of font info for 35 fonts, out of 8000000 for 9000
+ 6429 strings out of 492649
+ 92182 string characters out of 6129622
+ 188654 words of memory out of 5000000
+ 10206 multiletter control sequences out of 15000+600000
+ 10377 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,11n,43p,874b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
 b></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><
-/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
-sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
-/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/
-local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/l
-ocal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (7 pages, 4538832 bytes).
+/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
+usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
+r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></us
+r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/lo
+cal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local
+/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
+texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
+xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/tex
+live/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texl
+ive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on stars_gas_dynamics.pdf (5 pages, 4576576 bytes).
 PDF statistics:
- 159 PDF objects out of 1000 (max. 8388607)
- 110 compressed objects within 2 object streams
+ 171 PDF objects out of 1000 (max. 8388607)
+ 119 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

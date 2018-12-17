@@ -1,6 +1,6 @@
 %%%%% Document Setup %%%%%%%%
 
-\documentclass[12pt, onecolumn]{revtex4}    % Font size (12pt) and column number (one or two).
+\documentclass[12pt, twocolumn]{revtex4}    % Font size (12pt) and column number (one or two).
 
 \usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}  % Defines paper size and margin length
 
@@ -64,7 +64,7 @@ Abstract abstract abstract abstract abstract abstract abstract abstract abstract
 
 \section{Introduction} 
 
-Amongst the different types of cosmic structure within our universe, galaxies can be described as the most unique and diverse. With an approximate [insert number here] galaxies in our universe, each of which containing countless numbers of stars, gas, dust, and dark matter \cite{carroll_astro}, it would be difficult not to express the statement that the motions of these objects must be linked together in some galactic relationship. 
+Amongst the different types of cosmic structure within our universe, galaxies can be described as the most unique and diverse. With potentially $\sim$ ($2.0^{+0.7}_{-0.6}$) $\times 10^{12}$ galaxies in the universe up to $z=8$  which could in principally be observed \cite{conselice_galaxynumber}, each of which containing countless numbers of stars, gas, dust, and dark matter \cite{carroll_astro}, it would be difficult not to express the statement that the motions of these objects must be linked together in some galactic relationship. 
 
 % I'm not sure about this opening introduction, it just feels a bit weak. I need to have a strong opening to which I can discuss galaxies. Maybe give qualitative numbers and facts about galaxies e.g. number of galaxies in the universe, how many stars are in an average galaxy...etc 
 
@@ -83,7 +83,7 @@ This categorisation is called the \textit{Hubble Sequence} or the \textit{Hubble
 % TODO work on the Hubble Tuning Fork diagram caption, it seems a bit meh
 
 \begin{center}
-\includegraphics[width=0.5\linewidth]{introduction/hubble_tuning_fork}
+\includegraphics[width=1.0\linewidth]{introduction/hubble_tuning_fork}
 \captionof{figure}[Hubble Tuning Fork]{The Hubble Sequence, displaying the three general groups of galaxies: ellipticals, spirals, and irregulars, and the main galaxy types from each category. A pictogram and the classification name is shown for each of them. The sequence does not show the evolution of galaxies but their classification. \\ (\textit{This diagram has been adapted from An Introduction to Modern Astrophysics} \cite{carroll_astro}.)}
 \label{fig:hubble_tuning_fork}
 \end{center}
@@ -132,7 +132,7 @@ To obtain spectroscopic information on the Hubble UDF objects, the Multi-Unit Sp
 
 % TODO what is MUSE, where it is on the VLT, problems, limitations of MUSE - why it is useful...etc
 
-%\onecolumngrid
+\onecolumngrid
 
 \begin{figure}
   \begin{subfigure}[b]{0.4\textwidth}
@@ -152,7 +152,7 @@ To obtain spectroscopic information on the Hubble UDF objects, the Multi-Unit Sp
   \caption[Hubble Ultra Deep Field]{(a) A colour image created from the MUSE spectroscopic data of the HUDF. The wavelength range was split into three equal regions and then collapsed to create three bands (R, G, B). A final colour image was produced by combining these separate frames together. (b) The optical HUDF as captured by the Advanced Camera for Surveys instrument on the Hubble Space Telescope \cite{hudf_image}. }
 \end{figure}
 
-%\twocolumngrid
+\twocolumngrid
 
 asdasd
 
@@ -170,7 +170,7 @@ sfsadf
 
 asdasd
 
-%\onecolumngrid
+\onecolumngrid
 
 \begin{figure}
   \begin{subfigure}[b]{0.495\textwidth}
@@ -190,12 +190,12 @@ asdasd
   \caption[HUDF Objects]{(a) The signal-to-noise of the image flux for every object in the MUSE collapsed image plotted against their respective V-band magnitudes from the HST catalogue. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 points as defined by the sextractor probability that they are not stars. (b)}
 \end{figure}
 
-%\twocolumngrid
+\twocolumngrid
 
 asdasd
 
 \begin{center}
-\includegraphics[width=0.5\linewidth]{data/o_ii_luminosity_vs_redshift}
+\includegraphics[width=1.0\linewidth]{data/o_ii_luminosity_vs_redshift}
 \captionof{figure}[OII Luminosity vs. Redshift]{Graph showing the calculated luminosity for the O[II] doublet plotted against redshift. Data points are plotted as well as a model line representing the lower-limit of the flux from the sample. [???]a}
 \label{fig:oiiluminosity_redshift}
 \end{center}
@@ -207,13 +207,13 @@ aasdasd
 After extracting the individual galactic objects from the main MUSE cube, the data had to be verified and then fitted using two different routines: (i) O[II] doublet fitting, and (ii) pPXF absorption line fitting. 
 
 \begin{center}
-\includegraphics[width=0.6\linewidth]{data/cube_1804_fitted}
+\includegraphics[width=1.0\linewidth]{data/cube_1804_fitted}
 \captionof{figure}[OII Luminosity vs. Redshift]{Fitting of a galaxy spectrum with pPXF.}
 \label{fig:oiiluminosity_redshift}
 \end{center}
 
 \begin{center}
-\includegraphics[width=0.6\linewidth]{data/reprocessed_sn_vs_delta_sigma}
+\includegraphics[width=1.0\linewidth]{data/reprocessed_sn_vs_delta_sigma}
 \captionof{figure}[S/N vs. delta(sigma)]{The signal-to-noise versus the fractional error of the $\sigma$ line width of the pPXF curve fittings.}
 \label{fig:oiiluminosity_redshift}
 \end{center}
