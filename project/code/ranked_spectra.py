@@ -36,7 +36,7 @@ with PdfPages('diagnostics/ranked_spectra.pdf') as pdf:
                     str(int(cube_id)) + "_cbs_y.npy")
     
             plt.figure()
-            plt.plot(x_data, y_data, lw=1.5, c="#000000")
+            plt.plot(x_data, y_data, lw=0.5, c="#000000")
             plt.title('Cube ' + str(cube_id) + '| V-band: ' + str(v_mag), fontsize=13)
             plt.tick_params(labelsize=13)
             plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
