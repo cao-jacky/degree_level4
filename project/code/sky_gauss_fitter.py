@@ -32,7 +32,6 @@ def inst_res():
     wl_range = np.arange(range_begin, range_end, step_size)
 
     # now we want to fit a Gaussian profile at 6300Å
-
     sky_gauss_params  = Parameters()
     sky_gauss_params.add('c', value=0)
     sky_gauss_params.add('i1', value=np.max(sky_spec_data), min=0.0)
@@ -47,7 +46,17 @@ def inst_res():
     sky_gauss_fit = sky_gauss_result.best_fit
 
     sigma_inst = sky_gauss_vals['sigma']
-    
+    wl = sky_gauss_vals['mu'] # Units of Å
+   
+    # We want to find delta_lambda using MUSE spectral resolution of 4200Å and the
+    # same wavelength as used in our Gaussian fitting above
+    #
+    # We want to be using R=lambda/delta_lambda
+    R = 4200 # Units of Å
+    delta_lambda = wl / R
+
+    print(2.35*sigma_inst, delta_lambda)
+
     fig, ax = plt.subplots() 
     ax.plot(wl_range, sky_spec_data, lw=0.5, c="#000000")
     ax.plot(wl_range, sky_gauss_fit, lw=0.5, c="#e53935")

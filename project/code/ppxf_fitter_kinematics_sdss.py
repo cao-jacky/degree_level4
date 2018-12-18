@@ -342,6 +342,10 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     template_set = glob.glob('jacoby_models/jhc0*.fits')
     fwhm_tem = 4.5 # instrumental resolution in Ångstroms.
 
+    # I need to modify the fitter so that it can use the higher resolution SYNTHE
+    # templates instead
+    #template_set = glob.glob('')
+
     # Extract the wavelength range and logarithmically rebin one spectrum
     # to the same velocity scale of the SDSS galaxy spectrum, to determine
     # the size needed for the array which will contain the template spectra.
@@ -360,12 +364,12 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # used in the fit anyway.
     fwhm_gal = np.interp(lam_temp, lam_gal, fwhm_gal)
 
-    # Convolve the whole Vazdekis library of spectral templates
-    # with the quadratic difference between the SDSS and the
-    # Vazdekis instrumental resolution. Logarithmically rebin
+    # Convolve the whole library of spectral templates
+    # with the quadratic difference between the data and the
+    # template instrumental resolution. Logarithmically rebin
     # and store each template as a column in the array TEMPLATES.
 
-    # Quadratic sigma difference in pixels Vazdekis --> SDSS
+    # Quadratic sigma difference in pixels 
     # The formula below is rigorously valid if the shapes of the
     # instrumental spectral profiles are well approximated by Gaussians.
     #
