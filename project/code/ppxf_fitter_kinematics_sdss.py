@@ -273,13 +273,15 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     else:
         cube_y_data = y_data_var
 
+    cube_x_data = cube_x_data / (1+z)
+
     cube_x_original = cube_x_data
     cube_y_original = cube_y_data
 
     # masking the data to ignore initial 'noise' / non-features
-    initial_mask = (cube_x_data > 3540 * (1+z))
-    cube_x_data = cube_x_original[initial_mask] 
-    cube_y_data = cube_y_original[initial_mask]
+    #initial_mask = (cube_x_data > 3540 * (1+z))
+    #cube_x_data = cube_x_original[initial_mask] 
+    #cube_y_data = cube_y_original[initial_mask]
 
     # calculating the signal to noise
     sn_region = np.array([4000, 4080]) * (1+z) 
@@ -296,7 +298,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # cube noise
     cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
-    spec_noise = spectrum_noise[initial_mask] 
+    #spec_noise = spectrum_noise[initial_mask] 
+    spec_noise = spectrum_noise
 
     # will need this for when we are considering specific ranges
     if (isinstance(fit_range, str)):
@@ -315,8 +318,9 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     lam = np.exp(logLam)
     
     loglam = np.log10(lam)
+    print(lam)
     # Only use the wavelength range in common between galaxy and stellar library.
-    mask = (loglam > np.log10(2500)) & (loglam < np.log10(10500))
+    mask = (loglam > np.log10(3525)) & (loglam < np.log10(7500))
     flux = specNew[mask]
  
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
@@ -336,7 +340,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     # sky noise
     skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
-    skyNew = skyNew[initial_mask]
+    #skyNew = skyNew[initial_mask]
+    skyNew = skyNew
 
     if (isinstance(fit_range, str)):
         pass
@@ -368,12 +373,15 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # This is done with the following three commented lines:
     
     #lam_gal = lam_gal/(1+z)  # Compute approximate restframe wavelength
-    #fwhm_gal = fwhm_gal/(1+z)   # Adjust resolution in Angstrom
+    fwhm_gal = fwhm_gal/(1+z)   # Adjust resolution in Angstrom
 
     # Read the list of filenames from the Single Stellar Population library
     # by Vazdekis (2010, MNRAS, 404, 1639) http://miles.iac.es/. A subset
     # of the library is included for this example with permission
     #template_set = glob.glob('miles_models/Mun1.30Z*.fits')
+    template_set = glob.glob('miles_models/s*.fits')
+    fwhm_tem = 2.5
+    
     #template_set = glob.glob('jacoby_models/jhc0*.fits')
     #fwhm_tem = 4.5 # instrumental resolution in Ångstroms.
 
@@ -382,6 +390,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     # I need to modify the fitter so that it can use the higher resolution SYNTHE
     # templates instead
+    """
     synthe_spectra = ("synthe_templates")
     extension = ".ASC.gz"
     pathList = []
@@ -389,29 +398,31 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     
     fwhm_tem = (6.4/c) * 6300 # instrumental resolution of SYNTHE in Å
     #print(fwhm_tem)
+    """
 
     # Extract the wavelength range and logarithmically rebin one spectrum
     # to the same velocity scale of the SDSS galaxy spectrum, to determine
     # the size needed for the array which will contain the template spectra.
     #
-    """
     hdu = fits.open(template_set[0])
-    ssp = hdu[0].data
+    ssp = hdu[0].data[0]
     h2 = hdu[0].header
     lam_temp = h2['CRVAL1'] + h2['CDELT1']*np.arange(h2['NAXIS1'])
     lamRange_temp = [np.min(lam_temp), np.max(lam_temp)]
     sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
     templates = np.empty((sspNew.size, len(template_set)))
-    """
+
 
     # alternative extraction of wavelength and subsequent calculations for SYNTHE
-    # template set 
+    # template set
+    """
     ssp = np.loadtxt(pathList[0])
     lam_temp = np.loadtxt("/Volumes/Jacky_Cao/University/level4/project/" + 
             "SYNTHE_templates/rp20000/LAMBDA_R20.DAT")
     lamRange_temp = [np.min(lam_temp), np.max(lam_temp)]
     sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
     templates = np.empty((sspNew.size, len(pathList)))
+    """
     
     # Interpolates the galaxy spectral resolution at the location of every pixel
     # of the templates. Outside the range of the galaxy spectrum the resolution
@@ -434,19 +445,19 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     fwhm_dif = np.sqrt((fwhm_gal**2 - fwhm_tem**2).clip(0))
     
     # I need to change h2['CDELT1'] to the spacing between the LAMBDA data file
-    #sigma = fwhm_dif/2.355/h2['CDELT1'] # Sigma difference in pixels
+    sigma = fwhm_dif/2.355/h2['CDELT1'] # Sigma difference in pixels
 
-    spacing = lam_temp[1] - lam_temp[0]
-    sigma = fwhm_dif/2.355/spacing # Sigma difference in pixels
-    """
+    #spacing = lam_temp[1] - lam_temp[0]
+    #sigma = fwhm_dif/2.355/spacing # Sigma difference in pixels
     for j, fname in enumerate(template_set):
         hdu = fits.open(fname)
-        ssp = hdu[0].data
+        ssp = hdu[0].data[0]
         ssp = util.gaussian_filter1d(ssp, sigma)  # perform convolution with variable sigma
         sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
-        templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates"""
+        templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates
 
     # alternative for SYNTHE templates
+    """
     for j, fname in enumerate(pathList):
         print(fname)
         ssp = np.loadtxt(fname)
@@ -455,6 +466,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
         templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates
 
     print(templates)
+    """
 
     # The galaxy and the template spectra do not have the same starting wavelength.
     # For this reason an extra velocity shift DV has to be applied to the template
@@ -465,8 +477,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # wavelength to the rest frame before using the line below (see above).
     #
     c = 299792.458
-    dv = np.log(lam_temp[0]/lam_gal[0])*c    # km/s
-    goodpixels = util.determine_goodpixels(np.log(lam_gal), lamRange_temp, z) 
+    dv = np.log(lam_temp[0]/(lam_gal[0]*(1+z)))*c    # km/s
+    goodpixels = util.determine_goodpixels(np.log(lam_gal*(1+z)), lamRange_temp, z) 
 
     # Here the actual fit starts. The best fit is plotted on the screen.
     # Gas emission lines are excluded from the pPXF fit using the GOODPIXELS keyword.
@@ -561,7 +573,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
 #------------------------------------------------------------------------------
 
-kinematics_sdss(1804, 0, "all")
+kinematics_sdss(414, 0, "all")
 
 #if __name__ == '__main__':
     #ppxf_example_kinematics_sdss(468)
