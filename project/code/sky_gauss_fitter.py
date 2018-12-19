@@ -9,6 +9,8 @@ from lmfit import Parameters, Model
 
 from astropy.io import fits
 
+import glob
+
 # Open sky spectrum, fit a Gaussian profile at 6300/6500Å and use the sigma for the 
 # instrumental resolution
 
@@ -66,6 +68,22 @@ def inst_res():
     fig.tight_layout()
     fig.savefig("graphs/testing/sky_gauss.pdf")
     plt.close("all")
-    
+   
+def synth_spectra_plot():
+    spec_list = glob.glob('synthe_templates/*.ASC.gz')
 
-inst_res()
+    lam_temp = np.loadtxt("/Volumes/Jacky_Cao/University/level4/project/" + 
+            "SYNTHE_templates/rp20000/LAMBDA_R20.DAT")
+    spec_y = np.loadtxt(spec_list[0])
+
+    fig, ax = plt.subplots() 
+    ax.plot(lam_temp, spec_y, lw=0.5, c="#000000")
+
+    fig.tight_layout()
+
+    fig.savefig("graphs/testing/synthe.pdf")
+    plt.close("all")
+
+
+#inst_res()
+synth_spectra_plot()

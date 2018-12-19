@@ -316,7 +316,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     
     loglam = np.log10(lam)
     # Only use the wavelength range in common between galaxy and stellar library.
-    mask = (loglam > np.log10(3510)) & (loglam < np.log10(7427))
+    mask = (loglam > np.log10(2500)) & (loglam < np.log10(10500))
     flux = specNew[mask]
  
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
@@ -374,25 +374,27 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # by Vazdekis (2010, MNRAS, 404, 1639) http://miles.iac.es/. A subset
     # of the library is included for this example with permission
     #template_set = glob.glob('miles_models/Mun1.30Z*.fits')
-    template_set = glob.glob('jacoby_models/jhc0*.fits')
-    fwhm_tem = 4.5 # instrumental resolution in Ångstroms.
+    #template_set = glob.glob('jacoby_models/jhc0*.fits')
+    #fwhm_tem = 4.5 # instrumental resolution in Ångstroms.
 
     #template_set = glob.glob('miles_models/Mun1.30Z*.fits')
     #fwhm_tem = 2.51 # Vazdekis+10 spectra have a constant resolution FWHM of 2.51A.
 
     # I need to modify the fitter so that it can use the higher resolution SYNTHE
     # templates instead
-    """
-    synthe_spectra = ("/Volumes/Jacky_Cao/University/level4/project/SYNTHE_templates/"
-            + "rp20000/normalized_spectra/")
+    synthe_spectra = ("synthe_templates")
     extension = ".ASC.gz"
     pathList = []
-    pathList = findFilesInFolder(synthe_spectra, pathList, extension, True)"""
+    pathList = findFilesInFolder(synthe_spectra, pathList, extension, True)
+    
+    fwhm_tem = (6.4/c) * 6300 # instrumental resolution of SYNTHE in Å
+    #print(fwhm_tem)
 
     # Extract the wavelength range and logarithmically rebin one spectrum
     # to the same velocity scale of the SDSS galaxy spectrum, to determine
     # the size needed for the array which will contain the template spectra.
     #
+    """
     hdu = fits.open(template_set[0])
     ssp = hdu[0].data
     h2 = hdu[0].header
@@ -400,16 +402,16 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     lamRange_temp = [np.min(lam_temp), np.max(lam_temp)]
     sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
     templates = np.empty((sspNew.size, len(template_set)))
+    """
 
     # alternative extraction of wavelength and subsequent calculations for SYNTHE
     # template set 
-    """
     ssp = np.loadtxt(pathList[0])
     lam_temp = np.loadtxt("/Volumes/Jacky_Cao/University/level4/project/" + 
             "SYNTHE_templates/rp20000/LAMBDA_R20.DAT")
     lamRange_temp = [np.min(lam_temp), np.max(lam_temp)]
     sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
-    templates = np.empty((sspNew.size, len(pathList)))"""
+    templates = np.empty((sspNew.size, len(pathList)))
     
     # Interpolates the galaxy spectral resolution at the location of every pixel
     # of the templates. Outside the range of the galaxy spectrum the resolution
@@ -430,29 +432,29 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # In principle it should never happen and a higher resolution template should be used.
     #
     fwhm_dif = np.sqrt((fwhm_gal**2 - fwhm_tem**2).clip(0))
-
+    
     # I need to change h2['CDELT1'] to the spacing between the LAMBDA data file
-    sigma = fwhm_dif/2.355/h2['CDELT1'] # Sigma difference in pixels
+    #sigma = fwhm_dif/2.355/h2['CDELT1'] # Sigma difference in pixels
 
-    #spacing = lam_temp[1] - lam_temp[0]
-    #sigma = fwhm_dif/2.355/spacing # Sigma difference in pixels
-
+    spacing = lam_temp[1] - lam_temp[0]
+    sigma = fwhm_dif/2.355/spacing # Sigma difference in pixels
+    """
     for j, fname in enumerate(template_set):
         hdu = fits.open(fname)
         ssp = hdu[0].data
         ssp = util.gaussian_filter1d(ssp, sigma)  # perform convolution with variable sigma
         sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
-        templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates
+        templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates"""
 
     # alternative for SYNTHE templates
-    """
     for j, fname in enumerate(pathList):
         print(fname)
         ssp = np.loadtxt(fname)
         ssp = util.gaussian_filter1d(ssp, sigma)  # perform convolution with variable sigma
         sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
         templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates
-    """
+
+    print(templates)
 
     # The galaxy and the template spectra do not have the same starting wavelength.
     # For this reason an extra velocity shift DV has to be applied to the template

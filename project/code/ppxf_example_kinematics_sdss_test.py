@@ -188,12 +188,16 @@ def ppxf_example_kinematics_sdss():
     fwhm_dif = np.sqrt((fwhm_gal**2 - fwhm_tem**2).clip(0))
     sigma = fwhm_dif/2.355/h2['CDELT1'] # Sigma difference in pixels
 
+    print(h2['CDELT1'])
+
     for j, fname in enumerate(vazdekis):
         hdu = fits.open(fname)
         ssp = hdu[0].data
         ssp = util.gaussian_filter1d(ssp, sigma)  # perform convolution with variable sigma
         sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
         templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates
+
+    print(templates)
 
     # The galaxy and the template spectra do not have the same starting wavelength.
     # For this reason an extra velocity shift DV has to be applied to the template
