@@ -57,6 +57,8 @@ def inst_res():
 
     print(2.35*sigma_inst, delta_lambda)
 
+    np.save("data/sigma_inst", sigma_inst)
+
     fig, ax = plt.subplots() 
     ax.plot(wl_range, sky_spec_data, lw=0.5, c="#000000")
     ax.plot(wl_range, sky_gauss_fit, lw=0.5, c="#e53935")
