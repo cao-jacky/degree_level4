@@ -367,8 +367,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # and adjust the instrumental resolution of the galaxy observations.
     # This is done with the following three commented lines:
     
-    lam_gal = lam_gal/(1+z)  # Compute approximate restframe wavelength
-    fwhm_gal = fwhm_gal/(1+z)   # Adjust resolution in Angstrom
+    #lam_gal = lam_gal/(1+z)  # Compute approximate restframe wavelength
+    #fwhm_gal = fwhm_gal/(1+z)   # Adjust resolution in Angstrom
 
     # Read the list of filenames from the Single Stellar Population library
     # by Vazdekis (2010, MNRAS, 404, 1639) http://miles.iac.es/. A subset
@@ -465,16 +465,17 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     #
     c = 299792.458
     dv = np.log(lam_temp[0]/lam_gal[0])*c    # km/s
-    print(dv)
-
     goodpixels = util.determine_goodpixels(np.log(lam_gal), lamRange_temp, z) 
-    print(goodpixels)
 
     # Here the actual fit starts. The best fit is plotted on the screen.
     # Gas emission lines are excluded from the pPXF fit using the GOODPIXELS keyword.
     #
     vel = c*np.log(1 + z)   # eq.(8) of Cappellari (2017)
     start = [vel, 200.]  # (km/s), starting guess for [V, sigma]
+
+    #lam_gal = lam_gal/(1+z)  # Compute approximate restframe wavelength
+    #fwhm_gal = fwhm_gal/(1+z)   # Adjust resolution in Angstrom
+
     t = process_time()
 
     f = io.StringIO()
