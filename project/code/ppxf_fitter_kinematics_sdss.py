@@ -450,7 +450,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     for j, fname in enumerate(pathList):
         print(fname)
         ssp = np.loadtxt(fname)
-        ssp = util.gaussian_filter1d(ssp, sigma)  # perform convolution with variable sigma
+        #ssp = util.gaussian_filter1d(ssp, sigma)  # perform convolution with variable sigma
         sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
         templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates
 
@@ -476,6 +476,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     #lam_gal = lam_gal/(1+z)  # Compute approximate restframe wavelength
     #fwhm_gal = fwhm_gal/(1+z)   # Adjust resolution in Angstrom
+
+    #np.save("data/ppxf_templates",templates)
 
     t = process_time()
 

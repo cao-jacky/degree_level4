@@ -70,14 +70,41 @@ def inst_res():
     plt.close("all")
    
 def synth_spectra_plot():
-    spec_list = glob.glob('synthe_templates/*.ASC.gz')
+    cube_id = 1804
 
+    cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
+        str(int(cube_id)) + "_cbd_x.npy")
+    cube_y_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
+            str(int(cube_id)) + "_cbs_y.npy")
+
+    # using our redshift estimate from lmfit
+    cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
+            + "_lmfit.txt")
+    cube_result_file = open(cube_result_file)
+
+    line_count = 0 
+    for crf_line in cube_result_file:
+        if (line_count == 20):
+            curr_line = crf_line.split()
+            z = float(curr_line[1])
+        line_count += 1
+
+    cube_x_data = cube_x_data / (1+z)
+
+    spec_list = glob.glob('synthe_templates/*.ASC.gz')
     lam_temp = np.loadtxt("/Volumes/Jacky_Cao/University/level4/project/" + 
             "SYNTHE_templates/rp20000/LAMBDA_R20.DAT")
-    spec_y = np.loadtxt(spec_list[0])
+    #spec_y = np.loadtxt(spec_list[0])
+
+    spec1 = np.loadtxt(spec_list[0])
+    spec2 = np.loadtxt(spec_list[1])
 
     fig, ax = plt.subplots() 
-    ax.plot(lam_temp, spec_y, lw=0.5, c="#000000")
+    ax.plot(cube_x_data, cube_y_data/np.median(cube_y_data), lw=0.5, c="#e53935")
+
+    for i in range(len(spec_list)):
+        spec = np.loadtxt(spec_list[i])
+        ax.plot(lam_temp, spec/np.median(spec), lw=0.5, c="#000000")
 
     fig.tight_layout()
 
