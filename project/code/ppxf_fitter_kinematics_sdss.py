@@ -373,8 +373,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # Read the list of filenames from the Single Stellar Population library
     # by Vazdekis (2010, MNRAS, 404, 1639) http://miles.iac.es/. A subset
     # of the library is included for this example with permission
-    template_set = glob.glob('miles_models/Mun1.30Z*.fits')
-    #template_set = glob.glob('jacoby_models/jhc0*.fits')
+    #template_set = glob.glob('miles_models/Mun1.30Z*.fits')
+    template_set = glob.glob('jacoby_models/jhc0*.fits')
     fwhm_tem = 4.5 # instrumental resolution in Ångstroms.
 
     #template_set = glob.glob('miles_models/Mun1.30Z*.fits')
@@ -453,7 +453,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
         sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
         templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates
     """
-
 
     # The galaxy and the template spectra do not have the same starting wavelength.
     # For this reason an extra velocity shift DV has to be applied to the template
