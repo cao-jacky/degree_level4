@@ -318,9 +318,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     lam = np.exp(logLam)
     
     loglam = np.log10(lam)
-    print(lam)
     # Only use the wavelength range in common between galaxy and stellar library.
-    mask = (loglam > np.log10(3525)) & (loglam < np.log10(7500))
+    mask = (loglam > np.log10(3460)) & (loglam < np.log10(9464))
     flux = specNew[mask]
  
     galaxy = flux/np.median(flux)   # Normalize spectrum to avoid numerical issues
@@ -378,13 +377,20 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # Read the list of filenames from the Single Stellar Population library
     # by Vazdekis (2010, MNRAS, 404, 1639) http://miles.iac.es/. A subset
     # of the library is included for this example with permission
-    #template_set = glob.glob('miles_models/Mun1.30Z*.fits')
-    template_set = glob.glob('miles_models/s*.fits')
-    fwhm_tem = 2.5
+
+    # NOAO Coudé templates
+    template_set = glob.glob("noao_templates/*.fits")
+    fwhm_tem = 1.35 
+
+    # Extended MILES templates
+    #template_set = glob.glob('miles_models/s*.fits') 
+    #fwhm_tem = 2.5
     
+    # Jacoby templates
     #template_set = glob.glob('jacoby_models/jhc0*.fits')
     #fwhm_tem = 4.5 # instrumental resolution in Ångstroms.
 
+    # Default templates
     #template_set = glob.glob('miles_models/Mun1.30Z*.fits')
     #fwhm_tem = 2.51 # Vazdekis+10 spectra have a constant resolution FWHM of 2.51A.
 
@@ -405,9 +411,17 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # the size needed for the array which will contain the template spectra.
     #
     hdu = fits.open(template_set[0])
-    ssp = hdu[0].data[0]
-    h2 = hdu[0].header
-    lam_temp = h2['CRVAL1'] + h2['CDELT1']*np.arange(h2['NAXIS1'])
+    
+    noao_data = hdu[1].data[0]
+    ssp = noao_data[1]
+
+    #ssp = hdu[1].data
+    #h2 = hdu[1].header
+
+    #lam_temp = h2['CRVAL1'] + h2['CDELT1']*np.arange(h2['NAXIS1'])
+
+    lam_temp = noao_data[0]
+
     lamRange_temp = [np.min(lam_temp), np.max(lam_temp)]
     sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
     templates = np.empty((sspNew.size, len(template_set)))
@@ -445,13 +459,17 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     fwhm_dif = np.sqrt((fwhm_gal**2 - fwhm_tem**2).clip(0))
     
     # I need to change h2['CDELT1'] to the spacing between the LAMBDA data file
-    sigma = fwhm_dif/2.355/h2['CDELT1'] # Sigma difference in pixels
+    #sigma = fwhm_dif/2.355/h2['CDELT1'] # Sigma difference in pixels
 
-    #spacing = lam_temp[1] - lam_temp[0]
-    #sigma = fwhm_dif/2.355/spacing # Sigma difference in pixels
+    spacing = lam_temp[1] - lam_temp[0]
+    sigma = fwhm_dif/2.355/spacing # Sigma difference in pixels
     for j, fname in enumerate(template_set):
         hdu = fits.open(fname)
-        ssp = hdu[0].data[0]
+        #ssp = hdu[0].data
+
+        noao_data = hdu[1].data[0]
+        ssp = noao_data[1]
+
         ssp = util.gaussian_filter1d(ssp, sigma)  # perform convolution with variable sigma
         sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
         templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates
@@ -573,7 +591,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
 #------------------------------------------------------------------------------
 
-kinematics_sdss(414, 0, "all")
+kinematics_sdss(1804, 0, "all")
 
 #if __name__ == '__main__':
     #ppxf_example_kinematics_sdss(468)
