@@ -4,17 +4,17 @@
 \contentsline {section}{\numberline {1}Introduction}{1}{}
 \contentsline {subsection}{\numberline {a}Galactic classification}{2}{}
 \contentsline {subsection}{\numberline {b}Galactic stellar formation}{3}{}
-\contentsline {subsection}{\numberline {c}Galactic data}{4}{}
-\contentsline {subsubsection}{\numberline {1}HUDF}{4}{}
-\contentsline {subsubsection}{\numberline {2}MUSE}{4}{}
-\contentsline {subsection}{\numberline {d}Project Aims}{4}{}
+\contentsline {subsection}{\numberline {c}Galactic data}{3}{}
+\contentsline {subsubsection}{\numberline {1}HUDF}{3}{}
+\contentsline {subsubsection}{\numberline {2}MUSE}{3}{}
+\contentsline {subsection}{\numberline {d}Project Aims}{3}{}
 \contentsline {section}{\numberline {2}Analysis}{4}{}
 \contentsline {subsection}{\numberline {a}Cube extraction}{4}{}
 \contentsline {subsection}{\numberline {b}Line fittings and pPXF}{5}{}
 \contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{5}{}
 \contentsline {subsubsection}{\numberline {2}Voigt fitting}{5}{}
-\contentsline {section}{\numberline {3}Discussion}{6}{}
-\contentsline {subsection}{\numberline {a}Implications of results}{6}{}
-\contentsline {section}{\numberline {4}Conclusions}{6}{}
-\contentsline {section}{\numberline {}Acknowledgments}{6}{}
-\contentsline {section}{\numberline {}References}{6}{}
+\contentsline {section}{\numberline {3}Discussion}{5}{}
+\contentsline {subsection}{\numberline {a}Implications of results}{5}{}
+\contentsline {section}{\numberline {4}Conclusions}{5}{}
+\contentsline {section}{\numberline {}Acknowledgments}{5}{}
+\contentsline {section}{\numberline {}References}{5}{}
