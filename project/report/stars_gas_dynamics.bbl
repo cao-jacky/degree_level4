@@ -21,17 +21,10 @@ James Binney.
 \newblock {\em Astrophysics: A Very Short Introduction}, volume~1.
 \newblock Oxford Very Short Introductions, 2016.
 
-\bibitem{mccoy_stars}
+\bibitem{mccoy_space_sciences}
 John~F. McCoy.
-\newblock Stars.
-\newblock In John~F. McCoy, editor, {\em Space Sciences}, volume~2, pages
-  351--357. Macmillan Reference USA, 2nd edition, 2012.
-
-\bibitem{mccoy_hst}
-John~F. McCoy.
-\newblock {Hubble Space Telescope}.
-\newblock In John~F. McCoy, editor, {\em Space Sciences}, volume~2, pages
-  128--138. Macmillan Reference USA, 2nd edition, 2012.
+\newblock {\em Space Sciences}, volume~2.
+\newblock Macmillan Reference USA, 2nd edition, 2012.
 
 \bibitem{williams_hdp}
 {Robert E. Williams and Brett Blacker and Mark Dickinson and others}.

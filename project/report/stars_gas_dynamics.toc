@@ -14,7 +14,6 @@
 \contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{6}{}
 \contentsline {subsubsection}{\numberline {2}Voigt fitting}{6}{}
 \contentsline {section}{\numberline {3}Discussion}{7}{}
-\contentsline {subsection}{\numberline {a}Implications of results}{7}{}
 \contentsline {section}{\numberline {4}Conclusions}{7}{}
 \contentsline {section}{\numberline {}Acknowledgments}{7}{}
 \contentsline {section}{\numberline {}References}{7}{}

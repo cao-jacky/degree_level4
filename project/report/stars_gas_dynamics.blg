@@ -3,44 +3,44 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: stars_gas_dynamics.aux
 The style file: unsrt.bst
 Database file #1: stars_gas_dynamics.bib
-You've used 8 entries,
+You've used 7 entries,
             1791 wiz_defined-function locations,
-            491 strings with 4526 characters,
-and the built_in function-call counts, 2035 in all, are:
-= -- 188
-> -- 68
-< -- 6
-+ -- 26
-- -- 18
-* -- 113
-:= -- 302
-add.period$ -- 27
-call.type$ -- 8
-change.case$ -- 8
+            486 strings with 4483 characters,
+and the built_in function-call counts, 1424 in all, are:
+= -- 123
+> -- 56
+< -- 3
++ -- 22
+- -- 15
+* -- 75
+:= -- 223
+add.period$ -- 22
+call.type$ -- 7
+change.case$ -- 5
 chr.to.int$ -- 0
-cite$ -- 8
-duplicate$ -- 108
-empty$ -- 207
-format.name$ -- 18
-if$ -- 489
+cite$ -- 7
+duplicate$ -- 74
+empty$ -- 148
+format.name$ -- 15
+if$ -- 332
 int.to.chr$ -- 0
-int.to.str$ -- 8
+int.to.str$ -- 7
 missing$ -- 10
-newline$ -- 44
-num.names$ -- 12
-pop$ -- 35
+newline$ -- 39
+num.names$ -- 7
+pop$ -- 32
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 64
+skip$ -- 37
 stack$ -- 0
-substring$ -- 98
-swap$ -- 40
-text.length$ -- 6
+substring$ -- 42
+swap$ -- 20
+text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 17
-width$ -- 9
-write$ -- 97
+while$ -- 10
+width$ -- 8
+write$ -- 81

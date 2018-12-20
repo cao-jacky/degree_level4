@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  20 DEC 2018 14:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  20 DEC 2018 17:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -538,11 +538,6 @@ Overfull \hbox (0.87494pt too wide) detected at line 19
  \OT1/cmr/m/n/12 7
  []
 
-
-Overfull \hbox (0.87494pt too wide) detected at line 20
- \OT1/cmr/m/n/12 7
- []
-
 )
 \tf@toc=\write3
 \openout3 = `stars_gas_dynamics.toc'.
@@ -643,17 +638,17 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/reprocessed_sn_vs_del
 ta_sigma.pdf): PDF inclusion: multiple pdfs with page group included in a singl
 e page
 >]
-Underfull \hbox (badness 10000) in paragraph at lines 291--292
+Underfull \hbox (badness 10000) in paragraph at lines 290--291
 []\OT1/cmr/m/n/12 The au-thor would like to thank
  []
 
 
-Underfull \hbox (badness 2744) in paragraph at lines 291--292
+Underfull \hbox (badness 2744) in paragraph at lines 290--291
 \OT1/cmr/m/n/12 Dr. M. Swin-bank and Alfie Tiley for
  []
 
 
-Underfull \hbox (badness 1142) in paragraph at lines 291--292
+Underfull \hbox (badness 1142) in paragraph at lines 290--291
 \OT1/cmr/m/n/12 pro-ject would have been ex-per-i-ment-ally
  []
 
@@ -669,7 +664,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--13
  []
 
 
-Underfull \hbox (badness 1248) in paragraph at lines 43--47
+Underfull \hbox (badness 1248) in paragraph at lines 36--40
  []\OT1/cmr/m/n/10.95 NASA, ESA, S. Beck-with, and HUDF
  []
 
@@ -679,10 +674,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 6522 strings out of 492649
- 93487 string characters out of 6129622
- 196817 words of memory out of 5000000
- 10293 multiletter control sequences out of 15000+600000
+ 6520 strings out of 492649
+ 93483 string characters out of 6129622
+ 193816 words of memory out of 5000000
+ 10291 multiletter control sequences out of 15000+600000
  10377 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,10n,43p,763b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -701,7 +696,7 @@ texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
 xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/tex
 live/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texl
 ive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (7 pages, 4590710 bytes).
+Output written on stars_gas_dynamics.pdf (7 pages, 4590916 bytes).
 PDF statistics:
  179 PDF objects out of 1000 (max. 8388607)
  125 compressed objects within 2 object streams
