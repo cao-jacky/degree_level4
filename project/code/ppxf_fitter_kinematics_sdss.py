@@ -436,8 +436,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     lamRange_temp = [np.min(lam_temp), np.max(lam_temp)]
     sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
     templates = np.empty((sspNew.size, len(pathList)))
-    """
-    
+    """ 
+
     # Interpolates the galaxy spectral resolution at the location of every pixel
     # of the templates. Outside the range of the galaxy spectrum the resolution
     # will be extrapolated, but this is irrelevant as those pixels cannot be
@@ -456,7 +456,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # In the line below, the fwhm_dif is set to zero when fwhm_gal < fwhm_tem.
     # In principle it should never happen and a higher resolution template should be used.
     #
-    fwhm_dif = np.sqrt((fwhm_gal**2 - fwhm_tem**2).clip(0))
+    fwhm_dif = np.sqrt((fwhm_gal**2 - fwhm_tem**2).clip(0)) 
     
     # I need to change h2['CDELT1'] to the spacing between the LAMBDA data file
     #sigma = fwhm_dif/2.355/h2['CDELT1'] # Sigma difference in pixels

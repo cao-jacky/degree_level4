@@ -8,4 +8,4 @@ Templates weights:
 Formal errors: 
      dV    dsigma   dh3      dh4 
       13      11   0.065   0.049
-Elapsed time in PPXF: 0.49 s
+Elapsed time in PPXF: 0.47 s
