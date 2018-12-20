@@ -9,7 +9,7 @@
 \renewcommand{\baselinestretch}{1}     % Defines the line spacing
 
 \usepackage{subcaption}
-\usepackage[font=small, labelfont=bf, justification=justified, format=plain, singlelinecheck=off]{caption}\captionsetup{compatibility=false}
+\usepackage[font=small, labelfont=bf, justification=justified, format=plain, singlelinecheck=off]{caption}\captionsetup{compatibility=false, justification=justified,}
 
 \usepackage{graphics,graphicx,epsfig,ulem}	% Makes sure all graphics works
 \usepackage{amsmath} 						% Adds mathematical features for equations
@@ -35,6 +35,7 @@
 
 \def\bibsection{\section*{References}}        % Position reference section correctly
 
+\usepackage{tabularx}
 
 %%%%% Document %%%%%
 \begin{document}                     
@@ -132,23 +133,51 @@ Through contentious debate and research, astronomers can continue to build these
 
 In a brief overview: stars are born from an interstellar medium where the gas and dust coalesce, collapse and heat-up until a protostar is created. Depending on the initial mass of material used, the star can then take various paths which will affect its subsequent future \cite{mccoy_stars}. To view the different stages of stellar evolution, Hayashi tracks and the Hertzsprung-Russell diagram can be paired together \cite{carroll_astro}. In doing so, one would find that the majority of stars lie on the main-sequence, including our own Sun. 
 
-The classification of stars can be performed by using the \textit{Harvard Spectral Classification}
+The classification of stars can be made with the \textit{Harvard Spectral Classification} where stars are classed by their spectral types (Table \ref{table:spectral_classification}). It essentially orders stars by their observed temperature and their internal composition. If a star's spectra was observed, it could be identified by the absorption and emission features found in the sequence.    
+\begin{center}
+\begin{tabular}{c@{\hskip 20pt}c} 
+ \hline
+ \textbf{Type} & \textbf{Colour and notable lines} \\ [0.5ex] 
+ O & Hot blue-white (He II, He I) \\
+ B & Hot blue-white (He I, H I ) \\
+ A & White (Balmer, Ca II) \\
+ F & Yellow-white (Ca II, Fe I, Cr, I) \\
+ G & Yellow (Ca II, Fe I,  \\
+  & neutral metals) \\
+ K & Cool orange (Ca II H and \\ 
+  & K, metals) \\
+ M & Cool red (TiO, VO, neutral \\
+  & metals) \\
+ L & Very cool, dark red, infrared \\
+  & (Molecular absorption, CrH, \\
+  & FeH, H$_2$O, CO, Na, K, Rb, Cs) \\
+ T & Coolest, infrared (CH$_4$, CO) \\
+ \hline
+\end{tabular}
+\captionof{table}[Harvard Spectral Classification]{The Harvard Spectral Classification for stellar objects. Stars can be defined by their colour and from the features seen from their spectra. Provided in the table are the spectral type, the associated colour plus the main emission or absorption lines to consider. \\
+(\textit{This table is adapted from a version from An Introduction to Modern Astrophysics} \cite{carroll_astro}.)}
+\label{table:spectral_classification}
+\end{center}
 
-However, to prove or disprove any amount of them, observational data of stars and galaxies will definitely be required. 
+This is therefore one of ways to study the stellar population of a galaxy as the signatures of different spectral types can be matched up in the spectra of a particular galaxy. 
 
-% somehow link into observation astronomy and then we can discuss the next section which contains HUDF and MUSE and all that.
-
-% maybe give some information on how stars actually form and the classification of stars as well? OBAFGKM?
+It is clear then that observational data would be required for own study of galaxies and the internal motions of the objects within them. 
 
 \subsection{Galactic data} 
 
-askjdnaksld
+For an investigation of galaxies, one would have to collect data in the optical and also spectroscopically. The former would be useful as it would allow for a quick identification of the galaxy based on its appearance, this could then infer whether a galaxy would be worth studying. Spectroscopic data on the other hand would be the most important data type to collect as a variety of information could be obtained such as the type of stars within a galaxy, the types of gas in surrounding clouds, and also the redshift. 
+
+Astronomers employ an assortment of telescopes and spectrographs on a daily basis, but there are just a few particular instruments which are worth discussing as they have produced remarkable datasets and results.
 
 \subsubsection{HUDF}
 
-To obtain spectroscopic information on the Hubble UDF objects, the Multi-Unit Spectroscopic Explorer or MUSE was employed. This instrument is 
+The Hubble Space Telescope (HST) has been operating since April 1990 and for the duration of that time it has collected over 50 terabytes of data \cite{mccoy_hst}. From observing nebulae to attempts to detect extra-solar planets, the HST has been employed in a variety of searches. 
+
+However, one of the most impressive and insightful uses of HST were the long-exposures performed in 1996. Through a combination of its visible and infrared cameras, the Hubble Deep Field (HDF) was produced \cite{mccoy_hst, williams_hdp}. The image was formed by piecing together several different exposures to create the final frame. Containing over ~10,000 different galaxies, and taken from an area of just 
 
 \subsubsection{MUSE}
+
+To obtain spectroscopic information on the Hubble UDF objects, the Multi-Unit Spectroscopic Explorer or MUSE was employed. This instrument is 
 
 % TODO what is MUSE, where it is on the VLT, problems, limitations of MUSE - why it is useful...etc
 

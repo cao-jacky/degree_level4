@@ -27,6 +27,21 @@ John~F. McCoy.
 \newblock In John~F. McCoy, editor, {\em Space Sciences}, volume~2, pages
   351--357. Macmillan Reference USA, 2nd edition, 2012.
 
+\bibitem{mccoy_hst}
+John~F. McCoy.
+\newblock {Hubble Space Telescope}.
+\newblock In John~F. McCoy, editor, {\em Space Sciences}, volume~2, pages
+  128--138. Macmillan Reference USA, 2nd edition, 2012.
+
+\bibitem{williams_hdp}
+{Robert E. Williams and Brett Blacker and Mark Dickinson and W. Van Dyke Dixon
+  and Henry C. Ferguson and Andrew S. Fruchter and Mauro Giavalisco and Ronald
+  L. Gilliland and Inge Heyer and Roc\'{i}o Katsanis and Zolt Levay and Ray A.
+  Lucas and Douglas B. McElroy and Larry Petro and Marc Postman}.
+\newblock {The Hubble Deep Field: Observations, Data Reduction, and Galaxy
+  Photometry}.
+\newblock {\em The Astronomical Journal}, 112(4), 1996.
+
 \bibitem{hudf_image}
 NASA, ESA, S.~Beckwith, and {HUDF Team}.
 \newblock {Hubble Ultra Deep Field}.
