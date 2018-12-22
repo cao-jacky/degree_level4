@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{carroll_astro}
 Bradley~W. Carroll and Dale~A. Ostlie.
@@ -41,6 +41,11 @@ Steven V.~W. Beckwith, Massimo Stiavelli, Anton~M. Koekemoer, et~al.
 Francois Henault, Roland Bacon, Christophe Bonneville, et~al.
 \newblock {MUSE: a second-generation integral-field spectrograph for the VLT}.
 \newblock {\em {Proc.SPIE}}, 4841, 2003.
+
+\bibitem{bacon_muse_hudf}
+Roland Bacon, Simon Conseil, David Mary, et~al.
+\newblock {The MUSE \textit{Hubble} Ultra Deep Field Survey}.
+\newblock {\em {Astronomy and Astrophysics}}, 608, 2017.
 
 \bibitem{hudf_image}
 NASA, ESA, S.~Beckwith, and {HUDF Team}.

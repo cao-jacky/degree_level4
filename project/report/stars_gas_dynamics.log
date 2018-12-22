@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  22 DEC 2018 13:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  22 DEC 2018 18:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -495,7 +495,7 @@ Overfull \hbox (0.87494pt too wide) detected at line 10
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 11
- \OT1/cmr/m/n/12 5
+ \OT1/cmr/m/n/12 6
  []
 
 
@@ -587,36 +587,36 @@ Underfull \hbox (badness 1107) in paragraph at lines 170--171
 File: introduction/muse_colour_image.pdf Graphic file (type pdf)
 <use introduction/muse_colour_image.pdf>
 Package pdftex.def Info: introduction/muse_colour_image.pdf  used on input line
- 197.
+ 205.
 (pdftex.def)             Requested size: 182.09486pt x 180.98058pt.
 <introduction/hubble_ultra_deep_field.jpg, id=38, 123.5467pt x 123.5467pt>
 File: introduction/hubble_ultra_deep_field.jpg Graphic file (type jpg)
 <use introduction/hubble_ultra_deep_field.jpg>
 Package pdftex.def Info: introduction/hubble_ultra_deep_field.jpg  used on inpu
-t line 204.
+t line 212.
 (pdftex.def)             Requested size: 182.09486pt x 182.1167pt.
  [5 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./intr
 oduction/hubble_ultra_deep_field.jpg>]
 <data/image_sn_vs_vband.pdf, id=51, 462.52798pt x 346.89601pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
-Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 235.
+Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 244.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
 <data/sn_vs_vband.pdf, id=52, 462.52798pt x 346.89601pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
-Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 242.
+Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 251.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
 <data/o_ii_luminosity_vs_redshift.pdf, id=53, 462.52798pt x 346.89601pt>
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
-ne 256.
+ne 267.
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
 <data/cube_1804_fitted.pdf, id=54, 462.52798pt x 346.89601pt>
 File: data/cube_1804_fitted.pdf Graphic file (type pdf)
 <use data/cube_1804_fitted.pdf>
-Package pdftex.def Info: data/cube_1804_fitted.pdf  used on input line 276.
+Package pdftex.def Info: data/cube_1804_fitted.pdf  used on input line 287.
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
  [6 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
 
@@ -627,66 +627,91 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/o_ii_luminosity_vs_re
 dshift.pdf): PDF inclusion: multiple pdfs with page group included in a single 
 page
-> <./data/cube_1804_fitted.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/cube_1804_fitted.pdf)
-: PDF inclusion: multiple pdfs with page group included in a single page
 >]
-<data/reprocessed_sn_vs_delta_sigma.pdf, id=113, 462.52798pt x 346.89601pt>
+<data/reprocessed_sn_vs_delta_sigma.pdf, id=95, 462.52798pt x 346.89601pt>
 File: data/reprocessed_sn_vs_delta_sigma.pdf Graphic file (type pdf)
 <use data/reprocessed_sn_vs_delta_sigma.pdf>
 Package pdftex.def Info: data/reprocessed_sn_vs_delta_sigma.pdf  used on input 
-line 282.
+line 293.
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 299--300
+Underfull \hbox (badness 10000) in paragraph at lines 310--311
 []\OT1/cmr/m/n/12 The au-thor would like to thank
  []
 
 
-Underfull \hbox (badness 2744) in paragraph at lines 299--300
+Underfull \hbox (badness 2744) in paragraph at lines 310--311
 \OT1/cmr/m/n/12 Dr. M. Swin-bank and Alfie Tiley for
  []
 
 
-Underfull \hbox (badness 1142) in paragraph at lines 299--300
+Underfull \hbox (badness 1142) in paragraph at lines 310--311
 \OT1/cmr/m/n/12 pro-ject would have been ex-per-i-ment-ally
  []
 
 (./stars_gas_dynamics.bbl
-Underfull \hbox (badness 3058) in paragraph at lines 9--13
- \OT1/cmr/m/n/10.95 ity at $\OML/cmm/m/it/10.95 z < \OT1/cmr/m/n/10.95 8$ and i
-ts Im-plic-a-tions.
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 9--13
- |   []\OT1/cmr/m/n/10.95 , 830(83):17,
+ \OT1/cmr/m/n/10.95 son, Ken-neth Duncan, and Alice
  []
 
 
-Underfull \hbox (badness 2088) in paragraph at lines 36--39
- \OT1/cmr/m/n/10.95 Ul-tra Deep Field.  |   []   |   []
+Underfull \hbox (badness 1931) in paragraph at lines 9--13
+ \OT1/cmr/m/n/10.95 Mortlock.  The Evol-u-tion of Galaxy
  []
 
 
-Underfull \hbox (badness 1248) in paragraph at lines 46--50
- []\OT1/cmr/m/n/10.95 NASA, ESA, S. Beck-with, and HUDF
+Underfull \hbox (badness 2443) in paragraph at lines 9--13
+ \OT1/cmr/m/n/10.95 plic-a-tions.  |   [],
  []
 
-) [7 <./data/reprocessed_sn_vs_delta_sigma.pdf>] (./stars_gas_dynamics.aux)
+
+Underfull \hbox (badness 3701) in paragraph at lines 36--39
+ \OT1/cmr/m/n/10.95 avelli, Anton M. Koeke-moer, et al.
+ []
+
+
+Underfull \hbox (badness 1490) in paragraph at lines 36--39
+ \OT1/cmr/m/n/10.95 The Hubble Ul-tra Deep Field.  |   []
+ []
+
+
+Underfull \hbox (badness 8038) in paragraph at lines 36--39
+ |   []   |   []\OT1/cmr/m/n/10.95 , 132:1729--1755,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--49
+ []\OT1/cmr/m/n/10.95 Roland Ba-con, Si-mon Con-seil,
+ []
+
+
+Underfull \hbox (badness 6348) in paragraph at lines 46--49
+ \OT1/cmr/m/n/10.95 David Mary, et al.  The MUSE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--49
+ \OT1/cmr/m/it/10.95 Hubble \OT1/cmr/m/n/10.95 Ul-tra Deep Field Sur-vey.
+ []
+
+) [7 <./data/cube_1804_fitted.pdf> <./data/reprocessed_sn_vs_delta_sigma.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/reprocessed_sn_vs_del
+ta_sigma.pdf): PDF inclusion: multiple pdfs with page group included in a singl
+e page
+>] (./stars_gas_dynamics.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 6526 strings out of 492649
- 93627 string characters out of 6129622
- 198846 words of memory out of 5000000
- 10297 multiletter control sequences out of 15000+600000
+ 6530 strings out of 492649
+ 93714 string characters out of 6129622
+ 200877 words of memory out of 5000000
+ 10301 multiletter control sequences out of 15000+600000
  10377 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,10n,43p,763b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,11n,43p,763b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
 b></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
@@ -702,7 +727,7 @@ texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
 xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/tex
 live/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texl
 ive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (7 pages, 4592327 bytes).
+Output written on stars_gas_dynamics.pdf (7 pages, 4593027 bytes).
 PDF statistics:
  179 PDF objects out of 1000 (max. 8388607)
  125 compressed objects within 2 object streams
