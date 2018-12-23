@@ -10,9 +10,9 @@
 \contentsline {subsection}{\numberline {d}Project Aims}{5}{}
 \contentsline {section}{\numberline {2}Analysis}{6}{}
 \contentsline {subsection}{\numberline {a}Cube extraction}{6}{}
-\contentsline {subsection}{\numberline {b}Line fittings and pPXF}{6}{}
-\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{6}{}
-\contentsline {subsubsection}{\numberline {2}Voigt fitting}{6}{}
+\contentsline {subsection}{\numberline {b}Line fittings and pPXF}{7}{}
+\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{7}{}
+\contentsline {subsubsection}{\numberline {2}Voigt fitting}{7}{}
 \contentsline {section}{\numberline {3}Discussion}{7}{}
 \contentsline {section}{\numberline {4}Conclusions}{7}{}
 \contentsline {section}{\numberline {}Acknowledgments}{7}{}
