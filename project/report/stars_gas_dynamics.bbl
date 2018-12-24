@@ -53,4 +53,15 @@ NASA, ESA, S.~Beckwith, and {HUDF Team}.
 \newblock \url{https://svs.gsfc.nasa.gov/30946}, May 2018.
 \newblock [Online; accessed 5th November 2018].
 
+\bibitem{bertin_sextractor}
+E.~{Bertin} and S.~{Arnouts}.
+\newblock {SExtractor: Software for source extraction}.
+\newblock {\em Astronomy and Astrophysics Supplement}, 117:393--404, 1996.
+
+\bibitem{currie_starlink}
+M.~J. Currie et~al.
+\newblock {Starlink Software in 2013}.
+\newblock {\em Astronomical Society of the Pacific Conference Series}, 485,
+  2013.
+
 \end{thebibliography}

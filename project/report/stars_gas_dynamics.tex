@@ -184,7 +184,7 @@ It is therefore unsurprising that another attempt was made in 2011 which resulte
 
 % Should probably talk more about the HUDF and what the specs of it actually are, I'm just currently a bit conscious on the amount of space which I have left 
 
-% why was the HUDF deep field commisioned?
+% why was the HUDF deep field commissioned?
 
 \subsubsection{MUSE}
 
@@ -192,11 +192,13 @@ In addition to optical observations, to truly study the HUDF objects, spectrosco
 
 % provide some more history and specs for MUSE, reasons as to why it was commissioned 
 
-The MUSE Hubble Ultra Deep Field Survey was performed over a two year timeframe from September 2014 to February 2017 \cite{bacon_muse_hudf}. It made use of 137 h of observation time and covers 90\% of the HUDF region. The 3D composite data cube mosaic made use of nine fields and represents the deepest spectroscopic survey ever performed. Both HST and MUSE HUDFs can be optically compared together, the latter is achieved by collapsing the cube axis containing the spectroscopic data into three components representing (R,G,B). Looking at both images (Figure \ref{fig:hst_muse_hdf}), the HST data appears to have more resolution whilst the MUSE objects are smeared out. However this is of no particular issue as the main use for MUSE is to collect spectroscopic data which can help inform the optical.
+The MUSE Hubble Ultra Deep Field Survey was performed over a two year timeframe from September 2014 to February 2017 \cite{bacon_muse_hudf}. It made use of 137 h of observation time and covers 90\% of the HUDF region. The 3D composite data cube mosaic made use of nine fields and represents the deepest spectroscopic survey ever performed. Both HST and MUSE HUDFs can be optically compared together, the latter is achieved by collapsing the cube axis containing the spectroscopic data into three components representing (R,G,B). Looking at both images (Figure \ref{fig:hst_muse_hdf}), the HST data appears to have more resolution whilst the MUSE objects are smeared out. However this is of no particular issue as the main use for MUSE is the manipulation of the spectroscopic data which in turn will help us inform the optical images.
 
 % TODO what is MUSE, where it is on the VLT, problems, limitations of MUSE - why it is useful...etc
 
 % what are the three dimensions of the 3D data MUSE cube? then what are the units of each dimension??
+
+% in the full report, I might want to just put a table which provides all the main specifications for HST and MUSE
 
 Through a coupling of both, the dynamics of stars and gas in galaxies can therefore be studied. The main analysis arising from the manipulation and comparison of different component areas of the spectra.
 
@@ -235,7 +237,9 @@ The initial goal in the analysis was to reduce down the MUSE data cube into indi
 
 \subsection{Cube extraction}
 
-To begin with, galaxies were extracted from the 3D MUSE data cube so that they could later be manipulated. This process involved  
+To begin with, galaxies were extracted from the 3D MUSE cube using \textit{SExtractor}; an automated routine which detects, de-blends, measures and classifies sources \cite{bertin_sextractor}. Employed in the astronomical software package \textit{GAIA} \cite{currie_starlink}, every potential galactic source was retrieved along with a ``segmentation map'' which discerns between multiple galaxies if several are close together. 
+
+The final objects from SExtractor were then compared and merged with a catalogue which contained every object found from the HST HUDF frame. The latter would have information such as initial guesses for redshifts, the magnitudes of the objects in the different wavelength filters, and various flux values for different emission and absorption lines.
 
 \onecolumngrid
 
@@ -254,10 +258,11 @@ To begin with, galaxies were extracted from the 3D MUSE data cube so that they c
     \label{fig:spec_sn_vband}
   \end{subfigure}
   \captionsetup{justification=justified}
-  \caption[HUDF Objects]{(a) The signal-to-noise of the image flux for every object in the MUSE collapsed image plotted against their respective V-band magnitudes from the HST catalogue. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 points as defined by the sextractor probability that they are not stars. (b) }
+  \caption[HUDF Objects]{Signal-to-noise (S/N) versus V-band magnitude plots for the MUSE galaxy objects. The V-band magnitudes are from the HST catalogue. (a) S/N is from the collapsed MUSE cube image. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 as defined by the SExtractor probability that they are not stars. (b) S/N used here is from the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra. Objects in this sample are those defined as the ``green points'' in Figure \ref{fig:sn_vband}(a).}
+  \label{fig:sn_vband}
 \end{figure}
 
-% FINISH OFF THE CAPTION FOR THE ABOVE
+% make sure the above caption actually makes sense
 
 \twocolumngrid
 
