@@ -194,7 +194,7 @@ In addition to optical observations, to truly study the HUDF objects, spectrosco
 
 The MUSE Hubble Ultra Deep Field Survey was performed over a two year timeframe from September 2014 to February 2017 \cite{bacon_muse_hudf}. It made use of 137 h of observation time and covers 90\% of the HUDF region. The 3D composite data cube mosaic made use of nine fields and represents the deepest spectroscopic survey ever performed. Both HST and MUSE HUDFs can be optically compared together, the latter is achieved by collapsing the cube axis containing the spectroscopic data into three components representing (R,G,B). Looking at both images (Figure \ref{fig:hst_muse_hdf}), the HST data appears to have more resolution whilst the MUSE objects are smeared out. However this is of no particular issue as the main use for MUSE is the manipulation of the spectroscopic data which in turn will help us inform the optical images.
 
-% TODO what is MUSE, where it is on the VLT, problems, limitations of MUSE - why it is useful...etc
+% TODO what is MUSE, problems, limitations of MUSE - why it is useful...etc
 
 % what are the three dimensions of the 3D data MUSE cube? then what are the units of each dimension??
 
@@ -202,9 +202,7 @@ The MUSE Hubble Ultra Deep Field Survey was performed over a two year timeframe 
 
 Through a coupling of both, the dynamics of stars and gas in galaxies can therefore be studied. The main analysis arising from the manipulation and comparison of different component areas of the spectra.
 
-\onecolumngrid
-
-\begin{figure}
+\begin{figure*}
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{introduction/muse_colour_image}
     \captionsetup{justification=justified}    
@@ -221,9 +219,7 @@ Through a coupling of both, the dynamics of stars and gas in galaxies can theref
   \captionsetup{justification=justified}
   \caption[Hubble Ultra Deep Field]{(a) A colour image created from the MUSE spectroscopic data of the HUDF. The wavelength range was split into three equal regions and then collapsed to create three bands (R, G, B). A final colour image was produced by combining these separate frames together. (b) The optical HUDF as captured by the Advanced Camera for Surveys instrument on the Hubble Space Telescope \cite{hudf_image}. }
   \label{fig:hst_muse_hdf}
-\end{figure}
-
-\twocolumngrid
+\end{figure*}
 
 \subsection{Project Aims}
 This paper discusses the study undertaken to understand the dynamics between the gas and stars in galaxies. Data extraction is performed on a MUSE data cube, the sample is reduced, and various fittings are then applied to the data set. 
@@ -241,9 +237,7 @@ To begin with, galaxies were extracted from the 3D MUSE cube using \textit{SExtr
 
 The final objects from SExtractor were then compared and merged with a catalogue which contained every object found from the HST HUDF frame. The latter would have information such as initial guesses for redshifts, the magnitudes of the objects in the different wavelength filters, and various flux values for different emission and absorption lines.
 
-\onecolumngrid
-
-\begin{figure}
+\begin{figure*}
   \begin{subfigure}[b]{0.495\textwidth}
     \includegraphics[width=\textwidth]{data/image_sn_vs_vband}
     \captionsetup{justification=justified}
@@ -260,13 +254,13 @@ The final objects from SExtractor were then compared and merged with a catalogue
   \captionsetup{justification=justified}
   \caption[HUDF Objects]{Signal-to-noise (S/N) versus V-band magnitude plots for the MUSE galaxy objects. The V-band magnitudes are from the HST catalogue. (a) S/N is from the collapsed MUSE cube image. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 as defined by the SExtractor probability that they are not stars. (b) S/N used here is from the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra. Objects in this sample are those defined as the ``green points'' in Figure \ref{fig:sn_vband}(a).}
   \label{fig:sn_vband}
-\end{figure}
+\end{figure*}
 
 % make sure the above caption actually makes sense
 
-\twocolumngrid
+With every extracted galaxy, the signal-to-noise (S/N) from the catalogue can be plotted against the V-band magnitude (Figure \ref{fig:sn_vband}(a)). This should show that as the S/N increases, the magnitude of the object should increase as well. 
 
-asdasd
+
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/o_ii_luminosity_vs_redshift}
