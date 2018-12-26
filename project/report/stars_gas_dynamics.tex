@@ -40,8 +40,7 @@
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
-    citecolor=blue,
-    filecolor=magenta,      
+    citecolor=blue,    
     urlcolor=cyan,
 }
 
@@ -93,7 +92,7 @@ The most general categorisation is called the \textit{Hubble Sequence} or the \t
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{introduction/hubble_tuning_fork}
-\captionof{figure}[Hubble Tuning Fork]{The Hubble Sequence displays the different morphologies of galaxies, they can be classified into three general groups: ellipticals, spirals, and irregulars. The former two can be broken up further, and from the diagram one can see an example pictogram and the respective classification name. \\ (\textit{This diagram has been adapted from An Introduction to Modern Astrophysics} \citep{carroll_astro}.)}
+\captionof{figure}[Hubble Tuning Fork]{The Hubble Sequence displays the different morphologies of galaxies, they can be classified into three general groups: ellipticals, spirals, and irregulars. The former two can be broken up further, and from the diagram one can see an example pictogram and the respective classification name. \\ (\textit{This diagram has been adapted from An Introduction to Modern Astrophysics by \cite{carroll_astro}}.)}
 \label{fig:hubble_tuning_fork}
 \end{center}
 
@@ -148,13 +147,13 @@ The classification of stars can be made with the \textit{Harvard Spectral Classi
 \begin{tabular}{c@{\hskip 20pt}c} 
  \hline
  \textbf{Type} & \textbf{Colour and notable lines} \\ [0.5ex] 
- O & Hot blue-white (He II, He I) \\
- B & Hot blue-white (He I, H I ) \\
- A & White (Balmer, Ca II) \\
- F & Yellow-white (Ca II, Fe I, Cr, I) \\
- G & Yellow (Ca II, Fe I,  \\
+ O & Hot blue-white (HeII, HeI) \\
+ B & Hot blue-white (HeI, HI ) \\
+ A & White (Balmer, CaII) \\
+ F & Yellow-white (CaII, FeI, Cr,I) \\
+ G & Yellow (CaII, FeI,  \\
   & neutral metals) \\
- K & Cool orange (Ca II H and \\ 
+ K & Cool orange (CaII H and \\ 
   & K, metals) \\
  M & Cool red (TiO, VO, neutral \\
   & metals) \\
@@ -165,7 +164,7 @@ The classification of stars can be made with the \textit{Harvard Spectral Classi
  \hline
 \end{tabular}
 \captionof{table}[Harvard Spectral Classification]{The Harvard Spectral Classification for stellar objects. Stars can be defined by their colour and from the features seen from their spectra. Provided in the table are the spectral type, the associated colour plus the main emission or absorption lines to consider. \\
-(\textit{This table is adapted from a version from An Introduction to Modern Astrophysics} by \cite{carroll_astro}.)}
+(\textit{This table is adapted from a version from An Introduction to Modern Astrophysics by \cite{carroll_astro}}.)}
 \label{table:spectral_classification}
 \end{center}
 
@@ -234,7 +233,7 @@ Through a coupling of both, the dynamics of stars and gas in galaxies can theref
 \subsection{Project Aims}
 This paper discusses the study undertaken to understand the dynamics between the gas and stars in galaxies. Data extraction is performed on a MUSE data cube, the sample is reduced, and various fittings are then applied to the data set. 
 
-In Section \ref{sec:analysis}, the methodology of the galaxy extraction from the MUSE cube is discussed, as well as the subsequent analysis performed by applying different fitting routines: [O II] Gaussian doublet fittings, Voigt profile fittings, and fitting with a penalised pixel-fitting method (pPXF). 
+In Section \ref{sec:analysis}, the methodology of the galaxy extraction from the MUSE cube is discussed, as well as the subsequent analysis performed by applying different fitting routines: [OII] Gaussian doublet fittings, Voigt profile fittings, and fitting with a penalised pixel-fitting method (pPXF). 
 
 % Following this, Section \ref{sec:discussion} provides an exploration on the implications on the results obtained from the data analysis. Then the discussion will end on future work which can be performed to extend on the project.
 
@@ -274,7 +273,7 @@ With every extracted galaxy, the signal-to-noise (S/N) can be calculated with th
 
 \subsection{Line fittings and pPXF} 
 
-After extracting the individual galactic objects from the MUSE cube, the spectroscopic data could then be manipulated and analysed using different fitting routines: (i) [O II] doublet fittings, (ii) pPXF absorption and emission line fittings, and (iii) Voigt profile fittings.  
+After extracting the individual galactic objects from the MUSE cube, the spectroscopic data could then be manipulated and analysed using different fitting routines: (i) [OII] doublet fittings, (ii) pPXF absorption and emission line fittings, and (iii) Voigt profile fittings.  
 
 It would be quite non-sensical to use the entire catalogue of objects as there are more than 10,000 and the majority are not high enough in S/N for spectra evaluation. Therefore several sample reducing methods were applied: (1) galaxies were sorted by redshift and then objects below $z<0.3$ ignored, (2) sample was then re-sorted by V-band magnitude and just the top 300 brightest objects extracted, and finally (3) the final set was found by considering galaxies with a magnitude brighter than 25.0 mag. 
 
@@ -290,27 +289,28 @@ With this reduced sample in hand, the model fitting analysis could then be perfo
 
 \subsubsection{Gaussian doublet fitting}
 
-Through collapsing the entire galaxy into a single spectrum, one would find the [O II] doublet emission line to be the most prominent feature due to its amplitude when compared to the other emission lines (Figure \ref{fig:ppxf_spectra}). This therefore allows it to be a useful tool for estimating the SFR, which in turn can be used as an indication of the evolutionary state of the galaxy \citep{maddox_oxygen}.
+Through collapsing the entire galaxy into a single spectrum, one would find the [OII] doublet emission line to be the most prominent feature due to its amplitude when compared to the other emission lines (Figure \ref{fig:ppxf_spectra}). This therefore allows it to be a useful tool for estimating the SFR, which in turn can be used as an indication of the evolutionary state of the galaxy \citep{maddox_oxygen}.
 
-For every doublet fitting performed, the region $3600\times(1+z)$ to $36750\times(1+z)$ was extracted to isolate the peaks from other absorption or emission features. The following equation was then used as the model,
+For every doublet fitting performed, the region $3600\times(1+z)$ {\AA} to $3750\times(1+z)$ {\AA} was extracted to isolate the peaks from other absorption or emission features. The peaks themselves have rest wavelengths 3727.092 {\AA} and 3729.875 {\AA} \citep{sdss_lines}. The following equation was applied as the model,
 \begin{multline}
-f(x) = cx + \frac{I_1}{\sigma \sqrt{2\pi}} \exp{-\frac{(x-L_1)^2}{2\sigma^2}} \\
+f_{\text{[OII]}}(x) = cx + \frac{I_1}{\sigma \sqrt{2\pi}} \exp{-\frac{(x-L_1)^2}{2\sigma^2}} \\
 + \frac{I_2}{\sigma \sqrt{2\pi}} \exp{-\frac{(x-L_2)^2}{2\sigma^2}},
+\label{eqn:doublet}
 \end{multline} 
 
-where $c$ is a constant, $\sigma=\sqrt{\sigma_{\text{gal}}^2 + \sigma_{\text{inst}}^2}$, $L_1=3727.092\times(1+z)$, $L_2=3728.875\times(1+z)$
+where $x$ are the redshifted wavelengths, ${c}$ is a constant, ${I_1}$ and ${I_2}$ are scaling factors, $L_1$ and $L_2$ are the [OII] peaks multiplied by $(1+{z})$, and $\sigma=\sqrt{{\sigma_{\text{gal}}}^2 + \sigma_{\text{inst}}^2}$ the quadrature sum of the fixed instrumental resolution $\sigma_{\text{inst}}$ and the deconvolved width of the doublet $\sigma_{\text{gal}}$.
 
-% information on what the doublet actually is, provide both wavelengths of the peaks 
+% use NIST database as the reference when the US government shutdown is over
 
 % provide constraints used in the doublet fitting?
 
-% provide a reference for the [O II] feature representing the gas in galaxies
+After a successful fitting, the following variables would be outputted: $c$, $I_1$, $I_2$, $z$, and $\sigma_{\text{gal}}$, where the latter two would be the most useful in later research. 
 
-% provide the equation used to add the Gaussian's together
+The redshifts along with the [OII] flux $f_{\text{[OII]}}(x)$ can be used to calculate the luminosity for the doublet, then the [OII] luminosity can be plotted against the redshifts (Figure \ref{fig:oiiluminosity_redshift})
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/o_ii_luminosity_vs_redshift}
-\captionof{figure}[OII Luminosity vs. Redshift]{Graph showing the calculated luminosity for the [O II] doublet plotted against redshift. Data points are plotted as well as a model line representing the lower-limit of the flux from the sample. [???]a}
+\captionof{figure}[OII Luminosity vs. Redshift]{[OII] luminosity plotted against the redshift $z$. Variables used for each galaxy were obtained from fitting the galaxy-integrated spectra with the model in Equation \ref{eqn:doublet}. The line represents the lower-limit of the sample as it is using the galaxy with the smallest flux. All galaxies in the set are above this line and approximately follow the luminosity-redshift trend.}
 \label{fig:oiiluminosity_redshift}
 \end{center}
 
