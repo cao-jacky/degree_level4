@@ -1,20 +1,19 @@
 \tocdepth@munge 
-\contentsline {section}{\numberline {}Contents}{1}{}
+\contentsline {section}{\numberline {}Contents}{1}{section*.1}
 \tocdepth@restore 
-\contentsline {section}{\numberline {1}Introduction}{1}{}
-\contentsline {subsection}{\numberline {a}Galactic classification}{2}{}
-\contentsline {subsection}{\numberline {b}Galactic stellar formation}{3}{}
-\contentsline {subsection}{\numberline {c}Galactic data}{4}{}
-\contentsline {subsubsection}{\numberline {1}HUDF}{4}{}
-\contentsline {subsubsection}{\numberline {2}MUSE}{5}{}
-\contentsline {subsection}{\numberline {d}Project Aims}{5}{}
-\contentsline {section}{\numberline {2}Analysis}{5}{}
-\contentsline {subsection}{\numberline {a}Cube extraction}{5}{}
-\contentsline {subsection}{\numberline {b}Line fittings and pPXF}{6}{}
-\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{6}{}
-\contentsline {subsubsection}{\numberline {2}pPXF fitting}{7}{}
-\contentsline {subsubsection}{\numberline {3}Voigt fitting}{7}{}
-\contentsline {section}{\numberline {3}Discussion}{8}{}
-\contentsline {section}{\numberline {4}Conclusions}{8}{}
-\contentsline {section}{\numberline {}Acknowledgments}{8}{}
-\contentsline {section}{\numberline {}References}{8}{}
+\contentsline {section}{\numberline {1}Introduction}{1}{section*.2}
+\contentsline {subsection}{\numberline {a}Galactic classification}{2}{section*.3}
+\contentsline {subsection}{\numberline {b}Galactic stellar formation}{3}{section*.4}
+\contentsline {subsection}{\numberline {c}Galactic data}{4}{section*.5}
+\contentsline {subsubsection}{\numberline {1}HUDF}{4}{section*.6}
+\contentsline {subsubsection}{\numberline {2}MUSE}{5}{section*.7}
+\contentsline {subsection}{\numberline {d}Project Aims}{5}{section*.9}
+\contentsline {section}{\numberline {2}Analysis}{5}{section*.10}
+\contentsline {subsection}{\numberline {a}Cube extraction}{6}{section*.11}
+\contentsline {subsection}{\numberline {b}Line fittings and pPXF}{6}{section*.13}
+\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{7}{section*.14}
+\contentsline {subsubsection}{\numberline {2}pPXF fitting}{7}{section*.15}
+\contentsline {subsubsection}{\numberline {3}Voigt fitting}{7}{section*.16}
+\contentsline {section}{\numberline {3}Conclusions}{8}{section*.17}
+\contentsline {section}{\numberline {}Acknowledgments}{8}{section*.18}
+\contentsline {section}{\numberline {}References}{8}{section*.19}

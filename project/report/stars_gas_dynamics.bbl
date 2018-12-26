@@ -1,67 +1,75 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{xx}
 
-\bibitem{carroll_astro}
-Bradley~W. Carroll and Dale~A. Ostlie.
-\newblock {\em An Introduction to Modern Astrophysics}.
-\newblock Pearson, 2nd edition, 2007.
+\harvarditem[Bacon et~al.]{Bacon, Conseil, Mary et~al.}{2017}{bacon_muse_hudf}
+Bacon, R., Conseil, S., Mary, D. et~al.  \harvardyearleft 2017\harvardyearright
+  , `{The MUSE \textit{Hubble} Ultra Deep Field Survey}', {\em {Astronomy and
+  Astrophysics}} {\bf 608}.
 
-\bibitem{conselice_galaxynumber}
-Christopher~J. Conselice, Aaron Wilkinson, Kenneth Duncan, and Alice Mortlock.
-\newblock {The Evolution of Galaxy Number Density at $z<8$ and its
-  Implications}.
-\newblock {\em {The Astrophysical Journal}}, 830(83):17, 2016.
+\harvarditem[Beckwith et~al.]{Beckwith, Stiavelli, Koekemoer
+  et~al.}{2006}{beckwith_hudf}
+Beckwith, S. V.~W., Stiavelli, M., Koekemoer, A.~M. et~al.  \harvardyearleft
+  2006\harvardyearright , `{The Hubble Ultra Deep Field}', {\em The
+  Astronomical Journal} {\bf 132},~1729--1755.
 
-\bibitem{moore_databook}
-Partrick Moore and Robin Rees.
-\newblock {\em Patrick Moore's Data Book of Astronomy}, pages 357 -- 362.
-\newblock Cambridge University Press, 2011.
+\harvarditem{{Bertin} \harvardand\ {Arnouts}}{1996}{bertin_sextractor}
+{Bertin}, E. \harvardand\ {Arnouts}, S.  \harvardyearleft 1996\harvardyearright
+  , `{SExtractor: Software for source extraction}', {\em Astronomy and
+  Astrophysics Supplement} {\bf 117},~393--404.
 
-\bibitem{binney_galaxies}
-James Binney.
-\newblock {\em Astrophysics: A Very Short Introduction}, volume~1.
-\newblock Oxford Very Short Introductions, 2016.
+\harvarditem{Binney}{2016}{binney_galaxies}
+Binney, J.  \harvardyearleft 2016\harvardyearright , {\em Astrophysics: A Very
+  Short Introduction}, Vol.~1, Oxford Very Short Introductions.
 
-\bibitem{mccoy_space_sciences}
-John~F. McCoy.
-\newblock {\em Space Sciences}, volume~2.
-\newblock Macmillan Reference USA, 2nd edition, 2012.
+\harvarditem{Carroll \harvardand\ Ostlie}{2007}{carroll_astro}
+Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
+  2007\harvardyearright , {\em An Introduction to Modern Astrophysics}, 2nd
+  edn, Pearson.
 
-\bibitem{williams_hdp}
-{Robert E. Williams and Brett Blacker and Mark Dickinson and others}.
-\newblock {The Hubble Deep Field: Observations, Data Reduction, and Galaxy
-  Photometry}.
-\newblock {\em The Astronomical Journal}, 112(4), 1996.
+\harvarditem[Conselice et~al.]{Conselice, Wilkinson, Duncan \harvardand\
+  Mortlock}{2016}{conselice_galaxynumber}
+Conselice, C.~J., Wilkinson, A., Duncan, K. \harvardand\ Mortlock, A.
+  \harvardyearleft 2016\harvardyearright , `{The Evolution of Galaxy Number
+  Density at $z<8$ and its Implications}', {\em {The Astrophysical Journal}}
+  {\bf 830}(83),~17.
 
-\bibitem{beckwith_hudf}
-Steven V.~W. Beckwith, Massimo Stiavelli, Anton~M. Koekemoer, et~al.
-\newblock {The Hubble Ultra Deep Field}.
-\newblock {\em The Astronomical Journal}, 132:1729--1755, 2006.
+\harvarditem{Currie et~al.}{2013}{currie_starlink}
+Currie, M.~J. et~al.  \harvardyearleft 2013\harvardyearright , `{Starlink
+  Software in 2013}', {\em Astronomical Society of the Pacific Conference
+  Series} {\bf 485}.
 
-\bibitem{bacon_muse_proposal}
-Francois Henault, Roland Bacon, Christophe Bonneville, et~al.
-\newblock {MUSE: a second-generation integral-field spectrograph for the VLT}.
-\newblock {\em {Proc.SPIE}}, 4841, 2003.
+\harvarditem[Henault et~al.]{Henault, Bacon, Bonneville
+  et~al.}{2003}{bacon_muse_proposal}
+Henault, F., Bacon, R., Bonneville, C. et~al.  \harvardyearleft
+  2003\harvardyearright , `{MUSE: a second-generation integral-field
+  spectrograph for the VLT}', {\em {Proc.SPIE}} {\bf 4841}.
 
-\bibitem{bacon_muse_hudf}
-Roland Bacon, Simon Conseil, David Mary, et~al.
-\newblock {The MUSE \textit{Hubble} Ultra Deep Field Survey}.
-\newblock {\em {Astronomy and Astrophysics}}, 608, 2017.
+\harvarditem{Maddox}{2018}{maddox_oxygen}
+Maddox, N.  \harvardyearleft 2018\harvardyearright , `{[O II] as a proxy for
+  star formation in AGN host galaxies: beware of extended emission line
+  regions}', {\em Monthly Notices of the Royal Astronomical Society} {\bf
+  480},~5023--5210.
 
-\bibitem{hudf_image}
-NASA, ESA, S.~Beckwith, and {HUDF Team}.
-\newblock {Hubble Ultra Deep Field}.
-\newblock \url{https://svs.gsfc.nasa.gov/30946}, May 2018.
+\harvarditem{McCoy}{2012}{mccoy_space_sciences}
+McCoy, J.~F.  \harvardyearleft 2012\harvardyearright , {\em Space Sciences},
+  Vol.~2, 2nd edn, Macmillan Reference USA.
+
+\harvarditem{Moore \harvardand\ Rees}{2011}{moore_databook}
+Moore, P. \harvardand\ Rees, R.  \harvardyearleft 2011\harvardyearright , {\em
+  Patrick Moore's Data Book of Astronomy}, Cambridge University Press, pp.~357
+  -- 362.
+
+\harvarditem[NASA et~al.]{NASA, ESA, Beckwith \harvardand\ {HUDF
+  Team}}{2018}{hudf_image}
+NASA, ESA, Beckwith, S. \harvardand\ {HUDF Team}  \harvardyearleft
+  2018\harvardyearright , `{Hubble Ultra Deep Field}',
+  \url{https://svs.gsfc.nasa.gov/30946}.
 \newblock [Online; accessed 5th November 2018].
 
-\bibitem{bertin_sextractor}
-E.~{Bertin} and S.~{Arnouts}.
-\newblock {SExtractor: Software for source extraction}.
-\newblock {\em Astronomy and Astrophysics Supplement}, 117:393--404, 1996.
-
-\bibitem{currie_starlink}
-M.~J. Currie et~al.
-\newblock {Starlink Software in 2013}.
-\newblock {\em Astronomical Society of the Pacific Conference Series}, 485,
-  2013.
+\harvarditem[Williams et~al.]{Williams, Blacker, Dickinson
+  et~al.}{1996}{williams_hdp}
+Williams, R.~E., Blacker, B., Dickinson, M. et~al.  \harvardyearleft
+  1996\harvardyearright , `{The Hubble Deep Field: Observations, Data
+  Reduction, and Galaxy Photometry}', {\em The Astronomical Journal} {\bf
+  112}(4).
 
 \end{thebibliography}
