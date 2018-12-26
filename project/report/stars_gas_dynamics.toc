@@ -12,8 +12,9 @@
 \contentsline {subsection}{\numberline {a}Cube extraction}{5}{}
 \contentsline {subsection}{\numberline {b}Line fittings and pPXF}{6}{}
 \contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{6}{}
-\contentsline {subsubsection}{\numberline {2}Voigt fitting}{6}{}
-\contentsline {section}{\numberline {3}Discussion}{7}{}
-\contentsline {section}{\numberline {4}Conclusions}{7}{}
-\contentsline {section}{\numberline {}Acknowledgments}{7}{}
+\contentsline {subsubsection}{\numberline {2}pPXF fitting}{7}{}
+\contentsline {subsubsection}{\numberline {3}Voigt fitting}{7}{}
+\contentsline {section}{\numberline {3}Discussion}{8}{}
+\contentsline {section}{\numberline {4}Conclusions}{8}{}
+\contentsline {section}{\numberline {}Acknowledgments}{8}{}
 \contentsline {section}{\numberline {}References}{8}{}

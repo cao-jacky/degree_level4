@@ -235,7 +235,7 @@ The initial goal in the analysis was to reduce down the MUSE data cube into indi
 
 To begin with, galaxies were extracted from the 3D MUSE cube using \textit{SExtractor}; an automated routine which detects, de-blends, measures and classifies sources \cite{bertin_sextractor}. Employed in the astronomical software package \textit{GAIA} \cite{currie_starlink}, every potential galactic source was retrieved along with a ``segmentation map'' which discerns between multiple galaxies if several are close together. 
 
-The final objects from SExtractor were then compared and merged with a catalogue which contained every object found from the HST HUDF frame. The latter would have information such as initial guesses for redshifts, the magnitudes of the objects in the different wavelength filters, and various flux values for different emission and absorption lines.
+The final objects from SExtractor were compared and merged with a catalogue which contained every object identified in the HST HUDF frame. The latter would contain information such as initial guesses for redshifts, the magnitudes of the objects in the different wavelength filters, and various flux values for different emission and absorption lines.
 
 \begin{figure*}
   \begin{subfigure}[b]{0.495\textwidth}
@@ -258,9 +258,21 @@ The final objects from SExtractor were then compared and merged with a catalogue
 
 % make sure the above caption actually makes sense
 
-With every extracted galaxy, the signal-to-noise (S/N) from the catalogue can be plotted against the V-band magnitude (Figure \ref{fig:sn_vband}(a)). This should show that as the S/N increases, the magnitude of the object should increase as well. 
+With every extracted galaxy, the signal-to-noise (S/N) can be calculated with the flux values from the catalogue this can then be plotted against the V-band magnitude (Figure \ref{fig:sn_vband}(a)). This should show that as the S/N increases, the magnitude of the object should increase as well. A similar trend should also be found if the S/N was measured using regions of the galaxy-integrated spectrum (Figure \ref{fig:sn_vband}(b)). With both methods of finding the S/N, the two plots produced agree and therefore further analysis should produce sensible results. 
 
+\subsection{Line fittings and pPXF} 
 
+After extracting the individual galactic objects from the MUSE cube, the spectroscopic data could then be manipulated and analysed using different fitting routines: (i) O[II] doublet fittings, (ii) pPXF absorption and emission line fittings, and (iii) Voigt profile fittings.  
+
+It would be quite non-sensical to use the entire collection of extracted objects as there are more than 1000 of them and the majority of are not high enough in S/N for spectra evaluation. In the analysis performed here, the entire catalogue was sorted by the V-band magnitude and then only the 
+
+% Talk about what sample was used for the analysis, how it was chosen and the different parameters which were set and chosen 
+
+\subsubsection{Gaussian doublet fitting}
+
+Through collapsing the entire galaxy into one spectrum, one would find that the most prominent feature is the O[II] doublet emission line. In Figure \ref{fig:ppxf_spectra} it can be seen that it is the largest by amplitude and it is the easiest to model for as it is two Gaussian profiles added together.
+
+% provide the equation used to add the Gaussian's together
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/o_ii_luminosity_vs_redshift}
@@ -268,15 +280,7 @@ With every extracted galaxy, the signal-to-noise (S/N) from the catalogue can be
 \label{fig:oiiluminosity_redshift}
 \end{center}
 
-aasdasd
-
-\subsection{Line fittings and pPXF} 
-
-After extracting the individual galactic objects from the main MUSE cube, the data had to be verified and then fitted using two different routines: (i) O[II] doublet fitting, and (ii) pPXF absorption line fitting. 
-
-\subsubsection{Gaussian doublet fitting}
-
-sdfasdfas
+\subsubsection{pPXF fitting}
 
 \subsubsection{Voigt fitting}
 
@@ -285,7 +289,7 @@ sadfasd
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/cube_1804_fitted}
 \captionof{figure}[OII Luminosity vs. Redshift]{Fitting of a galaxy spectrum with pPXF.}
-\label{fig:oiiluminosity_redshift}
+\label{fig:ppxf_spectra}
 \end{center}
 
 \begin{center}
