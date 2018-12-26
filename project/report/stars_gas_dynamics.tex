@@ -165,7 +165,7 @@ The classification of stars can be made with the \textit{Harvard Spectral Classi
  \hline
 \end{tabular}
 \captionof{table}[Harvard Spectral Classification]{The Harvard Spectral Classification for stellar objects. Stars can be defined by their colour and from the features seen from their spectra. Provided in the table are the spectral type, the associated colour plus the main emission or absorption lines to consider. \\
-(\textit{This table is adapted from a version from An Introduction to Modern Astrophysics} \citep{carroll_astro}.)}
+(\textit{This table is adapted from a version from An Introduction to Modern Astrophysics} by \cite{carroll_astro}.)}
 \label{table:spectral_classification}
 \end{center}
 
@@ -290,7 +290,19 @@ With this reduced sample in hand, the model fitting analysis could then be perfo
 
 \subsubsection{Gaussian doublet fitting}
 
-Through collapsing the entire galaxy into a single spectrum, one would find the [O II] doublet emission line to be the most prominent feature due to its amplitude when compared to the other emission lines (Figure \ref{fig:ppxf_spectra}). This therefore allows it to be a useful tool for estimating the SFR, which in turn can be used to imply the evolutionary state of the galaxy \citep{maddox_oxygen}.
+Through collapsing the entire galaxy into a single spectrum, one would find the [O II] doublet emission line to be the most prominent feature due to its amplitude when compared to the other emission lines (Figure \ref{fig:ppxf_spectra}). This therefore allows it to be a useful tool for estimating the SFR, which in turn can be used as an indication of the evolutionary state of the galaxy \citep{maddox_oxygen}.
+
+For every doublet fitting performed, the region $3600\times(1+z)$ to $36750\times(1+z)$ was extracted to isolate the peaks from other absorption or emission features. The following equation was then used as the model,
+\begin{multline}
+f(x) = cx + \frac{I_1}{\sigma \sqrt{2\pi}} \exp{-\frac{(x-L_1)^2}{2\sigma^2}} \\
++ \frac{I_2}{\sigma \sqrt{2\pi}} \exp{-\frac{(x-L_2)^2}{2\sigma^2}},
+\end{multline} 
+
+where $c$ is a constant, $\sigma=\sqrt{\sigma_{\text{gal}}^2 + \sigma_{\text{inst}}^2}$, $L_1=3727.092\times(1+z)$, $L_2=3728.875\times(1+z)$
+
+% information on what the doublet actually is, provide both wavelengths of the peaks 
+
+% provide constraints used in the doublet fitting?
 
 % provide a reference for the [O II] feature representing the gas in galaxies
 
