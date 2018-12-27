@@ -13,7 +13,7 @@
 \contentsline {subsection}{\numberline {b}Line fittings and pPXF}{6}{section*.13}
 \contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{7}{section*.14}
 \contentsline {subsubsection}{\numberline {2}pPXF fitting}{8}{section*.15}
-\contentsline {subsubsection}{\numberline {3}Voigt fitting}{8}{section*.16}
-\contentsline {section}{\numberline {3}Conclusions}{8}{section*.17}
-\contentsline {section}{\numberline {}Acknowledgments}{8}{section*.18}
+\contentsline {subsubsection}{\numberline {3}Voigt fitting}{9}{section*.16}
+\contentsline {section}{\numberline {3}Conclusions}{9}{section*.17}
+\contentsline {section}{\numberline {}Acknowledgments}{9}{section*.18}
 \contentsline {section}{\numberline {}References}{9}{section*.19}

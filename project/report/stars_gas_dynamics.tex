@@ -41,7 +41,7 @@
     colorlinks=true,
     linkcolor=black,
     citecolor=black,    
-    urlcolor=cyan,
+    urlcolor=black,
 }
 
 \usepackage{tabularx}
@@ -60,7 +60,7 @@
 
 \begin{abstract}              
 
-Optical and spectroscopic observations of galaxies provide a way to understand the internal dynamics of the stars and gas within it. Data for the Hubble Ultra Deep Field (HUDF) from the Hubble Space Telescope and the Multi-Unit Spectroscopic Explorer on the VLT provide a potential sample of more than 10,000 galaxies. 
+Optical and spectroscopic observations of galaxies provide a way to understand the internal dynamics of the stars and gas within it. Data for the Hubble Ultra Deep Field (HUDF) from the Hubble Space Telescope and the Multi-Unit Spectroscopic Explorer on the VLT provides a potential sample of more than 10,000 galaxies. 
  
 Abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract 
 
@@ -184,7 +184,7 @@ It is clear then that observational data would be required for own study of gala
 
 \subsection{Galactic data} 
 
-For an investigation of galaxies, one would have to collect data optically and also spectroscopically. The former would be useful as it would allow for a quick identification of the galaxy based on its appearance, this could then be used to infer whether a galaxy would be worth studying. Spectroscopic data on the other hand would be important to collect as a variety of information could be obtained such as the type of stars within a galaxy, the types of gas in surrounding clouds, and also the redshift. 
+For an investigation of galaxies, one would have to collect data optically and also spectroscopically. The former would be useful as it would allow for a quick identification of the galaxy based on its appearance, this could then be used to infer whether a galaxy would be worth studying. Spectroscopic data on the other hand would be important to collect as a variety of information could be obtained such as the type of stars within a galaxy, the types of gas in surrounding clouds, and also the redshift $z$. 
 
 Astronomers on a daily basis employ an assortment of telescopes and spectrographs, but there are just a few particular instruments which are worth discussing as they have produced remarkable datasets and results.
 
@@ -297,7 +297,7 @@ With this reduced sample in hand, the model fitting analysis could then be perfo
 
 \subsubsection{Gaussian doublet fitting}
 
-Through collapsing the entire galaxy into a single spectrum, one would find the [OII] doublet emission line to be the most prominent feature due to its amplitude when compared to the other emission lines (Figure \ref{fig:ppxf_spectra}). This therefore allows it to be a useful tool for estimating the SFR, which in turn can be used as an indication of the evolutionary state of the galaxy \citep{maddox_oxygen}.
+Through collapsing the entire galaxy into a single spectrum, one would find the [OII] doublet emission line to be the most prominent feature due to its large amplitude when compared to other spectral lines (Figure \ref{fig:ppxf_spectra}). This therefore allows it to be a useful tool for estimating the SFR, which in turn can be used as an indication of the evolutionary state of the galaxy \citep{maddox_oxygen}.
 
 For every doublet fitting performed, the region $3600\times(1+z)$ {\AA} to $3750\times(1+z)$ {\AA} was extracted to isolate the peaks from other absorption or emission features. The peaks themselves have rest wavelengths 3727.092 {\AA} and 3729.875 {\AA} \citep{sdss_lines}. The following equation was applied as the model,
 \begin{multline}
@@ -324,9 +324,11 @@ The redshifts along with the [OII] flux $f_{\text{[OII]}}(x)$ can be used to cal
 
 \subsubsection{pPXF fitting}
 
-With the gas dynamics of galaxies represented through the width of the [OII] doublet, a comparison to the galactic stars would require the widths of the stellar spectra features. To obtain these standard deviation values a Penalized Pixel-Fitting method (pPXF) can be applied, \cite{cappaellari_ppxf} describes the method and implementation in the form of a Python library.
+With the gas dynamics of galaxies represented through the width of the [OII] doublet, a comparison to the galactic stars would require the width of the stellar spectra features. To obtain this standard deviation value a Penalized Pixel-Fitting method (pPXF) can be applied, \cite{cappaellari_ppxf} describes the method and implementation in the form of a Python library, \textit{pPXF}.
 
-A reasonable initial test would be to consider the entirety of the spectrum past the [OII] feature. 
+A reasonable initial test would be to pass an entire galaxy spectrum to the kinematics fitter and then examine the output to check if it seems reasonable. As well as a final model spectrum (Figure \ref{fig:ppxf_spectra}), pPXF also outputs the variables it decides to be optimal amongst which includes a velocity dispersion. However for these values and results to comprehensible, one must be aware of what initial parameters are passed to the fitting routine. 
+
+An estimate of the redshift can be obtained from the [OII] doublet fitting, the instrumental resolution can be obtained by fitting a single Gaussian profile over the peak at $\sim6300$ {\AA} in a spectrum of the sky noise, and different template sets can be employed to create the optimal model.
 
 % place somewhere what the "widths" are the same as the standard deviations or "sigmas"
 
@@ -335,6 +337,8 @@ A reasonable initial test would be to consider the entirety of the spectrum past
 \captionof{figure}[OII Luminosity vs. Redshift]{A pPXF fitting for a galaxy spectra. The galaxy data (black) and  the best-fitting model (red) were normalised in the flux to avoid numerical errors during the fitting routine. The emission (blue lines), absorption (orange lines), and iron (grey lines) features have been labelled for easier recognition. The residuals between the data and model are provided by the green scatter points below the spectra. pPXF appears to produce good fits from manipulating various stellar templates. }
 \label{fig:ppxf_spectra}
 \end{center}
+
+As a synthetic test of pPXF, 10 galaxy spectra were perturbed 300 times by sequentially adding random Gaussian noise  
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/reprocessed_sn_vs_delta_sigma}
