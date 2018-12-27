@@ -60,9 +60,7 @@
 
 \begin{abstract}              
 
-Optical and spectroscopic observations of galaxies provide a way to understand the internal dynamics of the stars and gas within it. Data for the Hubble Ultra Deep Field (HUDF) from the Hubble Space Telescope and the Multi-Unit Spectroscopic Explorer on the VLT provides a potential sample of more than 10,000 galaxies. 
- 
-Abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract 
+Optical and spectroscopic observations of galaxies provide a way to understand the internal dynamics of the stars and gas within it. Data for the Hubble Ultra Deep Field (HUDF) from the Hubble Space Telescope and the Multi-Unit Spectroscopic Explorer (MUSE) on the VLT provides a potential sample of more than 10,000 galaxies. The data-set was reduced by considering objects with redshifts $z>0.3$ and with V-band magnitudes brighter than 25.0 mag, the $\sim30$ remaining galaxies were extracted and then analysed. Different regions of the galaxy spectra were fitted for. The [OII] emission region could be separated and fitted with a Gaussian doublet to represent the gas dynamics. Applying a Penalized Pixel-Fitting method (pPXF) to the entire spectrum could quantify the stellar dynamics, however various issues were encountered in this initial research which prevented the successful operation of the pPXF fitting routine. Future work would be based around isolating the issues and then extending the routine to consider variations to the spectra.
 
 \end{abstract}
 
@@ -277,7 +275,7 @@ The final objects from SExtractor were compared and merged with a catalogue whic
 
 % make sure the above caption actually makes sense
 
-With every extracted galaxy, the signal-to-noise (S/N) can be calculated with the flux values from the catalogue this can then be plotted against the V-band magnitude (Figure \ref{fig:sn_vband}(a)). This should show that as the S/N increases, the magnitude of the object should increase as well. A similar trend should also be found if the S/N was measured using regions of the galaxy-integrated spectrum (Figure \ref{fig:sn_vband}(b)). With both methods of finding the S/N, the two plots produced agree and therefore further analysis should produce sensible results. 
+With every extracted galaxy, the signal-to-noise (S/N) can be calculated with the flux values from the catalogue this can then be plotted against the V-band magnitude (Figure \ref{fig:sn_vband}(a)). This should show that as the S/N increases, the magnitude of the object should increase as well. A similar trend should also be found if the S/N was measured using regions of the galaxy-integrated spectrum (Figure \ref{fig:sn_vband}(b)). The ``signal'' calculated by taking the median of the region and the ``noise'' as the standard deviation. With both methods of finding the S/N, the two plots produced agree and therefore further analysis should in theory produce sensible results. 
 
 \subsection{Line fittings and pPXF} 
 
@@ -326,9 +324,9 @@ The redshifts along with the [OII] flux $f_{\text{[OII]}}(x)$ can be used to cal
 
 With the gas dynamics of galaxies represented through the width of the [OII] doublet, a comparison to the galactic stars would require the width of the stellar spectra features. To obtain this standard deviation value a Penalized Pixel-Fitting method (pPXF) can be applied, \cite{cappaellari_ppxf} describes the method and implementation in the form of a Python library, \textit{pPXF}.
 
-A reasonable initial test would be to pass an entire galaxy spectrum to the kinematics fitter and then examine the output to check if it seems reasonable. As well as a final model spectrum (Figure \ref{fig:ppxf_spectra}), pPXF also outputs the variables it decides to be optimal amongst which includes a velocity dispersion. However for these values and results to comprehensible, one must be aware of what initial parameters are passed to the fitting routine. 
+A reasonable initial test would be to pass an entire galaxy spectrum to the kinematics fitter and then examine the output to check if it seems reasonable. As well as a final model spectrum (Figure \ref{fig:ppxf_spectra}), pPXF also outputs its optimal variables and amongst which includes a velocity dispersion. However for these values and results to comprehensible, one must be aware of what initial parameters are passed to the fitting routine. 
 
-An estimate of the redshift can be obtained from the [OII] doublet fitting, the instrumental resolution can be obtained by fitting a single Gaussian profile over the peak at $\sim6300$ {\AA} in a spectrum of the sky noise, and different template sets can be employed to create the optimal model.
+An estimate of the redshift can be obtained from the [OII] doublet modelling, the instrumental resolution can be found by fitting a single Gaussian profile over the peak at $\sim6300$ {\AA} in a spectrum of the sky noise, and different template sets can be passed to the routine.
 
 % place somewhere what the "widths" are the same as the standard deviations or "sigmas"
 
@@ -338,12 +336,12 @@ An estimate of the redshift can be obtained from the [OII] doublet fitting, the 
 \label{fig:ppxf_spectra}
 \end{center}
 
-As a synthetic test of pPXF, 10 galaxy spectra were perturbed 300 times by sequentially adding random Gaussian noise  
+As a synthetic test of pPXF, 10 galaxy spectra were each perturbed 300 times by sequentially adding random Gaussian noise. During each perturbation the spectra was passed to pPXF and all associated outputs were saved and recorded. This allows for the S/N to be plotted against the modulus difference between the optimal line widths and the perturbed ones (Figure \ref{fig:sn_difference}). One finds that as the S/N decreases, the difference (or fractional error) should increase dramatically as there would not be enough resolution for emission or absorption features to be discerned. 
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/reprocessed_sn_vs_delta_sigma}
-\captionof{figure}[S/N vs. delta(sigma)]{The signal-to-noise versus the fractional error of the $\sigma$ line width of the pPXF curve fittings.}
-\label{fig:oiiluminosity_redshift}
+\captionof{figure}[S/N vs. delta(sigma)]{Signal-to-noise versus the modulus difference between the optimal pPXF velocity dispersion and the values from the perturbed models. As the S/N decreases, the difference increases manifold which implies that high S/N galaxies should be used as they would have smaller fractional uncertainty.}
+\label{fig:sn_difference}
 \end{center}
 
 
