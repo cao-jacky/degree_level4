@@ -40,11 +40,14 @@
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
-    citecolor=blue,    
+    citecolor=black,    
     urlcolor=cyan,
 }
 
 \usepackage{tabularx}
+
+\def\Plus{\texttt{+}}
+\def\Minus{\texttt{-}}
 
 %%%%% Document %%%%%
 \begin{document}                     
@@ -56,8 +59,8 @@
 \affiliation{\normalfont Level 4 Project, MPhys Physics\\ Supervisor: Dr.~Mark Swinbank\\ Department of Physics, Durham University}
 
 \begin{abstract}              
- 
- Observing any galaxy in the universe will yield the fact that it contains stars and also gas. The dynamics of both can be explored by observing galaxies and collecting spectroscopic data. 
+
+Optical and spectroscopic observations of galaxies provide a way to understand the internal dynamics of the stars and gas within it. Data for the Hubble Ultra Deep Field (HUDF) from the Hubble Space Telescope and the Multi-Unit Spectroscopic Explorer on the VLT provide a potential sample of more than 10,000 galaxies. 
  
 Abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract abstract 
 
@@ -74,13 +77,17 @@ Abstract abstract abstract abstract abstract abstract abstract abstract abstract
 
 \section{Introduction} 
 
-Amongst the different types of cosmic structure within our universe, galaxies can be described as the most unique and diverse. With each containing countless numbers of stars and vast amounts of gas, dust, and dark matter \citep{carroll_astro}, it would certainly be surprising if these various objects were found to not be connected in any way.
+Amongst the different types of cosmic structure within our universe, galaxies can be described as the most unique and diverse. With each containing countless numbers of stars and vast amounts of gas, dust, and dark matter \citep{carroll_astro}, it would be surprising if these various inner objects were not connected in any way.
 
-Through observational astronomy the internal structure of galaxies and the motions of their inner objects can be studied and understood. With approximately ($2.0^{+0.7}_{-0.6}$) $\times 10^{12}$ galaxies in the universe up to $z=8$ which in principle could be observed \citep{conselice_galaxynumber}, there is definitely not a lack of choice. What is important is how these objects are observed and how the collected data is later analysed. 
+Through observational astronomy the internal structure of galaxies and the motions of the internal objects can be studied and understood. With approximately ($2.0^{+0.7}_{-0.6}$) $\times 10^{12}$ galaxies in the universe up to $z=8$ which in principle could be observed \citep{conselice_galaxynumber}, there is definitely not a lack of choice. What is important is how these objects are observed and how the collected data is later analysed. 
+
+% There are a variety of methods 
+
+% what are the variety of methods which can be used to study galaxies?
 
 % Through observations of these galaxies, their structure and the motions of the objects within them can be studied to a great depth. As an example, if we took optical measurements of the stellar population, we could use that information to infer and estimate the potential age of the galaxy. We know that redder stars are older and bluer stars represent a younger set of objects \citep{carroll_astro}. Or if we wanted to know about the material composition or even the distance to a certain galaxy, we could split the collected light in a spectrograph to produce a spectrum. Values of redshift and the content of a galaxy can then be obtained by looking at the absorption and emission lines \citep{carroll_astro}.
 
-It is additionally significant to understand what a galaxy generally is and how they can be defined and placed into different categories. Once an appreciation is built for the galactic classification, the intricacies of motions and inter-relationships can be explored further. 
+But it is always significant to understand the basics, so developing a comprehension of what a galaxy generally is and how they can be defined and placed into different categories. Once an appreciation is built for galactic classification, the intricacies of motions and inter-relationships can be explored further. 
 
 %  for example how a galaxy evolves from the early stages of being a gas cloud to the eventual relation of the stellar population to that gas.
 
@@ -140,9 +147,8 @@ Various problems arise when several researchers provide different assumptions fo
 
 Through contentious debate and research, astronomers can continue to build these different models and theories which attempt to explain galactic evolution. Whilst on the other hand, the evolution of the stars themselves are known and understood to a greater degree. 
 
-In a brief overview: stars are born from an interstellar medium where the gas and dust coalesce, collapse and heat-up until a protostar is created. Depending on the initial mass of material used, the star can then take various paths which will affect its subsequent future \citep{mccoy_space_sciences}. To view the different stages of stellar evolution, Hayashi tracks and the Hertzsprung-Russell diagram can be paired together \citep{carroll_astro}. In doing so, one would find that the majority of stars lie on the main-sequence, including our own Sun. 
+In a brief overview: stars are born from an interstellar medium where the gas and dust coalesce, collapse and heat-up until a protostar is created. Depending on the initial mass of material used, the star can then take various paths which will affect its subsequent future \citep{mccoy_space_sciences}. To view the different stages of stellar evolution, Hayashi tracks and the Hertzsprung-Russell diagram can be paired together \citep{carroll_astro}. In doing so, one would find that the majority of stars lie on the main-sequence, including our own Sun.  
 
-The classification of stars can be made with the \textit{Harvard Spectral Classification} where stars are classed by their spectral types (Table \ref{table:spectral_classification}). It essentially orders stars by their observed temperature and their internal composition. If a star's spectra was observed, it could be identified by the absorption and emission features found in the sequence.    
 \begin{center}
 \begin{tabular}{c@{\hskip 20pt}c} 
  \hline
@@ -163,12 +169,14 @@ The classification of stars can be made with the \textit{Harvard Spectral Classi
  T & Coolest, infrared (CH$_4$, CO) \\
  \hline
 \end{tabular}
-\captionof{table}[Harvard Spectral Classification]{The Harvard Spectral Classification for stellar objects. Stars can be defined by their colour and from the features seen from their spectra. Provided in the table are the spectral type, the associated colour plus the main emission or absorption lines to consider. \\
-(\textit{This table is adapted from a version from An Introduction to Modern Astrophysics by \cite{carroll_astro}}.)}
+\captionof{table}[Harvard Spectral Classification]{The Harvard Spectral Classification for stellar objects. Stars are defined by their colour and from the features seen from their spectra. Provided in the table are the spectral type, the associated colour plus the main emission or absorption lines to consider. \\
+(\textit{Table adapted from An Introduction to Modern Astrophysics by \cite{carroll_astro}}.)}
 \label{table:spectral_classification}
 \end{center}
 
 % If I need more discussion space, I could place the table in an appendix?
+
+The classification of stars can be made with the \textit{Harvard Spectral Classification} where stars are classed by their spectral types (Table \ref{table:spectral_classification}). It essentially orders stars by their observed temperature and their internal composition. If a star's spectra was observed, it could be identified by the absorption and emission features found in the sequence.   
 
 This is therefore one of ways to study the stellar population of a galaxy as the signatures of different spectral types can be matched up in the spectra of a particular galaxy. 
 
@@ -304,25 +312,28 @@ where $x$ are the redshifted wavelengths, ${c}$ is a constant, ${I_1}$ and ${I_2
 
 % provide constraints used in the doublet fitting?
 
-After a successful fitting, the following variables would be outputted: $c$, $I_1$, $I_2$, $z$, and $\sigma_{\text{gal}}$, where the latter two would be the most useful in later research. 
+After a successful fitting, the following variables would be outputted: $c$, $I_1$, $I_2$, $z$, and $\sigma_{\text{gal}}$. The latter two would become the most useful in later research. 
 
-The redshifts along with the [OII] flux $f_{\text{[OII]}}(x)$ can be used to calculate the luminosity for the doublet, then the [OII] luminosity can be plotted against the redshifts (Figure \ref{fig:oiiluminosity_redshift})
+The redshifts along with the [OII] flux $f_{\text{[OII]}}(x)$ can be used to calculate the luminosity for the doublet, the latter can then be plotted against the redshifts (Figure \ref{fig:oiiluminosity_redshift}). What can be found is a general agreement that the galaxies follow the luminosity-redshift relation, and thus the calculated parameters are sensible so they can be applied to more advanced analysis routines.
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/o_ii_luminosity_vs_redshift}
-\captionof{figure}[OII Luminosity vs. Redshift]{[OII] luminosity plotted against the redshift $z$. Variables used for each galaxy were obtained from fitting the galaxy-integrated spectra with the model in Equation \ref{eqn:doublet}. The line represents the lower-limit of the sample as it is using the galaxy with the smallest flux. All galaxies in the set are above this line and approximately follow the luminosity-redshift trend.}
+\captionof{figure}[OII Luminosity vs. Redshift]{[OII] luminosity plotted against redshift. Variables used for each galaxy were obtained from the fitting of the galaxy-integrated spectra with a model (Equation \ref{eqn:doublet}). The line represents the lower-limit of the sample as it is using the galaxy with the smallest flux. All galaxies in the set are above this line and approximately follow the luminosity-redshift trend.}
 \label{fig:oiiluminosity_redshift}
-\end{center}
+\end{center} 
 
 \subsubsection{pPXF fitting}
 
-\subsubsection{Voigt fitting}
+With the gas dynamics of galaxies represented through the width of the [OII] doublet, for a comparison to the galactic stars, one would need the widths of the stellar spectra features. To obtain these standard deviation values a Penalized Pixel-Fitting method (pPXF) can be applied, \cite{cappaellari_ppxf} describes the method and implementation in the form of a Python module.
 
-sadfasd
+
+It would be a reasonable initial assumption to consider the entirety of the spectrum past the [OII] feature. 
+
+% place somewhere what the "widths" are the same as the standard deviations or "sigmas"
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/cube_1804_fitted}
-\captionof{figure}[OII Luminosity vs. Redshift]{Fitting of a galaxy spectrum with pPXF.}
+\captionof{figure}[OII Luminosity vs. Redshift]{A pPXF fitting for a galaxy spectra. The galaxy data (black) and  the best-fitting model (red) were normalised in the flux to avoid numerical errors during the fitting routine. The emission (blue lines), absorption (orange lines), and iron (grey lines) features have been labelled for easier recognition. The residuals between the data and model are provided by the green scatter points below the spectra. pPXF appears to produce good fits from manipulating various stellar templates. }
 \label{fig:ppxf_spectra}
 \end{center}
 
@@ -331,6 +342,12 @@ sadfasd
 \captionof{figure}[S/N vs. delta(sigma)]{The signal-to-noise versus the fractional error of the $\sigma$ line width of the pPXF curve fittings.}
 \label{fig:oiiluminosity_redshift}
 \end{center}
+
+
+\subsubsection{Voigt fitting}
+
+sadfasd
+
 
 %\section{Discussion} 
 %\label{sec:discussion}
