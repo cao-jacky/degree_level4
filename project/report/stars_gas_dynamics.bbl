@@ -56,11 +56,16 @@ Henault, F., Bacon, R., Bonneville, C. et~al.  \harvardyearleft
   2003\harvardyearright , `{MUSE: a second-generation integral-field
   spectrograph for the VLT}', {\em {Proc.SPIE}} {\bf 4841}.
 
+\harvarditem[{Jacoby} et~al.]{{Jacoby}, {Hunter} \harvardand\
+  {Christian}}{1984}{jacoby_spectra}
+{Jacoby}, G.~H., {Hunter}, D.~A. \harvardand\ {Christian}, C.~A.
+  \harvardyearleft 1984\harvardyearright , `{A library of stellar spectra.}',
+  {\em The Astrophysical Journal Supplement Series} {\bf 56},~257--281.
+
 \harvarditem{Maddox}{2018}{maddox_oxygen}
 Maddox, N.  \harvardyearleft 2018\harvardyearright , `{[O II] as a proxy for
   star formation in AGN host galaxies: beware of extended emission line
-  regions}', {\em Monthly Notices of the Royal Astronomical Society} {\bf
-  480},~5023--5210.
+  regions}', {\em MNRAS} {\bf 480},~5023--5210.
 
 \harvarditem{McCoy}{2012}{mccoy_space_sciences}
 McCoy, J.~F.  \harvardyearleft 2012\harvardyearright , {\em Space Sciences},
@@ -71,12 +76,35 @@ Moore, P. \harvardand\ Rees, R.  \harvardyearleft 2011\harvardyearright , {\em
   Patrick Moore's Data Book of Astronomy}, Cambridge University Press, pp.~357
   -- 362.
 
+\harvarditem[{Munari} et~al.]{{Munari}, {Sordo}, {Castelli} \harvardand\
+  {Zwitter}}{2005}{munari_synthe}
+{Munari}, U., {Sordo}, R., {Castelli}, F. \harvardand\ {Zwitter}, T.
+  \harvardyearleft 2005\harvardyearright , `{An extensive library of 2500 10
+  500 {\AA} synthetic spectra}', {\em Astronomy and Astrophysics} {\bf
+  442},~1127--1134.
+
 \harvarditem[NASA et~al.]{NASA, ESA, Beckwith \harvardand\ {HUDF
   Team}}{2018}{hudf_image}
 NASA, ESA, Beckwith, S. \harvardand\ {HUDF Team}  \harvardyearleft
   2018\harvardyearright , `{Hubble Ultra Deep Field}',
   \url{https://svs.gsfc.nasa.gov/30946}.
 \newblock [Online; accessed 5th November 2018].
+
+\harvarditem[{Valdes} et~al.]{{Valdes}, {Gupta}, {Rose}, {Singh} \harvardand\
+  {Bell}}{2004}{valdes_coude}
+{Valdes}, F., {Gupta}, R., {Rose}, J.~A., {Singh}, H.~P. \harvardand\ {Bell},
+  D.~J.  \harvardyearleft 2004\harvardyearright , `{The Indo-US Library of
+  Coud{\'e} Feed Stellar Spectra}', {\em The Astrophysical Journal Supplement
+  Series} {\bf 152},~251--259.
+
+\harvarditem[{Vazdekis} et~al.]{{Vazdekis}, {S{\'a}nchez-Bl{\'a}zquez},
+  {Falc{\'o}n-Barroso}, {Cenarro}, {Beasley}, {Cardiel}, {Gorgas} \harvardand\
+  {Peletier}}{2010}{vazdekis_miles}
+{Vazdekis}, A., {S{\'a}nchez-Bl{\'a}zquez}, P., {Falc{\'o}n-Barroso}, J.,
+  {Cenarro}, A.~J., {Beasley}, M.~A., {Cardiel}, N., {Gorgas}, J. \harvardand\
+  {Peletier}, R.~F.  \harvardyearleft 2010\harvardyearright , `{Evolutionary
+  stellar population synthesis with MILES - I. The base models and a new line
+  index system}', {\em MNRAS} {\bf 404},~1639--1671.
 
 \harvarditem[Williams et~al.]{Williams, Blacker, Dickinson
   et~al.}{1996}{williams_hdp}

@@ -314,17 +314,17 @@ After a successful fitting, the following variables would be outputted: $c$, $I_
 
 The redshifts along with the [OII] flux $f_{\text{[OII]}}(x)$ can be used to calculate the luminosity for the doublet, the latter can then be plotted against the redshifts (Figure \ref{fig:oiiluminosity_redshift}). What can be found is a general agreement that the galaxies follow the luminosity-redshift relation, and thus the calculated parameters are sensible so they can be applied to more advanced analysis routines.
 
+\subsubsection{pPXF fitting}
+
+With the gas dynamics of galaxies represented through the width of the [OII] doublet, a comparison to the galactic stars would require the width of the stellar spectra features. To obtain this, a Penalized Pixel-Fitting method (pPXF) can be applied, \cite{cappaellari_ppxf} describes the method and implementation in the form of a Python library \textit{pPXF}.
+
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/o_ii_luminosity_vs_redshift}
 \captionof{figure}[OII Luminosity vs. Redshift]{[OII] luminosity plotted against redshift. Variables used for each galaxy were obtained from the fitting of the galaxy-integrated spectra with a model (Equation \ref{eqn:doublet}). The line represents the lower-limit of the sample as it is using the galaxy with the smallest flux. All galaxies in the set are above this line and approximately follow the luminosity-redshift trend.}
 \label{fig:oiiluminosity_redshift}
 \end{center} 
 
-\subsubsection{pPXF fitting}
-
-With the gas dynamics of galaxies represented through the width of the [OII] doublet, a comparison to the galactic stars would require the width of the stellar spectra features. To obtain this standard deviation value a Penalized Pixel-Fitting method (pPXF) can be applied, \cite{cappaellari_ppxf} describes the method and implementation in the form of a Python library, \textit{pPXF}.
-
-A reasonable initial test would be to pass an entire galaxy spectrum to the kinematics fitter and then examine the output to check if it seems reasonable. As well as a final model spectrum (Figure \ref{fig:ppxf_spectra}), pPXF also outputs its optimal variables and amongst which includes a velocity dispersion. However for these values and results to comprehensible, one must be aware of what initial parameters are passed to the fitting routine. 
+A reasonable initial test would be to pass an entire galaxy spectrum to the kinematics fitter and then examine the output to check if it seems reasonable. As well as a final model spectrum (Figure \ref{fig:ppxf_spectra}), pPXF also outputs its optimal variables and amongst them includes a velocity dispersion. However for these values and results to comprehensible, one must be aware of what initial parameters are being passed to the fitting routine. 
 
 An estimate of the redshift can be obtained from the [OII] doublet modelling, the instrumental resolution can be found by fitting a single Gaussian profile over the peak at $\sim6300$ {\AA} in a spectrum of the sky noise, and different template sets can be passed to the routine.
 
@@ -336,7 +336,23 @@ An estimate of the redshift can be obtained from the [OII] doublet modelling, th
 \label{fig:ppxf_spectra}
 \end{center}
 
-As a synthetic test of pPXF, 10 galaxy spectra were each perturbed 300 times by sequentially adding random Gaussian noise. During each perturbation the spectra was passed to pPXF and all associated outputs were saved and recorded. This allows for the S/N to be plotted against the modulus difference between the optimal line widths and the perturbed ones (Figure \ref{fig:sn_difference}). One finds that as the S/N decreases, the difference (or fractional error) should increase dramatically as there would not be enough resolution for emission or absorption features to be discerned. 
+Whilst it may seem trivial to configure these values, the results obtained have not been logical. Using pPXF to estimate the gas population of a galaxy, an additional value can be obtained for the width of the [OII] doublet. This therefore allows us to plot both against each other, where one should expect a 1-to-1 positive linear trend. What is found instead is that both are not correlated (Figure \ref{fig:oii_widths}) which is a non-sensical result. 
+
+In an attempt to remedy this issue, several options were explored. The first of which was to artificially create the [OII] feature with a known width and then apply pPXF to it, the output of this test resulted in yet again a meaningless result. It was then decided that the template spectra being used by the routine were not high enough spectral resolution, ideally one would use a set which has a greater value than the MUSE instrumental resolution. 
+
+The initial template sets tested were the MILES stellar population models \citep{vazdekis_miles} and those by \cite{jacoby_spectra}, but these were found to be too low-resolution. The SYNTHE spectral library \citep{munari_synthe} has an incredibly high resolution of $R=20,000$, however it was difficult to integrate this into the pPXF routine. What was decided on was the Indo-US Library of Coud{\'e} Feed Stellar Spectra \citep{valdes_coude} library with $R\sim4200$, this should be high enough to not produce additional problems.
+
+\begin{center}
+\includegraphics[width=1.0\linewidth]{data/oii_ppxf_vs_oii_lmfit}
+\captionof{figure}[OII pPXF vs. lmfit]{The widths of the [OII] doublets obtained from the Gaussian modelling (labelled \textit{lmfit}) plotted against the widths found from the gas population fitter in pPXF. A linear trend is expected, however a failure in the set-up of pPXF has produced the illogical results as shown in the plot.}
+\label{fig:oii_widths}
+\end{center}
+
+The Coud{\'e} library has yet to be fully tested as other limitations of pPXF were initially explored. One question which arose was what are the computational limits of pPXF? Amongst the variables outputted, there are associated uncertainties on those values. How could they be trusted? 
+
+Another synthetic test of pPXF was performed where 10 galaxy spectra were each perturbed 300 times. Random Gaussian noise was added sequentially until the spectra were unrecognisable. During each perturbation the spectra was passed to pPXF and all associated outputs were saved and recorded. This allowed for the S/N to be plotted against the modulus difference between the optimal line widths and the values from the perturbation (Figure \ref{fig:sn_difference}). One finds that as the S/N decreases, the difference (or fractional error) increases dramatically, this is attributed to the fact that there would not be enough resolution for emission or absorption features to be discerned. It can be seen then that one must use data with a high enough S/N for pPXF to be above this high error zone.
+
+% Provide values for the instrumental and template resolutions?
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/reprocessed_sn_vs_delta_sigma}
@@ -344,11 +360,9 @@ As a synthetic test of pPXF, 10 galaxy spectra were each perturbed 300 times by 
 \label{fig:sn_difference}
 \end{center}
 
+Whilst it can be understood what type of data should be passed to the pPXF routine, the routine itself still needs more unravelling if accurate and precise results are wanted in the comparisons of gas and stellar dynamics in galaxies.
 
-\subsubsection{Voigt fitting}
-
-sadfasd
-
+%\subsubsection{Voigt fitting}
 
 %\section{Discussion} 
 %\label{sec:discussion}
@@ -357,10 +371,10 @@ sadfasd
 
 \section{Conclusions}
  
-In conclusion, through extensive data and statistical analysis it can be said that the dynamics of stars and gas in galaxies are ... (?) 
+In conclusion, the dynamics of gas and stars within galaxies can be explored by analysing their spectra. Through reducing down the MUSE HUDF galaxy sample from $\sim10,000+$ to a handful, those individual galaxies can have their [OII] peak fitted for, and then the spectra can be passed onto a stellar-dynamics fitting routine, pPXF. The key issues encountered in this project were based around the proper-running of pPXF, various tests were performed and a higher resolution template set was chosen, however the problems still remain and more work will be required to solve them.
 
 \begin{acknowledgments}
-The author would like to thank Dr.~M.~Swinbank and Alfie Tiley for their continual help and support throughout the project period, without which, the project would have been experimentally grounded.
+The author would like to thank Dr.~M.~Swinbank and Alfie Tiley for their continual help and support throughout the project period.
 \end{acknowledgments}
 
 \bibliographystyle{agsm}
