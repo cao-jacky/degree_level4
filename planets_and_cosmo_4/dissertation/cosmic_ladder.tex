@@ -34,6 +34,15 @@
 \def\thesubsection{\alph{subsection}}
 
 \def\bibsection{\section*{References}}        % Position reference section correctly
+\setcitestyle{authoryear,round}
+\setlength\bibhang{0.2in}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,    
+    urlcolor=black,
+}
 
 %%%%% Document %%%%%
 \begin{document}                     
@@ -46,15 +55,18 @@
 \maketitle
 \thispagestyle{plain} % produces page number for front page
 
-How old is our universe? A value for the cosmological age can be found by taking the inverse of Hubble's constant $H_0$ \cite{carroll_astro}. Where $H_0$  
+A precisely determined Hubble's constant $H_0$ would have an overarching effect on any feature of cosmological theory: the age of the Universe, the critical density of the Universe, or in the formation of cosmic structure. Producing a conclusive value for $H_0$ is difficult as absolute distances on the cosmic scale are difficult to measure. Inhomogeneous gravitational acceleration generates motion which does not follow the simple expansion as described by Hubble's Law $v=H_0 d$. An uncertainty arises due to the discrepancy between the methods to connect local distances to the smooth large-scale Hubble flow \citep{fukugita_cosmic}. \\
+
+Measurements of cosmic distance should therefore 
 
 \newpage
 
-\bibliographystyle{unsrt}
+\bibliographystyle{agsm}
+
+\nocite{fukugita_cosmic}
+\nocite{carroll_astro}
 \bibliography{cosmic_ladder}
 
 \newpage
-
-\section*{Appendices}
 
 \end{document}

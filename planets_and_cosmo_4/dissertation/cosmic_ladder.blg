@@ -1,46 +1,46 @@
 This is BibTeX, Version 0.99d (TeX Live 2018)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: cosmic_ladder.aux
-The style file: unsrt.bst
+The style file: agsm.bst
 Database file #1: cosmic_ladder.bib
-You've used 1 entry,
-            1791 wiz_defined-function locations,
-            450 strings with 3626 characters,
-and the built_in function-call counts, 192 in all, are:
-= -- 15
-> -- 8
+You've used 2 entries,
+            2909 wiz_defined-function locations,
+            649 strings with 4979 characters,
+and the built_in function-call counts, 9073 in all, are:
+= -- 1489
+> -- 117
 < -- 0
-+ -- 3
-- -- 2
-* -- 9
-:= -- 36
-add.period$ -- 3
-call.type$ -- 1
-change.case$ -- 1
-chr.to.int$ -- 0
-cite$ -- 1
-duplicate$ -- 10
-empty$ -- 20
-format.name$ -- 2
-if$ -- 42
-int.to.chr$ -- 0
-int.to.str$ -- 1
-missing$ -- 2
-newline$ -- 8
-num.names$ -- 1
-pop$ -- 6
++ -- 720
+- -- 35
+* -- 783
+:= -- 1827
+add.period$ -- 2
+call.type$ -- 2
+change.case$ -- 28
+chr.to.int$ -- 2
+cite$ -- 2
+duplicate$ -- 31
+empty$ -- 56
+format.name$ -- 44
+if$ -- 1625
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 3
+newline$ -- 9
+num.names$ -- 21
+pop$ -- 10
 preamble$ -- 1
-purify$ -- 0
+purify$ -- 30
 quote$ -- 0
-skip$ -- 3
+skip$ -- 25
 stack$ -- 0
-substring$ -- 0
-swap$ -- 1
-text.length$ -- 0
+substring$ -- 2097
+swap$ -- 4
+text.length$ -- 28
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 0
+type$ -- 6
 warning$ -- 0
-while$ -- 1
-width$ -- 2
-write$ -- 13
+while$ -- 42
+width$ -- 0
+write$ -- 29

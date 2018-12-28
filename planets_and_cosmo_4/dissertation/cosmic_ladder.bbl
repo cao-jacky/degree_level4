@@ -1,8 +1,14 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{xx}
 
-\bibitem{carroll_astro}
-Bradley~W. Carroll and Dale~A. Ostlie.
-\newblock {\em An Introduction to Modern Astrophysics}.
-\newblock Pearson, 2nd edition, 2007.
+\harvarditem{Carroll \harvardand\ Ostlie}{2007}{carroll_astro}
+Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
+  2007\harvardyearright , {\em An Introduction to Modern Astrophysics}, 2nd
+  edn, Pearson.
+
+\harvarditem[{Fukugita} et~al.]{{Fukugita}, {Hogan} \harvardand\
+  E.}{1993}{fukugita_cosmic}
+{Fukugita}, M., {Hogan}, C.~J. \harvardand\ E., P. P.~J.  \harvardyearleft
+  1993\harvardyearright , `{The cosmic distance scale and the Hubble
+  constant}', {\em Nature} {\bf 366}.
 
 \end{thebibliography}
