@@ -3,44 +3,44 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: cosmic_ladder.aux
 The style file: agsm.bst
 Database file #1: cosmic_ladder.bib
-You've used 2 entries,
+You've used 3 entries,
             2909 wiz_defined-function locations,
-            649 strings with 4979 characters,
-and the built_in function-call counts, 9073 in all, are:
-= -- 1489
-> -- 117
+            656 strings with 5295 characters,
+and the built_in function-call counts, 24696 in all, are:
+= -- 4139
+> -- 313
 < -- 0
-+ -- 720
-- -- 35
-* -- 783
-:= -- 1827
-add.period$ -- 2
-call.type$ -- 2
-change.case$ -- 28
-chr.to.int$ -- 2
-cite$ -- 2
-duplicate$ -- 31
-empty$ -- 56
-format.name$ -- 44
-if$ -- 1625
++ -- 2073
+- -- 98
+* -- 2225
+:= -- 4775
+add.period$ -- 3
+call.type$ -- 3
+change.case$ -- 42
+chr.to.int$ -- 3
+cite$ -- 3
+duplicate$ -- 47
+empty$ -- 91
+format.name$ -- 110
+if$ -- 4443
 int.to.chr$ -- 5
 int.to.str$ -- 0
-missing$ -- 3
-newline$ -- 9
-num.names$ -- 21
-pop$ -- 10
+missing$ -- 4
+newline$ -- 12
+num.names$ -- 32
+pop$ -- 12
 preamble$ -- 1
-purify$ -- 30
+purify$ -- 45
 quote$ -- 0
-skip$ -- 25
+skip$ -- 39
 stack$ -- 0
-substring$ -- 2097
-swap$ -- 4
-text.length$ -- 28
+substring$ -- 6012
+swap$ -- 7
+text.length$ -- 42
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 6
+type$ -- 10
 warning$ -- 0
-while$ -- 42
+while$ -- 64
 width$ -- 0
-write$ -- 29
+write$ -- 43
