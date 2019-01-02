@@ -5,6 +5,11 @@ Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   2007\harvardyearright , {\em An Introduction to Modern Astrophysics}, 2nd
   edn, Pearson.
 
+\harvarditem{{Follin} \harvardand\ {Knox}}{2018}{2018MNRAS.477.4534F}
+{Follin}, B. \harvardand\ {Knox}, L.  \harvardyearleft 2018\harvardyearright ,
+  `{Insensitivity of the distance ladder Hubble constant determination to
+  Cepheid calibration modelling choices}', {\em MNRAS} {\bf 477},~4534--4542.
+
 \harvarditem[{Freedman} et~al.]{{Freedman}, {Madore}, {Gibson}, {Ferrarese},
   {Kelson}, {Sakai}, {Mould}, {Kennicutt}, {Ford}, {Graham}, {Huchra},
   {Hughes}, {Illingworth}, {Macri} \harvardand\
@@ -32,6 +37,21 @@ Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   of selected techniques for measuring extragalactic distances}', {\em
   Astronomical Society of the Pacific} {\bf 104},~599--662.
 
+\harvarditem{{Planck Collaboration}}{2018}{2018arXiv180706209P}
+{Planck Collaboration}  \harvardyearleft 2018\harvardyearright , `{Planck 2018
+  results. VI. Cosmological parameters}', {\em arXiv e-prints}
+  p.~arXiv:1807.06209.
+
+\harvarditem[{Riess} et~al.]{{Riess}, {Casertano}, {Yuan}, {Macri}, {Anderson},
+  {MacKenty}, {Bowers}, {Clubb}, {Filippenko}, {Jones} \harvardand\
+  {Tucker}}{2018}{2018ApJ...855..136R}
+{Riess}, A.~G., {Casertano}, S., {Yuan}, W., {Macri}, L., {Anderson}, J.,
+  {MacKenty}, J.~W., {Bowers}, J.~B., {Clubb}, K.~I., {Filippenko}, A.~V.,
+  {Jones}, D.~O. \harvardand\ {Tucker}, B.~E.  \harvardyearleft
+  2018\harvardyearright , `{New Parallaxes of Galactic Cepheids from Spatially
+  Scanning the Hubble Space Telescope: Implications for the Hubble Constant}',
+  {\em \apj} {\bf 855},~136.
+
 \harvarditem[{Riess} et~al.]{{Riess}, {Macri}, {Casertano}, {Lampeitl},
   {Ferguson}, {Filippenko}, {Jha}, {Li} \harvardand\
   {Chornock}}{2011}{2011ApJ...730..119R}
@@ -40,5 +60,22 @@ Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   R.  \harvardyearleft 2011\harvardyearright , `{A 3\% Solution: Determination
   of the Hubble Constant with the Hubble Space Telescope and Wide Field Camera
   3}', {\em \apj} {\bf 730},~119.
+
+\harvarditem[{Riess} et~al.]{{Riess}, {Macri}, {Hoffmann}, {Scolnic},
+  {Casertano}, {Filippenko}, {Tucker}, {Reid}, {Jones}, {Silverman},
+  {Chornock}, {Challis}, {Yuan}, {Brown} \harvardand\
+  {Foley}}{2016}{2016ApJ...826...56R}
+{Riess}, A.~G., {Macri}, L.~M., {Hoffmann}, S.~L., {Scolnic}, D., {Casertano},
+  S., {Filippenko}, A.~V., {Tucker}, B.~E., {Reid}, M.~J., {Jones}, D.~O.,
+  {Silverman}, J.~M., {Chornock}, R., {Challis}, P., {Yuan}, W., {Brown}, P.~J.
+  \harvardand\ {Foley}, R.~J.  \harvardyearleft 2016\harvardyearright , `{A
+  2.4\% Determination of the Local Value of the Hubble Constant}', {\em \apj}
+  {\bf 826},~56.
+
+\harvarditem[{Spergel} et~al.]{{Spergel}, {Flauger} \harvardand\
+  {Hlo{\v{z}}ek}}{2015}{2015PhRvD..91b3518S}
+{Spergel}, D.~N., {Flauger}, R. \harvardand\ {Hlo{\v{z}}ek}, R.
+  \harvardyearleft 2015\harvardyearright , `{Planck data reconsidered}', {\em
+  \prd} {\bf 91},~023518.
 
 \end{thebibliography}
