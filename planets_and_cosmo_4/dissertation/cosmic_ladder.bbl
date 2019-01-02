@@ -4,10 +4,40 @@
 {Birkinshaw}, M.  \harvardyearleft 1999\harvardyearright , `{The
   Sunyaev-Zel'dovich effect}', {\em Physics Reports} {\bf 310},~97--195.
 
+\harvarditem[{Carlstrom} et~al.]{{Carlstrom}, {Holder} \harvardand\
+  {Reese}}{2002}{2002ARA&A..40..643C}
+{Carlstrom}, J.~E., {Holder}, G.~P. \harvardand\ {Reese}, E.~D.
+  \harvardyearleft 2002\harvardyearright , `{Cosmology with the
+  Sunyaev-Zel'dovich Effect}', {\em Annual Review of Astronomy and
+  Astrophysics} {\bf 40},~643--680.
+
 \harvarditem{Carroll \harvardand\ Ostlie}{2007}{carroll_astro}
 Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   2007\harvardyearright , {\em An Introduction to Modern Astrophysics}, 2nd
   edn, Pearson.
+
+\harvarditem[{Chang} et~al.]{{Chang}, {Ade}, {Aird}, {Benson}, {Bleem},
+  {Carlstrom}, {Cho}, {de Haan}, {Crawford}, {Crites}, {Dobbs}, {Everett},
+  {Halverson}, {Holder}, {Holzapfel} et~al.}{2009}{2009AIPC.1185..475C}
+{Chang}, C.~L., {Ade}, P.~A.~R., {Aird}, K.~A., {Benson}, B.~A., {Bleem},
+  L.~E., {Carlstrom}, J.~E., {Cho}, H.-M., {de Haan}, T., {Crawford}, T.~M.,
+  {Crites}, A.~T., {Dobbs}, M.~A., {Everett}, W., {Halverson}, N.~W., {Holder},
+  G.~P., {Holzapfel}, W.~L. et~al.  \harvardyearleft 2009\harvardyearright ,
+  {SPT-SZ: a Sunyaev-ZePdovich survey for galaxy clusters}, {\em in}
+  B.~{Young}, B.~{Cabrera} \harvardand\ A.~{Miller}, eds, `American Institute
+  of Physics Conference Series', Vol. 1185 of {\em American Institute of
+  Physics Conference Series}, pp.~475--477.
+
+\harvarditem[{de Haan} et~al.]{{de Haan}, {Benson}, {Bleem}, {Allen},
+  {Applegate}, {Ashby}, {Bautz}, {Bayliss}, {Bocquet}, {Brodwin}, {Carlstrom},
+  {Chang}, {Chiu}, {Cho}, {Clocchiatti}, {Crawford}
+  et~al.}{2016}{2016ApJ...832...95D}
+{de Haan}, T., {Benson}, B.~A., {Bleem}, L.~E., {Allen}, S.~W., {Applegate},
+  D.~E., {Ashby}, M.~L.~N., {Bautz}, M., {Bayliss}, M., {Bocquet}, S.,
+  {Brodwin}, M., {Carlstrom}, J.~E., {Chang}, C.~L., {Chiu}, I., {Cho}, H.-M.,
+  {Clocchiatti}, A., {Crawford}, T.~M. et~al.  \harvardyearleft
+  2016\harvardyearright , `{Cosmological Constraints from Galaxy Clusters in
+  the 2500 Square-degree SPT-SZ Survey}', {\em \apj} {\bf 832},~95.
 
 \harvarditem{{Follin} \harvardand\ {Knox}}{2018}{2018MNRAS.477.4534F}
 {Follin}, B. \harvardand\ {Knox}, L.  \harvardyearleft 2018\harvardyearright ,
@@ -31,6 +61,25 @@ Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
 {Fukugita}, M., {Hogan}, C.~J. \harvardand\ E., P. P.~J.  \harvardyearleft
   1993\harvardyearright , `{The cosmic distance scale and the Hubble
   constant}', {\em Nature} {\bf 366}.
+
+\harvarditem[{Holzapfel} et~al.]{{Holzapfel}, {Arnaud}, {Ade}, {Church},
+  {Fischer}, {Mauskopf}, {Rephaeli}, {Wilbanks} \harvardand\
+  {Lange}}{1997}{1997ApJ...480..449H}
+{Holzapfel}, W.~L., {Arnaud}, M., {Ade}, P.~A.~R., {Church}, S.~E., {Fischer},
+  M.~L., {Mauskopf}, P.~D., {Rephaeli}, Y., {Wilbanks}, T.~M. \harvardand\
+  {Lange}, A.~E.  \harvardyearleft 1997\harvardyearright , `{Measurement of the
+  Hubble Constant from X-Ray and 2.1 Millimeter Observations of Abell 2163}',
+  {\em \apj} {\bf 480},~449--465.
+
+\harvarditem[{Hou} et~al.]{{Hou}, {Reichardt}, {Story}, {Follin}, {Keisler},
+  {Aird}, {Benson}, {Bleem}, {Carlstrom}, {Chang}, {Cho}, {Crawford}, {Crites},
+  {de Haan}, {de Putter} et~al.}{2014}{2014ApJ...782...74H}
+{Hou}, Z., {Reichardt}, C.~L., {Story}, K.~T., {Follin}, B., {Keisler}, R.,
+  {Aird}, K.~A., {Benson}, B.~A., {Bleem}, L.~E., {Carlstrom}, J.~E., {Chang},
+  C.~L., {Cho}, H.-M., {Crawford}, T.~M., {Crites}, A.~T., {de Haan}, T., {de
+  Putter}, R. et~al.  \harvardyearleft 2014\harvardyearright , `{Constraints on
+  Cosmology from the Cosmic Microwave Background Power Spectrum of the 2500
+  deg$^{2}$ SPT-SZ Survey}', {\em \apj} {\bf 782},~74.
 
 \harvarditem[{Jacoby} et~al.]{{Jacoby}, {Branch}, {Ciardullo}, {Davies},
   {Harris}, {Pierce}, {Pritchet}, {Tonry} \harvardand\
