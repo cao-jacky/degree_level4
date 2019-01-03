@@ -90,9 +90,9 @@ Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   of selected techniques for measuring extragalactic distances}', {\em
   Astronomical Society of the Pacific} {\bf 104},~599--662.
 
-\harvarditem{{Planck Collaboration}}{2018}{2018arXiv180706209P}
-{Planck Collaboration}  \harvardyearleft 2018\harvardyearright , `{Planck 2018
-  results. VI. Cosmological parameters}', {\em arXiv e-prints}
+\harvarditem{{Planck Collaboration} et~al.}{2018}{2018arXiv180706209P}
+{Planck Collaboration} et~al.  \harvardyearleft 2018\harvardyearright ,
+  `{Planck 2018 results. VI. Cosmological parameters}', {\em arXiv e-prints}
   p.~arXiv:1807.06209.
 
 \harvarditem[{Riess} et~al.]{{Riess}, {Casertano}, {Yuan}, {Macri}, {Anderson},
@@ -125,6 +125,12 @@ Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   2.4\% Determination of the Local Value of the Hubble Constant}', {\em \apj}
   {\bf 826},~56.
 
+\harvarditem[{Shajib} et~al.]{{Shajib}, {Treu} \harvardand\
+  {Agnello}}{2018}{2018MNRAS.473..210S}
+{Shajib}, A.~J., {Treu}, T. \harvardand\ {Agnello}, A.  \harvardyearleft
+  2018\harvardyearright , `{Improving time-delay cosmography with spatially
+  resolved kinematics}', {\em MNRAS} {\bf 473},~210--226.
+
 \harvarditem[{Spergel} et~al.]{{Spergel}, {Flauger} \harvardand\
   {Hlo{\v{z}}ek}}{2015}{2015PhRvD..91b3518S}
 {Spergel}, D.~N., {Flauger}, R. \harvardand\ {Hlo{\v{z}}ek}, R.
@@ -132,8 +138,8 @@ Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   \prd} {\bf 91},~023518.
 
 \harvarditem{Suyu}{2017}{suyu_2017}
-Suyu, S.~H.  \harvardyearleft 2017\harvardyearright , `Progress toward an
-  accurate hubble constant', {\em Proceedings of the International Astronomical
-  Union} {\bf 13}(S336),~80--85.
+Suyu, S.~H.  \harvardyearleft 2017\harvardyearright , `{Progress toward an
+  accurate Hubble Constant}', {\em Proceedings of the International
+  Astronomical Union} {\bf 13}(S336),~80--85.
 
 \end{thebibliography}
