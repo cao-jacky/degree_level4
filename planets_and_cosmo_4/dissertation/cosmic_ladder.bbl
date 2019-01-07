@@ -1,5 +1,16 @@
 \begin{thebibliography}{xx}
 
+\harvarditem[{Acernese} et~al.]{{Acernese}, {Agathos}, {Agatsuma}, {Aisa},
+  {Allemandou}, {Allocca}, {Amarni}, {Astone}, {Balestri}, {Ballardin},
+  {Barone}, {Baronick}, {Barsuglia}, {Basti}, {Basti}, {Bauer}
+  et~al.}{2015}{2015CQGra..32b4001A}
+{Acernese}, F., {Agathos}, M., {Agatsuma}, K., {Aisa}, D., {Allemandou}, N.,
+  {Allocca}, A., {Amarni}, J., {Astone}, P., {Balestri}, G., {Ballardin}, G.,
+  {Barone}, F., {Baronick}, J.~P., {Barsuglia}, M., {Basti}, A., {Basti}, F.,
+  {Bauer}, T.~S. et~al.  \harvardyearleft 2015\harvardyearright , `{Advanced
+  Virgo: a second-generation interferometric gravitational wave detector}',
+  {\em Classical and Quantum Gravity} {\bf 32},~024001.
+
 \harvarditem{{Birkinshaw}}{1999}{1999PhR...310...97B}
 {Birkinshaw}, M.  \harvardyearleft 1999\harvardyearright , `{The
   Sunyaev-Zel'dovich effect}', {\em Physics Reports} {\bf 310},~97--195.
@@ -27,6 +38,18 @@ Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   B.~{Young}, B.~{Cabrera} \harvardand\ A.~{Miller}, eds, `American Institute
   of Physics Conference Series', Vol. 1185 of {\em American Institute of
   Physics Conference Series}, pp.~475--477.
+
+\harvarditem[{Courbin} et~al.]{{Courbin}, {Chantry}, {Revaz}, {Sluse}, {Faure},
+  {Tewes}, {Eulaers}, {Koleva}, {Asfandiyarov}, {Dye}, {Magain}, {van Winckel},
+  {Coles}, {Saha}, {Ibrahimov} \harvardand\
+  {Meylan}}{2011}{2011A&A...536A..53C}
+{Courbin}, F., {Chantry}, V., {Revaz}, Y., {Sluse}, D., {Faure}, C., {Tewes},
+  M., {Eulaers}, E., {Koleva}, M., {Asfandiyarov}, I., {Dye}, S., {Magain}, P.,
+  {van Winckel}, H., {Coles}, J., {Saha}, P., {Ibrahimov}, M. \harvardand\
+  {Meylan}, G.  \harvardyearleft 2011\harvardyearright , `{COSMOGRAIL: the
+  COSmological MOnitoring of GRAvItational Lenses. IX. Time delays, lens
+  dynamics and baryonic fraction in HE 0435-1223}', {\em {Astronomy and
+  Astrophysics}} {\bf 536},~A53.
 
 \harvarditem[{de Haan} et~al.]{{de Haan}, {Benson}, {Bleem}, {Allen},
   {Applegate}, {Ashby}, {Bautz}, {Bayliss}, {Bocquet}, {Brodwin}, {Carlstrom},
@@ -97,6 +120,14 @@ Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   Hubble Constant from the Gravitational Lens B1608+656}', {\em \apj} {\bf
   599},~70--85.
 
+\harvarditem[{LIGO Scientific Collaboration} et~al.]{{LIGO Scientific
+  Collaboration}, {Aasi}, {Abbott}, {Abbott}, {Abbott}, {Abernathy}, {Ackley},
+  {Adams}, {Adams}, {Addesso} \harvardand\ et~al.}{2015}{2015CQGra..32g4001L}
+{LIGO Scientific Collaboration}, {Aasi}, J., {Abbott}, B.~P., {Abbott}, R.,
+  {Abbott}, T., {Abernathy}, M.~R., {Ackley}, K., {Adams}, C., {Adams}, T.,
+  {Addesso}, P. \harvardand\ et~al.  \harvardyearleft 2015\harvardyearright ,
+  `{Advanced LIGO}', {\em Classical and Quantum Gravity} {\bf 32}(7),~074001.
+
 \harvarditem{{Planck Collaboration} et~al.}{2018}{2018arXiv180706209P}
 {Planck Collaboration} et~al.  \harvardyearleft 2018\harvardyearright ,
   `{Planck 2018 results. VI. Cosmological parameters}', {\em arXiv e-prints}
@@ -131,6 +162,10 @@ Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   \harvardand\ {Foley}, R.~J.  \harvardyearleft 2016\harvardyearright , `{A
   2.4\% Determination of the Local Value of the Hubble Constant}', {\em \apj}
   {\bf 826},~56.
+
+\harvarditem{Schutz}{1986}{Schutz:1986aa}
+Schutz, B.~F.  \harvardyearleft 1986\harvardyearright , `Determining the hubble
+  constant from gravitational wave observations', {\em Nature} {\bf 323},~310.
 
 \harvarditem[{Shajib} et~al.]{{Shajib}, {Treu} \harvardand\
   {Agnello}}{2018}{2018MNRAS.473..210S}
