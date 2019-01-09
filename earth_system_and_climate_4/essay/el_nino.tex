@@ -33,20 +33,39 @@
 \def\thesubsection{\alph{subsection}}
 
 \def\bibsection{\section*{References}}        % Position reference section correctly
-
+\setcitestyle{authoryear,round}
+\setlength\bibhang{0.2in}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,    
+    urlcolor=black,
+}
 
 %%%%% Document %%%%%
 \begin{document}                     
 
-\title{The incomplete models for El Ni\~{n}o Southern Oscillations } 
+\title{Modelling of the El Ni\~{n}o Southern Oscillations} 
 %\date{Submitted: \today{}} \author{Jacky Cao}
 
 \maketitle
-%\thispagestyle{plain} % produces page number for front 
+\thispagestyle{plain} % produces page number for front 
 
-The El Ni\~{n}o Southern Oscillations (ENSOs) are a phenomena constrained to the Pacific Ocean but they have lasting effects and teleconnections with the global climate system. 
+% Introducing ENSOs and why they are important
+The El Ni\~{n}o Southern Oscillations (ENSOs) are a composite weather phenomena originating in the Pacific Ocean which produce lasting effects and teleconnections on the global climate system. El Ni\~{n}o can be considered to be an oceanic warming event which occurs every few years. Whilst the Southern Oscillation is an interannual flip between the tropical sea level pressure between the western and eastern Pacific, in essence it is the weakening and strengthening of the easterly trade winds across the Pacific. \cite{doi:10.1175/1520-04931969097} provided a link between the two effects and described them to be different aspects of the same phenomena. \\
 
-\bibliographystyle{unsrt}
-\bibliography{pracitcal_2}
+% talk about how there isn't one true El Niño definition 
+
+% Identify the topic
+% Identify issues with the model
+% Identify data and evidence that suggests model needs revising
+% Suggest and defend new model or models
+
+\newpage
+
+\nocite{wang2017nino}
+\bibliographystyle{agsm}
+\bibliography{el_nino}
 
 \end{document}

@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: el_nino.aux
+The style file: agsm.bst
+Database file #1: el_nino.bib
+You've used 2 entries,
+            2909 wiz_defined-function locations,
+            651 strings with 5068 characters,
+and the built_in function-call counts, 8762 in all, are:
+= -- 1397
+> -- 136
+< -- 0
++ -- 668
+- -- 42
+* -- 758
+:= -- 1760
+add.period$ -- 2
+call.type$ -- 2
+change.case$ -- 28
+chr.to.int$ -- 2
+cite$ -- 2
+duplicate$ -- 40
+empty$ -- 83
+format.name$ -- 47
+if$ -- 1579
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 2
+newline$ -- 9
+num.names$ -- 21
+pop$ -- 10
+preamble$ -- 1
+purify$ -- 30
+quote$ -- 0
+skip$ -- 35
+stack$ -- 0
+substring$ -- 1981
+swap$ -- 10
+text.length$ -- 28
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 8
+warning$ -- 0
+while$ -- 46
+width$ -- 0
+write$ -- 30
