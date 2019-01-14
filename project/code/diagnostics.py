@@ -26,8 +26,9 @@ def diag_results(cube_id):
         return (c*x + term1 + term2)
 
     with PdfPages('diagnostics/cube_'+str(cube_id)+'_diagnostic.pdf') as pdf: 
-        analysis = cube_reader.analysis("/Volumes/Jacky_Cao/University/level4/project/" + 
-                "cubes_better/cube_"+str(cube_id)+".fits","data/skyvariance_csub.fits") 
+        analysis = cube_reader.analysis("/Volumes/Jacky_Cao/University/level4/" + 
+                "project/cubes_better/cube_"+str(cube_id)+".fits", 
+                "data/skyvariance_csub.fits") 
 
         # calling data into variables
         icd = analysis['image_data']

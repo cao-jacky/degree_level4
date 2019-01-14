@@ -106,13 +106,20 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
     #
     c = 299792.458  # speed of light in km/s
     velscale = c*np.log(wave[1]/wave[0])  # eq.(8) of Cappellari (2017)
-    FWHM_gal = 2.76  # SDSS has an approximate instrumental resolution FWHM of 2.76A.
+
+    sky_sigma_inst = np.load("data/sigma_inst.npy")
+    FWHM_gal = 2.35*sky_sigma_inst  # MUSE FWHM in Angstrom
+    #FWHM_gal = 2.76  # SDSS has an approximate instrumental resolution FWHM of 2.76A.
 
     #------------------- Setup templates -----------------------
     ppxf_dir = path.dirname(path.realpath(ppxf_package.__file__))
+
+    # Using NOAO Coudé templates
+    #pathname = 'noao_templates/*.fits'
     pathname = ppxf_dir + '/miles_models/Mun1.30*.fits'
 
     miles = lib.miles(pathname, velscale, FWHM_gal)
+    #fwhm_tem = 1.35 
 
     # The stellar templates are reshaped below into a 2-dim array with each
     # spectrum as a column, however we save the original array dimensions,

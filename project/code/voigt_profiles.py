@@ -74,12 +74,12 @@ def voigt_fitter(cube_id):
 
     vgt_pars.add('z', value=z)
 
-    vgt_pars.add('v1_amplitude', value=-0.1, max=0.0)
+    vgt_pars.add('v1_amplitude', value=-0.1)
     vgt_pars.add('v1_center', expr='3934.777*(1+z)')
     vgt_pars.add('v1_sigma', expr='sqrt(sigma_inst**2 + sigma_gal**2)', min=0.0)
     #vgt_pars.add('v1_gamma', value=0.01)
 
-    vgt_pars.add('v2_amplitude', value=-0.1, max=0.0)
+    vgt_pars.add('v2_amplitude', value=-0.1)
     vgt_pars.add('v2_center', expr='3969.588*(1+z)')
     vgt_pars.add('v2_sigma', expr='v1_sigma')
     #vgt_pars.add('v2_gamma', value=0.01) 
@@ -140,4 +140,4 @@ def example_voigt_plotter():
     plt.close("all")
 
 #example_voigt_plotter()
-#voigt_fitter(1804)
+voigt_fitter(1578)
