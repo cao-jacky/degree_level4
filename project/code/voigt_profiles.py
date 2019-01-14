@@ -27,6 +27,9 @@ def voigt_fitter(cube_id):
     data_spec = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
             str(int(cube_id)) + "_cbs_y.npy") # 'y-data'
 
+    # y-data which has been reduced down by median during pPXF running
+    galaxy = best_fit['y_data'] 
+
     model_wl = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
             str(int(cube_id)) + "_lamgal.npy") 
     model_spec = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
@@ -47,7 +50,9 @@ def voigt_fitter(cube_id):
         line_count += 1
 
     # masking out the region of CaH and CaK
-    calc_rgn = np.array([3900,4000]) * (1+z)
+    calc_rgn = np.array([3900,4000])
+    
+    #calc_rgn = np.array([3900,4000]) * (1+z)
     #calc_rgn = np.array([3910,3950]) * (1+z)
     
     data_mask = ((data_wl > calc_rgn[0]) & (data_wl < calc_rgn[1]))
@@ -60,29 +65,30 @@ def voigt_fitter(cube_id):
     model_wl_masked = model_wl[model_mask]
     model_spec_masked = model_spec[model_mask]
 
+    galaxy_masked = galaxy[model_mask]
+
     # Applying the lmfit routine to fit two Voigt profiles over our spectra data
     vgt_pars = Parameters()
     vgt_pars.add('sigma_inst', value=sigma_inst, vary=False)
     vgt_pars.add('sigma_gal', value=1.0, min=0.0)
-
-    """
+ 
     vgt_pars.add('v1_amplitude', value=-0.1, max=0.0)
-    vgt_pars.add('v1_center', value=3934.777*(1+z), min=3930*(1+z), max=3940*(1+z))
+    vgt_pars.add('v1_center', value=3934.777, min=3930, max=3940)
     vgt_pars.add('v1_sigma', expr='sqrt(sigma_inst**2 + sigma_gal**2)', min=0.0)
-    #vgt_pars.add('v1_gamma', value=0.01)"""
+    #vgt_pars.add('v1_gamma', value=0.01)
 
     vgt_pars.add('v2_amplitude', value=-0.1, max=0.0)
-    vgt_pars.add('v2_center', value=3969.588*(1+z), min=3950*(1+z), max=3975*(1+z))
-    vgt_pars.add('v2_sigma', expr='sqrt(sigma_inst**2 + sigma_gal**2)', min=0.0)
+    vgt_pars.add('v2_center', value=3969.588, min=3950, max=3975)
+    vgt_pars.add('v2_sigma', expr='v1_sigma')
     #vgt_pars.add('v2_gamma', value=0.01) 
 
     vgt_pars.add('c', value=0)
 
-    #voigt = VoigtModel(prefix='v1_') + VoigtModel(prefix='v2_') + ConstantModel()
-    voigt = VoigtModel(prefix='v2_') + ConstantModel()
+    voigt = VoigtModel(prefix='v1_') + VoigtModel(prefix='v2_') + ConstantModel()
+    #voigt = VoigtModel(prefix='v2_') + ConstantModel()
 
     #vgt_model = Model(voigt)
-    vgt_result = voigt.fit(model_spec_masked, x=model_wl_masked, params=vgt_pars)
+    vgt_result = voigt.fit(galaxy_masked, x=model_wl_masked, params=vgt_pars)
 
     opt_pars = vgt_result.best_values
     best_fit = vgt_result.best_fit
@@ -90,7 +96,7 @@ def voigt_fitter(cube_id):
 
     # Plotting the spectra
     fig, ax = plt.subplots()
-    ax.plot(data_wl_masked, data_spec_masked, lw=1.5, c="#000000", alpha=0.3)
+    ax.plot(model_wl_masked, galaxy_masked, lw=1.5, c="#000000", alpha=0.3)
     ax.plot(model_wl_masked, model_spec_masked, lw=1.5, c="#00c853")
     ax.plot(model_wl_masked, best_fit, lw=1.5, c="#e53935")
 
@@ -99,7 +105,7 @@ def voigt_fitter(cube_id):
     ax.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
 
     fig.tight_layout()
-    fig.savefig("graphs/voigt_fittings/cubes/cube_"+str(cube_id)+"_cah_voigt.pdf")
+    fig.savefig("graphs/voigt_fittings/cubes/cube_"+str(cube_id)+"_voigt.pdf")
     plt.close("all")
 
     # obtaining sigmas

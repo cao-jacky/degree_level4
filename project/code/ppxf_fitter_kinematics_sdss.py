@@ -591,7 +591,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
 #------------------------------------------------------------------------------
 
-kinematics_sdss(1804, 0, "all")
+#kinematics_sdss(1804, 0, "all")
 
 #if __name__ == '__main__':
     #ppxf_example_kinematics_sdss(468)
