@@ -358,7 +358,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     #fwhm_gal = 2.51*wdisp*dlam_gal # Resolution FWHM of every pixel, in Angstroms
 
     sky_sigma_inst = np.load("data/sigma_inst.npy")
-    fwhm_gal = 2.35*sky_sigma_inst*dlam_gal
+    fwhm_gal = 2.35*sky_sigma_inst*wdisp
 
     velscale = np.log(frac)*c       # Constant velocity scale in km/s per pixel
 
