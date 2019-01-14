@@ -173,7 +173,7 @@ def ppxf_cube_auto():
             else:
                 print("Currently processing cube " + str(int(cube_id)))
 
-                # Running diagnostics tool for the cool
+                # Running diagnostics tool for the cube
                 diagnostics.diag_results(cube_id)
 
                 cube_file = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" +
@@ -327,7 +327,7 @@ def ppxf_cube_auto():
     data = np.delete(data, sigma_doublet_zeros, 0)
     print(data)
 
-    #np.save("data/ppxf_fitter_data", data)
+    np.save("data/ppxf_fitter_data", data)
 
     # working with just one cube
     #cube_id = 1129

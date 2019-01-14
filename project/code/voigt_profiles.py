@@ -50,55 +50,54 @@ def voigt_fitter(cube_id):
         line_count += 1
 
     # masking out the region of CaH and CaK
-    calc_rgn = np.array([3900,4000])
+    calc_rgn = np.array([3900,4000]) 
     
-    #calc_rgn = np.array([3900,4000]) * (1+z)
-    #calc_rgn = np.array([3910,3950]) * (1+z)
-    
-    data_mask = ((data_wl > calc_rgn[0]) & (data_wl < calc_rgn[1]))
+    data_rgn = calc_rgn * (1+z)
+    data_mask = ((data_wl > data_rgn[0]) & (data_wl < data_rgn[1]))
     data_wl_masked = data_wl[data_mask]
     data_spec_masked = data_spec[data_mask]
 
     data_spec_masked = data_spec_masked / np.median(data_spec_masked)
     
+    model_rgn = calc_rgn
     model_mask = ((model_wl > calc_rgn[0]) & (model_wl < calc_rgn[1]))
     model_wl_masked = model_wl[model_mask]
     model_spec_masked = model_spec[model_mask]
 
+    z_wl_masked = model_wl_masked * (1+z) # redshifted wavelength range
     galaxy_masked = galaxy[model_mask]
 
     # Applying the lmfit routine to fit two Voigt profiles over our spectra data
     vgt_pars = Parameters()
     vgt_pars.add('sigma_inst', value=sigma_inst, vary=False)
     vgt_pars.add('sigma_gal', value=1.0, min=0.0)
- 
+
+    vgt_pars.add('z', value=z)
+
     vgt_pars.add('v1_amplitude', value=-0.1, max=0.0)
-    vgt_pars.add('v1_center', value=3934.777, min=3930, max=3940)
+    vgt_pars.add('v1_center', expr='3934.777*(1+z)')
     vgt_pars.add('v1_sigma', expr='sqrt(sigma_inst**2 + sigma_gal**2)', min=0.0)
     #vgt_pars.add('v1_gamma', value=0.01)
 
     vgt_pars.add('v2_amplitude', value=-0.1, max=0.0)
-    vgt_pars.add('v2_center', value=3969.588, min=3950, max=3975)
+    vgt_pars.add('v2_center', expr='3969.588*(1+z)')
     vgt_pars.add('v2_sigma', expr='v1_sigma')
     #vgt_pars.add('v2_gamma', value=0.01) 
 
     vgt_pars.add('c', value=0)
 
     voigt = VoigtModel(prefix='v1_') + VoigtModel(prefix='v2_') + ConstantModel()
-    #voigt = VoigtModel(prefix='v2_') + ConstantModel()
-
-    #vgt_model = Model(voigt)
-    vgt_result = voigt.fit(galaxy_masked, x=model_wl_masked, params=vgt_pars)
+    
+    vgt_result = voigt.fit(galaxy_masked, x=z_wl_masked, params=vgt_pars)
 
     opt_pars = vgt_result.best_values
     best_fit = vgt_result.best_fit
-    #opt_model = V(data_wl_masked, opt_pars['alpha'], opt_pars['gamma'])
 
     # Plotting the spectra
     fig, ax = plt.subplots()
-    ax.plot(model_wl_masked, galaxy_masked, lw=1.5, c="#000000", alpha=0.3)
-    ax.plot(model_wl_masked, model_spec_masked, lw=1.5, c="#00c853")
-    ax.plot(model_wl_masked, best_fit, lw=1.5, c="#e53935")
+    ax.plot(z_wl_masked, galaxy_masked, lw=1.5, c="#000000", alpha=0.3)
+    ax.plot(z_wl_masked, model_spec_masked, lw=1.5, c="#00c853")
+    ax.plot(z_wl_masked, best_fit, lw=1.5, c="#e53935")
 
     ax.tick_params(labelsize=15)
     ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
@@ -113,7 +112,8 @@ def voigt_fitter(cube_id):
     sigma_ppxf = best_fit_vars[1]
     sigma_opt = opt_pars['v2_sigma']
 
-    print(opt_pars)
+    #print(opt_pars)
+    print(vgt_result.fit_report())
 
     speed_of_light = 299792.458 # speed of light in kms^-1
     sigma_opt_kms = (speed_of_light/sigma_opt) * 10**(-3)
@@ -140,4 +140,4 @@ def example_voigt_plotter():
     plt.close("all")
 
 #example_voigt_plotter()
-voigt_fitter(1804)
+#voigt_fitter(1804)
