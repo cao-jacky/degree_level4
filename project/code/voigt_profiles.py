@@ -6,7 +6,7 @@ import ppxf_fitter_kinematics_sdss
 from lmfit import Parameters, Model
 from lmfit.models import VoigtModel, ConstantModel
 
-from scipy.optimize import curve_fit
+import peakutils
 
 import datetime
 
@@ -20,52 +20,29 @@ plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 
-def cauchy(x, x0, g):
-    return 1. / ( np.pi * g * ( 1 + ( ( x - x0 )/ g )**2 ) )
-
-def gauss( x, x0, s):
-    return 1./ np.sqrt(2 * np.pi * s**2 ) * np.exp( - (x-x0)**2 / ( 2 * s**2 ) )
-
-def voigt1( x, z, s, g, a1 ):
-    a = a1
-    x0 = 3934.777*(1+z)
-    fg = 2 * s * np.sqrt( 2 * np.log(2) )
-    fl = 2 * g
-    f = ( fg**5 +  2.69269 * fg**4 * fl + 2.42843 * fg**3 * fl**2 + 4.47163 * fg**2 * fl**3 + 0.07842 * fg * fl**4+ fl**5)**(1./5.)
-    eta = 1.36603 * ( fl / f ) - 0.47719 * ( fl / f )**2 + 0.11116 * ( f / fl )**3
-    return a * ( eta * cauchy( x, x0, f) + ( 1 - eta ) * gauss( x, x0, f ) )
-
-def voigt2( x, z, s, g, a2 ):
-    a = a2
-    x0 = 3969.588*(1+z)
-    fg = 2 * s * np.sqrt( 2 * np.log(2) )
-    fl = 2 * g
-    f = ( fg**5 +  2.69269 * fg**4 * fl + 2.42843 * fg**3 * fl**2 + 4.47163 * fg**2 * fl**3 + 0.07842 * fg * fl**4+ fl**5)**(1./5.)
-    eta = 1.36603 * ( fl / f ) - 0.47719 * ( fl / f )**2 + 0.11116 * ( f / fl )**3
-    return a * ( eta * cauchy( x, x0, f) + ( 1 - eta ) * gauss( x, x0, f ) )
-
-def cah_cak(x, z, s, g, a1, a2, c):
-    return voigt1(x,z,s,g,a1) + voigt2(x,z,s,g,a2) + c
-
 def voigt_fitter(cube_id):
     # Running pPXF fitting routine
     vars_file = ("ppxf_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
-            "_ppxf_variables")
-
+            "_ppxf_variables.npy")
     if not (os.path.exists(vars_file)):
         best_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all")
+        best_fit_vars = best_fit['variables']
     else:
-        best_fit = np.load(vars_file)
+        best_fit_vars = np.load(vars_file)
 
-    best_fit_vars = best_fit['variables']
+    # y-data which has been reduced down by median during pPXF running
+    gal_file = ("ppxf_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
+            "_galaxy.npy")
+    if not (os.path.exists(gal_file)):
+        best_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all")
+        galaxy = best_fit['y_data']
+    else:
+        galaxy = np.load(gal_file)
 
     data_wl = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
             str(int(cube_id)) + "_cbd_x.npy") # 'x-data'
     data_spec = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
-            str(int(cube_id)) + "_cbs_y.npy") # 'y-data'
-
-    # y-data which has been reduced down by median during pPXF running
-    galaxy = best_fit['y_data'] 
+            str(int(cube_id)) + "_cbs_y.npy") # 'y-data' 
 
     model_wl = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
             str(int(cube_id)) + "_lamgal.npy") 
@@ -104,41 +81,47 @@ def voigt_fitter(cube_id):
     z_wl_masked = model_wl_masked * (1+z) # redshifted wavelength range
     galaxy_masked = galaxy[model_mask]
 
+    bl_guess = np.median(galaxy_masked) # base-line guess
+    voigt_min = np.min(galaxy_masked) - bl_guess
+
+    sigma_ppxf_kms = best_fit_vars[1] 
+
+    speed_of_light = 299792.458 # speed of light in kms^-1
+    sigma_ppxf = speed_of_light / (sigma_ppxf_kms * 10**(3))
+
     # Applying the lmfit routine to fit two Voigt profiles over our spectra data
     vgt_pars = Parameters()
     vgt_pars.add('sigma_inst', value=sigma_inst, vary=False)
-    vgt_pars.add('sigma_gal', value=1.0, min=0.0)
+    vgt_pars.add('sigma_gal', value=sigma_ppxf, min=0.0)
 
     vgt_pars.add('z', value=z)
 
-    vgt_pars.add('v1_amplitude', value=-0.1)
+    vgt_pars.add('v1_amplitude', value=voigt_min+1)
     vgt_pars.add('v1_center', expr='3934.777*(1+z)')
     vgt_pars.add('v1_sigma', expr='sqrt(sigma_inst**2 + sigma_gal**2)', min=0.0)
     #vgt_pars.add('v1_gamma', value=0.01) # gamma as a parameter is not needed
 
-    vgt_pars.add('v2_amplitude', value=-0.1)
+    vgt_pars.add('v2_amplitude', value=voigt_min)
     vgt_pars.add('v2_center', expr='3969.588*(1+z)')
     vgt_pars.add('v2_sigma', expr='v1_sigma')
     #vgt_pars.add('v2_gamma', value=0.01) # gamma is a mirror of sigma apparently 
 
-    vgt_pars.add('c', value=0)
+    vgt_pars.add('c', value=bl_guess)
 
     voigt = VoigtModel(prefix='v1_') + VoigtModel(prefix='v2_') + ConstantModel()
     
-    vgt_result = voigt.fit(galaxy_masked, x=z_wl_masked, params=vgt_pars)
+    init = voigt.eval(vgt_pars, x=z_wl_masked)
 
+    vgt_result = voigt.fit(galaxy_masked, x=z_wl_masked, params=vgt_pars)
     opt_pars = vgt_result.best_values
     best_fit = vgt_result.best_fit
-
-    # Using SciPy as an alternative fitting routine
-    popt, pcov = curve_fit(cah_cak, z_wl_masked, galaxy_masked)
-    print(popt)
 
     # Plotting the spectra
     fig, ax = plt.subplots()
     ax.plot(z_wl_masked, galaxy_masked, lw=1.5, c="#000000", alpha=0.3)
     ax.plot(z_wl_masked, model_spec_masked, lw=1.5, c="#00c853")
     ax.plot(z_wl_masked, best_fit, lw=1.5, c="#e53935")
+    ax.plot(z_wl_masked, init, 'k--', lw=1.5, alpha=0.2)
 
     ax.tick_params(labelsize=15)
     ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
@@ -148,14 +131,14 @@ def voigt_fitter(cube_id):
     fig.savefig("graphs/voigt_fittings/cubes/cube_"+str(cube_id)+"_voigt.pdf")
     plt.close("all")
 
-    # obtaining sigmas from pPXF
-    sigma_ppxf = best_fit_vars[1]
-    sigma_opt = opt_pars['v2_sigma']
-
     lmfit_report = open("results/voigt/cube_"+str(int(cube_id))+"_lmfit.txt", "w")
     lmfit_report.write("Analysis performed on "+str(datetime.datetime.now())+"\n\n")
     lmfit_report.write("Output from lmfit is the following: \n") 
     lmfit_report.write(vgt_result.fit_report())
+
+    # obtaining sigmas from pPXF
+    sigma_ppxf = best_fit_vars[1]
+    sigma_opt = opt_pars['v2_sigma']
 
     speed_of_light = 299792.458 # speed of light in kms^-1
     sigma_opt_kms = (speed_of_light/sigma_opt) * 10**(-3)
@@ -166,20 +149,4 @@ def voigt_fitter(cube_id):
 
     return {'sigmas': sigmas}
     
-
-def example_voigt_plotter():
-    alpha, gamma = -0.1, 0.1
-    x = np.linspace(-0.8,0.8,1000)
-
-    fig, ax = plt.subplots() 
-    ax.plot(x, G(x, alpha), ls=':', label='Gaussian')
-    ax.plot(x, L(x, gamma), ls='--', label='Lorentzian')
-    ax.plot(x, V(x, alpha, gamma), label='Voigt')
-    ax.set_xlim(-0.8,0.8)
-    ax.legend()
-    fig.tight_layout()
-    fig.savefig("graphs/voigt_fittings/test_voigt.pdf")
-    plt.close("all")
-
-#example_voigt_plotter()
 voigt_fitter(1804)

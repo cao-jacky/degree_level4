@@ -1,4 +1,4 @@
-Results produced on 2019-01-14 15:53:17.145768
+Results produced on 2019-01-15 15:01:49.846459
 
 # Model fitting for [OII] Gaussian Doublet 
 ## Initial Parameters 

@@ -532,6 +532,9 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     if ((np.sum(y_data_var) == 0) and isinstance(fit_range, str)):
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_ppxf_variables", 
                 ppxf_variables) 
+ 
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_galaxy", 
+                galaxy)
 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
@@ -562,7 +565,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
         kinematics_file.write('Elapsed time in PPXF: %.2f s' % (process_time() - t) 
                 + "\n")
-
 
         plt.tight_layout()
         graph_loc = "ppxf_results" + "/cube_" + str(int(cube_id))

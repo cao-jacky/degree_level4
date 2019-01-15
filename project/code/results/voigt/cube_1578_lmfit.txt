@@ -1,0 +1,32 @@
+Analysis performed on 2019-01-15 14:57:48.730091
+
+Output from lmfit is the following: 
+[[Model]]
+    ((Model(voigt, prefix='v1_') + Model(voigt, prefix='v2_')) + Model(constant))
+[[Fit Statistics]]
+    # fitting method   = leastsq
+    # function evals   = 87
+    # data points      = 137
+    # variables        = 5
+    chi-square         = 5.28999562
+    reduced chi-square = 0.04007572
+    Akaike info crit   = -435.820401
+    Bayesian info crit = -421.220496
+[[Variables]]
+    sigma_inst:    0.9929278 (fixed)
+    sigma_gal:     7.37782836 +/- 0.45519847 (6.17%) (init = 1.9075)
+    z:             0.66682173 +/- 1.2713e-04 (0.02%) (init = 0.6664017)
+    v1_amplitude: -22.3695552 +/- 2.75936022 (12.34%) (init = -0.5251451)
+    v1_center:     6558.57182 +/- 0.50022378 (0.01%) == '3934.777*(1+z)'
+    v1_sigma:      7.44434396 +/- 0.45113125 (6.06%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
+    v2_amplitude: -57.2845914 +/- 3.63376758 (6.34%) (init = -1.525145)
+    v2_center:     6616.59555 +/- 0.50464926 (0.01%) == '3969.588*(1+z)'
+    v2_sigma:      7.44434396 +/- 0.00000000 (0.00%) == 'v1_sigma'
+    c:             1.79813691 +/- 0.03535400 (1.97%) (init = 1.51238)
+[[Correlations]] (unreported correlations are < 0.100)
+    C(v2_amplitude, c)            = -0.807
+    C(sigma_gal, v2_amplitude)    = -0.786
+    C(v1_amplitude, c)            = -0.770
+    C(sigma_gal, c)               =  0.649
+    C(v1_amplitude, v2_amplitude) =  0.629
+    C(sigma_gal, v1_amplitude)    = -0.578
