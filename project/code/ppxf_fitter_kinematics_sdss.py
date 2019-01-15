@@ -519,7 +519,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     ppxf_variables = pp.sol
     ppxf_errors = pp.error
-
+ 
     red_chi2 = pp.chi2
     best_fit = pp.bestfit
 
@@ -530,6 +530,9 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     #plt.show()
     
     if ((np.sum(y_data_var) == 0) and isinstance(fit_range, str)):
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_ppxf_variables", 
+                ppxf_variables) 
+
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_lamgal", lam_gal) 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_flux", flux)
  
