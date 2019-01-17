@@ -126,6 +126,19 @@ def usable_cubes(catalogue, bright_objects):
 
     return list_usable
 
+def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
+    """ function for Gaussian doublet """  
+    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
+    l1 = dblt_mu[0] * (1+z)
+    l2 = dblt_mu[1] * (1+z)
+
+    sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
+
+    norm = (sigma*np.sqrt(2*np.pi))
+    term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma**2))
+    term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
+    return (c*x + term1 + term2)
+
 def ppxf_cube_auto():
     cf = cat_func()
     catalogue = cf['cat'] # calling sorted catalogue from cataogue function
@@ -325,18 +338,62 @@ def ppxf_cube_auto():
 
         # Singular diagnostic plot
         def singular_plot():
+            # parameters from lmfit
+            cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + 
+                    str(cube_id) + "_lmfit.txt")
+            cube_result_file = open(cube_result_file)
+
+            line_count = 0 
+            for crf_line in cube_result_file:
+                if (line_count == 15):
+                    curr_line = crf_line.split()
+                    c = float(curr_line[1])
+                if (line_count == 16):
+                    curr_line = crf_line.split()
+                    i1 = float(curr_line[1])
+                if (line_count == 18):
+                    curr_line = crf_line.split()
+                    i2 = float(curr_line[1])
+                if (line_count == 19):
+                    curr_line = crf_line.split()
+                    sigma_gal = float(curr_line[1])
+                if (line_count == 20):
+                    curr_line = crf_line.split()
+                    z = float(curr_line[1])
+                if (line_count == 21):
+                    curr_line = crf_line.split()
+                    sigma_inst = float(curr_line[1])
+                line_count += 1
+
             f, (ax1, ax2, ax3)  = plt.subplots(1, 3, 
                     gridspec_kw={'width_ratios':[1,1,3]},figsize=(8,2))
+
+            g, (gax1, gax2, gax3) = plt.subplots(1,3,
+                    gridspec_kw={'width_ratios':[1,2,2]}, figsize=(12,4))
 
             # "{:.1f}".format(voigt_sigmas[0])
 
             #ax1.set_title(r'\textbf{-}')
             ax1.axis('off')
             ax1.text(0.0, 0.9, "cube\_" + str(cube_id), fontsize=13)
-            ax1.text(0.0, 0.7, "sigma\_star: " + 
+            ax1.text(0.0, 0.7, "sigma\_star (km/s): " + 
                     str("{:.1f}".format(voigt_sigmas[0])), fontsize=13)
-            ax1.text(0.0, 0.55, "sigma\_OII: " + 
+            ax1.text(0.0, 0.55, "sigma\_OII (km/s): " + 
                     str("{:.1f}".format(vel_dispersion)), fontsize=13)
+
+            gax1.axis('off')
+            gax1.text(0.0, 0.9, "cube\_" + str(cube_id), fontsize=13)
+            gax1.text(0.0, 0.8, "sigma\_star (km/s): " + 
+                    str("{:.1f}".format(voigt_sigmas[0])), fontsize=13)
+            gax1.text(0.0, 0.75, "sigma\_OII (km/s): " + 
+                    str("{:.1f}".format(vel_dispersion)), fontsize=13)
+
+            gax1.text(0.0, 0.65, "OII fit outputs: ", fontsize=13)
+            gax1.text(0.0, 0.6, "sigma\_gal: " + 
+                    str("{:.5f}".format(sigma_gal)), fontsize=13)
+            gax1.text(0.0, 0.55, "sigma\_inst: " + 
+                    str("{:.5f}".format(sigma_inst)), fontsize=13)
+
 
             ax2.set_title(r'\textbf{MUSE}')
             ax2.axis('off') 
@@ -391,9 +448,9 @@ def ppxf_cube_auto():
                         }
                     }
 
-            plt.figure()
-
             ax3.plot(x_data, y_data_scaled, linewidth=0.7, color="#000000")
+
+            gax2.plot(x_data, y_data_scaled, linewidth=0.7, color="#000000")
 
             #ax3.set_title(r'\textbf{cube\_'+str(cube_id)+'}') 
 
@@ -409,6 +466,10 @@ def ppxf_cube_auto():
 
                 ax3.axvline(x=spec_line, linewidth=0.5, color="#1e88e5", 
                         alpha=alpha_line) 
+                gax2.axvline(x=spec_line, linewidth=0.5, color="#1e88e5", 
+                        alpha=alpha_line)
+                gax3.axvline(x=spec_line, linewidth=0.5, color="#1e88e5", 
+                        alpha=alpha_line)
 
             for e_key, e_val in sl['abs'].items():
                 spec_line = float(e_val)
@@ -417,6 +478,10 @@ def ppxf_cube_auto():
 
                 ax3.axvline(x=spec_line, linewidth=0.5, color="#ff8f00", 
                         alpha=0.7)
+                gax2.axvline(x=spec_line, linewidth=0.5, color="#ff8f00", 
+                        alpha=0.7)
+                gax3.axvline(x=spec_line, linewidth=0.5, color="#1e88e5", 
+                        alpha=alpha_line)
 
             # iron spectral lines
             for e_key, e_val in sl['iron'].items(): 
@@ -424,6 +489,8 @@ def ppxf_cube_auto():
                 #spec_line = float(e_val) * (1+z)
 
                 ax3.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", 
+                        alpha=0.3)
+                gax2.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", 
                         alpha=0.3)
 
             ax3.plot(x_data, y_model, linewidth=0.7, color="#b71c1c")
@@ -434,8 +501,67 @@ def ppxf_cube_auto():
            
             ax3.set_xlim([3500, 4000]) # 3500Å to 4000Å
 
+            gax2.plot(x_data, y_model, linewidth=0.7, color="#b71c1c") 
+
+            xd_range = [np.min(x_data), np.max(x_data)]
+            xd = np.linspace(xd_range[0], xd_range[1], 4000)
+
+            # Plotting OII doublet 
+            doublet_data = f_doublet(xd*(1+z), c, i1, i2, sigma_gal, z, 
+                    sigma_inst)
+            ppxf_no_scale = np.load("ppxf_results/cube_" + str(int(cube_id)) + 
+                    "/cube_" + str(int(cube_id)) + "_not_scaled.npy")
+            gax2.plot(xd, doublet_data/np.median(ppxf_no_scale), lw=0.5, 
+                    color="#7b1fa2")
+
+            # Plotting inidividual Gaussians which make the doublet
+            dblt_mu = [3727.092, 3729.875] # non-redshifted wavelengths for OII
+            l1 = dblt_mu[0] * (1+z)
+            l2 = dblt_mu[1] * (1+z)
+            
+            sig = np.sqrt(sigma_gal**2 + sigma_inst**2) 
+            norm = (sig*np.sqrt(2*np.pi))
+
+            x_dat = xd * (1+z)
+
+            lm_y1 = c + ( i1 / norm ) * np.exp(-(x_dat-l1)**2/(2*sig**2))
+            lm_y2 = c + ( i2 / norm ) * np.exp(-(x_dat-l2)**2/(2*sig**2))
+
+            gax2.plot(xd, lm_y1/np.median(ppxf_no_scale), linewidth=0.5, 
+                    color="#8bc34a", alpha=0.7) 
+            gax2.plot(xd, lm_y2/np.median(ppxf_no_scale), linewidth=0.5, 
+                    color="#1e88e5", alpha=0.7)
+
+            gax2.tick_params(labelsize=13)
+            gax2.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+            gax2.set_ylabel(r'\textbf{Relative Flux}', fontsize=13)
+           
+            gax2.set_xlim([3700, 4000]) # 3700Å to 4000Å
+
+            # Zoomed in plot on the doublet region
+            gax3.plot(x_data, y_data_scaled, linewidth=0.7, color="#000000")
+            gax3.plot(xd, doublet_data/np.median(ppxf_no_scale), lw=0.5, 
+                    color="#7b1fa2")
+
+            gax3.plot(xd, lm_y1/np.median(ppxf_no_scale), linewidth=0.5, 
+                    color="#8bc34a", alpha=0.7) 
+            gax3.plot(xd, lm_y2/np.median(ppxf_no_scale), linewidth=0.5, 
+                    color="#1e88e5", alpha=0.7)
+
+            gax3.tick_params(labelsize=13)
+            gax3.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
+            gax3.set_ylabel(r'\textbf{Relative Flux}', fontsize=13)
+           
+            gax3.set_xlim([3700, 3750]) # 3700Å to 4000Å
+
             f.tight_layout()
-            f.savefig("diagnostics/single_page/cube_"+str(cube_id)+".pdf")
+            f.savefig("diagnostics/single_page/"+str(int(i_cube))+"_cube_"+
+                    str(cube_id)+".pdf")
+
+            g.tight_layout()
+            g.savefig("diagnostics/single_page_spectra/"+str(int(i_cube))+
+                    "_cube_"+str(cube_id)+"_spectra.pdf")
+
             plt.close() 
 
         singular_plot()
@@ -461,7 +587,7 @@ def ppxf_cube_auto():
         yerr=data[:][:,0][:,4]
         #xerr=data[:][:,0][:,3]
         print(data[:][:,0][:,4], data[:][:,0][:,3])
-        ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], yerr=yerr, 
+        ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], 
                 color="#000000", fmt="o", elinewidth=1.0, 
                 capsize=5, capthick=1.0)
 
@@ -475,6 +601,19 @@ def ppxf_cube_auto():
         ax.tick_params(labelsize=15)
         ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
         ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=15)
+
+        x_max = np.max(data[:][:,0][:,1])
+        y_max = np.max(data[:][:,0][:,2])
+
+        x_min = np.min(data[:][:,0][:,1])
+        y_min = np.min(data[:][:,0][:,2])
+
+        ax.set_xlim([25,275]) 
+        ax.set_ylim([25,275])
+
+        # plot 1:1 line
+        f_xd = np.linspace(0,300,300)
+        ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
 
         fig.tight_layout()
         fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")

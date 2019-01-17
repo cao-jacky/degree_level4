@@ -544,6 +544,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_noise", noise)
 
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_not_scaled", galaxy_ns)
+
         # if best fit i.e. perturbation is 0, save everything
      
         kinematics_file = open(file_loc + "/cube_" + str(int(cube_id)) + 
