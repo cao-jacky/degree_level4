@@ -14,7 +14,7 @@ Comp: 2     [OII]3729      39.77       0.4  153470   136
 ---------------------------------------------------------
 Desired Delta Chi^2: 40
 Current Delta Chi^2: 5049
-Elapsed time in PPXF: 12.78 s
+Elapsed time in PPXF: 12.92 s
 
 Weighted <logAge> [yr]: 8.65
 Weighted <[M/H]>: 0.11

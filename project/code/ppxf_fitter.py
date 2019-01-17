@@ -27,24 +27,6 @@ plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 
-def ppxf_cubes(cube_id):
-    print("")
-    print("Currently processing on cube " + str(int(cube_id)))
-    print("Processing kinematic fitting: ")
-    kin_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all") 
-
-    # don't need to consider mass fittings, just kinematic ones
-    """
-    print("Processing mass fitting with free Balmer & [SII]: ")
-    ppxf_fitter_gas_population.population_gas_sdss(cube_id, tie_balmer=False, limit_doublets=False)
-    print("")
-    print("Processing mass fitting with tied Balmer & [SII]: ")
-    ppxf_fitter_gas_population.population_gas_sdss(cube_id, tie_balmer=True, limit_doublets=True)
-    print("\n")
-    """
-
-    return {'kinematic_fitting': kin_fit}
-
 def ranged_fitting(cube_id, ranges):
     """ fitting pPXF for different ranges """
     # fitting for the full, original spectrum
@@ -200,7 +182,7 @@ def ppxf_cube_auto():
         data[i_cube][0][0] = cube_id
 
         # Running diagnostics tool for the cube
-        diagnostics.diag_results(cube_id)
+        #diagnostics.diag_results(cube_id)
 
         # Processing the kinematic fitting
         variables = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
@@ -371,6 +353,9 @@ def ppxf_cube_auto():
             y_model = np.load("ppxf_results/cube_" + str(int(cube_id)) + 
                     "/cube_" + str(int(cube_id)) + "_model.npy")
 
+            #y_gas_model = np.load("ppxf_results/cube_" + str(int(cube_id)) + 
+                    #"/cube_" + str(int(cube_id)) + "_gas_pop_model_tied.npy")
+
             # scaled down y data 
             y_data_scaled = y_data/np.median(y_data) 
 
@@ -405,7 +390,7 @@ def ppxf_cube_auto():
 
             plt.figure()
 
-            ax3.plot(x_data, y_data_scaled, linewidth=1.1, color="#000000")
+            ax3.plot(x_data, y_data_scaled, linewidth=0.7, color="#000000")
 
             #ax3.set_title(r'\textbf{cube\_'+str(cube_id)+'}') 
 
@@ -438,12 +423,14 @@ def ppxf_cube_auto():
                 ax3.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", 
                         alpha=0.3)
 
-            ax3.plot(x_data, y_model, linewidth=1.5, color="#b71c1c")
+            ax3.plot(x_data, y_model, linewidth=0.7, color="#b71c1c")
 
             ax3.tick_params(labelsize=13)
             ax3.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
             ax3.set_ylabel(r'\textbf{Relative Flux}', fontsize=13)
-            
+           
+            ax3.set_xlim([3500, 4000]) # 3500Å to 4000Å
+
             f.tight_layout()
             f.savefig("diagnostics/single_page/cube_"+str(cube_id)+".pdf")
             plt.close() 

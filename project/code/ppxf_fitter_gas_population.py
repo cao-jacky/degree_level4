@@ -202,12 +202,17 @@ def population_gas_sdss(cube_id, tie_balmer, limit_doublets):
             gas_names=gas_names, gas_reddening=gas_reddening)
     
     best_variables = pp.sol
+    best_fit = pp.bestfit
 
     tied = "_free"
     if ( tie_balmer == True and limit_doublets == True ):
-        tied = "_tied"
+        tied = "_tied" 
 
     file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
+
+    np.save(file_loc + "/cube_" + str(int(cube_id)) + "_gas_pop_model" + tied, 
+            best_fit)
+
     if not os.path.exists(file_loc):
         os.mkdir(file_loc)
     gas_populations_file = open(file_loc + "/cube_" + str(int(cube_id)) + 
