@@ -101,7 +101,7 @@ def ignore_cubes():
         1063,1068,1114,1162, 112, 722, 764, 769, 760, 1469, 733, 1453, 723, 378,
         135, 474, 1103, 1118, 290, 1181, 1107, 6, 490, 258, 538, 643, 1148, 872,
         1693, 1387, 406, 163, 167, 150, 1320, 1397, 545, 721, 1694, 508, 1311,
-        205, 738])
+        205, 738, 1])
     avoid_objects = np.load("data/avoid_objects.npy")
     avoid_cubes = np.append(cubes_to_ignore, avoid_objects) # create single array
 
@@ -270,17 +270,20 @@ def ppxf_cube_auto():
             line_count += 1
 
         sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
+        sigma_err = np.sqrt((sigma_gal_error/sigma))
         
         # converting sigma into kms^-1 units (?): sigma is in wavelength units
         # therefore apply lambda*v=c, therefore v = c/lambda
         c = 299792.458 # speed of light in kms^-1
-        v = c / (sigma * 10**(3)) # velocity dispersion as a velocity
 
-        # the 'sigma' aka velocity dispersion and the associated error
         vel_dispersion = c / (sigma * 10**(3))
+        vel_dispersion_alt = c * np.log(sigma)
+        data[i_cube][0][1] = vel_dispersion             
 
-        data[i_cube][0][1] = vel_dispersion              
-        data[i_cube][0][3] = c / (sigma_gal_error * 10**(3))   
+        vel_dispersion_err = c / (sigma_gal_error * 10**(3))
+        data[i_cube][0][3] = vel_dispersion_err
+
+        print(vel_dispersion, vel_dispersion_alt, vel_dispersion_err)
 
         # V-band magnitude (HST 606nm) from catalogue
         data[i_cube][0][6] = curr_obj[5]
@@ -455,8 +458,10 @@ def ppxf_cube_auto():
     def sigma_stars_vs_sigma_oii():
         fig, ax = plt.subplots()
 
-        # yerr=data[:][:,0][:,4]
-        ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], xerr=data[:][:,0][:,3], 
+        yerr=data[:][:,0][:,4]
+        #xerr=data[:][:,0][:,3]
+        print(data[:][:,0][:,4], data[:][:,0][:,3])
+        ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], yerr=yerr, 
                 color="#000000", fmt="o", elinewidth=1.0, 
                 capsize=5, capthick=1.0)
 
@@ -468,8 +473,8 @@ def ppxf_cube_auto():
             ax.annotate(int(curr_id), (curr_x, curr_y))
 
         ax.tick_params(labelsize=15)
-        ax.set_ylabel(r'\textbf{$\sigma_{*}$}', fontsize=15)
-        ax.set_xlabel(r'\textbf{$\sigma_{OII}$}', fontsize=15)
+        ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
+        ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=15)
 
         fig.tight_layout()
         fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")
@@ -537,7 +542,7 @@ def ppxf_cube_auto():
         fig.savefig("graphs/voigt_sigmas.pdf")
         plt.close("all")
 
-    #sigma_stars_vs_sigma_oii()
+    sigma_stars_vs_sigma_oii()
     #oii_lmfit_vs_oii_ppxf()
     #sn_vs_v_band()
     #voigt_sigmas()
