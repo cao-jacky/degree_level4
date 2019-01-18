@@ -8,6 +8,10 @@ plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 
 import os
 
+import sys
+sys.path.insert(0, '/Users/jackycao/Documents/Projects/scripts/')
+import personal_scripts
+
 def ppxf_uncertainty(cubes, runs):
     cubes = cubes # array containing cubes to parse over
     to_run = runs # number of times to run the random generator
@@ -211,7 +215,147 @@ def ppxf_uncertainty(cubes, runs):
     sn_vs_sigma()
     sn_vs_sigma_diff()
 
+def data_reprocessor():
+    data = np.load("data/sigma_vs_sn_data.npy")
+
+    # colours list
+    colours = [
+            "#f44336",
+            "#d81b60",
+            "#8e24aa",
+            "#5e35b1",
+            "#3949ab",
+            "#1e88e5",
+            "#0097a7",
+            "#43a047",
+            "#fbc02d",
+            "#616161"
+            ]
+
+    def sn_vs_delta_sigma_sigma():
+        total_bins1 = 400
+        X = data[:,:,3] # x-axis should be fractional error
+        
+        bins = np.linspace(X.min(), X.max(), total_bins1)
+        delta = bins[1]-bins[0]
+        idx  = np.digitize(X,bins)
+
+        #####
+        # S/N vs. delta(sigma)/sigma
+        plt.figure()
+        for i in range(len(data[:])): 
+            plt.scatter(data[i][:,2], data[i][:,3], c=colours[i], s=10, alpha=0.2)
+            
+        # running median calculator
+        Y_sigma = data[:,:,2] # y-axis should be signal to noise
+        running_median1 = [np.median(Y_sigma[idx==k]) for k in range(total_bins1)]
+
+        rm1 = np.array(running_median1)        
+        y_data1 = (bins-delta/2)
+
+        plt.plot(rm1, y_data1, c="#000000", lw=1.5, alpha=0.7)
+
+        idx = np.isfinite(rm1) # mask to mask out finite values
+        fitted_poly = np.poly1d(np.polyfit(rm1[idx], y_data1[idx], 4))
+        t = np.linspace(np.min(y_data1), np.max(y_data1), 200)
+        plt.plot(fitted_poly(t), t, c="#d32f2f", lw=1.5, alpha=0.8)
+
+        plt.ylabel(r'\textbf{S/N}', fontsize=15)
+        plt.xlabel(r'\textbf{$\Delta \sigma / \sigma_{best}$}', fontsize=15)
+
+        #plt.xlim([10**(-4),100])
+        #plt.yscale('log')
+        plt.tight_layout()
+        plt.savefig("uncert_ppxf/rpcd_sn_vs_delta_sigma_sigma.pdf")
+        plt.close("all") 
+
+        #####
+        # S/N vs. delta(sigma_vel)/sigma_vel
+        def sn_del_sigma_vel():
+            plt.figure()
+            for i in range(len(data[:])):
+                plt.scatter(data[i][:,5], data[i][:,3], c=colours[i], s=10, alpha=0.2) 
+
+            Y_sigma_vel = data[:,:,5]
+            running_median2 = [np.median(Y_sigma_vel[idx==k]) for k in 
+                    range(total_bins1)]
+            plt.plot(running_median2, bins-delta/2, c="#000000", lw=1.5, alpha=0.7)
+
+            plt.ylabel(r'\textbf{S/N}', fontsize=15)
+            plt.xlabel(r'\textbf{$\Delta \sigma_{vel} / \sigma_{vel_{best}}$}', 
+                    fontsize=15)
+
+            plt.xlim([-np.min(data[:,:,5]),0.0021])
+            #plt.xscale('log')
+            plt.tight_layout()
+            plt.savefig("uncert_ppxf/rpcd_sn_vs_d_sigma_vel_sigma_vel.pdf")
+            plt.close("all")
+
+    def sn_vs_delta_sigma():
+        # S/N vs. delta(sigma)
+        total_bins2 = 400
+        X_sigma = data[:,:,3]
+        
+        bins = np.linspace(X_sigma.min(), X_sigma.max(), total_bins2)
+        delta = bins[1]-bins[0]
+        idx  = np.digitize(X_sigma,bins)
+
+        plt.figure()
+        for i in range(len(data[:])):
+            plt.scatter(data[i][:,8], data[i][:,3], c=colours[i], s=10, alpha=0.2)
+
+        Y_sn = data[:,:,8]
+        running_median3 = [np.median(Y_sn[idx==k]) for k in range(total_bins2)]
+        plt.plot(running_median3, bins-delta/2, c="#000000", lw=1.5, alpha=0.7)
+
+        plt.tick_params(labelsize=15)
+        plt.ylabel(r'\textbf{S/N}', fontsize=15)
+        plt.xlabel(r'\textbf{$\Delta \sigma$}', fontsize=15)
+
+        #plt.ylim([10**(-8),100])
+        #plt.yscale('log')
+        plt.tight_layout()
+        plt.savefig("uncert_ppxf/rpcd_sn_vs_delta_sigma.pdf")
+        plt.close("all")
+
+    def sn_vs_frac_error():
+        # S/N vs. fractional error
+        total_bins2 = 400
+        X_sigma = data[:,:,3]
+        
+        bins = np.linspace(X_sigma.min(), X_sigma.max(), total_bins2)
+        delta = bins[1]-bins[0]
+        idx  = np.digitize(X_sigma,bins)
+
+        plt.figure()
+        #for i in range(len(data[:])):
+            #plt.scatter(data[i][:,2], data[i][:,3], c=colours[i], s=10, alpha=0.2)
+
+        Y_sn = data[:,:,2]
+        running_median3 = [np.median(Y_sn[idx==k]) for k in range(total_bins2)]
+        #plt.plot(running_median3, bins-delta/2, c="#000000", lw=1.5, alpha=0.7)
+        plt.scatter(running_median3, bins-delta/2, c="#000000", s=10, alpha=0.7)
+
+        plt.tick_params(labelsize=15)
+        plt.ylabel(r'\textbf{S/N}', fontsize=15)
+        plt.xlabel(r'\textbf{${\Delta \sigma}/{\sigma_{best}}$}', fontsize=15)
+
+        #plt.ylim([10**(-8),100])
+        #plt.yscale('log')
+        plt.tight_layout()
+        plt.savefig("uncert_ppxf/rpcd_sn_vs_frac_error.pdf")
+        plt.close("all")
+
+    sn_vs_delta_sigma_sigma()
+    sn_vs_delta_sigma()
+    sn_vs_frac_error()
+
+    os.system('afplay /System/Library/Sounds/Glass.aiff')
+    personal_scripts.notifications("ppxf_plots", "Reprocessed plots have been plotted!")
+
 cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
 #cubes = np.array([1804])
 runs = 300
-ppxf_uncertainty(cubes, runs)
+
+#ppxf_uncertainty(cubes, runs)
+data_reprocessor()
