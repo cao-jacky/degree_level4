@@ -11,6 +11,8 @@ from astropy.io import fits
 from lmfit import Parameters, Model
 from lmfit.models import VoigtModel, ConstantModel
 
+import spectra_data
+
 def diag_results(cube_id):
     def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
         """ function for Gaussian doublet """  
@@ -235,60 +237,16 @@ def diag_results(cube_id):
         reduced_chi_sq = total_chi_sq / total_points
 
         # spectral lines
-        sl = {
-                'emis': {
-                    '':             '3727.092', 
-                    'OII':          '3728.875',
-                    'HeI':          '3889.0',
-                    'SII':          '4072.3',
-                    'H$\delta$':    '4101.89',
-                    'H$\gamma$':    '4341.68'
-                    },
-                'abs': {
-                    r'H$\theta$':   '3798.976',
-                    'H$\eta$':      '3836.47',
-                    'CaK':          '3934.777',
-                    'CaH':          '3969.588',
-                    'G':            '4305.61' 
-                    },
-                'iron': {
-                    'FeI1':     '4132.0581',
-                    'FeI2':     '4143.8682',
-                    'FeI3':     '4202.0293', 
-                    'FeI4':     '4216.1836',
-                    'FeI5':     '4250.7871',
-                    'FeI6':     '4260.4746',
-                    'FeI7':     '4271.7607',
-                    'FeI8':     '4282.4028',
-                    }
-                }
+        sl = spectra_data.spectral_lines() 
 
         # parameters from lmfit
-        cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
-                + "_lmfit.txt")
-        cube_result_file = open(cube_result_file)
-
-        line_count = 0 
-        for crf_line in cube_result_file:
-            if (line_count == 15):
-                curr_line = crf_line.split()
-                c = float(curr_line[1])
-            if (line_count == 16):
-                curr_line = crf_line.split()
-                i1 = float(curr_line[1])
-            if (line_count == 18):
-                curr_line = crf_line.split()
-                i2 = float(curr_line[1])
-            if (line_count == 19):
-                curr_line = crf_line.split()
-                sigma_gal = float(curr_line[1])
-            if (line_count == 20):
-                curr_line = crf_line.split()
-                z = float(curr_line[1])
-            if (line_count == 21):
-                curr_line = crf_line.split()
-                sigma_inst = float(curr_line[1])
-            line_count += 1
+        lm_params = spectra_data.lmfit_data(cube_id)
+        c = lm_params['c']
+        i1 = lm_params['i1']
+        i2 = lm_params['i2']
+        sigma_gal = lm_params['sigma_gal']
+        z = lm_params['z']
+        sigma_inst = lm_params['sigma_inst']
 
         plt.figure()
 
@@ -379,19 +337,10 @@ def diag_results(cube_id):
         model_spec = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
                 str(int(cube_id)) + "_model.npy")
 
-        cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
-                + "_lmfit.txt")
-        cube_result_file = open(cube_result_file)
-
-        line_count = 0 
-        for crf_line in cube_result_file:
-            if (line_count == 20):
-                curr_line = crf_line.split()
-                z = float(curr_line[1])
-            if (line_count == 21):
-                curr_line = crf_line.split()
-                sigma_inst = float(curr_line[1])
-            line_count += 1
+        # parameters from lmfit
+        lm_params = spectra_data.lmfit_data(cube_id)
+        z = lm_params['z']
+        sigma_inst = lm_params['sigma_inst']
 
         # masking out the region of CaH and CaK
         calc_rgn = np.array([3900,4000]) 

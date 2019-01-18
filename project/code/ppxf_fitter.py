@@ -23,6 +23,8 @@ from shutil import copyfile
 
 from astropy.cosmology import FlatLambdaCDM
 
+import spectra_data
+
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = [r'\boldmath']
@@ -420,33 +422,7 @@ def ppxf_cube_auto():
             y_data_scaled = y_data/np.median(y_data) 
 
             # spectral lines
-            sl = {
-                    'emis': {
-                        '':             '3727.092', 
-                        'OII':          '3728.875',
-                        'HeI':          '3889.0',
-                        'SII':          '4072.3',
-                        'H$\delta$':    '4101.89',
-                        'H$\gamma$':    '4341.68'
-                        },
-                    'abs': {
-                        r'H$\theta$':   '3798.976',
-                        'H$\eta$':      '3836.47',
-                        'CaK':          '3934.777',
-                        'CaH':          '3969.588',
-                        'G':            '4305.61' 
-                        },
-                    'iron': {
-                        'FeI1':     '4132.0581',
-                        'FeI2':     '4143.8682',
-                        'FeI3':     '4202.0293', 
-                        'FeI4':     '4216.1836',
-                        'FeI5':     '4250.7871',
-                        'FeI6':     '4260.4746',
-                        'FeI7':     '4271.7607',
-                        'FeI8':     '4282.4028',
-                        }
-                    }
+            sl = spectra_data.spectral_lines() 
 
             ax3.plot(x_data, y_data_scaled, linewidth=0.7, color="#000000")
 
