@@ -139,7 +139,7 @@ def ppxf_uncertainty(cubes, runs):
             plt.plot(new_x, new_y, linewidth=0.5, color="#000000")
 
             plt.xlabel(r'\textbf{S/N}', fontsize=15)
-            plt.ylabel(r'\textbf{$\frac{\Delta \sigma}{\sigma_{best}}$}', fontsize=15)
+            plt.ylabel(r'\textbf{Flux}', fontsize=15)
 
             plt.tight_layout()
 
@@ -409,13 +409,32 @@ def lmfit_uncertainty(cubes, runs):
 
         plt.figure()
         plt.plot(x_fake/(1+best_z), y_fake)
-        plt.show()
+        #plt.show()
+
+        spectrum = y_fake
         
         # Looping over the number of runs specified
         for curr_loop in range(runs):
             # Perturb the fake flux data by adding an amount of Gaussian noise
+            random_noise = np.random.normal(0, data_std, len(x_fake)) 
             
+            spectrum = spectrum + random_noise
 
+            plt.figure() 
+            plt.plot(x_fake, y_fake, linewidth=0.5, color="#8bc34a")
+            plt.plot(x_fake, spectrum, linewidth=0.5, color="#000000")
+
+            plt.xlabel(r'\textbf{S/N}', fontsize=15)
+            plt.ylabel(r'\textbf{Flux}', fontsize=15)
+
+            plt.tight_layout()
+
+            uncert_lmfit_dir = "uncert_lmfit/cube_"+str(cube_id)
+            if not os.path.exists(uncert_lmfit_dir):
+                os.mkdir(uncert_lmfit_dir)
+            plt.savefig(uncert_lmfit_dir + "/cube_"+str(cube_id)+ 
+                    "_" + str(curr_loop) + ".pdf")
+            plt.close("all") 
 
 
 #cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
