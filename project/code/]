@@ -383,9 +383,8 @@ def lmfit_uncertainty(cubes, runs):
         cube_id = cubes[i_cube]
 
         # Pulling the parameters for the best fit
-        bd = spectra_data.lmfit_data(cube_id) # best data
-        best_sigma = bd['sigma_gal']
-        best_z = bd['z']
+        best_data = spectra_data.lmfit_data(cube_id)
+        best_sigma = best_data['sigma_gal']
 
         # Load (non-redshifted) wavelength and flux data
         x_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
@@ -393,33 +392,21 @@ def lmfit_uncertainty(cubes, runs):
         y_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
                 +"_cps_y.npy")
  
-        # Define doublet region to consider to be 3500Å to 3700Å
-        dr_mask = ((x_data > 3500) & (x_data < 3700))
-        
-        x_masked = x_data[dr_mask]
-        y_masked = y_data[dr_mask]
-
-        # Standard deviation of the data in region before the doublet
-        data_std = np.std(y_masked)
-
-        # Fake data created based on the best fitting parameters
-        x_fake = np.linspace(3500,3800,300) * (1+best_z)
-        y_fake = spectra_data.f_doublet(x_fake, bd['c'], bd['i1'], bd['i2'], 
-                bd['sigma_gal'], bd['z'], bd['sigma_inst']) 
+        # Doublet region 
+        dblt_rgn = np.array([3500, 3700])
 
         plt.figure()
-        plt.plot(x_fake/(1+best_z), y_fake)
+        plt.plot(x_data, y_data)
         plt.show()
         
+
         # Looping over the number of runs specified
         for curr_loop in range(runs):
-            # Perturb the fake flux data by adding an amount of Gaussian noise
-            
+            pass
 
 
-
-#cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
-cubes = np.array([1804])
+cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
+#cubes = np.array([1804])
 
 #ppxf_uncertainty(cubes, 300)
 #ppxf_graphs()

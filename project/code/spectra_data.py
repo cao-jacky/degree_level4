@@ -61,3 +61,15 @@ def spectral_lines():
         }
     return sl
 
+def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
+    """ function for Gaussian doublet """  
+    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
+    l1 = dblt_mu[0] * (1+z)
+    l2 = dblt_mu[1] * (1+z)
+
+    sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
+
+    norm = (sigma*np.sqrt(2*np.pi))
+    term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma**2))
+    term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
+    return (c*x + term1 + term2)
