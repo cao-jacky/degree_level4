@@ -1,5 +1,8 @@
 import numpy as np
 
+""" Functions which are normally used multiple times, easier to call them from a 
+    predefined placed. """
+
 def lmfit_data(cube_id):
     # parameters from lmfit
     cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
@@ -73,3 +76,18 @@ def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
     term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma**2))
     term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
     return (c*x + term1 + term2)
+
+def colour_list():
+    colours = [
+            "#f44336",
+            "#d81b60",
+            "#8e24aa",
+            "#5e35b1",
+            "#3949ab",
+            "#1e88e5",
+            "#0097a7",
+            "#43a047",
+            "#fbc02d",
+            "#616161"
+            ]
+    return colours

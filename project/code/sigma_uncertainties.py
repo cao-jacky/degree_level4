@@ -222,18 +222,7 @@ def ppxf_graphs():
     data = np.load("data/ppxf_uncert_data.npy")
 
     # colours list
-    colours = [
-            "#f44336",
-            "#d81b60",
-            "#8e24aa",
-            "#5e35b1",
-            "#3949ab",
-            "#1e88e5",
-            "#0097a7",
-            "#43a047",
-            "#fbc02d",
-            "#616161"
-            ]
+    colours = spectra_data.colour_list()
 
     def sn_vs_delta_sigma_sigma():
         total_bins1 = 400
@@ -462,7 +451,7 @@ def lmfit_uncertainty(cubes, runs):
 
             data[i_cube][curr_loop][0] = new_signal # new signal
             data[i_cube][curr_loop][1] = new_best_sigma # new doublet sigma
-            data[i_cube][curr_loop][2] = sigma_ratio # new fractional error
+            data[i_cube][curr_loop][2] = np.abs(sigma_ratio) # new fractional error
             data[i_cube][curr_loop][3] = new_sn # new S/N error
  
             plt.figure() 
@@ -490,7 +479,39 @@ def lmfit_uncertainty(cubes, runs):
 
 def lmfit_graphs():
     data = np.load("data/lmfit_uncert_data.npy")
-    print(data)
+    
+    def frac_error_vs_sn():
+        # Fractional error vs. the signal to noise
+        total_bins = 400
+        X_sn = data[:,:,3]
+        
+        bins = np.linspace(X_sn.min(), X_sn.max(), total_bins)
+        delta = bins[1]-bins[0]
+        idx  = np.digitize(X_sn,bins)
+
+        plt.figure()
+        #for i in range(len(data[:])):
+            #plt.scatter(data[i][:,2], data[i][:,3], c=colours[i], s=10, alpha=0.2)
+
+        # Running median for data
+        Y_fe = data[:,:,2] # fractional error
+        running_median = [np.median(Y_fe[idx==k]) for k in range(total_bins)]
+
+        colours = spectra_data.colour_list()
+
+        plt.figure()
+        for i in range(len(data[:])):
+            plt.scatter(data[i][:,3], data[i][:,2], c=colours[i], s=10, alpha=0.2)
+
+        plt.tick_params(labelsize=15)
+        plt.xlabel(r'\textbf{S/N}', fontsize=15)
+        plt.ylabel(r'\textbf{${\Delta \sigma}/{\sigma_{best}}$}', fontsize=15)
+
+        plt.tight_layout()
+        plt.savefig("uncert_lmfit/frac_error_vs_sn.pdf")
+        plt.close("all")
+
+    frac_error_vs_sn()
 
 
 cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
@@ -499,5 +520,5 @@ cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
 #ppxf_uncertainty(cubes, 300)
 #ppxf_graphs()
 
-#lmfit_uncertainty(cubes, 150)
-lmfit_graphs()
+lmfit_uncertainty(cubes, 300)
+#lmfit_graphs()
