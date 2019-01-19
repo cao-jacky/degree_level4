@@ -520,5 +520,5 @@ cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
 #ppxf_uncertainty(cubes, 300)
 #ppxf_graphs()
 
-lmfit_uncertainty(cubes, 300)
-#lmfit_graphs()
+#lmfit_uncertainty(cubes, 300)
+lmfit_graphs()
