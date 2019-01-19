@@ -7,6 +7,8 @@ plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 
+from lmfit import Parameters, Model
+
 import os
 
 import sys
@@ -154,7 +156,7 @@ def ppxf_uncertainty(cubes, runs):
         np.save("uncert_ppxf/cube_"+str(cube_id)+"/cube_"+str(cube_id)+"_ppxf_perts",
                 data[:,i_cube][:][:])
 
-    np.save("data/sigma_vs_sn_data", data)
+    np.save("data/ppxf_uncert_data", data)
 
     def sigma_vs_sn():
         plt.figure()
@@ -217,7 +219,7 @@ def ppxf_uncertainty(cubes, runs):
     sn_vs_sigma_diff()
 
 def ppxf_graphs():
-    data = np.load("data/sigma_vs_sn_data.npy")
+    data = np.load("data/ppxf_uncert_data.npy")
 
     # colours list
     colours = [
@@ -403,7 +405,7 @@ def lmfit_uncertainty(cubes, runs):
         data_std = np.std(y_masked)
 
         # Fake data created based on the best fitting parameters
-        x_fake = np.linspace(3500,3800,300) * (1+best_z)
+        x_fake = np.linspace(3500,3800,600) * (1+best_z)
         y_fake = spectra_data.f_doublet(x_fake, bd['c'], bd['i1'], bd['i2'], 
                 bd['sigma_gal'], bd['z'], bd['sigma_inst']) 
 
@@ -415,14 +417,59 @@ def lmfit_uncertainty(cubes, runs):
         
         # Looping over the number of runs specified
         for curr_loop in range(runs):
+            print("working with " + str(cube_id) + " and index " + str(curr_loop))
             # Perturb the fake flux data by adding an amount of Gaussian noise
-            random_noise = np.random.normal(0, data_std, len(x_fake)) 
+            random_noise = np.random.normal(0, data_std, len(x_fake))
+
+            if (curr_loop < int(3/4 * runs)):
+                random_noise = random_noise
+            else:
+                random_noise = 10 * random_noise
             
             spectrum = spectrum + random_noise
 
+            xf_dr = x_fake / (1+best_z)
+
+            # Want to attempt a refitting of the Gaussian doublet over the new data
+            gauss_params = Parameters()
+            gauss_params.add('c', value=bd['c'])
+            gauss_params.add('i1', value=bd['i1'], min=0.0)
+            gauss_params.add('r', value=1.3, min=0.5, max=1.5)
+            gauss_params.add('i2', expr='i1/r', min=0.0)
+            gauss_params.add('sigma_gal', value=bd['sigma_gal'])
+            gauss_params.add('z', value=bd['z'])
+            gauss_params.add('sigma_inst', value=bd['sigma_inst'], vary=False)
+
+            gauss_model = Model(spectra_data.f_doublet)
+            gauss_result = gauss_model.fit(spectrum, x=x_fake, params=gauss_params)
+
+            new_best_fit = gauss_result.best_fit
+
+            new_best_values = gauss_result.best_values
+            new_best_sigma = new_best_values['sigma_gal']
+
+            sigma_ratio = np.abs(best_sigma-new_best_sigma) / best_sigma
+            
+            ndr_mask = ((xf_dr > 3500) & (xf_dr < 3700))
+        
+            new_x_masked = xf_dr[ndr_mask]
+            new_y_masked = spectrum[ndr_mask]
+
+            new_signal = np.median(new_y_masked)
+            new_noise = np.std(new_y_masked)
+
+            new_sn = new_signal / new_noise
+
+            data[i_cube][curr_loop][0] = new_signal # new signal
+            data[i_cube][curr_loop][1] = new_best_sigma # new doublet sigma
+            data[i_cube][curr_loop][2] = sigma_ratio # new fractional error
+            data[i_cube][curr_loop][3] = new_sn # new S/N error
+ 
             plt.figure() 
-            plt.plot(x_fake, y_fake, linewidth=0.5, color="#8bc34a")
-            plt.plot(x_fake, spectrum, linewidth=0.5, color="#000000")
+            plt.plot(xf_dr, y_fake, linewidth=0.5, color="#8bc34a")
+            plt.plot(xf_dr, spectrum, linewidth=0.5, color="#000000")
+
+            plt.plot(xf_dr, new_best_fit, linewidth=0.5, color="#d32f2f")
 
             plt.xlabel(r'\textbf{S/N}', fontsize=15)
             plt.ylabel(r'\textbf{Flux}', fontsize=15)
@@ -434,13 +481,23 @@ def lmfit_uncertainty(cubes, runs):
                 os.mkdir(uncert_lmfit_dir)
             plt.savefig(uncert_lmfit_dir + "/cube_"+str(cube_id)+ 
                     "_" + str(curr_loop) + ".pdf")
-            plt.close("all") 
+            plt.close("all")
+
+            np.save("uncert_lmfit/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                    "_lmfit_perts", data[:,i_cube][:][:])
+
+    np.save("data/lmfit_uncert_data", data)
+
+def lmfit_graphs():
+    data = np.load("data/lmfit_uncert_data.npy")
+    print(data)
 
 
-#cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
-cubes = np.array([1804])
+cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
+#cubes = np.array([1804])
 
 #ppxf_uncertainty(cubes, 300)
 #ppxf_graphs()
 
-lmfit_uncertainty(cubes, 10)
+#lmfit_uncertainty(cubes, 150)
+lmfit_graphs()
