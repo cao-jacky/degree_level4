@@ -320,8 +320,8 @@ def ppxf_graphs():
         idx  = np.digitize(X_sigma,bins)
 
         plt.figure()
-        #for i in range(len(data[:])):
-            #plt.scatter(data[i][:,2], data[i][:,3], c=colours[i], s=10, alpha=0.2)
+        for i in range(len(data[:])):
+            plt.scatter(data[i][:,3], data[i][:,2], c=colours[i], s=10, alpha=0.2)
 
         # Running median for data
         Y_sn = data[:,:,2]
@@ -348,7 +348,7 @@ def ppxf_graphs():
         #plt.ylim([10**(-8),100])
         #plt.yscale('log')
         plt.tight_layout()
-        plt.savefig("uncert_ppxf/sn_vs_frac_error.pdf")
+        plt.savefig("uncert_ppxf/frac_error_vs_sn.pdf")
         plt.close("all")
 
     sn_vs_delta_sigma_sigma()
@@ -359,6 +359,8 @@ def ppxf_graphs():
     personal_scripts.notifications("ppxf_plots","Reprocessed plots have been plotted!")
 
 def lmfit_uncertainty(cubes, runs):
+    data = np.zeros([len(cubes), runs, 4]) 
+
     # 1st dimension: one array per cube
     # 2nd dimension: same number of rows as runs variable
     # 3rd dimension: columns to store data
@@ -366,8 +368,6 @@ def lmfit_uncertainty(cubes, runs):
     #   [1] : new sigma produced
     #   [2] : (sigma_best - sigma_new) / sigma_best
     #   [3] : new signal to noise value 
-
-    data = np.zeros([len(cubes), runs, 4]) 
 
     # Looping over all of the provided cubes
     for i_cube in range(len(cubes)):
@@ -483,25 +483,36 @@ def lmfit_graphs():
     def frac_error_vs_sn():
         # Fractional error vs. the signal to noise
         total_bins = 400
-        X_sn = data[:,:,3]
+
+        #X_sn = data[:,:,3]
+        X_sn = data[3][:,3]
         
+        colours = spectra_data.colour_list()
+
         bins = np.linspace(X_sn.min(), X_sn.max(), total_bins)
         delta = bins[1]-bins[0]
         idx  = np.digitize(X_sn,bins)
 
         plt.figure()
-        #for i in range(len(data[:])):
-            #plt.scatter(data[i][:,2], data[i][:,3], c=colours[i], s=10, alpha=0.2)
-
-        # Running median for data
-        Y_fe = data[:,:,2] # fractional error
-        running_median = [np.median(Y_fe[idx==k]) for k in range(total_bins)]
-
-        colours = spectra_data.colour_list()
-
-        plt.figure()
         for i in range(len(data[:])):
             plt.scatter(data[i][:,3], data[i][:,2], c=colours[i], s=10, alpha=0.2)
+        
+        #plt.scatter(data[3][:,3], data[3][:,2], c="#8e24aa", s=10, alpha=0.2)
+
+        # Running median for data
+        #Y_fe = data[:,:,2] # fractional error
+        Y_fe = data[3][:,2]
+        running_median = [np.median(Y_fe[idx==k]) for k in range(total_bins)] 
+
+        rm_frac_error = np.array(running_median)        
+        sn_data = (bins-delta/2)
+        plt.scatter(sn_data, rm_frac_error, c="#000000", s=10, alpha=0.7)
+
+        idx = np.isfinite(rm_frac_error) # mask to mask out finite values
+
+        fitted_poly = np.poly1d(np.polyfit(sn_data[idx], rm_frac_error[idx], 3))
+        t = np.linspace(np.min(sn_data[idx]), np.max(sn_data[idx]), 200)
+        plt.plot(t, fitted_poly(t), c="#d32f2f", lw=1.5, alpha=0.8) 
 
         plt.tick_params(labelsize=15)
         plt.xlabel(r'\textbf{S/N}', fontsize=15)
