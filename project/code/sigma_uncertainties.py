@@ -215,7 +215,7 @@ def ppxf_uncertainty(cubes, runs):
     sn_vs_sigma()
     sn_vs_sigma_diff()
 
-def data_reprocessor():
+def ppxf_graphs():
     data = np.load("data/sigma_vs_sn_data.npy")
 
     # colours list
@@ -266,7 +266,7 @@ def data_reprocessor():
         #plt.xlim([10**(-4),100])
         #plt.yscale('log')
         plt.tight_layout()
-        plt.savefig("uncert_ppxf/rpcd_sn_vs_delta_sigma_sigma.pdf")
+        plt.savefig("uncert_ppxf/sn_vs_delta_sigma_sigma.pdf")
         plt.close("all") 
 
         #####
@@ -288,7 +288,7 @@ def data_reprocessor():
             plt.xlim([-np.min(data[:,:,5]),0.0021])
             #plt.xscale('log')
             plt.tight_layout()
-            plt.savefig("uncert_ppxf/rpcd_sn_vs_d_sigma_vel_sigma_vel.pdf")
+            plt.savefig("uncert_ppxf/sn_vs_d_sigma_vel_sigma_vel.pdf")
             plt.close("all")
 
     def sn_vs_delta_sigma():
@@ -315,7 +315,7 @@ def data_reprocessor():
         #plt.ylim([10**(-8),100])
         #plt.yscale('log')
         plt.tight_layout()
-        plt.savefig("uncert_ppxf/rpcd_sn_vs_delta_sigma.pdf")
+        plt.savefig("uncert_ppxf/sn_vs_delta_sigma.pdf")
         plt.close("all")
 
     def sn_vs_frac_error():
@@ -331,19 +331,30 @@ def data_reprocessor():
         #for i in range(len(data[:])):
             #plt.scatter(data[i][:,2], data[i][:,3], c=colours[i], s=10, alpha=0.2)
 
+        # Running median for data
         Y_sn = data[:,:,2]
         running_median3 = [np.median(Y_sn[idx==k]) for k in range(total_bins2)]
-        #plt.plot(running_median3, bins-delta/2, c="#000000", lw=1.5, alpha=0.7)
-        plt.scatter(running_median3, bins-delta/2, c="#000000", s=10, alpha=0.7)
 
+        rm3 = np.array(running_median3)
+        xd = bins-delta/2
+
+        plt.plot(xd, rm3, c="#000000", lw=1.5, alpha=0.7)
+        plt.scatter(xd, rm3, c="#000000", s=10, alpha=0.7)
+
+        idx = np.isfinite(rm3) # mask to mask out finite values
+        fitted_poly = np.poly1d(np.polyfit(xd[idx], rm3[idx], 6))
+              
+        t = np.linspace(np.min(xd), np.max(xd), 200)
+        plt.plot(t, fitted_poly(t), c="#d32f2f", lw=1.5, alpha=0.8)
+ 
         plt.tick_params(labelsize=15)
-        plt.ylabel(r'\textbf{S/N}', fontsize=15)
-        plt.xlabel(r'\textbf{${\Delta \sigma}/{\sigma_{best}}$}', fontsize=15)
+        plt.xlabel(r'\textbf{S/N}', fontsize=15)
+        plt.ylabel(r'\textbf{${\Delta \sigma}/{\sigma_{best}}$}', fontsize=15)
 
         #plt.ylim([10**(-8),100])
         #plt.yscale('log')
         plt.tight_layout()
-        plt.savefig("uncert_ppxf/rpcd_sn_vs_frac_error.pdf")
+        plt.savefig("uncert_ppxf/sn_vs_frac_error.pdf")
         plt.close("all")
 
     sn_vs_delta_sigma_sigma()
@@ -358,4 +369,4 @@ cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
 runs = 300
 
 #ppxf_uncertainty(cubes, runs)
-data_reprocessor()
+ppxf_graphs()
