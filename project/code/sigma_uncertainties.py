@@ -333,20 +333,24 @@ def ppxf_graphs():
         #plt.plot(xd, rm3, c="#000000", lw=1.5, alpha=0.7)
         plt.scatter(xd, rm3, c="#000000", s=10, alpha=0.7)
 
-        idx = np.isfinite(rm3) # mask to mask out finite values
-        fitted_poly = np.poly1d(np.polyfit(xd[idx], rm3[idx], 3))
+        # Fitting an a/x line to the data
+        def curve(x, a):
+            return (a/x)
 
-        # I should probably export this polynomial
-              
-        t = np.linspace(np.min(xd), np.max(xd), 200)
-        plt.plot(t, fitted_poly(t), c="#d32f2f", lw=1.5, alpha=0.8)
+        curve_params = Parameters()
+        curve_params.add('a', value=1)
+        curve_model = Model(curve)
+
+        idx = np.isfinite(rm3) # mask to mask out finite values
+        curve_result = curve_model.fit(rm3[idx], x=xd[idx], params=curve_params)
+    
+        curve_bf = curve_result.best_fit
+        plt.plot(xd[idx], curve_bf, c="#d32f2f", lw=1.5, alpha=0.8)
  
         plt.tick_params(labelsize=15)
         plt.xlabel(r'\textbf{S/N}', fontsize=15)
-        plt.ylabel(r'\textbf{${\Delta \sigma}/{\sigma_{best}}$}', fontsize=15)
+        plt.ylabel(r'\textbf{${|\Delta \sigma|}/{\sigma_{best}}$}', fontsize=15)
 
-        #plt.ylim([10**(-8),100])
-        #plt.yscale('log')
         plt.tight_layout()
         plt.savefig("uncert_ppxf/frac_error_vs_sn.pdf")
         plt.close("all")
@@ -529,7 +533,7 @@ cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
 #cubes = np.array([1804])
 
 #ppxf_uncertainty(cubes, 300)
-#ppxf_graphs()
+ppxf_graphs()
 
 #lmfit_uncertainty(cubes, 300)
-lmfit_graphs()
+#lmfit_graphs()
