@@ -287,18 +287,16 @@ def ppxf_cube_auto():
         sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
         sigma_err = np.sqrt((sigma_gal_error/sigma))
         
-        # converting sigma into kms^-1 units (?): sigma is in wavelength units
-        # therefore apply lambda*v=c, therefore v = c/lambda
+        # converting sigma into kms^-1 from Å
         c = 299792.458 # speed of light in kms^-1
 
-        vel_dispersion = c / (sigma * 10**(3))
-        vel_dispersion_alt = c * np.log(sigma)
+        vel_dispersion = (sigma / (3727*(1+z))) * c
         data[i_cube][0][1] = vel_dispersion             
 
-        vel_dispersion_err = c / (sigma_gal_error * 10**(3))
+        vel_dispersion_err = (sigma_gal_error / (3727*(1+z))) * c
         data[i_cube][0][3] = vel_dispersion_err
 
-        print(vel_dispersion, vel_dispersion_alt, vel_dispersion_err)
+        print(vel_dispersion, vel_dispersion_err)
 
         # V-band magnitude (HST 606nm) from catalogue
         data[i_cube][0][6] = curr_obj[5]
