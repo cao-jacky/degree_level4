@@ -235,11 +235,23 @@ def sigma_stars_vs_sigma_oii():
 
     fig, ax = plt.subplots()
 
-    #yerr=data[:][:,0][:,4]
-    #xerr=data[:][:,0][:,3]
-    ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], 
-            color="#000000", fmt="o", elinewidth=1.0, 
-            capsize=5, capthick=1.0)
+    yerr=data[:][:,0][:,12]
+    xerr=data[:][:,0][:,13]
+    ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], xerr=xerr, yerr=yerr, 
+            color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
+            capsize=5, capthick=1.0, zorder=0)
+
+    low_sn = np.array([554, 765, 849, 1129, 895, 175])
+
+    for i_low in range(len(low_sn)):
+        curr_cube = low_sn[i_low] # current cube and it's ID number
+        curr_loc = np.where(data[:,:,0][:,0]==curr_cube)[0]
+        
+        cc_data = data[:][curr_loc,0][0]
+        cc_x = cc_data[1]
+        cc_y = cc_data[2]
+    
+        ax.scatter(cc_x, cc_y, s=20, c="#d32f2f", zorder=1)
 
     for i in range(len(data[:][:,0])):
         curr_id = data[:][i,0][0]

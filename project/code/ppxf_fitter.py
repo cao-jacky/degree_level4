@@ -332,7 +332,7 @@ def ppxf_cube_auto():
         data[i_cube][0][12] = uncert_ppxf
         data[i_cube][0][13] = uncert_lmfit
 
-        print(uncert_ppxf, uncert_lmfit)
+        #print(uncert_ppxf, uncert_lmfit)
         
         # considering different ranges in the spectrum 
         """
@@ -355,31 +355,13 @@ def ppxf_cube_auto():
         # Singular diagnostic plot
         def singular_plot():
             # parameters from lmfit
-            cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + 
-                    str(cube_id) + "_lmfit.txt")
-            cube_result_file = open(cube_result_file)
-
-            line_count = 0 
-            for crf_line in cube_result_file:
-                if (line_count == 15):
-                    curr_line = crf_line.split()
-                    c = float(curr_line[1])
-                if (line_count == 16):
-                    curr_line = crf_line.split()
-                    i1 = float(curr_line[1])
-                if (line_count == 18):
-                    curr_line = crf_line.split()
-                    i2 = float(curr_line[1])
-                if (line_count == 19):
-                    curr_line = crf_line.split()
-                    sigma_gal = float(curr_line[1])
-                if (line_count == 20):
-                    curr_line = crf_line.split()
-                    z = float(curr_line[1])
-                if (line_count == 21):
-                    curr_line = crf_line.split()
-                    sigma_inst = float(curr_line[1])
-                line_count += 1
+            lm_params = spectra_data.lmfit_data(cube_id)
+            c = lm_params['c']
+            i1 = lm_params['i1']
+            i2 = lm_params['i2']
+            sigma_gal = lm_params['sigma_gal']
+            z = lm_params['z']
+            sigma_inst = lm_params['sigma_inst']
 
             f, (ax1, ax2, ax3)  = plt.subplots(1, 3, 
                     gridspec_kw={'width_ratios':[1,1,3]},figsize=(8,2))
