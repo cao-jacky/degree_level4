@@ -543,6 +543,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_y", y_data)
 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_noise", noise)
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_spec_noise", spec_noise)
 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_not_scaled", galaxy_ns)
 

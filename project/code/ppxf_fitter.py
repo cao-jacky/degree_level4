@@ -25,6 +25,8 @@ from astropy.cosmology import FlatLambdaCDM
 
 import spectra_data
 
+import sigma_uncertainties
+
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = [r'\boldmath']
@@ -181,7 +183,9 @@ def ppxf_cube_auto():
     #   [9] : range end which is considered 
     #   [10] : pPXF sigma from Voigt profile fitter
     #   [11] : sigma from our own Voigt fitter
-    data = np.zeros([len(uc), 1+len(ranges), 12])
+    #   [12] : fractional error for pPXF
+    #   [13] : fractional error for lmfit
+    data = np.zeros([len(uc), 1+len(ranges), 14])
 
     # testing code for just pPXF
     #bright_objects = np.array([0])
@@ -296,8 +300,6 @@ def ppxf_cube_auto():
         vel_dispersion_err = (sigma_gal_error / (3727*(1+z))) * c
         data[i_cube][0][3] = vel_dispersion_err
 
-        print(vel_dispersion, vel_dispersion_err)
-
         # V-band magnitude (HST 606nm) from catalogue
         data[i_cube][0][6] = curr_obj[5]
 
@@ -318,6 +320,20 @@ def ppxf_cube_auto():
 
         data[i_cube][0][7] = cy_sn
 
+        # fractional errors
+        frac_err = sigma_uncertainties.uncertainties(cube_id)
+        fe_ppxf = frac_err['ppxf']
+        fe_lmfit = frac_err['lmfit']
+
+        uncert_ppxf = fe_ppxf * sigma_stars
+        uncert_lmfit = fe_lmfit * vel_dispersion
+
+        # storing as uncertainty values
+        data[i_cube][0][12] = uncert_ppxf
+        data[i_cube][0][13] = uncert_lmfit
+
+        print(uncert_ppxf, uncert_lmfit)
+        
         # considering different ranges in the spectrum 
         """
         rf = ranged_fitting(cube_id, ranges) # running finder 
@@ -612,7 +628,7 @@ def ppxf_cube_auto():
         ax.set_ylabel(r'\textbf{$\sigma_{OII_{pPXF}}$}', fontsize=15)
 
         fig.tight_layout()
-        fig.savefig("graphs/oii_ppxf_vs_oii_lmfit.pdf")
+        fig.savefig("graphs/initial/oii_ppxf_vs_oii_lmfit.pdf")
         plt.close("all") 
 
     def sn_vs_v_band():
@@ -632,7 +648,7 @@ def ppxf_cube_auto():
         ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=15)
 
         fig.tight_layout()
-        fig.savefig("graphs/ppxf_sn_vs_v_band.pdf")
+        fig.savefig("graphs/initial/ppxf_sn_vs_v_band.pdf")
         plt.close("all") 
 
     def voigt_sigmas():
@@ -652,7 +668,7 @@ def ppxf_cube_auto():
         ax.set_ylabel(r'\textbf{pPXF Voigt Sigmas}', fontsize=15)
 
         fig.tight_layout()
-        fig.savefig("graphs/voigt_sigmas.pdf")
+        fig.savefig("graphs/initial/voigt_sigmas.pdf")
         plt.close("all")
 
     sigma_stars_vs_sigma_oii()

@@ -345,6 +345,9 @@ def ppxf_graphs():
         curve_result = curve_model.fit(rm3[idx], x=xd[idx], params=curve_params)
     
         curve_bf = curve_result.best_fit
+        curve_bp = curve_result.best_values
+
+        np.save("uncert_ppxf/curve_best_values_ppxf", np.array([curve_bp['a']]))        
         plt.plot(xd[idx], curve_bf, c="#d32f2f", lw=1.5, alpha=0.8)
         
         plt.ylim([10**(-3),10])
@@ -537,6 +540,7 @@ def lmfit_graphs():
     
         curve_bf = curve_result.best_fit
         curve_bp = curve_result.best_values
+        np.save("uncert_lmfit/curve_best_values_lmfit", np.array([curve_bp['a']]))
 
         gen_xd = np.linspace(0,150, 500)
         gen_yd = curve(gen_xd, curve_bp['a'])
@@ -554,12 +558,44 @@ def lmfit_graphs():
 
     frac_error_vs_sn()
 
+def uncertainties(cube_id):
+    # Find the signal-to-noise value for the specific galaxy being considered    
+    file_loc = "ppxf_results/cube_" + str(int(cube_id))
+    ppxf_x = np.load(file_loc + "/cube_" + str(int(cube_id)) + "_x.npy")
+    ppxf_y = np.load(file_loc + "/cube_" + str(int(cube_id)) + "_y.npy")
+
+    ppxf_variables = np.load(file_loc + "/cube_" + str(int(cube_id)) + 
+            "_ppxf_variables.npy")    
+    ppxf_sigma = ppxf_variables[1]
+    ppxf_vel = ppxf_variables[0]
+
+    # range to consider is between CaH and Hdelta
+    rtc = np.array([4000, 4080]) 
+    rtc_mask = ((ppxf_x > rtc[0]) & (ppxf_x < rtc[1]))
+
+    y_masked = ppxf_y[rtc_mask]
+    noise = np.std(y_masked)
+
+    sn = y_masked / noise # signal to noise for every signal pixel
+    average_sn = np.average(sn)
+
+    # pPXF: uncertainty for sigma_star
+    bf_ppxf = np.load("uncert_ppxf/curve_best_values_ppxf.npy")
+    uncert_ppxf = curve(average_sn, bf_ppxf)
+
+    # lmfit: uncertainty for sigma_OII
+    bf_lmfit = np.load("uncert_lmfit/curve_best_values_lmfit.npy")
+    uncert_lmfit = curve(average_sn, bf_lmfit)
+
+    return {'ppxf': uncert_ppxf, 'lmfit': uncert_lmfit, 'sn': sn}
 
 cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
 #cubes = np.array([1804])
 
 #ppxf_uncertainty(cubes, 300)
-ppxf_graphs()
+#ppxf_graphs()
 
 #lmfit_uncertainty(cubes, 300)
-lmfit_graphs()
+#lmfit_graphs()
+
+#uncertainties(1804)
