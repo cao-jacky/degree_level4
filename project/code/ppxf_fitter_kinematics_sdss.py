@@ -25,8 +25,6 @@ import ntpath
 
 import spectra_data
 
-sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits")
-
 def cube_noise():
     cube_noise_file = "data/cube_noise_std.fits"
     cube_noise_file = fits.open(cube_noise_file)
@@ -195,9 +193,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     cy_sn_std = np.std(cube_y_sn_region)
     cy_sn = cy_sn_mean / cy_sn_std
 
-    #print("s/n:")
-    #print(cy_sn, cy_sn_mean, cy_sn_std)
-
     # cube noise
     cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise']
@@ -241,8 +236,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux) 
 
     # sky noise
+    sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits")
     skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
-    #skyNew = skyNew[initial_mask]
     skyNew = skyNew
 
     if (isinstance(fit_range, str)):

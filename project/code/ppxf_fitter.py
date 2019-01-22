@@ -51,11 +51,12 @@ def ranged_fitting(cube_id, ranges):
 
     for i_range in range(len(ranges)):
         rtc = ranges[i_range]
+        print("Considering range " + str(rtc))        
         ranged_fitting = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, rtc)
 
         rf_vars = ranged_fitting['variables']
         rf_errors = ranged_fitting['errors']
-
+        
         fit_vars[i_range+1][0] = rf_vars[0] # sigma velocity
         fit_vars[i_range+1][1] = rf_vars[1] # sigma velocity dispersion
 
@@ -63,31 +64,6 @@ def ranged_fitting(cube_id, ranges):
         fit_vars[i_range+1][3] = rf_errors[1] # sigma velocity dispersion error
 
     return {'fitted_variables': fit_vars}
-
-def region_graphs_with_data():
-    data = np.load("data/ppxf_fitter_data.npy")
-    # graphs to consider for regions: lam_1 vs lam_2, lam_2 vs lam_3, 
-    # lam_3 vs lam_4, lam_4 vs lam_5
-
-    for i_range in range(4):
-        fig, ax = plt.subplots()
-        for i in range(len(data[:][:,0])):
-            sigma_x = data[:][i,i_range+1][2]
-            sigma_y = data[:][i,i_range+2][2]
-
-            ax.scatter(sigma_x, sigma_y, color="#000000", s=10)
-
-            curr_id = data[:][i,0][0]
-            
-            ax.annotate(int(curr_id), (sigma_x, sigma_y))
-
-        ax.tick_params(labelsize=15)
-        ax.set_xlabel(r'\textbf{$\sigma_{'+str(i_range+1)+'}$}', fontsize=15)
-        ax.set_ylabel(r'\textbf{$\sigma_{'+str(i_range+2)+'}$}', fontsize=15)
-
-        fig.tight_layout()
-        fig.savefig("graphs/regions/sigma_ranges_"+str(i_range)+".pdf")
-        plt.close("all") 
 
 def cat_func():
     catalogue = np.load("data/matched_catalogue.npy")
@@ -129,7 +105,7 @@ def usable_cubes(catalogue, bright_objects):
             list_usable.append(cube_id)
 
     # testing for one cube
-    list_usable = [1804]
+    #list_usable = [1804]
 
     return list_usable
 
@@ -150,6 +126,8 @@ def ppxf_cube_auto():
     ranges = np.array([
         [3700, 4200],
         ])
+
+    np.save("data/ppxf_fitting_ranges", ranges)
 
     # want an array to store various velocity dispersions
     # 1st dimension: an array to store data on every individual cube
@@ -330,7 +308,10 @@ def ppxf_cube_auto():
 
             # ranges used in the fittings
             data[i_cube][ci][8] = ranges[i_rtc][0]
-            data[i_cube][ci][9] = ranges[i_rtc][1]      
+            data[i_cube][ci][9] = ranges[i_rtc][1]     
+
+            # uncertainty for pPXF velocity dispersion from fractional error
+            data[i_cube][ci][12] = fe_ppxf * fit_vars[ci][1]
 
         # Singular diagnostic plot
         def singular_plot():
@@ -515,127 +496,6 @@ def ppxf_cube_auto():
     print(data)
 
     np.save("data/ppxf_fitter_data", data)
-
-    # working with just one cube
-    #cube_id = 1129
-    #ppxf_cubes(cube_id)
-    #ranged_fitting(cube_id)
-    #ppxf_plots.fitting_plotter(cube_id)
-
-    # sigma_stars vs. sigma_OII
-    def sigma_stars_vs_sigma_oii():
-        fig, ax = plt.subplots()
-
-        yerr=data[:][:,0][:,4]
-        xerr=data[:][:,0][:,3]
-        ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], xerr=xerr, yerr=yerr,
-                color="#000000", fmt="o", elinewidth=1.0, 
-                capsize=5, capthick=1.0)
-
-        for i in range(len(data[:][:,0])):
-            curr_id = data[:][i,0][0]
-            curr_x = data[:][i,0][1]
-            curr_y = data[:][i,0][2]
-
-            ax.annotate(int(curr_id), (curr_x, curr_y))
-
-        ax.tick_params(labelsize=15)
-        ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
-        ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=15)
-
-        x_max = np.max(data[:][:,0][:,1])
-        y_max = np.max(data[:][:,0][:,2])
-
-        x_min = np.min(data[:][:,0][:,1])
-        y_min = np.min(data[:][:,0][:,2])
-
-        ax.set_xlim([25,275]) 
-        ax.set_ylim([25,275])
-
-        # plot 1:1 line
-        f_xd = np.linspace(0,300,300)
-        ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
-
-        fig.tight_layout()
-        fig.savefig("graphs/initial/sigma_star_vs_sigma_oii.pdf")
-        plt.close("all") 
-
-    # OII doublet from lmfit vs pPXF
-    def oii_lmfit_vs_oii_ppxf():
-        fig, ax = plt.subplots()
-
-        for i in range(len(data[:][:,0])):
-            curr_id = data[:][i,0][0]
-            if (curr_id in gas_avoid):
-                pass 
-            else:
-                curr_x = data[:][i,0][1]
-                curr_y = data[:][i,0][5]
-                ax.scatter(curr_x, curr_y, color="#000000", s=10)
-
-                ax.annotate(int(curr_id), (curr_x, curr_y))
-
-        ax.tick_params(labelsize=15)
-        ax.set_xlabel(r'\textbf{$\sigma_{OII_{lmfit}}$}', fontsize=15)
-        ax.set_ylabel(r'\textbf{$\sigma_{OII_{pPXF}}$}', fontsize=15)
-
-        fig.tight_layout()
-        fig.savefig("graphs/initial/oii_ppxf_vs_oii_lmfit.pdf")
-        plt.close("all") 
-
-    def sn_vs_v_band():
-        fig, ax = plt.subplots()
-
-        ax.scatter(data[:][:,0][:,6], data[:][:,0][:,7], color="#000000", s=10)
-
-        for i in range(len(data[:][:,0])):
-            curr_id = data[:][i,0][0]
-            curr_x = data[:][i,0][6]
-            curr_y = data[:][i,0][7]
-
-            ax.annotate(int(curr_id), (curr_x, curr_y))
-
-        ax.tick_params(labelsize=15)
-        ax.set_ylabel(r'\textbf{S/N}', fontsize=15)
-        ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=15)
-
-        fig.tight_layout()
-        fig.savefig("graphs/initial/ppxf_sn_vs_v_band.pdf")
-        plt.close("all") 
-
-    def voigt_sigmas():
-        fig, ax = plt.subplots()
-
-        ax.scatter(data[:][:,0][:,11], data[:][:,0][:,10], color="#000000", s=10)
-
-        for i in range(len(data[:][:,0])):
-            curr_id = data[:][i,0][0]
-            curr_x = data[:][i,0][11]
-            curr_y = data[:][i,0][10]
-
-            ax.annotate(int(curr_id), (curr_x, curr_y))
-
-        ax.tick_params(labelsize=15)
-        ax.set_xlabel(r'\textbf{Fitted Voigt Sigmas}', fontsize=15)
-        ax.set_ylabel(r'\textbf{pPXF Voigt Sigmas}', fontsize=15)
-
-        fig.tight_layout()
-        fig.savefig("graphs/initial/voigt_sigmas.pdf")
-        plt.close("all")
-
-    # sigma_stars vs. sigma_OII plot for different ranges
-    def ranges_sigma_stars_vs_sigma_oii():
-        for i_rtc in range(len(ranges)):        
-            curr_range = ranges[i_rtc]
-            print(curr_range)
-
-    sigma_stars_vs_sigma_oii()
-    #oii_lmfit_vs_oii_ppxf()
-    #sn_vs_v_band()
-    #voigt_sigmas()
-    ranges_sigma_stars_vs_sigma_oii()
-
-    #region_graphs_with_data() # calling function before this function to plot data
 
     # tells system to play a sound to alert that work has been finished
     os.system('afplay /System/Library/Sounds/Glass.aiff')

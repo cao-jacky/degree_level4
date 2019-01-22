@@ -118,7 +118,7 @@ def fitting_plotter(cube_id):
     
     # plotting over the OII doublet
     doublets = np.array([3727.092, 3728.875])
-    dblt_av = np.average(doublets) * (1+z)
+    dblt_av = np.average(doublets)
 
     dblt_x_mask = ((x_data > dblt_av-20) & (x_data < dblt_av+20))
     doublet_x_data = x_data[dblt_x_mask]
@@ -130,7 +130,7 @@ def fitting_plotter(cube_id):
     max_y = np.max(y_data_scaled)
     # plotting spectral lines
     for e_key, e_val in sl['emis'].items():
-        spec_line = float(e_val) * (1+z)
+        spec_line = float(e_val)
         spec_label = e_key
 
         if (e_val in str(doublets)):
@@ -145,7 +145,7 @@ def fitting_plotter(cube_id):
                 weight="bold", fontsize=15) 
 
     for e_key, e_val in sl['abs'].items():
-        spec_line = float(e_val) * (1+z)
+        spec_line = float(e_val)
         spec_label = e_key
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#ff8f00", alpha=0.7)
@@ -154,7 +154,7 @@ def fitting_plotter(cube_id):
 
     # iron spectral lines
     for e_key, e_val in sl['iron'].items(): 
-        spec_line = float(e_val) * (1+z)
+        spec_line = float(e_val)
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
 
@@ -264,12 +264,6 @@ def sigma_stars_vs_sigma_oii():
     ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
     ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=15)
 
-    x_max = np.max(data[:][:,0][:,1])
-    y_max = np.max(data[:][:,0][:,2])
-
-    x_min = np.min(data[:][:,0][:,1])
-    y_min = np.min(data[:][:,0][:,2])
-
     ax.set_xlim([25,275]) 
     ax.set_ylim([25,275])
 
@@ -281,6 +275,58 @@ def sigma_stars_vs_sigma_oii():
     fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")
     plt.close("all") 
 
+def ranges_sigma_stars_vs_sigma_oii():
+    # plotting sigma_stars vs. sigma_OII plot for different ranges
+    data = np.load("data/ppxf_fitter_data.npy")
+    ranges = np.load("data/ppxf_fitting_ranges.npy")
+
+    # in applying different ranges, only the pPXF fitting is affected
+    for i_rtc in range(len(ranges)):        
+        curr_range = ranges[i_rtc]
+        
+        d_ci = i_rtc + 1 # current index respective of the data array
+
+        fig, ax = plt.subplots()
+        yerr=data[:][:,d_ci][:,12]
+        xerr=data[:][:,0][:,13]
+        ax.errorbar(data[:][:,0][:,1], data[:][:,d_ci][:,2], xerr=xerr, yerr=yerr, 
+                color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
+                capsize=5, capthick=1.0, zorder=0)
+
+        low_sn = np.array([554, 765, 849, 1129, 895, 175])
+
+        for i_low in range(len(low_sn)):
+            curr_cube = low_sn[i_low] # current cube and it's ID number
+            curr_loc = np.where(data[:,:,0][:,0]==curr_cube)[0]
+            
+            cc_x = data[:][curr_loc,0][0][1]
+            cc_y = data[:][curr_loc,d_ci][0][2]
+        
+            ax.scatter(cc_x, cc_y, s=20, c="#d32f2f", zorder=1)
+
+        for i in range(len(data[:][:,0])):
+            curr_id = data[:][i,0][0]
+            curr_x = data[:][i,0][1]
+            curr_y = data[:][i,d_ci][2]
+
+            ax.annotate(int(curr_id), (curr_x, curr_y))
+
+        ax.tick_params(labelsize=15)
+        ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
+        ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=15)
+
+        ax.set_xlim([25,275]) 
+        ax.set_ylim([25,275])
+
+        # plot 1:1 line
+        f_xd = np.linspace(0,300,300)
+        ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
+
+        fig.tight_layout()
+        range_string = str(curr_range[0]) + "_" + str(curr_range[1])
+        fig.savefig("graphs/sigma_star_vs_sigma_oii/"+range_string+".pdf")
+        plt.close("all") 
+
 #chi_squared_cal(1804)
 #model_data_overlay(549)
 
@@ -289,3 +335,4 @@ def sigma_stars_vs_sigma_oii():
 #voigt_sigmas()
 
 #sigma_stars_vs_sigma_oii()
+#ranges_sigma_stars_vs_sigma_oii()
