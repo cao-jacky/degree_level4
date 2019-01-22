@@ -33,7 +33,7 @@ def cube_noise():
     noise = np.sum(np.abs(cube_noise_data))
     return {'noise_value': noise, 'spectrum_noise': cube_noise_data}
 
-def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
+def fitting_plotter(cube_id, ranges, x_data, y_data, x_model, y_model, noise):
     # parameters from lmfit
     lm_params = spectra_data.lmfit_data(cube_id)
     c = lm_params['c']
@@ -129,7 +129,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
 
-    plt.plot(x_data, y_model, linewidth=1.5, color="#b71c1c")
+    plt.plot(x_model, y_model, linewidth=1.5, color="#b71c1c")
 
     residuals_mask = (residual > res_stddev) 
     rmask = residuals_mask
@@ -195,16 +195,14 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     # cube noise
     cube_noise_data = cube_noise()
-    spectrum_noise = cube_noise_data['spectrum_noise']
-    #spec_noise = spectrum_noise[initial_mask] 
+    spectrum_noise = cube_noise_data['spectrum_noise'] 
     spec_noise = spectrum_noise
 
-    # will need this for when we are considering specific ranges
+    # Considering specific ranges
     if (isinstance(fit_range, str)):
         pass
-    else:
-        rtc = fit_range 
-        rtc_mask = ((cube_x_data > rtc[0]) & (cube_x_data < rtc[1]))
+    else: 
+        rtc_mask = ((cube_x_data > fit_range[0]) & (cube_x_data < fit_range[1]))
 
         cube_x_data = cube_x_data[rtc_mask]
         cube_y_data = cube_y_data[rtc_mask]
@@ -437,7 +435,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     if not isinstance(fit_range, str):
         # saving graphs if not original range
         fit_range = fit_range
-        fitting_plotter(cube_id, fit_range, x_data, y_data, best_fit, noise)
+        fitting_plotter(cube_id, fit_range, x_data, y_data, lam_gal, best_fit, noise)
 
     # If the galaxy is at significant redshift z and the wavelength has been
     # de-redshifted with the three lines "z = 1.23..." near the beginning of

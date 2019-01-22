@@ -56,6 +56,8 @@ def ranged_fitting(cube_id, ranges):
 
         rf_vars = ranged_fitting['variables']
         rf_errors = ranged_fitting['errors']
+
+        print(rf_vars[1])
         
         fit_vars[i_range+1][0] = rf_vars[0] # sigma velocity
         fit_vars[i_range+1][1] = rf_vars[1] # sigma velocity dispersion
@@ -104,8 +106,8 @@ def usable_cubes(catalogue, bright_objects):
         else:
             list_usable.append(cube_id)
 
-    # testing for one cube
-    #list_usable = [1804]
+    # testing for individual cubes
+    #list_usable = [1804, 1578]
 
     return list_usable
 
