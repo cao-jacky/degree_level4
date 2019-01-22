@@ -288,4 +288,4 @@ def sigma_stars_vs_sigma_oii():
 
 #voigt_sigmas()
 
-sigma_stars_vs_sigma_oii()
+#sigma_stars_vs_sigma_oii()

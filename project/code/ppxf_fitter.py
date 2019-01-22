@@ -128,20 +128,10 @@ def usable_cubes(catalogue, bright_objects):
         else:
             list_usable.append(cube_id)
 
+    # testing for one cube
+    list_usable = [1804]
+
     return list_usable
-
-def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
-    """ function for Gaussian doublet """  
-    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
-    l1 = dblt_mu[0] * (1+z)
-    l2 = dblt_mu[1] * (1+z)
-
-    sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
-
-    norm = (sigma*np.sqrt(2*np.pi))
-    term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma**2))
-    term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
-    return (c*x + term1 + term2)
 
 def ppxf_cube_auto():
     cf = cat_func()
@@ -158,11 +148,7 @@ def ppxf_cube_auto():
     # this array is here as we need to create our data array based off how many 
     # ranges it contains
     ranges = np.array([
-        [3540, 3860],
-        [3860, 4180],
-        [4180, 4500],
-        [3500, 3750],
-        [3750, 4500]
+        [3700, 4200],
         ])
 
     # want an array to store various velocity dispersions
@@ -185,12 +171,7 @@ def ppxf_cube_auto():
     #   [11] : sigma from our own Voigt fitter
     #   [12] : fractional error for pPXF
     #   [13] : fractional error for lmfit
-    data = np.zeros([len(uc), 1+len(ranges), 14])
-
-    # testing code for just pPXF
-    #bright_objects = np.array([0])
-    #cloc = np.where([catalogue[:,0] == 1804])[1]
-    #catalogue = catalogue[cloc]
+    data = np.zeros([len(uc), 1+len(ranges), 14]) 
  
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
@@ -270,7 +251,7 @@ def ppxf_cube_auto():
         sigma_stars_error = ppxf_errors[1]
         data[i_cube][0][4] = sigma_stars_error
 
-        # now I want reaccess the lmfit file to find OII sigma
+        # now I want reaccess the lmfit file to obtain sigma and sigma_errors
         cube_result_file = open("cube_results/cube_" + str(cube_id) + "/cube_" + 
                 str(cube_id) + "_lmfit.txt")
     
@@ -335,7 +316,6 @@ def ppxf_cube_auto():
         #print(uncert_ppxf, uncert_lmfit)
         
         # considering different ranges in the spectrum 
-        """
         rf = ranged_fitting(cube_id, ranges) # running finder 
         fit_vars = rf['fitted_variables']
         for i_rtc in range(len(ranges)):
@@ -350,7 +330,7 @@ def ppxf_cube_auto():
 
             # ranges used in the fittings
             data[i_cube][ci][8] = ranges[i_rtc][0]
-            data[i_cube][ci][9] = ranges[i_rtc][1]"""       
+            data[i_cube][ci][9] = ranges[i_rtc][1]      
 
         # Singular diagnostic plot
         def singular_plot():
@@ -368,8 +348,6 @@ def ppxf_cube_auto():
 
             g, (gax1, gax2, gax3) = plt.subplots(1,3,
                     gridspec_kw={'width_ratios':[1,2,2]}, figsize=(12,4))
-
-            # "{:.1f}".format(voigt_sigmas[0])
 
             #ax1.set_title(r'\textbf{-}')
             ax1.axis('off')
@@ -411,9 +389,6 @@ def ppxf_cube_auto():
             y_model = np.load("ppxf_results/cube_" + str(int(cube_id)) + 
                     "/cube_" + str(int(cube_id)) + "_model.npy")
 
-            #y_gas_model = np.load("ppxf_results/cube_" + str(int(cube_id)) + 
-                    #"/cube_" + str(int(cube_id)) + "_gas_pop_model_tied.npy")
-
             # scaled down y data 
             y_data_scaled = y_data/np.median(y_data) 
 
@@ -424,13 +399,10 @@ def ppxf_cube_auto():
 
             gax2.plot(x_data, y_data_scaled, linewidth=0.7, color="#000000")
 
-            #ax3.set_title(r'\textbf{cube\_'+str(cube_id)+'}') 
-
             max_y = np.max(y_data_scaled)
             # plotting spectral lines
             for e_key, e_val in sl['emis'].items():
                 spec_line = float(e_val)
-                #spec_line = float(e_val) * (1+z)
                 spec_label = e_key
 
                 alpha_line = 0.7                            
@@ -445,7 +417,6 @@ def ppxf_cube_auto():
 
             for e_key, e_val in sl['abs'].items():
                 spec_line = float(e_val)
-                #spec_line = float(e_val) * (1+z)
                 spec_label = e_key
 
                 ax3.axvline(x=spec_line, linewidth=0.5, color="#ff8f00", 
@@ -458,7 +429,6 @@ def ppxf_cube_auto():
             # iron spectral lines
             for e_key, e_val in sl['iron'].items(): 
                 spec_line = float(e_val)
-                #spec_line = float(e_val) * (1+z)
 
                 ax3.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", 
                         alpha=0.3)
@@ -479,7 +449,7 @@ def ppxf_cube_auto():
             xd = np.linspace(xd_range[0], xd_range[1], 4000)
 
             # Plotting OII doublet 
-            doublet_data = f_doublet(xd*(1+z), c, i1, i2, sigma_gal, z, 
+            doublet_data = spectra_data.f_doublet(xd*(1+z), c, i1, i2, sigma_gal, z, 
                     sigma_inst)
             ppxf_no_scale = np.load("ppxf_results/cube_" + str(int(cube_id)) + 
                     "/cube_" + str(int(cube_id)) + "_not_scaled.npy")
@@ -552,14 +522,13 @@ def ppxf_cube_auto():
     #ranged_fitting(cube_id)
     #ppxf_plots.fitting_plotter(cube_id)
 
-    # we want to plot sigma_stars vs. to sigma_OII
+    # sigma_stars vs. sigma_OII
     def sigma_stars_vs_sigma_oii():
         fig, ax = plt.subplots()
 
         yerr=data[:][:,0][:,4]
-        #xerr=data[:][:,0][:,3]
-        print(data[:][:,0][:,4], data[:][:,0][:,3])
-        ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], 
+        xerr=data[:][:,0][:,3]
+        ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], xerr=xerr, yerr=yerr,
                 color="#000000", fmt="o", elinewidth=1.0, 
                 capsize=5, capthick=1.0)
 
@@ -588,9 +557,10 @@ def ppxf_cube_auto():
         ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
 
         fig.tight_layout()
-        fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")
+        fig.savefig("graphs/initial/sigma_star_vs_sigma_oii.pdf")
         plt.close("all") 
 
+    # OII doublet from lmfit vs pPXF
     def oii_lmfit_vs_oii_ppxf():
         fig, ax = plt.subplots()
 
@@ -653,10 +623,17 @@ def ppxf_cube_auto():
         fig.savefig("graphs/initial/voigt_sigmas.pdf")
         plt.close("all")
 
+    # sigma_stars vs. sigma_OII plot for different ranges
+    def ranges_sigma_stars_vs_sigma_oii():
+        for i_rtc in range(len(ranges)):        
+            curr_range = ranges[i_rtc]
+            print(curr_range)
+
     sigma_stars_vs_sigma_oii()
     #oii_lmfit_vs_oii_ppxf()
     #sn_vs_v_band()
     #voigt_sigmas()
+    ranges_sigma_stars_vs_sigma_oii()
 
     #region_graphs_with_data() # calling function before this function to plot data
 

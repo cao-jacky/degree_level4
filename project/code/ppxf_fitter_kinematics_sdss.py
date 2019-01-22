@@ -23,6 +23,8 @@ import cube_analysis
 
 import ntpath
 
+import spectra_data
+
 sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits")
 
 def cube_noise():
@@ -33,46 +35,15 @@ def cube_noise():
     noise = np.sum(np.abs(cube_noise_data))
     return {'noise_value': noise, 'spectrum_noise': cube_noise_data}
 
-def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
-    """ function for Gaussian doublet """  
-    dblt_mu = [3727.092, 3729.875] # the actual non-redshifted wavelengths
-    l1 = dblt_mu[0] * (1+z)
-    l2 = dblt_mu[1] * (1+z)
-
-    sigma = np.sqrt(sigma_gal**2 + sigma_inst**2)
-
-    norm = (sigma*np.sqrt(2*np.pi))
-    term1 = ( i1 / norm ) * np.exp(-(x-l1)**2/(2*sigma**2))
-    term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
-    return (c*x + term1 + term2)
-
 def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
     # parameters from lmfit
-    cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
-            + "_lmfit.txt")
-    cube_result_file = open(cube_result_file)
-
-    line_count = 0 
-    for crf_line in cube_result_file:
-        if (line_count == 15):
-            curr_line = crf_line.split()
-            c = float(curr_line[1])
-        if (line_count == 16):
-            curr_line = crf_line.split()
-            i1 = float(curr_line[1])
-        if (line_count == 18):
-            curr_line = crf_line.split()
-            i2 = float(curr_line[1])
-        if (line_count == 19):
-            curr_line = crf_line.split()
-            sigma_gal = float(curr_line[1])
-        if (line_count == 20):
-            curr_line = crf_line.split()
-            z = float(curr_line[1])
-        if (line_count == 21):
-            curr_line = crf_line.split()
-            sigma_inst = float(curr_line[1])
-        line_count += 1
+    lm_params = spectra_data.lmfit_data(cube_id)
+    c = lm_params['c']
+    i1 = lm_params['i1']
+    i2 = lm_params['i2']
+    sigma_gal = lm_params['sigma_gal']
+    z = lm_params['z']
+    sigma_inst = lm_params['sigma_inst']
 
     # scaled down y data 
     y_data_scaled = y_data/np.median(y_data)
@@ -107,39 +78,13 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
             str(reduced_chi_sq))
 
     # spectral lines
-    sl = {
-            'emis': {
-                '':             '3727.092', 
-                'OII':          '3728.875',
-                'HeI':          '3889.0',
-                'SII':          '4072.3',
-                'H$\delta$':    '4101.89',
-                'H$\gamma$':    '4341.68'
-                },
-            'abs': {
-                r'H$\theta$':   '3798.976',
-                'H$\eta$':      '3836.47',
-                'CaK':          '3934.777',
-                'CaH':          '3969.588',
-                'G':            '4305.61' 
-                },
-            'iron': {
-                'FeI1':     '4132.0581',
-                'FeI2':     '4143.8682',
-                'FeI3':     '4202.0293', 
-                'FeI4':     '4216.1836',
-                'FeI5':     '4250.7871',
-                'FeI6':     '4260.4746',
-                'FeI7':     '4271.7607',
-                'FeI8':     '4282.4028',
-                }
-            }
- 
+    sl = spectra_data.spectral_lines()
+
     plt.figure()
 
     plt.plot(x_data, y_data_scaled, linewidth=1.1, color="#000000")
-    plt.plot(x_data, y_data_scaled+noise_stddev, linewidth=0.1, color="#616161", alpha=0.1)
-    plt.plot(x_data, y_data_scaled-noise_stddev, linewidth=0.1, color="#616161", alpha=0.1)
+    plt.plot(x_data, y_data_scaled+noise_stddev, lw=0.1, c="#616161", alpha=0.1)
+    plt.plot(x_data, y_data_scaled-noise_stddev, lw=0.1, c="#616161", alpha=0.1)
     
     # plotting over the OII doublet
     doublets = np.array([3727.092, 3728.875])
@@ -150,14 +95,15 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
     else:
         dblt_x_mask = ((x_data > dblt_av-20) & (x_data < dblt_av+20))
         doublet_x_data = x_data[dblt_x_mask]
-        doublet_data = f_doublet(doublet_x_data, c, i1, i2, sigma_gal, z, sigma_inst)
+        doublet_data = spectra_data.f_doublet(doublet_x_data, c, i1, i2, sigma_gal, 
+                z, sigma_inst)
         doublet_data = doublet_data / np.median(y_data)
         plt.plot(doublet_x_data, doublet_data, linewidth=0.5, color="#9c27b0")
 
     max_y = np.max(y_data_scaled)
     # plotting spectral lines
     for e_key, e_val in sl['emis'].items():
-        spec_line = float(e_val) * (1+z)
+        spec_line = float(e_val)
         spec_label = e_key
 
         if (e_val in str(doublets)):
@@ -172,7 +118,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
                 weight="bold", fontsize=15) 
 
     for e_key, e_val in sl['abs'].items():
-        spec_line = float(e_val) * (1+z)
+        spec_line = float(e_val)
         spec_label = e_key
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#ff8f00", alpha=0.7)
@@ -181,7 +127,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
 
     # iron spectral lines
     for e_key, e_val in sl['iron'].items(): 
-        spec_line = float(e_val) * (1+z)
+        spec_line = float(e_val)
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
 
@@ -210,36 +156,6 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, y_model, noise):
 
 ##############################################################################
 
-def path_leaf(path):
-    head, tail = ntpath.split(path)
-    return tail or ntpath.basename(head)
-
-def findFilesInFolder(path, pathList, extension, subFolders = True):
-    """  Recursive function to find all files of an extension type in a folder 
-        (and optionally in all subfolders too)
-
-    path:        Base directory to find files
-    pathList:    A list that stores all paths
-    extension:   File extension to find
-    subFolders:  Bool.  If True, find files in all subfolders under path. If False, 
-        only searches files in the specified folder
-    """
-
-    try:   # Trapping a OSError:  File permissions problem I believe
-        for entry in os.scandir(path):
-            if entry.is_file() and entry.path.endswith(extension):
-                path_file_name = path_leaf(entry.path)
-                if path_file_name.startswith('.'):
-                    pass
-                else:
-                    pathList.append(entry.path)
-            elif entry.is_dir() and subFolders:   # if its a directory, then repeat process as a nested function
-                pathList = findFilesInFolder(entry.path, pathList, extension, subFolders)
-    except OSError:
-        print('Cannot access ' + path +'. Probably a permissions error')
-
-    return pathList
-
 def kinematics_sdss(cube_id, y_data_var, fit_range):     
     file_loc = "ppxf_results" + "/cube_" + str(int(cube_id))
     if not os.path.exists(file_loc):
@@ -254,16 +170,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     spectra = cube_reader.spectrum_creator(cube_file)
      
     # using our redshift estimate from lmfit
-    cube_result_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
-            + "_lmfit.txt")
-    cube_result_file = open(cube_result_file)
-
-    line_count = 0 
-    for crf_line in cube_result_file:
-        if (line_count == 20):
-            curr_line = crf_line.split()
-            z = float(curr_line[1])
-        line_count += 1
+    lmfitd = spectra_data.lmfit_data(cube_id)
+    z = lmfitd['z']
 
     cube_x_data = np.load("cube_results/cube_" + str(int(cube_id)) + "/cube_" + 
         str(int(cube_id)) + "_cbd_x.npy") 
@@ -277,11 +185,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     cube_x_original = cube_x_data
     cube_y_original = cube_y_data
-
-    # masking the data to ignore initial 'noise' / non-features
-    #initial_mask = (cube_x_data > 3540 * (1+z))
-    #cube_x_data = cube_x_original[initial_mask] 
-    #cube_y_data = cube_y_original[initial_mask]
 
     # calculating the signal to noise
     sn_region = np.array([4000, 4080]) * (1+z) 
@@ -305,7 +208,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     if (isinstance(fit_range, str)):
         pass
     else:
-        rtc = fit_range * (1+z) # create a new mask and mask our x and y data
+        rtc = fit_range 
         rtc_mask = ((cube_x_data > rtc[0]) & (cube_x_data < rtc[1]))
 
         cube_x_data = cube_x_data[rtc_mask]
@@ -355,8 +258,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     data_shape = np.shape(galaxy)
     wdisp = np.full(data_shape, 1, dtype=float) # Intrinsic dispersion of every pixel
 
-    #fwhm_gal = 2.51*wdisp*dlam_gal # Resolution FWHM of every pixel, in Angstroms
-
     sky_sigma_inst = np.load("data/sigma_inst.npy")
     fwhm_gal = 2.35*sky_sigma_inst*wdisp
 
@@ -394,18 +295,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     #template_set = glob.glob('miles_models/Mun1.30Z*.fits')
     #fwhm_tem = 2.51 # Vazdekis+10 spectra have a constant resolution FWHM of 2.51A.
 
-    # I need to modify the fitter so that it can use the higher resolution SYNTHE
-    # templates instead
-    """
-    synthe_spectra = ("synthe_templates")
-    extension = ".ASC.gz"
-    pathList = []
-    pathList = findFilesInFolder(synthe_spectra, pathList, extension, True)
-    
-    fwhm_tem = (6.4/c) * 6300 # instrumental resolution of SYNTHE in Å
-    #print(fwhm_tem)
-    """
-
     # Extract the wavelength range and logarithmically rebin one spectrum
     # to the same velocity scale of the SDSS galaxy spectrum, to determine
     # the size needed for the array which will contain the template spectra.
@@ -415,28 +304,11 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     noao_data = hdu[1].data[0]
     ssp = noao_data[1]
 
-    #ssp = hdu[1].data
-    #h2 = hdu[1].header
-
-    #lam_temp = h2['CRVAL1'] + h2['CDELT1']*np.arange(h2['NAXIS1'])
-
     lam_temp = noao_data[0]
 
     lamRange_temp = [np.min(lam_temp), np.max(lam_temp)]
     sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
     templates = np.empty((sspNew.size, len(template_set)))
-
-
-    # alternative extraction of wavelength and subsequent calculations for SYNTHE
-    # template set
-    """
-    ssp = np.loadtxt(pathList[0])
-    lam_temp = np.loadtxt("/Volumes/Jacky_Cao/University/level4/project/" + 
-            "SYNTHE_templates/rp20000/LAMBDA_R20.DAT")
-    lamRange_temp = [np.min(lam_temp), np.max(lam_temp)]
-    sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
-    templates = np.empty((sspNew.size, len(pathList)))
-    """ 
 
     # Interpolates the galaxy spectral resolution at the location of every pixel
     # of the templates. Outside the range of the galaxy spectrum the resolution
@@ -473,18 +345,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
         ssp = util.gaussian_filter1d(ssp, sigma)  # perform convolution with variable sigma
         sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
         templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates
-
-    # alternative for SYNTHE templates
-    """
-    for j, fname in enumerate(pathList):
-        print(fname)
-        ssp = np.loadtxt(fname)
-        #ssp = util.gaussian_filter1d(ssp, sigma)  # perform convolution with variable sigma
-        sspNew = util.log_rebin(lamRange_temp, ssp, velscale=velscale)[0]
-        templates[:, j] = sspNew/np.median(sspNew) # Normalizes templates
-
-    print(templates)
-    """
 
     # The galaxy and the template spectra do not have the same starting wavelength.
     # For this reason an extra velocity shift DV has to be applied to the template
@@ -581,7 +441,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
         plt.close("all")
     if not isinstance(fit_range, str):
         # saving graphs if not original range
-        fit_range = fit_range * (1+z)
+        fit_range = fit_range
         fitting_plotter(cube_id, fit_range, x_data, y_data, best_fit, noise)
 
     # If the galaxy is at significant redshift z and the wavelength has been
