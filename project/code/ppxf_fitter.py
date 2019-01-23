@@ -34,20 +34,20 @@ plt.rcParams['text.latex.preamble'] = [r'\boldmath']
 def ranged_fitting(cube_id, ranges):
     """ fitting pPXF for different ranges """
     # fitting for the full, original spectrum
-    original = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all")
+    #original = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 0, "all")
 
-    ori_vars = original['variables']
-    ori_errors = original['errors']
+    #ori_vars = original['variables']
+    #ori_errors = original['errors']
 
     # I want an array to store the parameters that pPXF finds as well
     fit_vars = np.zeros([len(ranges)+1, 4])
 
     # storing original best parameters and errors
-    fit_vars[0][0] = ori_vars[0]
-    fit_vars[0][1] = ori_vars[1]
+    #fit_vars[0][0] = ori_vars[0]
+    #fit_vars[0][1] = ori_vars[1]
 
-    fit_vars[0][2] = ori_errors[0]
-    fit_vars[0][3] = ori_errors[1]
+    #fit_vars[0][2] = ori_errors[0]
+    #fit_vars[0][3] = ori_errors[1]
 
     for i_range in range(len(ranges)):
         rtc = ranges[i_range]
@@ -107,7 +107,8 @@ def usable_cubes(catalogue, bright_objects):
             list_usable.append(cube_id)
 
     # testing for individual cubes
-    #list_usable = [1804, 1578]
+    list_usable = [1804, 1578]
+    #list_usable = [1804]
 
     return list_usable
 
@@ -126,7 +127,7 @@ def ppxf_cube_auto():
     # this array is here as we need to create our data array based off how many 
     # ranges it contains
     ranges = np.array([
-        [3700, 4200],
+        [3700, 4100],
         ])
 
     np.save("data/ppxf_fitting_ranges", ranges)
@@ -169,7 +170,7 @@ def ppxf_cube_auto():
                 "_variables.npy")
         errors = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
                 "_errors.npy")
-        if not (os.path.exists(variables) and os.path.exists(errors)):
+        if (os.path.exists(variables) and os.path.exists(errors)):
             # fitting full standard spectrum, and only running if a numpy
             # variables file is not found - saves me the effort of waiting
             kinematic_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id,0 , 

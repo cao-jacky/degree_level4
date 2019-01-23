@@ -99,6 +99,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, x_model, y_model, noise):
         plt.plot(doublet_x_data, doublet_data, linewidth=0.5, color="#9c27b0")
 
     max_y = np.max(y_data_scaled)
+    """
     # plotting spectral lines
     for e_key, e_val in sl['emis'].items():
         spec_line = float(e_val)
@@ -128,6 +129,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, x_model, y_model, noise):
         spec_line = float(e_val)
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
+    """
 
     plt.plot(x_model, y_model, linewidth=1.5, color="#b71c1c")
 
@@ -197,7 +199,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise'] 
     spec_noise = spectrum_noise
-
+    
     # Considering specific ranges
     if (isinstance(fit_range, str)):
         pass
@@ -207,7 +209,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
         cube_x_data = cube_x_data[rtc_mask]
         cube_y_data = cube_y_data[rtc_mask]
 
-        spec_noise = spec_noise[rtc_mask]
+        spec_noise = spec_noise[rtc_mask] 
 
     lamRange = np.array([np.min(cube_x_data), np.max(cube_x_data)]) 
     specNew, logLam, velscale = log_rebin(lamRange, cube_y_data)
@@ -231,13 +233,13 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     spec_noise = spec_noise[mask]
 
-    noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux) 
+    noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux)
 
     # sky noise
     sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits")
     skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
     skyNew = skyNew
-
+    
     if (isinstance(fit_range, str)):
         pass
     else:
@@ -319,7 +321,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # instrumental spectral profiles are well approximated by Gaussians.
     #
     # In the line below, the fwhm_dif is set to zero when fwhm_gal < fwhm_tem.
-    # In principle it should never happen and a higher resolution template should be used.
+    # In principle it should never happen and a higher resolution template should be used
     #
     fwhm_dif = np.sqrt((fwhm_gal**2 - fwhm_tem**2).clip(0)) 
     
@@ -368,7 +370,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     with redirect_stdout(f):
         pp = ppxf(templates, galaxy, noise, velscale, start, sky=skyNew,
             goodpixels=goodpixels, plot=True, moments=4,
-            degree=12, vsyst=dv, clean=False, lam=lam_gal) 
+            degree=12, vsyst=dv, clean=True, lam=lam_gal) 
 
     ppxf_variables = pp.sol
     ppxf_errors = pp.error
@@ -379,7 +381,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     x_data = cube_x_data[mask]
     y_data = cube_y_data[mask]
 
-    #print(ppxf_variables)
+    print(ppxf_variables)
     #plt.show()
     
     if ((np.sum(y_data_var) == 0) and isinstance(fit_range, str)):
