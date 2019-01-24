@@ -325,9 +325,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     #
     fwhm_dif = np.sqrt((fwhm_gal**2 - fwhm_tem**2).clip(0)) 
     
-    # I need to change h2['CDELT1'] to the spacing between the LAMBDA data file
-    #sigma = fwhm_dif/2.355/h2['CDELT1'] # Sigma difference in pixels
-
     spacing = lam_temp[1] - lam_temp[0]
     sigma = fwhm_dif/2.355/spacing # Sigma difference in pixels
     for j, fname in enumerate(template_set):
@@ -358,11 +355,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     #
     vel = c*np.log(1 + z)   # eq.(8) of Cappellari (2017)
     start = [vel, 200.]  # (km/s), starting guess for [V, sigma]
-
-    #lam_gal = lam_gal/(1+z)  # Compute approximate restframe wavelength
-    #fwhm_gal = fwhm_gal/(1+z)   # Adjust resolution in Angstrom
-
-    #np.save("data/ppxf_templates",templates)
 
     t = process_time()
 

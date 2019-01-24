@@ -1,28 +1,28 @@
-Analysis performed on 2019-01-22 17:05:37.814255
+Analysis performed on 2019-01-24 16:03:48.453080
 
 Output from lmfit is the following: 
 [[Model]]
     ((Model(voigt, prefix='v1_') + Model(voigt, prefix='v2_')) + Model(constant))
 [[Fit Statistics]]
     # fitting method   = leastsq
-    # function evals   = 128
+    # function evals   = 80
     # data points      = 138
     # variables        = 5
     chi-square         = 20.7243431
     reduced chi-square = 0.15582213
     Akaike info crit   = -251.640366
-    Bayesian info crit = -237.004097
+    Bayesian info crit = -237.004098
 [[Variables]]
     sigma_inst:    0.9929278 (fixed)
-    sigma_gal:     9.81403319 +/- 1.52822280 (15.57%) (init = 2.063259)
-    z:             0.62084078 +/- 4.5612e-04 (0.07%) (init = 0.6193726)
-    v1_amplitude: -19.3119310 +/- 6.71848563 (34.79%) (init = -0.5447602)
-    v1_center:     6377.64704 +/- 1.79474739 (0.03%) == '3934.777*(1+z)'
-    v1_sigma:      9.86413469 +/- 1.52046073 (15.41%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
-    v2_amplitude: -49.9823697 +/- 8.81426762 (17.63%) (init = -1.54476)
-    v2_center:     6434.07013 +/- 1.81062553 (0.03%) == '3969.588*(1+z)'
-    v2_sigma:      9.86413469 +/- 0.00000000 (0.00%) == 'v1_sigma'
-    c:             1.77229665 +/- 0.08088768 (4.56%) (init = 1.50755)
+    sigma_gal:     9.81723271 +/- 1.52784941 (15.56%) (init = 3.555718)
+    z:             0.62084119 +/- 4.5593e-04 (0.07%) (init = 0.6193726)
+    v1_amplitude: -19.3226526 +/- 6.71541451 (34.75%) (init = -0.5447602)
+    v1_center:     6377.64862 +/- 1.79399738 (0.03%) == '3934.777*(1+z)'
+    v1_sigma:      9.86731796 +/- 1.52009424 (15.41%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
+    v2_amplitude: -49.9966993 +/- 8.81109754 (17.62%) (init = -1.54476)
+    v2_center:     6434.07172 +/- 1.80986888 (0.03%) == '3969.588*(1+z)'
+    v2_sigma:      9.86731796 +/- 0.00000000 (0.00%) == 'v1_sigma'
+    c:             1.77242158 +/- 0.08086642 (4.56%) (init = 1.50755)
 [[Correlations]] (unreported correlations are < 0.100)
     C(v2_amplitude, c)            = -0.835
     C(v1_amplitude, c)            = -0.806

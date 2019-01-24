@@ -1,28 +1,28 @@
-Analysis performed on 2019-01-23 08:47:24.897581
+Analysis performed on 2019-01-24 16:05:31.021142
 
 Output from lmfit is the following: 
 [[Model]]
     ((Model(voigt, prefix='v1_') + Model(voigt, prefix='v2_')) + Model(constant))
 [[Fit Statistics]]
     # fitting method   = leastsq
-    # function evals   = 92
+    # function evals   = 98
     # data points      = 138
     # variables        = 5
-    chi-square         = 11.3985941
+    chi-square         = 11.3985942
     reduced chi-square = 0.08570372
-    Akaike info crit   = -334.139385
-    Bayesian info crit = -319.503117
+    Akaike info crit   = -334.139384
+    Bayesian info crit = -319.503116
 [[Variables]]
     sigma_inst:    0.9929278 (fixed)
-    sigma_gal:     3.51999424 +/- 0.37498257 (10.65%) (init = 4.426782)
-    z:             0.41913939 +/- 1.0628e-04 (0.03%) (init = 0.4189352)
-    v1_amplitude: -19.3654453 +/- 2.39471691 (12.37%) (init = -0.6373109)
-    v1_center:     5583.99702 +/- 0.41818033 (0.01%) == '3934.777*(1+z)'
-    v1_sigma:      3.65735766 +/- 0.36089894 (9.87%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
-    v2_amplitude: -27.4978698 +/- 2.68329728 (9.76%) (init = -1.637311)
-    v2_center:     5633.39868 +/- 0.42187997 (0.01%) == '3969.588*(1+z)'
-    v2_sigma:      3.65735766 +/- 0.00000000 (0.00%) == 'v1_sigma'
-    c:             1.40733840 +/- 0.03853572 (2.74%) (init = 1.209348)
+    sigma_gal:     3.51987247 +/- 0.37496094 (10.65%) (init = 4.079804)
+    z:             0.41913936 +/- 1.0627e-04 (0.03%) (init = 0.4189352)
+    v1_amplitude: -19.3653150 +/- 2.39460289 (12.37%) (init = -0.6373109)
+    v1_center:     5583.99692 +/- 0.41815712 (0.01%) == '3934.777*(1+z)'
+    v1_sigma:      3.65724047 +/- 0.36087720 (9.87%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
+    v2_amplitude: -27.4970373 +/- 2.68313308 (9.76%) (init = -1.637311)
+    v2_center:     5633.39858 +/- 0.42185656 (0.01%) == '3969.588*(1+z)'
+    v2_sigma:      3.65724047 +/- 0.00000000 (0.00%) == 'v1_sigma'
+    c:             1.40733234 +/- 0.03853450 (2.74%) (init = 1.209348)
 [[Correlations]] (unreported correlations are < 0.100)
     C(sigma_gal, v2_amplitude)    = -0.716
     C(v2_amplitude, c)            = -0.682

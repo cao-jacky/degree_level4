@@ -327,6 +327,51 @@ def ranges_sigma_stars_vs_sigma_oii():
         fig.savefig("graphs/sigma_star_vs_sigma_oii/"+range_string+".pdf")
         plt.close("all") 
 
+def testing_ranges():
+    # plotting sigma_stars vs. sigma_OII plot for different ranges
+    data = np.load("data/ppxf_fitter_data.npy")
+    ranges = np.load("data/ppxf_fitting_ranges.npy")
+
+    # in applying different ranges, only the pPXF fitting is affected
+    for i_rtc in range(len(ranges)):        
+        curr_range = ranges[i_rtc]
+        
+        d_ci = i_rtc + 1 # current index respective of the data array
+
+        fig, ax = plt.subplots()
+        ax.scatter(data[:][:,d_ci][:,14], data[:][:,d_ci][:,2], s=10, c="#1e88e5")
+
+        ax.scatter(data[:][:,d_ci][:,14], data[:][:,0][:,2], s=10, c="#000000")
+
+        for i in range(len(data[:][:,0])):
+            curr_id = data[:][i,0][0]
+
+            rng_x = data[:][i,d_ci][14]
+            acc_x = data[:][i,0][14]
+
+            rng_y = data[:][i,d_ci][2]
+            acc_y = data[:][i,0][2]
+
+            ax.annotate(str(int(curr_id))+", "+str(int(i+1)), (rng_x, rng_y))
+            ax.annotate(str(int(curr_id))+", "+str(int(i+1)), (acc_x, acc_y))
+
+        ax.tick_params(labelsize=15)
+        ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
+        ax.set_xlabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=15)
+
+        #ax.set_xlim([25,275]) 
+        #ax.set_ylim([25,275])
+
+        # plot 1:1 line
+        #f_xd = np.linspace(0,300,300)
+        #ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
+
+        fig.tight_layout()
+        range_string = str(curr_range[0]) + "_" + str(curr_range[1])
+        fig.savefig("graphs/testing/"+range_string+".pdf")
+        plt.close("all") 
+
+
 #chi_squared_cal(1804)
 #model_data_overlay(549)
 
@@ -336,3 +381,5 @@ def ranges_sigma_stars_vs_sigma_oii():
 
 #sigma_stars_vs_sigma_oii()
 #ranges_sigma_stars_vs_sigma_oii()
+
+testing_ranges()

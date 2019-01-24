@@ -56,13 +56,11 @@ def ranged_fitting(cube_id, ranges):
 
         rf_vars = ranged_fitting['variables']
         rf_errors = ranged_fitting['errors']
-
-        print(rf_vars[1])
-        
-        fit_vars[i_range+1][0] = rf_vars[0] # sigma velocity
+ 
+        fit_vars[i_range+1][0] = rf_vars[0] # velocity
         fit_vars[i_range+1][1] = rf_vars[1] # sigma velocity dispersion
 
-        fit_vars[i_range+1][2] = rf_errors[0] # sigma velocity error
+        fit_vars[i_range+1][2] = rf_errors[0] # velocity error
         fit_vars[i_range+1][3] = rf_errors[1] # sigma velocity dispersion error
 
     return {'fitted_variables': fit_vars}
@@ -107,7 +105,7 @@ def usable_cubes(catalogue, bright_objects):
             list_usable.append(cube_id)
 
     # testing for individual cubes
-    list_usable = [1804, 1578]
+    #list_usable = [1804, 1578]
     #list_usable = [1804]
 
     return list_usable
@@ -127,7 +125,9 @@ def ppxf_cube_auto():
     # this array is here as we need to create our data array based off how many 
     # ranges it contains
     ranges = np.array([
-        [3700, 4100],
+        [3700, 4200],
+        [3700, 4500],
+        [3700, 5000]
         ])
 
     np.save("data/ppxf_fitting_ranges", ranges)
@@ -138,10 +138,10 @@ def ppxf_cube_auto():
     #                considering i.e. full spectrum, OII region, absorption regon
     # 3rd dimension: columns storing corresponding data 
     #   [0] : cube_id 
-    #   [1] : OII doublet velocity dispersion 
+    #   [1] : OII doublet velocity dispersion from lmfit
     #   [2] : sigma for the entire spectrum or regions corresponding to the limits in
-    #         ranges
-    #   [3] : OII doublet velocity dispersion error
+    #         ranges from pPXF
+    #   [3] : OII doublet velocity dispersion error from lmfit 
     #   [4] : error for sigma from pPXF
     #   [5] : OII doublet velocity dispersion from pPXF
     #   [6] : V-band magnitude from catalogue
@@ -152,7 +152,8 @@ def ppxf_cube_auto():
     #   [11] : sigma from our own Voigt fitter
     #   [12] : fractional error for pPXF
     #   [13] : fractional error for lmfit
-    data = np.zeros([len(uc), 1+len(ranges), 14]) 
+    #   [14] : velocity value from the pPXF fitting
+    data = np.zeros([len(uc), 1+len(ranges), 15]) 
  
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
@@ -225,6 +226,9 @@ def ppxf_cube_auto():
 
         # using saved data, rerun analysis to find chi^2s
         ppxf_analysis = ppxf_plots.fitting_plotter(cube_id) 
+
+        ppxf_vel = ppxf_vars[0]
+        data[i_cube][0][14] = ppxf_vel
 
         sigma_stars = ppxf_vars[1]
         data[i_cube][0][2] = sigma_stars
@@ -315,6 +319,9 @@ def ppxf_cube_auto():
 
             # uncertainty for pPXF velocity dispersion from fractional error
             data[i_cube][ci][12] = fe_ppxf * fit_vars[ci][1]
+
+            # velocity value from 
+            data[i_cube][ci][14] = fit_vars[ci][0]
 
         # Singular diagnostic plot
         def singular_plot():

@@ -1,9 +1,20 @@
+Outliers: 125
+Outliers: 7
+Outliers: 1
+Outliers: 128
+Outliers: 6
+Outliers: 129
+Outliers: 6
+Outliers: 1
+Outliers: 129
+Outliers: 6
+Outliers: 1
 Best Fit:       Vel     sigma        h3        h4
- comp. 0:    144616       145     0.024     0.116
-chi2/DOF: 2.694
-method = capfit; Jac calls: 6; Func calls: 34; Status: 2
-Nonzero Templates: 10 / 135
+ comp. 0:    144602        84    -0.003     0.054
+chi2/DOF: 1.194
+method = capfit; Jac calls: 6; Func calls: 135; Status: 3
+Nonzero Templates: 12 / 135
 Formal errors: 
      dV    dsigma   dh3      dh4 
-      21      23     0.1   0.071
-Elapsed time in PPXF: 4.39 s
+      12      15   0.098   0.071
+Elapsed time in PPXF: 17.62 s

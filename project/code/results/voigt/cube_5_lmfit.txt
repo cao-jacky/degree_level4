@@ -1,4 +1,4 @@
-Analysis performed on 2019-01-22 17:03:49.454020
+Analysis performed on 2019-01-24 15:58:42.013731
 
 Output from lmfit is the following: 
 [[Model]]
@@ -8,21 +8,21 @@ Output from lmfit is the following:
     # function evals   = 111
     # data points      = 137
     # variables        = 5
-    chi-square         = 14.3409990
+    chi-square         = 14.3409991
     reduced chi-square = 0.10864393
     Akaike info crit   = -299.189604
-    Bayesian info crit = -284.589700
+    Bayesian info crit = -284.589699
 [[Variables]]
     sigma_inst:    0.9929278 (fixed)
-    sigma_gal:     8.12666400 +/- 0.64288173 (7.91%) (init = 2.953874)
-    z:             0.66466277 +/- 1.8048e-04 (0.03%) (init = 0.6645912)
-    v1_amplitude: -24.9676353 +/- 4.77042153 (19.11%) (init = -0.9107653)
-    v1_center:     6550.07677 +/- 0.71014652 (0.01%) == '3934.777*(1+z)'
-    v1_sigma:      8.18709798 +/- 0.63813623 (7.79%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
-    v2_amplitude: -78.8475018 +/- 6.54380499 (8.30%) (init = -1.910765)
-    v2_center:     6608.02535 +/- 0.71642920 (0.01%) == '3969.588*(1+z)'
-    v2_sigma:      8.18709798 +/- 0.00000000 (0.00%) == 'v1_sigma'
-    c:             2.36042008 +/- 0.06107635 (2.59%) (init = 1.940744)
+    sigma_gal:     8.12760877 +/- 0.64279547 (7.91%) (init = 3.431611)
+    z:             0.66466276 +/- 1.8045e-04 (0.03%) (init = 0.6645912)
+    v1_amplitude: -24.9729453 +/- 4.76934199 (19.10%) (init = -0.9107653)
+    v1_center:     6550.07676 +/- 0.71003910 (0.01%) == '3934.777*(1+z)'
+    v1_sigma:      8.18803578 +/- 0.63805169 (7.79%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
+    v2_amplitude: -78.8552090 +/- 6.54251229 (8.30%) (init = -1.910765)
+    v2_center:     6608.02534 +/- 0.71632081 (0.01%) == '3969.588*(1+z)'
+    v2_sigma:      8.18803578 +/- 0.00000000 (0.00%) == 'v1_sigma'
+    c:             2.36048728 +/- 0.06106677 (2.59%) (init = 1.940744)
 [[Correlations]] (unreported correlations are < 0.100)
     C(v2_amplitude, c)            = -0.818
     C(sigma_gal, v2_amplitude)    = -0.790
