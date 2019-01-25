@@ -436,7 +436,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # this procedure, the best-fitting redshift is now given by the following
     # commented line (equation 2 of Cappellari et al. 2009, ApJ, 704, L34):
     #
-    #print, 'Best-fitting redshift z:', (z + 1)*(1 + sol[0]/c) - 1
+    print
+    print('Best-fitting redshift z: '+str((z + 1)*(1 + ppxf_variables[0]/c) - 1))
 
     return {'reduced_chi2': red_chi2, 'noise': noise, 'variables': ppxf_variables,
             'y_data': galaxy, 'x_data': lam_gal, 'redshift': z, 

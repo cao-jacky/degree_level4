@@ -106,7 +106,7 @@ def usable_cubes(catalogue, bright_objects):
 
     # testing for individual cubes
     #list_usable = [1804, 1578]
-    #list_usable = [1804]
+    list_usable = [1804]
 
     return list_usable
 
@@ -116,6 +116,8 @@ def ppxf_cube_auto():
     bright_objects = cf['bo']
 
     uc = usable_cubes(catalogue, bright_objects) # usable cubes
+    print("Loading the following cubes to process:")
+    print(uc)
     
     gas_avoid = ignore_cubes()['ga']
 
