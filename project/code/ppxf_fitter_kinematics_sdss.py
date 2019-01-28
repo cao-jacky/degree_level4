@@ -59,6 +59,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, x_model, y_model, noise):
     noise_stddev = np.std(noise) 
 
     residual = y_data_scaled - y_model
+    print(x_data, x_model)
     res_median = np.median(residual)
     res_stddev = np.std(residual)
 
@@ -98,38 +99,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, x_model, y_model, noise):
         doublet_data = doublet_data / np.median(y_data)
         plt.plot(doublet_x_data, doublet_data, linewidth=0.5, color="#9c27b0")
 
-    max_y = np.max(y_data_scaled)
-    """
-    # plotting spectral lines
-    for e_key, e_val in sl['emis'].items():
-        spec_line = float(e_val)
-        spec_label = e_key
-
-        if (e_val in str(doublets)):
-            alpha_line = 0.2
-        else:
-            alpha_line = 0.7
-            
-        alpha_text = 0.75
-
-        plt.axvline(x=spec_line, linewidth=0.5, color="#1e88e5", alpha=alpha_line)
-        plt.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=alpha_text,
-                weight="bold", fontsize=15) 
-
-    for e_key, e_val in sl['abs'].items():
-        spec_line = float(e_val)
-        spec_label = e_key
-
-        plt.axvline(x=spec_line, linewidth=0.5, color="#ff8f00", alpha=0.7)
-        plt.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=0.75,
-                weight="bold", fontsize=15)
-
-    # iron spectral lines
-    for e_key, e_val in sl['iron'].items(): 
-        spec_line = float(e_val)
-
-        plt.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
-    """
+    max_y = np.max(y_data_scaled) 
 
     plt.plot(x_model, y_model, linewidth=1.5, color="#b71c1c")
 
@@ -198,18 +168,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # cube noise
     cube_noise_data = cube_noise()
     spectrum_noise = cube_noise_data['spectrum_noise'] 
-    spec_noise = spectrum_noise
-    
-    # Considering specific ranges
-    if (isinstance(fit_range, str)):
-        pass
-    else: 
-        rtc_mask = ((cube_x_data > fit_range[0]) & (cube_x_data < fit_range[1]))
-
-        cube_x_data = cube_x_data[rtc_mask]
-        cube_y_data = cube_y_data[rtc_mask]
-
-        spec_noise = spec_noise[rtc_mask] 
+    spec_noise = spectrum_noise 
 
     lamRange = np.array([np.min(cube_x_data), np.max(cube_x_data)]) 
     specNew, logLam, velscale = log_rebin(lamRange, cube_y_data)
@@ -239,11 +198,13 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits")
     skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
     skyNew = skyNew
-    
+
+    """
     if (isinstance(fit_range, str)):
         pass
     else:
         skyNew = skyNew[rtc_mask]
+    """
     skyNew = skyNew[mask]
 
     c = 299792.458                  # speed of light in km/s
@@ -348,7 +309,24 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     #
     c = 299792.458
     dv = np.log(lam_temp[0]/(lam_gal[0]*(1+z)))*c    # km/s
-    goodpixels = util.determine_goodpixels(np.log(lam_gal*(1+z)), lamRange_temp, z) 
+    goodpixels = util.determine_goodpixels(np.log(lam_gal*(1+z)), lamRange_temp, z)
+
+    # Considering specific ranges
+    if (isinstance(fit_range, str)):
+        pass
+    else: 
+        rtc_mask = ((loglam > np.log10(fit_range[0])) & 
+                (loglam < np.log10(fit_range[1])))
+
+        true_pixels = np.where(rtc_mask == True)[0]
+
+        t_gpx = [] # true goodpixels list
+        for i_tp in range(len(true_pixels)):
+                curr_tp = true_pixels[i_tp]
+                if curr_tp in goodpixels:
+                    t_gpx.append(curr_tp)
+        
+        #goodpixels = np.asarray(t_gpx)
 
     # Here the actual fit starts. The best fit is plotted on the screen.
     # Gas emission lines are excluded from the pPXF fit using the GOODPIXELS keyword.
@@ -394,6 +372,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_not_scaled", galaxy_ns)
 
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_goodpixels", goodpixels)
+
         # if best fit i.e. perturbation is 0, save everything
      
         kinematics_file = open(file_loc + "/cube_" + str(int(cube_id)) + 
@@ -430,6 +410,12 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
         # saving graphs if not original range
         fit_range = fit_range
         fitting_plotter(cube_id, fit_range, x_data, y_data, lam_gal, best_fit, noise)
+        
+        # goodpixels range specifier for array
+        np.save(file_loc + "/cube_" + str(int(cube_id)) + "_goodpixels_" + 
+                str(fit_range[0]) + "_" + str(fit_range[1]), goodpixels)
+
+    # save the goodpixels array depending on if a reduced ranged is being used
 
     # If the galaxy is at significant redshift z and the wavelength has been
     # de-redshifted with the three lines "z = 1.23..." near the beginning of

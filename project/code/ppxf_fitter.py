@@ -1,5 +1,7 @@
 import os
 
+from anybar import AnyBar
+
 import sys
 sys.path.insert(0, '/Users/jackycao/Documents/Projects/scripts/')
 import personal_scripts
@@ -126,11 +128,16 @@ def ppxf_cube_auto():
     #
     # this array is here as we need to create our data array based off how many 
     # ranges it contains
-    ranges = np.array([
+    ranges1 = np.array([
         [3700, 4200],
         [3700, 4500],
         [3700, 5000]
         ])
+
+    ranges = np.array([
+        [3700, 4200],
+        ])
+
 
     np.save("data/ppxf_fitting_ranges", ranges)
 
@@ -513,7 +520,11 @@ def ppxf_cube_auto():
     os.system('afplay /System/Library/Sounds/Glass.aiff')
     personal_scripts.notifications("ppxf_fitter", "Script has finished!")
 
+AnyBar().change('red')
+
 ppxf_cube_auto()
 #usable_cubes()
 #ppxf_plots.sigma_sn()
 #region_graphs_with_data()
+
+AnyBar().change('green')
