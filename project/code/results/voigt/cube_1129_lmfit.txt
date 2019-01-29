@@ -1,11 +1,11 @@
-Analysis performed on 2019-01-29 14:01:39.056901
+Analysis performed on 2019-01-29 14:12:11.199497
 
 Output from lmfit is the following: 
 [[Model]]
     ((Model(voigt, prefix='v1_') + Model(voigt, prefix='v2_')) + Model(constant))
 [[Fit Statistics]]
     # fitting method   = leastsq
-    # function evals   = 147
+    # function evals   = 153
     # data points      = 138
     # variables        = 5
     chi-square         = 10.9083013
@@ -14,15 +14,15 @@ Output from lmfit is the following:
     Bayesian info crit = -325.570416
 [[Variables]]
     sigma_inst:    0.9929277 (fixed)
-    sigma_gal:     9.43338912 +/- 1.66388295 (17.64%) (init = 1.459202)
-    z:             0.73509732 +/- 4.7558e-04 (0.06%) (init = 0.7340271)
-    v1_amplitude: -7.00110570 +/- 4.43092033 (63.29%) (init = 0.1112411)
-    v1_center:     6827.22104 +/- 1.87130090 (0.03%) == '3934.777*(1+z)'
-    v1_sigma:      9.48550134 +/- 1.65474177 (17.44%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
-    v2_amplitude: -34.1389415 +/- 6.37940437 (18.69%) (init = -0.8887589)
-    v2_center:     6887.62151 +/- 1.88785630 (0.03%) == '3969.588*(1+z)'
-    v2_sigma:      9.48550134 +/- 0.00000000 (0.00%) == 'v1_sigma'
-    c:             1.36423491 +/- 0.05377054 (3.94%) (init = 1.188593)
+    sigma_gal:     9.42904778 +/- 1.66459171 (17.65%) (init = 2.116167)
+    z:             0.73509769 +/- 4.7581e-04 (0.06%) (init = 0.7340271)
+    v1_amplitude: -6.99544965 +/- 4.43361663 (63.38%) (init = 0.1112411)
+    v1_center:     6827.22249 +/- 1.87222167 (0.03%) == '3934.777*(1+z)'
+    v1_sigma:      9.48118386 +/- 1.65543828 (17.46%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
+    v2_amplitude: -34.1256917 +/- 6.38304086 (18.70%) (init = -0.8887589)
+    v2_center:     6887.62297 +/- 1.88878522 (0.03%) == '3969.588*(1+z)'
+    v2_sigma:      9.48118386 +/- 0.00000000 (0.00%) == 'v1_sigma'
+    c:             1.36414473 +/- 0.05379308 (3.94%) (init = 1.188593)
 [[Correlations]] (unreported correlations are < 0.100)
     C(v2_amplitude, c)            = -0.813
     C(sigma_gal, v2_amplitude)    = -0.785

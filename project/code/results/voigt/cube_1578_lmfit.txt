@@ -1,11 +1,11 @@
-Analysis performed on 2019-01-29 14:00:15.615009
+Analysis performed on 2019-01-29 14:11:10.430914
 
 Output from lmfit is the following: 
 [[Model]]
     ((Model(voigt, prefix='v1_') + Model(voigt, prefix='v2_')) + Model(constant))
 [[Fit Statistics]]
     # fitting method   = leastsq
-    # function evals   = 68
+    # function evals   = 81
     # data points      = 137
     # variables        = 5
     chi-square         = 5.28999561
@@ -14,15 +14,15 @@ Output from lmfit is the following:
     Bayesian info crit = -421.220496
 [[Variables]]
     sigma_inst:    0.9929278 (fixed)
-    sigma_gal:     7.37785957 +/- 0.45519371 (6.17%) (init = 2.005542)
+    sigma_gal:     7.37786162 +/- 0.45519308 (6.17%) (init = 2.222194)
     z:             0.66682173 +/- 1.2713e-04 (0.02%) (init = 0.6664017)
-    v1_amplitude: -22.3697205 +/- 2.75931106 (12.34%) (init = -0.5251451)
-    v1_center:     6558.57181 +/- 0.50021839 (0.01%) == '3934.777*(1+z)'
-    v1_sigma:      7.44437489 +/- 0.45112657 (6.06%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
-    v2_amplitude: -57.2847847 +/- 3.63371399 (6.34%) (init = -1.525145)
-    v2_center:     6616.59555 +/- 0.50464382 (0.01%) == '3969.588*(1+z)'
-    v2_sigma:      7.44437489 +/- 0.00000000 (0.00%) == 'v1_sigma'
-    c:             1.79813879 +/- 0.03535357 (1.97%) (init = 1.51238)
+    v1_amplitude: -22.3697338 +/- 2.75930691 (12.34%) (init = -0.5251451)
+    v1_center:     6558.57181 +/- 0.50021774 (0.01%) == '3934.777*(1+z)'
+    v1_sigma:      7.44437691 +/- 0.45112594 (6.06%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
+    v2_amplitude: -57.2847972 +/- 3.63370792 (6.34%) (init = -1.525145)
+    v2_center:     6616.59554 +/- 0.50464317 (0.01%) == '3969.588*(1+z)'
+    v2_sigma:      7.44437691 +/- 0.00000000 (0.00%) == 'v1_sigma'
+    c:             1.79813893 +/- 0.03535353 (1.97%) (init = 1.51238)
 [[Correlations]] (unreported correlations are < 0.100)
     C(v2_amplitude, c)            = -0.807
     C(sigma_gal, v2_amplitude)    = -0.786
