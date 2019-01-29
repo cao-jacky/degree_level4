@@ -194,17 +194,27 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux)
 
+    # Considering specific ranges
+    if (isinstance(fit_range, str)):
+        pass
+    else: 
+        rtc_mask = ((loglam > np.log10(fit_range[0])) & 
+                (loglam < np.log10(fit_range[1])))
+
+        true_pixels = np.where(rtc_mask == True)[0]
+
+        for i_noise in range(len(noise)):
+            curr_noise = noise[i_noise]
+            if i_noise in true_pixels:
+                pass
+            else:
+                noise[i_noise] = 1.0
+
+    print(noise)
+
     # sky noise
     sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits")
     skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
-    skyNew = skyNew
-
-    """
-    if (isinstance(fit_range, str)):
-        pass
-    else:
-        skyNew = skyNew[rtc_mask]
-    """
     skyNew = skyNew[mask]
 
     c = 299792.458                  # speed of light in km/s
@@ -309,24 +319,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     #
     c = 299792.458
     dv = np.log(lam_temp[0]/(lam_gal[0]*(1+z)))*c    # km/s
-    goodpixels = util.determine_goodpixels(np.log(lam_gal*(1+z)), lamRange_temp, z)
-
-    # Considering specific ranges
-    if (isinstance(fit_range, str)):
-        pass
-    else: 
-        rtc_mask = ((loglam > np.log10(fit_range[0])) & 
-                (loglam < np.log10(fit_range[1])))
-
-        true_pixels = np.where(rtc_mask == True)[0]
-
-        t_gpx = [] # true goodpixels list
-        for i_tp in range(len(true_pixels)):
-                curr_tp = true_pixels[i_tp]
-                if curr_tp in goodpixels:
-                    t_gpx.append(curr_tp)
-        
-        #goodpixels = np.asarray(t_gpx)
+    goodpixels = util.determine_goodpixels(np.log(lam_gal*(1+z)), lamRange_temp, z) 
 
     # Here the actual fit starts. The best fit is plotted on the screen.
     # Gas emission lines are excluded from the pPXF fit using the GOODPIXELS keyword.
