@@ -2,12 +2,16 @@
 
 import os 
 
+from astropy.io import fits
+
 from os import path
 import numpy as np
 import matplotlib.pyplot as plt
 
 import vorbin
 from vorbin.voronoi_2d_binning import voronoi_2d_binning
+
+import cube_reader
 
 #-----------------------------------------------------------------------------
 
@@ -16,7 +20,14 @@ def data_file_creator(cube_id):
     # load up the inidividual MUSE cubes, then save the data as a numpy array file?
     cube_data = ("data/cubes_better/cube_"+str(int(cube_id))+".npy")
     if not (os.path.exists(cube_data)):
-        print("test")
+        # reading fits file and reducing down to an array of data
+        file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" 
+                    + "cube_" + str(cube_id) + ".fits")
+        fits_file = cube_reader.read_file(file_name)
+
+        image_data = fits_file[1]
+        print(np.shape(image_data))
+        
         pass
     else:
         pass
