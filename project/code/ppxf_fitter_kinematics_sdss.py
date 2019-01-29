@@ -246,7 +246,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # of the library is included for this example with permission
 
     # NOAO Coudé templates
-    template_set = glob.glob("noao_templates/*.fits")
+    template_set = glob.glob("noao_indiv/*.fits")
     fwhm_tem = 1.35 
 
     # Extended MILES templates
