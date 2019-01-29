@@ -379,7 +379,7 @@ def testing_ranges():
 
 #voigt_sigmas()
 
-sigma_stars_vs_sigma_oii()
+#sigma_stars_vs_sigma_oii()
 #ranges_sigma_stars_vs_sigma_oii()
 
 #testing_ranges()
