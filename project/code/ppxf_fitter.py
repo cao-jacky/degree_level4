@@ -520,11 +520,12 @@ def ppxf_cube_auto():
     os.system('afplay /System/Library/Sounds/Glass.aiff')
     personal_scripts.notifications("ppxf_fitter", "Script has finished!")
 
-AnyBar().change('red')
+if __name__ == '__main__':
+    AnyBar().change('red')
 
-ppxf_cube_auto()
-#usable_cubes()
-#ppxf_plots.sigma_sn()
-#region_graphs_with_data()
+    ppxf_cube_auto()
+    #usable_cubes()
+    #ppxf_plots.sigma_sn()
+    #region_graphs_with_data()
 
-AnyBar().change('green')
+    AnyBar().change('green')

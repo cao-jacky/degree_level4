@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os 
+
 from os import path
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,11 +13,17 @@ from vorbin.voronoi_2d_binning import voronoi_2d_binning
 
 def data_file_creator(cube_id):
     # I need to create four columns: x-coord, y-coord, signal, noise
-    # load up collapsed MUSE galaxy fits file 
+    # load up the inidividual MUSE cubes, then save the data as a numpy array file?
+    cube_data = ("data/cubes_better/cube_"+str(int(cube_id))+".npy")
+    if not (os.path.exists(cube_data)):
+        print("test")
+        pass
+    else:
+        pass
 
     # create array which has rows equal to x*y 
 
-    # read over every pixel and store it into an array
+    # read over every pixel and store the signal, noise into the array
 
 def voronoi_binning(cube_id):
 
@@ -41,7 +49,10 @@ def voronoi_binning(cube_id):
 #-----------------------------------------------------------------------------
 
 if __name__ == '__main__':
+    data_file_creator(1804)
 
-    voronoi_binning_example()
-    plt.tight_layout()
-    plt.pause(1)
+    #voronoi_binning_example()
+    #plt.tight_layout()
+    #plt.pause(1)
+
+    

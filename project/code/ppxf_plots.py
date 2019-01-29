@@ -371,15 +371,15 @@ def testing_ranges():
         fig.savefig("graphs/testing/"+range_string+".pdf")
         plt.close("all") 
 
+if __name__ == '__main__':
+    #chi_squared_cal(1804)
+    #model_data_overlay(549)
 
-#chi_squared_cal(1804)
-#model_data_overlay(549)
+    #data_graphs()
 
-#data_graphs()
+    #voigt_sigmas()
 
-#voigt_sigmas()
+    #sigma_stars_vs_sigma_oii()
+    #ranges_sigma_stars_vs_sigma_oii()
 
-#sigma_stars_vs_sigma_oii()
-#ranges_sigma_stars_vs_sigma_oii()
-
-#testing_ranges()
+    #testing_ranges()
