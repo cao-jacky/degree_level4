@@ -1,11 +1,11 @@
-Analysis performed on 2019-01-29 14:12:17.103946
+Analysis performed on 2019-01-29 14:26:09.690442
 
 Output from lmfit is the following: 
 [[Model]]
     ((Model(voigt, prefix='v1_') + Model(voigt, prefix='v2_')) + Model(constant))
 [[Fit Statistics]]
     # fitting method   = leastsq
-    # function evals   = 129
+    # function evals   = 98
     # data points      = 138
     # variables        = 5
     chi-square         = 20.7243430
@@ -14,15 +14,15 @@ Output from lmfit is the following:
     Bayesian info crit = -237.004098
 [[Variables]]
     sigma_inst:    0.9929278 (fixed)
-    sigma_gal:     9.81702924 +/- 1.52787317 (15.56%) (init = 1.982789)
-    z:             0.62084116 +/- 4.5595e-04 (0.07%) (init = 0.6193726)
-    v1_amplitude: -19.3219716 +/- 6.71561070 (34.76%) (init = -0.5447602)
-    v1_center:     6377.64852 +/- 1.79404523 (0.03%) == '3934.777*(1+z)'
-    v1_sigma:      9.86711552 +/- 1.52011756 (15.41%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
-    v2_amplitude: -49.9957887 +/- 8.81130018 (17.62%) (init = -1.54476)
-    v2_center:     6434.07162 +/- 1.80991717 (0.03%) == '3969.588*(1+z)'
-    v2_sigma:      9.86711552 +/- 0.00000000 (0.00%) == 'v1_sigma'
-    c:             1.77241364 +/- 0.08086778 (4.56%) (init = 1.50755)
+    sigma_gal:     9.81709820 +/- 1.52786522 (15.56%) (init = 3.345508)
+    z:             0.62084117 +/- 4.5594e-04 (0.07%) (init = 0.6193726)
+    v1_amplitude: -19.3222025 +/- 6.71554454 (34.76%) (init = -0.5447602)
+    v1_center:     6377.64855 +/- 1.79402899 (0.03%) == '3934.777*(1+z)'
+    v1_sigma:      9.86718413 +/- 1.52010977 (15.41%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
+    v2_amplitude: -49.9960972 +/- 8.81123196 (17.62%) (init = -1.54476)
+    v2_center:     6434.07166 +/- 1.80990077 (0.03%) == '3969.588*(1+z)'
+    v2_sigma:      9.86718413 +/- 0.00000000 (0.00%) == 'v1_sigma'
+    c:             1.77241633 +/- 0.08086732 (4.56%) (init = 1.50755)
 [[Correlations]] (unreported correlations are < 0.100)
     C(v2_amplitude, c)            = -0.835
     C(v1_amplitude, c)            = -0.806
