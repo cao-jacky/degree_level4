@@ -1,16 +1,36 @@
 \BOOKMARK [1][-]{section*.1}{Contents}{}% 1
 \BOOKMARK [1][-]{section*.2}{Introduction}{}% 2
-\BOOKMARK [2][-]{section*.3}{Galactic classification}{section*.2}% 3
-\BOOKMARK [2][-]{section*.4}{Galactic stellar formation}{section*.2}% 4
-\BOOKMARK [2][-]{section*.5}{Galactic data}{section*.2}% 5
-\BOOKMARK [3][-]{section*.6}{HUDF}{section*.5}% 6
-\BOOKMARK [3][-]{section*.7}{MUSE}{section*.5}% 7
-\BOOKMARK [2][-]{section*.9}{Project Aims}{section*.2}% 8
-\BOOKMARK [1][-]{section*.10}{Analysis}{}% 9
-\BOOKMARK [2][-]{section*.11}{Cube extraction}{section*.10}% 10
-\BOOKMARK [2][-]{section*.13}{Line fittings and pPXF}{section*.10}% 11
-\BOOKMARK [3][-]{section*.14}{Gaussian doublet fitting}{section*.13}% 12
-\BOOKMARK [3][-]{section*.15}{pPXF fitting}{section*.13}% 13
-\BOOKMARK [1][-]{section*.16}{Conclusions}{}% 14
-\BOOKMARK [1][-]{section*.17}{Acknowledgments}{}% 15
-\BOOKMARK [1][-]{section*.18}{References}{}% 16
+\BOOKMARK [2][-]{section*.3}{Hubble sequence and the local Universe}{section*.2}% 3
+\BOOKMARK [2][-]{section*.4}{Dynamical studies of galaxies along the Hubble sequence}{section*.2}% 4
+\BOOKMARK [3][-]{section*.5}{Evolution of galactic dynamics}{section*.4}% 5
+\BOOKMARK [3][-]{section*.6}{Tully-Fisher and Faber-Jackson relationships}{section*.4}% 6
+\BOOKMARK [2][-]{section*.7}{High-redshifts}{section*.2}% 7
+\BOOKMARK [3][-]{section*.8}{Galaxy formation models}{section*.7}% 8
+\BOOKMARK [3][-]{section*.9}{Stellar formation}{section*.7}% 9
+\BOOKMARK [3][-]{section*.10}{Gas collapse in dark matter halos}{section*.7}% 10
+\BOOKMARK [3][-]{section*.11}{Evolution of scaling relations}{section*.7}% 11
+\BOOKMARK [2][-]{section*.12}{The Hubble Ultra Deep Field}{section*.2}% 12
+\BOOKMARK [3][-]{section*.13}{HST}{section*.12}% 13
+\BOOKMARK [3][-]{section*.14}{MUSE}{section*.12}% 14
+\BOOKMARK [3][-]{section*.15}{Testing the local-Universe scaling relation}{section*.12}% 15
+\BOOKMARK [2][-]{section*.16}{Project}{section*.2}% 16
+\BOOKMARK [1][-]{section*.17}{Observations and data analysis}{}% 17
+\BOOKMARK [2][-]{section*.18}{HST HUDF}{section*.17}% 18
+\BOOKMARK [2][-]{section*.19}{MUSE HUDF}{section*.17}% 19
+\BOOKMARK [1][-]{section*.20}{Discussion}{}% 20
+\BOOKMARK [2][-]{section*.21}{* vs. OII \046 V* vs. VOII}{section*.20}% 21
+\BOOKMARK [2][-]{section*.22}{Voronoi}{section*.20}% 22
+\BOOKMARK [2][-]{section*.23}{Galactic classification}{section*.20}% 23
+\BOOKMARK [2][-]{section*.24}{Galactic stellar formation}{section*.20}% 24
+\BOOKMARK [2][-]{section*.25}{Galactic data}{section*.20}% 25
+\BOOKMARK [3][-]{section*.26}{HUDF}{section*.25}% 26
+\BOOKMARK [3][-]{section*.27}{MUSE}{section*.25}% 27
+\BOOKMARK [2][-]{section*.29}{Project Aims}{section*.20}% 28
+\BOOKMARK [1][-]{section*.30}{Analysis}{}% 29
+\BOOKMARK [2][-]{section*.31}{Cube extraction}{section*.30}% 30
+\BOOKMARK [2][-]{section*.33}{Line fittings and pPXF}{section*.30}% 31
+\BOOKMARK [3][-]{section*.34}{Gaussian doublet fitting}{section*.33}% 32
+\BOOKMARK [3][-]{section*.35}{pPXF fitting}{section*.33}% 33
+\BOOKMARK [1][-]{section*.36}{Conclusions}{}% 34
+\BOOKMARK [1][-]{section*.37}{Acknowledgments}{}% 35
+\BOOKMARK [1][-]{section*.38}{References}{}% 36
