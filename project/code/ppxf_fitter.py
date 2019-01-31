@@ -128,12 +128,6 @@ def ppxf_cube_auto():
     #
     # this array is here as we need to create our data array based off how many 
     # ranges it contains
-    ranges1 = np.array([
-        [3700, 4200],
-        [3700, 4500],
-        [3700, 5000]
-        ])
-
     ranges = np.array([
         [3700, 4200],
         ])
