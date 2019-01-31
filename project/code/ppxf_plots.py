@@ -371,7 +371,7 @@ def testing_ranges():
         fig.savefig("graphs/testing/"+range_string+".pdf")
         plt.close("all") 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
     #chi_squared_cal(1804)
     #model_data_overlay(549)
 

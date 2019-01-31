@@ -88,11 +88,22 @@ def voronoi_binned_map(cube_id):
             binned_data[i_y][i_x] = vb_data[curr_row][2]
             curr_row += 1
 
-    f, (ax1) = plt.subplots(1,1)
-    ax1.imshow(binned_data, cmap='prism')
+    f, (ax1, ax2) = plt.subplots(1,2)
+    ax1.imshow(np.fliplr(np.rot90(binned_data,3)), cmap='hsv')
     ax1.tick_params(labelsize=13)
 
-    f.savefig(cr_folder+"/cube_"+str(cube_id)+"_voronoi_map.pdf")
+    ax2.imshow(np.fliplr(np.rot90(o_cd[0][:][:],3)))
+    ax2.tick_params(labelsize=13)
+
+    f.tight_layout()
+    f.savefig(cr_folder+"/cube_"+str(cube_id)+"_voronoi_map_image.pdf")
+
+    g, (gax1) = plt.subplots(1,1)
+    gax1.imshow(np.fliplr(np.rot90(binned_data,3)), cmap='hsv')
+    gax1.tick_params(labelsize=13)
+
+    g.tight_layout()
+    g.savefig(cr_folder+"/cube_"+str(cube_id)+"_voronoi_map.pdf")
 
 def voronoi_binning(cube_id):
     cda = data_file_creator(cube_id) # cube_data_array
@@ -123,11 +134,10 @@ def voronoi_binning(cube_id):
     np.save(cr_loc+"/cube_"+str(cube_id)+"_binned.npy", binned)
     voronoi_binned_map(cube_id)
 
-
 #-----------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    voronoi_binning(1804)
+    voronoi_binned_map(1804)
 
     #voronoi_binning_example()
     #plt.tight_layout()

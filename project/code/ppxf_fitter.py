@@ -132,7 +132,6 @@ def ppxf_cube_auto():
         [3700, 4200],
         ])
 
-
     np.save("data/ppxf_fitting_ranges", ranges)
 
     # want an array to store various velocity dispersions
