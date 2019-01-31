@@ -68,15 +68,22 @@ def voronoi_ppxf_runner():
                     spectra = spectra + curr_spec
 
             # run pPXF on the final spectra and store results 
-            ppxf_run = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
-                    spectra, "all")
-            ppxf_vars = ppxf_run['variables']
+            if np.isnan(np.sum(spectra)) == True:
+                ppxf_vel = 0
+                ppxf_sigma = 0
+            else:
+                ppxf_run = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
+                        spectra, "all")
+                ppxf_vars = ppxf_run['variables']
+
+                ppxf_vel = ppxf_vars[0]
+                ppxf_sigma = ppxf_vars[1]
 
             # Storing data into cube_ppxf_results array
             cube_ppxf_results[i_vid][0] = int(cube_id)
             cube_ppxf_results[i_vid][1] = int(i_vid)
-            cube_ppxf_results[i_vid][2] = ppxf_vars[0]
-            cube_ppxf_results[i_vid][3] = ppxf_vars[1]
+            cube_ppxf_results[i_vid][2] = ppxf_vel
+            cube_ppxf_results[i_vid][3] = ppxf_sigma
 
             np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
                 "_curr_voronoi_ppxf_results.npy", cube_ppxf_results)

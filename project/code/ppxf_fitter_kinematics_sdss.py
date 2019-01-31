@@ -192,7 +192,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     spec_noise = spec_noise[mask]
 
-    noise = (spec_noise * np.sqrt(signal_pixels)) / np.median(flux)
+    noise = np.nan_to_num((spec_noise * np.sqrt(signal_pixels)) / np.median(flux))
 
     # Considering specific ranges
     if (isinstance(fit_range, str)):
