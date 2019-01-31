@@ -120,6 +120,9 @@ def voronoi_binning(cube_id):
             noise[i_n] = 1.0
 
     targetSN = cda['signal'] / cda['noise']
+    targetSN = 50
+
+    print(targetSN)
 
     # Perform the actual computation. The vectors
     # (binNum, xNode, yNode, xBar, yBar, sn, nPixels, scale)
@@ -137,7 +140,7 @@ def voronoi_binning(cube_id):
 #-----------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    voronoi_binned_map(1804)
+    voronoi_binning(1804)
 
     #voronoi_binning_example()
     #plt.tight_layout()

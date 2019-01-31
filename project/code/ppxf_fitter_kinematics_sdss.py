@@ -210,8 +210,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
             else:
                 noise[i_noise] = 1.0
 
-    print(noise)
-
     # sky noise
     sky_noise = cube_reader.sky_noise("data/skyvariance_csub.fits")
     skyNew, skyLogLam, skyVelScale = log_rebin(lamRange, sky_noise)
