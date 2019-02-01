@@ -1,4 +1,4 @@
-Analysis performed on 2019-01-31 19:13:42.653228
+Analysis performed on 2019-02-01 09:53:12.784392
 
 Output from lmfit is the following: 
 [[Model]]

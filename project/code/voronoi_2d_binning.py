@@ -6,7 +6,6 @@ from astropy.io import fits
 
 from os import path
 import numpy as np
-import matplotlib.pyplot as plt
 
 import matplotlib
 import matplotlib.pyplot as plt
