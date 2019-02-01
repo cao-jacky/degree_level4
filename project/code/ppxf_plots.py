@@ -275,6 +275,47 @@ def sigma_stars_vs_sigma_oii():
     fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")
     plt.close("all") 
 
+def sigma_ranker():
+    data = np.load("data/ppxf_fitter_data.npy") 
+
+    diff_data = np.zeros([len(data[:][:,0]),2])
+
+    array_len = len(data[:][:,0])
+
+    for i_d in range(array_len):
+        cc_d = data[:][:,0][i_d] # current cube data
+        cube_id = int(cc_d[0])
+    
+        sigma_oii = cc_d[1]
+        sigma_ppxf = cc_d[2]
+
+        # calculating the y-difference between sigma_ppxf and sigma_oii value
+        sigma_diff = sigma_ppxf - sigma_oii
+
+        diff_data[i_d][0] = cube_id
+        diff_data[i_d][1] = sigma_diff
+
+    diff_data = diff_data[diff_data[:,1].argsort()[::-1]]
+    
+    fig, axs = plt.subplots(array_len, 2, figsize=(8,8))
+
+    for i_ax in range(array_len):
+        cube_id = int(diff_data[i_ax][0])
+        cube_diff = float(diff_data[i_ax][1])
+
+        analysis = cube_reader.image_collapser("/Volumes/Jacky_Cao/University/level4/"
+                + "project/cubes_better/cube_"+str(cube_id)+".fits")  
+
+        plt.axis('off')
+        axs[i_ax,0].imshow(analysis['median'], cmap='gray_r')
+        axs[i_ax,0].set_axis_off()
+        axs[i_ax,1].annotate(str(cube_id)+", "+str(cube_diff), (0.1,0.5))
+        axs[i_ax,1].set_axis_off()
+
+    #fig.tight_layout()
+    fig.savefig("graphs/sigma_diff_ranked.pdf")
+    plt.close("all") 
+
 def ranges_sigma_stars_vs_sigma_oii():
     # plotting sigma_stars vs. sigma_OII plot for different ranges
     data = np.load("data/ppxf_fitter_data.npy")
@@ -397,8 +438,8 @@ def vel_stars_vs_vel_oii():
         vel_ppxf_err = cc_d[15]
 
         ax.errorbar(vel_oii, vel_ppxf, xerr=vel_oii_err, yerr=vel_ppxf_err, 
-            color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
-            capsize=5, capthick=1.0, zorder=0)
+                color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
+                capsize=5, capthick=1.0, zorder=0)
 
         ax.annotate(cube_id, (vel_oii, vel_ppxf))
 
@@ -431,4 +472,6 @@ if __name__ == '__main__':
 
     #testing_ranges()
 
-    vel_stars_vs_vel_oii()
+    #vel_stars_vs_vel_oii()
+    
+    sigma_ranker()
