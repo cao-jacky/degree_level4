@@ -371,7 +371,55 @@ def testing_ranges():
         fig.savefig("graphs/testing/"+range_string+".pdf")
         plt.close("all") 
 
-#if __name__ == '__main__':
+def vel_stars_vs_vel_oii():
+    data = np.load("data/ppxf_fitter_data.npy") 
+
+    print(data)
+
+    fig, ax = plt.subplots()
+
+    yerr=data[:][:,0][:,12]
+    xerr=data[:][:,0][:,13]
+    ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], xerr=xerr, yerr=yerr, 
+            color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
+            capsize=5, capthick=1.0, zorder=0)
+
+    low_sn = np.array([554, 765, 849, 1129, 895, 175])
+
+    for i_low in range(len(low_sn)):
+        curr_cube = low_sn[i_low] # current cube and it's ID number
+        curr_loc = np.where(data[:,:,0][:,0]==curr_cube)[0]
+        
+        cc_data = data[:][curr_loc,0][0]
+        cc_x = cc_data[1]
+        cc_y = cc_data[2]
+    
+        ax.scatter(cc_x, cc_y, s=20, c="#d32f2f", zorder=1)
+
+    for i in range(len(data[:][:,0])):
+        curr_id = data[:][i,0][0]
+        curr_x = data[:][i,0][1]
+        curr_y = data[:][i,0][2]
+
+        ax.annotate(int(curr_id), (curr_x, curr_y))
+
+    ax.tick_params(labelsize=15)
+    ax.set_ylabel(r'\textbf{vel$_{*}$ (kms$^{-1}$)}', fontsize=15)
+    ax.set_xlabel(r'\textbf{vel$_{OII}$ (kms$^{-1}$)}', fontsize=15)
+
+    ax.set_xlim([25,275]) 
+    ax.set_ylim([25,275])
+
+    # plot 1:1 line
+    f_xd = np.linspace(0,300,300)
+    ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
+
+    fig.tight_layout()
+    fig.savefig("graphs/vel_star_vs_vel_oii.pdf")
+    plt.close("all") 
+
+
+if __name__ == '__main__':
     #chi_squared_cal(1804)
     #model_data_overlay(549)
 
@@ -383,3 +431,5 @@ def testing_ranges():
     #ranges_sigma_stars_vs_sigma_oii()
 
     #testing_ranges()
+
+    vel_stars_vs_vel_oii()
