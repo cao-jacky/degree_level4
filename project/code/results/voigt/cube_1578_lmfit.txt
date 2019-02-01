@@ -1,4 +1,4 @@
-Analysis performed on 2019-01-29 14:24:50.136621
+Analysis performed on 2019-02-01 14:27:01.237880
 
 Output from lmfit is the following: 
 [[Model]]
@@ -8,21 +8,21 @@ Output from lmfit is the following:
     # function evals   = 81
     # data points      = 137
     # variables        = 5
-    chi-square         = 5.28999561
+    chi-square         = 5.28999562
     reduced chi-square = 0.04007572
     Akaike info crit   = -435.820401
     Bayesian info crit = -421.220496
 [[Variables]]
     sigma_inst:    0.9929278 (fixed)
-    sigma_gal:     7.37789739 +/- 0.45518733 (6.17%) (init = 2.328111)
+    sigma_gal:     7.37785498 +/- 0.45519417 (6.17%) (init = 2.180644)
     z:             0.66682173 +/- 1.2713e-04 (0.02%) (init = 0.6664017)
-    v1_amplitude: -22.3699252 +/- 2.75924976 (12.33%) (init = -0.5251451)
-    v1_center:     6558.57180 +/- 0.50021119 (0.01%) == '3934.777*(1+z)'
-    v1_sigma:      7.44441237 +/- 0.45112029 (6.06%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
-    v2_amplitude: -57.2850188 +/- 3.63364411 (6.34%) (init = -1.525145)
-    v2_center:     6616.59554 +/- 0.50463657 (0.01%) == '3969.588*(1+z)'
-    v2_sigma:      7.44441237 +/- 0.00000000 (0.00%) == 'v1_sigma'
-    c:             1.79814109 +/- 0.03535303 (1.97%) (init = 1.51238)
+    v1_amplitude: -22.3696979 +/- 2.75931756 (12.34%) (init = -0.5251451)
+    v1_center:     6558.57181 +/- 0.50021888 (0.01%) == '3934.777*(1+z)'
+    v1_sigma:      7.44437033 +/- 0.45112701 (6.06%) == 'sqrt(sigma_inst**2 + sigma_gal**2)'
+    v2_amplitude: -57.2847561 +/- 3.63371990 (6.34%) (init = -1.525145)
+    v2_center:     6616.59555 +/- 0.50464432 (0.01%) == '3969.588*(1+z)'
+    v2_sigma:      7.44437033 +/- 0.00000000 (0.00%) == 'v1_sigma'
+    c:             1.79813852 +/- 0.03535363 (1.97%) (init = 1.51238)
 [[Correlations]] (unreported correlations are < 0.100)
     C(v2_amplitude, c)            = -0.807
     C(sigma_gal, v2_amplitude)    = -0.786

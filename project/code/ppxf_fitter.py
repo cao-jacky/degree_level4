@@ -152,10 +152,11 @@ def ppxf_cube_auto():
     #   [9] : range end which is considered 
     #   [10] : pPXF sigma from Voigt profile fitter
     #   [11] : sigma from our own Voigt fitter
-    #   [12] : fractional error for pPXF
-    #   [13] : fractional error for lmfit
+    #   [12] : fractional error for pPXF for sigma value
+    #   [13] : fractional error for lmfit for sigma value
     #   [14] : velocity value from the pPXF fitting
-    data = np.zeros([len(uc), 1+len(ranges), 15]) 
+    #   [15] : error value for the pPXF velocity
+    data = np.zeros([len(uc), 1+len(ranges), 16]) 
  
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
@@ -231,6 +232,7 @@ def ppxf_cube_auto():
 
         ppxf_vel = ppxf_vars[0]
         data[i_cube][0][14] = ppxf_vel
+        data[i_cube][0][15] = ppxf_errors[0]
 
         sigma_stars = ppxf_vars[1]
         data[i_cube][0][2] = sigma_stars
@@ -322,9 +324,9 @@ def ppxf_cube_auto():
             # uncertainty for pPXF velocity dispersion from fractional error
             data[i_cube][ci][12] = fe_ppxf * fit_vars[ci][1]
 
-            # velocity value from 
+            # velocity value from pPXF
             data[i_cube][ci][14] = fit_vars[ci][0]
-
+            
         # Singular diagnostic plot
         def singular_plot():
             # parameters from lmfit
