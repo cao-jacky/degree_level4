@@ -5,6 +5,13 @@ An, S.-I.  \harvardyearleft 2008\harvardyearright , `{Interannual Variations of
   the Tropical Ocean Instability Wave and ENSO}', {\em Journal of Climate} {\bf
   21}(15),~3680--3686.
 
+\harvarditem{Battisti \harvardand\ Hirst}{1988}{Battisti:1988aa}
+Battisti, D.~S. \harvardand\ Hirst, A.~C.  \harvardyearleft
+  1988\harvardyearright , `{Interannual Variability in a Tropical
+  Atmosphere--Ocean Model: Influence of the Basic State, Ocean Geometry and
+  Nonlinearity}', {\em Journal of the Atmospheric Sciences} {\bf
+  46}(12),~1687--1712.
+
 \harvarditem{Bjerknes}{1969}{doi:10.1175/1520-04931969097}
 Bjerknes, J.  \harvardyearleft 1969\harvardyearright , `{Atmospheric
   teleconnections from the equatorial Pacific}', {\em Monthly Weather Review}
@@ -16,6 +23,11 @@ Gebbie, G., Eisenman, I., Wittenberg, A. \harvardand\ Tziperman, E.
   \harvardyearleft 2007\harvardyearright , `{Modulation of Westerly Wind Bursts
   by Sea Surface Temperature: A Semistochastic Feedback for ENSO}', {\em
   Journal of the Atmospheric Sciences} {\bf 64}(9),~3281--3295.
+
+\harvarditem{Jin}{1997}{Jin:1997aa}
+Jin, F.-F.  \harvardyearleft 1997\harvardyearright , `{An Equatorial Ocean
+  Recharge Paradigm for ENSO. Part I: Conceptual Model}', {\em Journal of the
+  Atmospheric Sciences} {\bf 54}(7),~811--829.
 
 \harvarditem[L'Heureux et~al.]{L'Heureux, Takahashi, Watkins, Barnston, Becker,
   Di~Liberto, Gamble, Gottschalck, Halpert, Huang, Mosquera-V{\'a}squez
@@ -31,10 +43,20 @@ L'Heureux, M.~L., Takahashi, K., Watkins, A.~B., Barnston, A.~G., Becker,
 Ruddiman, W.~F.  \harvardyearleft 2008\harvardyearright , {\em {Earth's
   Climate: Past and Future}}, 2nd edn, W. H. Freeman and Company.
 
+\harvarditem{Suarez \harvardand\ Schopf}{1988}{Suarez:1988aa}
+Suarez, M.~J. \harvardand\ Schopf, P.~S.  \harvardyearleft
+  1988\harvardyearright , `{A Delayed Action Oscillator for ENSO}', {\em
+  Journal of the Atmospheric Sciences} {\bf 45}(21),~3283--3287.
+
 \harvarditem{{Trenberth}}{1997}{1997BAMS...78.2771T}
 {Trenberth}, K.~E.  \harvardyearleft 1997\harvardyearright , `{The Definition
   of El Ni{\~n}o.}', {\em Bulletin of the American Meteorological Society} {\bf
   78},~2771--2777.
+
+\harvarditem{Wang}{2001}{Wang:2001aa}
+Wang, C.  \harvardyearleft 2001\harvardyearright , `A unified oscillator model
+  for the el ni{\~n}o--southern oscillation', {\em Journal of Climate} {\bf
+  14}(1),~98--115.
 
 \harvarditem[Wang et~al.]{Wang, Deser, Yu, DiNezio \harvardand\
   Clement}{2017}{wang2017nino}
