@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: cosmic_ladder.aux
+The style file: agsm.bst
+Database file #1: cosmic_ladder.bib
+You've used 26 entries,
+            2909 wiz_defined-function locations,
+            819 strings with 12339 characters,
+and the built_in function-call counts, 369930 in all, are:
+= -- 62753
+> -- 4519
+< -- 1
++ -- 31917
+- -- 1452
+* -- 33922
+:= -- 69914
+add.period$ -- 26
+call.type$ -- 26
+change.case$ -- 364
+chr.to.int$ -- 26
+cite$ -- 26
+duplicate$ -- 489
+empty$ -- 890
+format.name$ -- 1537
+if$ -- 66767
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 27
+newline$ -- 81
+num.names$ -- 281
+pop$ -- 76
+preamble$ -- 1
+purify$ -- 390
+quote$ -- 0
+skip$ -- 459
+stack$ -- 0
+substring$ -- 92440
+swap$ -- 146
+text.length$ -- 365
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 102
+warning$ -- 0
+while$ -- 573
+width$ -- 0
+write$ -- 355
