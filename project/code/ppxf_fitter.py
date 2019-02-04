@@ -108,7 +108,7 @@ def usable_cubes(catalogue, bright_objects):
 
     # testing for individual cubes
     #list_usable = [1804, 1578]
-    list_usable = [1804]
+    #list_usable = [1804]
 
     return list_usable
 
@@ -348,14 +348,14 @@ def ppxf_cube_auto():
             ax1.axis('off')
             ax1.text(0.0, 0.9, "cube\_" + str(cube_id), fontsize=13)
             ax1.text(0.0, 0.7, "sigma\_star (km/s): " + 
-                    str("{:.1f}".format(voigt_sigmas[0])), fontsize=13)
+                    str("{:.1f}".format(sigma_stars)), fontsize=13)
             ax1.text(0.0, 0.55, "sigma\_OII (km/s): " + 
                     str("{:.1f}".format(vel_dispersion)), fontsize=13)
 
             gax1.axis('off')
             gax1.text(0.0, 0.9, "cube\_" + str(cube_id), fontsize=13)
             gax1.text(0.0, 0.8, "sigma\_star (km/s): " + 
-                    str("{:.1f}".format(voigt_sigmas[0])), fontsize=13)
+                    str("{:.1f}".format(sigma_stars)), fontsize=13)
             gax1.text(0.0, 0.75, "sigma\_OII (km/s): " + 
                     str("{:.1f}".format(vel_dispersion)), fontsize=13)
 

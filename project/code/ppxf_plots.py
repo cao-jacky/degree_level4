@@ -412,11 +412,15 @@ def testing_ranges():
         fig.savefig("graphs/testing/"+range_string+".pdf")
         plt.close("all") 
 
-def oii_velocity(z):
+def oii_velocity_old(z):
     c = 299792.458 # speed of light in kms^-1
     num = (z+1)**2 -1 # numerator 
     den = (z+1)**2 + 1# denominator
     return c * (num/den)
+
+def oii_velocity(z):
+    c = 299792.458 # speed of light in kms^-1
+    return c*np.log(1+z)
 
 def vel_stars_vs_vel_oii():
     data = np.load("data/ppxf_fitter_data.npy") 
@@ -472,6 +476,6 @@ if __name__ == '__main__':
 
     #testing_ranges()
 
-    #vel_stars_vs_vel_oii()
+    vel_stars_vs_vel_oii()
     
-    sigma_ranker()
+    #sigma_ranker()
