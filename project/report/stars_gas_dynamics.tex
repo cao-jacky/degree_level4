@@ -31,7 +31,7 @@
 \rhead{\small The relation between stars and gas in distant galaxies}                
 
 \def\thesection{\arabic{section}}
-\def\thesubsection{\alph{subsection}}
+\def\thesubsection{\arabic{subsection}}
 
 \def\bibsection{\section*{References}}        % Position reference section correctly
 \setcitestyle{authoryear,round}
@@ -48,6 +48,8 @@
 
 \def\Plus{\texttt{+}}
 \def\Minus{\texttt{-}}
+
+\usepackage[inline]{enumitem}
 
 %%%%% Document %%%%%
 \begin{document}                     
@@ -75,7 +77,14 @@ Optical and spectroscopic observations of galaxies provide a way to understand t
 \section{Introduction} 
 
 \subsection{Hubble sequence and the local Universe}
-The Hubble sequence classifies galaxies into three general groupings of elliptical, spiral, and irregular galaxies. As demonstrated by Hubble 1926 [CITATION HERE], a population of 400 z=0 extra-galactic objects can be classified and sorted through studying their morphological natures. Ellipticals are codified by their ellipticity starting from non-elliptical E0 and running in integer steps until high ellipticity E7. Spiral galaxies have ellipticities greater than E7 and are classified by their structures. 
+The classification of galaxies into the three general groupings of ellipticals, spirals, and irregulars was initially performed by Edwin Hubble in 1926 \citep{1926ApJ....64..321H}. A sample population of 400 extra-galactic objects were classified and sorted by their morphological features into the groupings which are still used to this day. Ellipticals can be codified by their ellipticity (En) starting from non-elliptical E0 and running in integer steps until high ellipticity galaxies E7. Spiral galaxies have values of ellipticity greater than E7 and are subsequently defined by their structures. The first feature considered is whether a spiral galaxy contains a horizontal bar which runs through the central galactic nucleus, if they do then they are barred spirals (SB), but if they do not then they are ``normal'' spirals (S). Hubble then further sequenced the two categories by looking at: 
+\begin {enumerate*} [label=\itshape\alph*\upshape)]
+\item the relative size of the unresolved nuclear region, \item the extent to which the arms are unwound, and \item the degree of resolution in the arms. 
+\end {enumerate*} 
+This led to the spiral classification of ``early'' (Sa, SBa), ``intermediate'' (Sb, SBb), and ``late'' types (Sc, SBc). Finally, irregulars contain galaxies which do not fall into ellipticals or spirals as they appear to lack both dominant nuclei and rotational symmetry.
+
+Hubble's classification is now known as Hubble's sequence or the Hubble tuning fork, as it provides a comprehensive overview of the morphological natures of various different types of galaxies. Figure [reference to figure here] 
+
 
 \subsection{Dynamical studies of galaxies along the Hubble sequence}
 
