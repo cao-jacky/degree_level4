@@ -26,7 +26,7 @@ def data_file_creator(cube_id):
     # I need to create four columns: x-coord, y-coord, signal, noise
     # load up the inidividual MUSE cubes, then save the data as a numpy array file?
     cube_data = ("data/cubes_better/cube_"+str(int(cube_id))+".npy")
-    if not (os.path.exists(cube_data)):
+    if (os.path.exists(cube_data)):
         # obtaining the compressed median data for single galaxy cube
         file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" 
                     + "cube_" + str(cube_id) + ".fits")
@@ -34,6 +34,9 @@ def data_file_creator(cube_id):
 
         image_data = fits_file[1]
         id_shape = np.shape(image_data)
+
+        cb_noise = cube_reader.cube_noise(cube_id)
+        cn_val = cb_noise['noise_value']
 
         # 2 arrays to store the signal and then the noise
         cube_data_array = np.zeros((2,id_shape[1],id_shape[2]))
@@ -47,7 +50,7 @@ def data_file_creator(cube_id):
 
                 # noise is the standard deviation
                 pd_std = np.nanstd(pixel_data)
-                cube_data_array[1][i_dec][i_ra] = pd_std 
+                cube_data_array[1][i_dec][i_ra] = cn_val 
         np.save(cube_data, cube_data_array)
         cube_data = cube_data_array
         pass
@@ -88,7 +91,7 @@ def voronoi_binned_map(cube_id):
             curr_row += 1
 
     f, (ax1, ax2) = plt.subplots(1,2)
-    ax1.imshow(np.fliplr(np.rot90(binned_data,3)), cmap='hsv')
+    ax1.imshow(np.fliplr(np.rot90(binned_data,3)), cmap='prism')
     ax1.tick_params(labelsize=13)
 
     ax2.imshow(np.fliplr(np.rot90(o_cd[0][:][:],3)))
@@ -98,7 +101,7 @@ def voronoi_binned_map(cube_id):
     f.savefig(cr_folder+"/cube_"+str(cube_id)+"_voronoi_map_image.pdf")
 
     g, (gax1) = plt.subplots(1,1)
-    gax1.imshow(np.fliplr(np.rot90(binned_data,3)), cmap='hsv')
+    gax1.imshow(np.fliplr(np.rot90(binned_data,3)), cmap='prism')
     gax1.tick_params(labelsize=13)
 
     g.tight_layout()
@@ -108,18 +111,21 @@ def voronoi_binning(cube_id):
     cda = data_file_creator(cube_id) # cube_data_array
     cd = cda['data'] # cube_data
 
-    x = cd[:,0]
-    y = cd[:,1]
-    signal = np.nan_to_num(cd[:,2])
+    x = cd[:,0] * 0.20 # x and y have to be in arc seconds
+    y = cd[:,1] * 0.20 # one MUSE pixel has size 0.2 arcsec/pixel
+    signal = np.abs(np.nan_to_num(cd[:,2]))
     noise = np.nan_to_num(cd[:,3]) 
-
+    
+    """
     for i_n in range(len(noise)):
         curr_noise = noise[i_n]
         if curr_noise == 0.0:
             noise[i_n] = 1.0
+    """
 
     targetSN = cda['signal'] / cda['noise']
-    targetSN = 50
+    print(signal/noise)
+    targetSN = 500
 
     print(targetSN)
 
@@ -128,6 +134,8 @@ def voronoi_binning(cube_id):
     # are all generated in *output*
     binNum, xNode, yNode, xBar, yBar, sn, nPixels, scale = voronoi_2d_binning(
         x, y, signal, noise, targetSN, plot=1, quiet=0)
+
+    plt.show()
     
     binned = np.column_stack([x, y, binNum])
     cr_loc = ("cube_results/cube_"+str(cube_id)) 
@@ -140,6 +148,7 @@ def voronoi_binning(cube_id):
 
 if __name__ == '__main__':
     voronoi_binning(1804)
+    #data_file_creator(1804)
 
     #voronoi_binning_example()
     #plt.tight_layout()
