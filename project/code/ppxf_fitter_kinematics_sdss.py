@@ -151,7 +151,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     else:
         cube_y_data = y_data_var
 
-    cube_x_data = cube_x_data / (1+z)
+    #cube_x_data = cube_x_data / (1+z)
 
     cube_x_original = cube_x_data
     cube_y_original = cube_y_data
@@ -236,7 +236,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # and adjust the instrumental resolution of the galaxy observations.
     # This is done with the following three commented lines:
     
-    #lam_gal = lam_gal/(1+z)  # Compute approximate restframe wavelength
+    lam_gal = lam_gal/(1+z)  # Compute approximate restframe wavelength
     fwhm_gal = fwhm_gal/(1+z)   # Adjust resolution in Angstrom
 
     # Read the list of filenames from the Single Stellar Population library

@@ -108,7 +108,7 @@ def usable_cubes(catalogue, bright_objects):
 
     # testing for individual cubes
     #list_usable = [1804, 1578]
-    #list_usable = [1804]
+    list_usable = [1804]
 
     return list_usable
 
@@ -190,10 +190,10 @@ def ppxf_cube_auto():
             ppxf_errors = np.load(errors)
 
         # Processing the Voigt Profiles
-        voigt_sigmas = voigt_profiles.voigt_fitter(cube_id)['sigmas']
+        #voigt_sigmas = voigt_profiles.voigt_fitter(cube_id)['sigmas']
 
-        data[i_cube][0][10] = voigt_sigmas[0]
-        data[i_cube][0][11] = voigt_sigmas[1]
+        #data[i_cube][0][10] = voigt_sigmas[0]
+        #data[i_cube][0][11] = voigt_sigmas[1]
 
         # Processing the gas fitting to obtain a fitting for the OII doublet
         # fitting for free vs. tied Balmer & [SII]

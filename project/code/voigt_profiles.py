@@ -149,4 +149,5 @@ def voigt_fitter(cube_id):
 
     return {'sigmas': sigmas}
     
-voigt_fitter(1804)
+if __name__ == '__main__':
+    voigt_fitter(1804)
