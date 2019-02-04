@@ -317,13 +317,13 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     #
     c = 299792.458
     dv = np.log(lam_temp[0]/(lam_gal[0]*(1+z)))*c    # km/s
+    #goodpixels = util.determine_goodpixels(np.log(lam_gal), lamRange_temp, z) 
     goodpixels = util.determine_goodpixels(np.log(lam_gal*(1+z)), lamRange_temp, z) 
 
     # Here the actual fit starts. The best fit is plotted on the screen.
     # Gas emission lines are excluded from the pPXF fit using the GOODPIXELS keyword.
     #
     vel = c*np.log(1 + z)   # eq.(8) of Cappellari (2017)
-    print(vel)
     start = [vel, 200.]  # (km/s), starting guess for [V, sigma]
 
     t = process_time()
