@@ -228,7 +228,6 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     #
     c = 299792.458
     dv = np.log(lam_temp[0]/lam_gal[0])*c    # km/s
-    print(dv)
 
     #lam_gal_alt = lam_gal * (1+z)
     #lamRange_temp = [np.min(lam_temp), np.max(lam_temp)]

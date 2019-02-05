@@ -108,7 +108,7 @@ def usable_cubes(catalogue, bright_objects):
 
     # testing for individual cubes
     #list_usable = [1804, 1578]
-    list_usable = [1804]
+    #list_usable = [1804]
 
     return list_usable
 
@@ -397,7 +397,7 @@ def ppxf_cube_auto():
             max_y = np.max(y_data_scaled)
             # plotting spectral lines
             for e_key, e_val in sl['emis'].items():
-                spec_line = float(e_val)
+                spec_line = float(e_val)*(1+z)
                 spec_label = e_key
 
                 alpha_line = 0.7                            
@@ -411,7 +411,7 @@ def ppxf_cube_auto():
                         alpha=alpha_line)
 
             for e_key, e_val in sl['abs'].items():
-                spec_line = float(e_val)
+                spec_line = float(e_val)*(1+z)
                 spec_label = e_key
 
                 ax3.axvline(x=spec_line, linewidth=0.5, color="#ff8f00", 
@@ -423,7 +423,7 @@ def ppxf_cube_auto():
 
             # iron spectral lines
             for e_key, e_val in sl['iron'].items(): 
-                spec_line = float(e_val)
+                spec_line = float(e_val)*(1+z)
 
                 ax3.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", 
                         alpha=0.3)
@@ -436,7 +436,7 @@ def ppxf_cube_auto():
             ax3.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
             ax3.set_ylabel(r'\textbf{Relative Flux}', fontsize=13)
            
-            ax3.set_xlim([3500, 4000]) # 3500Å to 4000Å
+            ax3.set_xlim([3500*(1+z), 4000*(1+z)]) # 3500Å to 4000Å
 
             gax2.plot(x_data, y_model, linewidth=0.7, color="#b71c1c") 
 
@@ -473,7 +473,7 @@ def ppxf_cube_auto():
             gax2.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
             gax2.set_ylabel(r'\textbf{Relative Flux}', fontsize=13)
            
-            gax2.set_xlim([3700, 4000]) # 3700Å to 4000Å
+            gax2.set_xlim([3700*(1+z), 4000*(1+z)]) # 3700Å to 4000Å
 
             # Zoomed in plot on the doublet region
             gax3.plot(x_data, y_data_scaled, linewidth=0.7, color="#000000")
@@ -489,7 +489,7 @@ def ppxf_cube_auto():
             gax3.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
             gax3.set_ylabel(r'\textbf{Relative Flux}', fontsize=13)
            
-            gax3.set_xlim([3700, 3750]) # 3700Å to 4000Å
+            gax3.set_xlim([3700*(1+z), 3750*(1+z)]) # 3700Å to 4000Å
 
             f.tight_layout()
             f.savefig("diagnostics/single_page/"+str(int(i_cube))+"_cube_"+

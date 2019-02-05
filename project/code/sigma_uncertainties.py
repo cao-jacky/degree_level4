@@ -569,8 +569,11 @@ def uncertainties(cube_id):
     ppxf_sigma = ppxf_variables[1]
     ppxf_vel = ppxf_variables[0]
 
+    lmfit_data = spectra_data.lmfit_data(cube_id)
+    z = lmfit_data['z']
+
     # range to consider is between CaH and Hdelta
-    rtc = np.array([4000, 4080]) 
+    rtc = np.array([4000*(1+z), 4080*(1+z)]) 
     rtc_mask = ((ppxf_x > rtc[0]) & (ppxf_x < rtc[1]))
 
     y_masked = ppxf_y[rtc_mask]
@@ -589,13 +592,14 @@ def uncertainties(cube_id):
 
     return {'ppxf': uncert_ppxf, 'lmfit': uncert_lmfit, 'sn': sn}
 
-cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
-#cubes = np.array([1804])
+if __name__ == '__main__':
+    cubes = np.array([1804, 765, 5, 1, 767, 1578, 414, 1129, 286, 540])
+    #cubes = np.array([1804])
 
-#ppxf_uncertainty(cubes, 300)
-#ppxf_graphs()
+    #ppxf_uncertainty(cubes, 300)
+    #ppxf_graphs()
 
-#lmfit_uncertainty(cubes, 300)
-#lmfit_graphs()
+    #lmfit_uncertainty(cubes, 300)
+    #lmfit_graphs()
 
-#uncertainties(1804)
+    #uncertainties(1804)

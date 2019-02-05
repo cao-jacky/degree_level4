@@ -1,9 +1,39 @@
+Outliers: 323
+Outliers: 18
+Outliers: 7
+Outliers: 3
+Outliers: 4
+Outliers: 3
+Outliers: 324
+Outliers: 19
+Outliers: 4
+Outliers: 3
+Outliers: 4
+Outliers: 3
+Outliers: 325
+Outliers: 19
+Outliers: 3
+Outliers: 2
+Outliers: 3
+Outliers: 3
+Outliers: 323
+Outliers: 20
+Outliers: 3
+Outliers: 3
+Outliers: 3
+Outliers: 1
+Outliers: 323
+Outliers: 20
+Outliers: 3
+Outliers: 3
+Outliers: 3
+Outliers: 1
 Best Fit:       Vel     sigma        h3        h4
- comp. 0:    153543       181    -0.007     0.016
-chi2/DOF: 5.279
-method = capfit; Jac calls: 3; Func calls: 17; Status: 4
-Nonzero Templates: 18 / 135
+ comp. 0:    153531       182    -0.004     0.008
+chi2/DOF: 1.685
+method = capfit; Jac calls: 3; Func calls: 91; Status: 3
+Nonzero Templates: 16 / 135
 Formal errors: 
      dV    dsigma   dh3      dh4 
-      12      15   0.047   0.049
-Elapsed time in PPXF: 2.75 s
+     7.1     8.8   0.028   0.033
+Elapsed time in PPXF: 16.56 s

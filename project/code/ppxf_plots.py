@@ -117,7 +117,7 @@ def fitting_plotter(cube_id):
     plt.plot(x_data, y_data_scaled-noise_stddev, linewidth=0.1, color="#616161", alpha=0.1)
     
     # plotting over the OII doublet
-    doublets = np.array([3727.092, 3728.875])
+    doublets = np.array([3727.092, 3728.875]) * (1+z)
     dblt_av = np.average(doublets)
 
     dblt_x_mask = ((x_data > dblt_av-20) & (x_data < dblt_av+20))
@@ -130,7 +130,7 @@ def fitting_plotter(cube_id):
     max_y = np.max(y_data_scaled)
     # plotting spectral lines
     for e_key, e_val in sl['emis'].items():
-        spec_line = float(e_val)
+        spec_line = float(e_val)*(1+z)
         spec_label = e_key
 
         if (e_val in str(doublets)):
@@ -145,7 +145,7 @@ def fitting_plotter(cube_id):
                 weight="bold", fontsize=15) 
 
     for e_key, e_val in sl['abs'].items():
-        spec_line = float(e_val)
+        spec_line = float(e_val)*(1+z)
         spec_label = e_key
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#ff8f00", alpha=0.7)
@@ -154,7 +154,7 @@ def fitting_plotter(cube_id):
 
     # iron spectral lines
     for e_key, e_val in sl['iron'].items(): 
-        spec_line = float(e_val)
+        spec_line = float(e_val)*(1+z)
 
         plt.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
 
@@ -264,11 +264,11 @@ def sigma_stars_vs_sigma_oii():
     ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
     ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=15)
 
-    ax.set_xlim([25,275]) 
-    ax.set_ylim([25,275])
+    ax.set_xlim([-10,225]) 
+    ax.set_ylim([-10,225])
 
     # plot 1:1 line
-    f_xd = np.linspace(0,300,300)
+    f_xd = np.linspace(-10,300,400)
     ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
 
     fig.tight_layout()
@@ -472,11 +472,11 @@ if __name__ == '__main__':
 
     #voigt_sigmas()
 
-    #sigma_stars_vs_sigma_oii()
+    sigma_stars_vs_sigma_oii()
     #ranges_sigma_stars_vs_sigma_oii()
 
     #testing_ranges()
 
-    vel_stars_vs_vel_oii()
+    #vel_stars_vs_vel_oii()
     
     #sigma_ranker()

@@ -108,7 +108,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, x_model, y_model, noise):
     #plt.scatter(x_data[rmask], residual[rmask], s=3, color="#f44336", alpha=0.5)
     plt.scatter(x_data[mask], residual[mask]-1, s=3, color="#43a047")
 
-    plt.xlim([ranges[0], ranges[1]])
+    plt.xlim([ranges[0]*(1+z), ranges[1]*(1+z)])
 
     plt.tick_params(labelsize=15)
     plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
@@ -201,6 +201,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     if (isinstance(fit_range, str)):
         pass
     else: 
+        fit_range = fit_range * (1+z)
         rtc_mask = ((loglam > np.log10(fit_range[0])) & 
                 (loglam < np.log10(fit_range[1])))
 
@@ -239,8 +240,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # and adjust the instrumental resolution of the galaxy observations.
     # This is done with the following three commented lines:
     
-    lam_gal = lam_gal/(1+z)  # Compute approximate restframe wavelength
-    fwhm_gal = fwhm_gal/(1+z)   # Adjust resolution in Angstrom
+    #lam_gal = lam_gal/(1+z)  # Compute approximate restframe wavelength
+    #fwhm_gal = fwhm_gal/(1+z)   # Adjust resolution in Angstrom
 
     # Read the list of filenames from the Single Stellar Population library
     # by Vazdekis (2010, MNRAS, 404, 1639) http://miles.iac.es/. A subset
@@ -319,8 +320,13 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     # wavelength to the rest frame before using the line below (see above).
     #
     c = 299792.458
-    dv = np.log(lam_temp[0]/(lam_gal[0]*(1+z)))*c    # km/s
-    goodpixels = util.determine_goodpixels(np.log(lam_gal*(1+z)), lamRange_temp, z) 
+
+    # attempt at de-redshifting the data but it does not work
+    #dv = np.log(lam_temp[0]/(lam_gal[0]*(1+z)))*c    # km/s
+    #goodpixels = util.determine_goodpixels(np.log(lam_gal*(1+z)), lamRange_temp, z) 
+
+    dv = np.log(lam_temp[0]/lam_gal[0])*c    # km/s
+    goodpixels = util.determine_goodpixels(np.log(lam_gal), lamRange_temp, z)
 
     # Here the actual fit starts. The best fit is plotted on the screen.
     # Gas emission lines are excluded from the pPXF fit using the GOODPIXELS keyword.
