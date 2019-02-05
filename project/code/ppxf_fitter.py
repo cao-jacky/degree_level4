@@ -71,7 +71,7 @@ def cat_func():
     catalogue = np.load("data/matched_catalogue.npy")
     catalogue = catalogue[catalogue[:,8].argsort()]
     catalogue = catalogue[0:300,:] 
-    bright_objects = np.where(catalogue[:,5] < 25.0)[0]
+    bright_objects = np.where(catalogue[:,5] < 26.0)[0]
     return {'cat': catalogue, 'bo': bright_objects}
 
 def ignore_cubes():
@@ -83,7 +83,7 @@ def ignore_cubes():
         1063,1068,1114,1162, 112, 722, 764, 769, 760, 1469, 733, 1453, 723, 378,
         135, 474, 1103, 1118, 290, 1181, 1107, 6, 490, 258, 538, 643, 1148, 872,
         1693, 1387, 406, 163, 167, 150, 1320, 1397, 545, 721, 1694, 508, 1311,
-        205, 738, 1])
+        205, 738, 1, 1416, 397, 509, 439, 931, 248, 1402, 1667])
     avoid_objects = np.load("data/avoid_objects.npy")
     avoid_cubes = np.append(cubes_to_ignore, avoid_objects) # create single array
 
@@ -131,6 +131,7 @@ def ppxf_cube_auto():
     ranges = np.array([
         [3700, 4200],
         ])
+    ranges = np.array([])
 
     np.save("data/ppxf_fitting_ranges", ranges)
 
@@ -174,7 +175,7 @@ def ppxf_cube_auto():
                 "_variables.npy")
         errors = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
                 "_errors.npy")
-        if (os.path.exists(variables) and os.path.exists(errors)):
+        if not (os.path.exists(variables) and os.path.exists(errors)):
             # fitting full standard spectrum, and only running if a numpy
             # variables file is not found - saves me the effort of waiting
             kinematic_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id,0, 
@@ -197,6 +198,9 @@ def ppxf_cube_auto():
 
         # Processing the gas fitting to obtain a fitting for the OII doublet
         # fitting for free vs. tied Balmer & [SII]
+        """ 
+        # turning off the gas fit as there really is no point as it never worked
+        # in the first place
         gas_fit = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
                 "_gas_fit.npy")
         if not (os.path.exists(gas_fit)):
@@ -226,6 +230,7 @@ def ppxf_cube_auto():
                 gas_fit_oii = gfvs[2]
 
         data[i_cube][0][5] = gas_fit_oii
+        """
 
         # using saved data, rerun analysis to find chi^2s
         ppxf_analysis = ppxf_plots.fitting_plotter(cube_id) 
@@ -499,7 +504,7 @@ def ppxf_cube_auto():
             g.savefig("diagnostics/single_page_spectra/"+str(int(i_cube))+
                     "_cube_"+str(cube_id)+"_spectra.pdf")
 
-            plt.close() 
+            plt.close("all")
 
         singular_plot()
 

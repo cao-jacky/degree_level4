@@ -264,11 +264,11 @@ def sigma_stars_vs_sigma_oii():
     ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
     ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=15)
 
-    ax.set_xlim([-10,225]) 
-    ax.set_ylim([-10,225])
+    ax.set_xlim([-10,400]) 
+    ax.set_ylim([-10,400])
 
     # plot 1:1 line
-    f_xd = np.linspace(-10,300,400)
+    f_xd = np.linspace(-10,400,500)
     ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
 
     fig.tight_layout()
