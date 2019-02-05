@@ -59,7 +59,6 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, x_model, y_model, noise):
     noise_stddev = np.std(noise) 
 
     residual = y_data_scaled - y_model
-    print(x_data, x_model)
     res_median = np.median(residual)
     res_stddev = np.std(residual)
 

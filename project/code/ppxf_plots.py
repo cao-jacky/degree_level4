@@ -437,6 +437,7 @@ def vel_stars_vs_vel_oii():
 
         vel_oii = oii_velocity(cube_z)
         vel_oii_err = oii_velocity(lmfit_vals['err_z'])
+        #vel_oii = 0 # the velocities should be zero as they have not been redshifted
 
         vel_ppxf = cc_d[14]
         vel_ppxf_err = cc_d[15]
