@@ -241,8 +241,12 @@ def sigma_stars_vs_sigma_oii():
             color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
             capsize=5, capthick=1.0, zorder=0)
 
-    low_sn = np.array([554, 765, 849, 1129, 895, 175])
 
+    y_over_x = data[:][:,0][:,2]/data[:][:,0][:,1]
+
+    ax.annotate("median y/x val: "+str(np.median(y_over_x)), (200,10))
+
+    low_sn = np.array([554, 765, 849, 1129, 895, 175])
     for i_low in range(len(low_sn)):
         curr_cube = low_sn[i_low] # current cube and it's ID number
         curr_loc = np.where(data[:,:,0][:,0]==curr_cube)[0]
@@ -427,6 +431,8 @@ def vel_stars_vs_vel_oii():
 
     fig, ax = plt.subplots()
 
+    gq_val = [] # graph-quantifier value list
+
     for i_d in range(len(data[:][:,0])):
         cc_d = data[:][:,0][i_d] # current cube data
         cube_id = int(cc_d[0])
@@ -442,7 +448,9 @@ def vel_stars_vs_vel_oii():
         vel_ppxf = cc_d[14]
         vel_ppxf_err = cc_d[15]
 
-        print(cube_id, vel_ppxf, vel_oii)
+        #print(cube_id, vel_ppxf, vel_oii)
+
+        gq_val.append(vel_ppxf/vel_oii)
 
         ax.errorbar(vel_oii, vel_ppxf, xerr=vel_oii_err, yerr=vel_ppxf_err, 
                 color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
@@ -461,10 +469,53 @@ def vel_stars_vs_vel_oii():
     f_xd = np.linspace(0,275000,275000)
     ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
 
+    ax.annotate("median y/x val: "+str(np.median(gq_val)), (90_000,260_000))
+
     fig.tight_layout()
     fig.savefig("graphs/vel_star_vs_vel_oii.pdf")
     plt.close("all") 
 
+def sigma_old_vs_new():
+    old_data = np.load("data/ppxf_fitter_data_old.npy")
+    new_data = np.load("data/ppxf_fitter_data.npy")
+
+    fig, ax = plt.subplots()
+
+    gq_val = [] # graph-quantifier value list
+
+    for i_d in range(len(old_data[:][:,0])):
+        old_ccd = old_data[:][:,0][i_d]
+        old_id = int(old_ccd[0])
+
+        new_loc = np.where(new_data[:][:,0][:,0] == old_id)
+        new_ccd = new_data[:][:,0][new_loc][0]
+    
+        old_sigma = old_ccd[2] 
+        new_sigma = new_ccd[2]
+
+        gq_val.append(old_sigma/new_sigma)
+
+        ax.errorbar(new_sigma, old_sigma, 
+                color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
+                capsize=5, capthick=1.0, zorder=0)
+        ax.annotate(str(int(i_d))+"-"+str(old_id), (new_sigma, old_sigma))
+
+    ax.tick_params(labelsize=15)
+    ax.set_ylabel(r'\textbf{$\sigma_{*-old}$ (kms$^{-1}$)}', fontsize=15)
+    ax.set_xlabel(r'\textbf{$\sigma_{*-new}$ (kms$^{-1}$)}', fontsize=15)
+
+    ax.set_xlim([0,190]) 
+    ax.set_ylim([0,190])
+
+    # plot 1:1 line
+    f_xd = np.linspace(0,190,190)
+    ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
+
+    ax.annotate("median y/x val: "+str(np.median(gq_val)), (10,175))
+
+    fig.tight_layout()
+    fig.savefig("graphs/sigma_old_vs_new.pdf")
+    plt.close("all") 
 
 if __name__ == '__main__':
     #chi_squared_cal(1804)
@@ -474,11 +525,13 @@ if __name__ == '__main__':
 
     #voigt_sigmas()
 
-    #sigma_stars_vs_sigma_oii()
+    sigma_stars_vs_sigma_oii()
     #ranges_sigma_stars_vs_sigma_oii()
 
     #testing_ranges()
 
-    vel_stars_vs_vel_oii()
+    #vel_stars_vs_vel_oii()
     
     #sigma_ranker()
+
+    #sigma_old_vs_new()
