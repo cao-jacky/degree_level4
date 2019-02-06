@@ -442,6 +442,8 @@ def vel_stars_vs_vel_oii():
         vel_ppxf = cc_d[14]
         vel_ppxf_err = cc_d[15]
 
+        print(cube_id, vel_ppxf, vel_oii)
+
         ax.errorbar(vel_oii, vel_ppxf, xerr=vel_oii_err, yerr=vel_ppxf_err, 
                 color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
                 capsize=5, capthick=1.0, zorder=0)
@@ -452,11 +454,11 @@ def vel_stars_vs_vel_oii():
     ax.set_ylabel(r'\textbf{V$_{*}$ (kms$^{-1}$)}', fontsize=15)
     ax.set_xlabel(r'\textbf{V$_{OII}$ (kms$^{-1}$)}', fontsize=15)
 
-    ax.set_xlim([70000,160000]) 
-    ax.set_ylim([70000,160000])
+    ax.set_xlim([75000,275000]) 
+    ax.set_ylim([75000,275000])
 
     # plot 1:1 line
-    f_xd = np.linspace(0,160000,160000)
+    f_xd = np.linspace(0,275000,275000)
     ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
 
     fig.tight_layout()
@@ -472,11 +474,11 @@ if __name__ == '__main__':
 
     #voigt_sigmas()
 
-    sigma_stars_vs_sigma_oii()
+    #sigma_stars_vs_sigma_oii()
     #ranges_sigma_stars_vs_sigma_oii()
 
     #testing_ranges()
 
-    #vel_stars_vs_vel_oii()
+    vel_stars_vs_vel_oii()
     
     #sigma_ranker()
