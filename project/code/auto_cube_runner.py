@@ -153,12 +153,12 @@ def voronoi_runner():
                 "_curr_voronoi_ppxf_results.npy", cube_ppxf_results)
 
         # Save each cube_ppxf_results into cube_results folder
-        #np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-                #"_voronoi_ppxf_results.npy", cube_ppxf_results)
+        np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                "_voronoi_ppxf_results.npy", cube_ppxf_results)
 
 
 
 if __name__ == '__main__':
     #cube_runner()
-    #voronoi_ppxf_runner()
+    voronoi_runner()
     voronoi_plotter(1804)

@@ -188,14 +188,15 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     # galaxy spectrum not scaled 
     galaxy_ns = flux
-    
+
     segmentation_data = hdu[2].data
     seg_loc_rows, seg_loc_cols = np.where(segmentation_data == cube_id)
     signal_pixels = len(seg_loc_rows) 
 
     spec_noise = spec_noise[mask]
 
-    noise = np.nan_to_num((spec_noise * np.sqrt(signal_pixels)) / np.median(flux))
+    noise = np.nan_to_num((spec_noise * np.sqrt(signal_pixels)) / 
+            np.abs(np.median(flux)))
 
     # Considering specific ranges
     if (isinstance(fit_range, str)):
@@ -433,10 +434,5 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
 #------------------------------------------------------------------------------
 
-#kinematics_sdss(1804, 0, "all")
-
-#if __name__ == '__main__':
-    #ppxf_example_kinematics_sdss(468)
-    #import matplotlib.pyplot as plt
-    #plt.pause(1)
-    #plt.show()
+if __name__ == '__main__':
+    kinematics_sdss(1804, 0, "all")
