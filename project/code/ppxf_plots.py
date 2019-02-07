@@ -233,18 +233,27 @@ def voigt_sigmas():
 def sigma_stars_vs_sigma_oii():
     data = np.load("data/ppxf_fitter_data.npy") 
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots() 
 
-    yerr=data[:][:,0][:,12]
-    xerr=data[:][:,0][:,13]
-    ax.errorbar(data[:][:,0][:,1], data[:][:,0][:,2], xerr=xerr, yerr=yerr, 
+    x_dat = data[:][:,0][:,1]
+    y_dat = data[:][:,0][:,2]
+
+    y_mask = (y_dat < 300)
+
+    x_dat = x_dat[y_mask]
+    y_dat = y_dat[y_mask]
+
+    xerr=data[:][:,0][:,13][y_mask]
+    yerr=data[:][:,0][:,12][y_mask]
+    
+    ax.errorbar(x_dat, y_dat, xerr=xerr, yerr=yerr,
             color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
             capsize=5, capthick=1.0, zorder=0)
 
 
     y_over_x = data[:][:,0][:,2]/data[:][:,0][:,1]
 
-    ax.annotate("median y/x val: "+str(np.median(y_over_x)), (200,10))
+    ax.annotate("median y/x val: "+str(np.median(y_over_x)), (150,10))
 
     low_sn = np.array([554, 765, 849, 1129, 895, 175])
     for i_low in range(len(low_sn)):
@@ -254,26 +263,33 @@ def sigma_stars_vs_sigma_oii():
         cc_data = data[:][curr_loc,0][0]
         cc_x = cc_data[1]
         cc_y = cc_data[2]
-    
-        ax.scatter(cc_x, cc_y, s=20, c="#d32f2f", zorder=1)
+
+        if cc_y > 300:
+            pass
+        else:
+            ax.scatter(cc_x, cc_y, s=20, c="#d32f2f", zorder=1)
 
     for i in range(len(data[:][:,0])):
         curr_id = data[:][i,0][0]
         curr_x = data[:][i,0][1]
         curr_y = data[:][i,0][2]
 
-        ax.annotate(int(curr_id), (curr_x, curr_y))
-
+        if curr_y > 300:
+            pass
+        else:
+            ax.annotate(int(curr_id), (curr_x, curr_y))
+        
     ax.tick_params(labelsize=15)
     ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
     ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=15)
-
-    ax.set_xlim([-10,400]) 
-    ax.set_ylim([-10,400])
+ 
+    ax.set_xlim([-10,300]) 
+    ax.set_ylim([-10,300])
+    #ax.set_aspect('equal', 'box')
 
     # plot 1:1 line
     f_xd = np.linspace(-10,400,500)
-    ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
+    ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3) 
 
     fig.tight_layout()
     fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")

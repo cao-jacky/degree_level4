@@ -175,7 +175,7 @@ def ppxf_cube_auto():
                 "_variables.npy")
         errors = ("ppxf_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) + 
                 "_errors.npy")
-        if not (os.path.exists(variables) and os.path.exists(errors)):
+        if (os.path.exists(variables) and os.path.exists(errors)):
             # fitting full standard spectrum, and only running if a numpy
             # variables file is not found - saves me the effort of waiting
             kinematic_fit = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id,0, 
