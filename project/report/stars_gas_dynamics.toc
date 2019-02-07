@@ -23,15 +23,15 @@
 \contentsline {subsection}{\numberline {1}$\sigma _{*}$ vs. $\sigma _{OII}$ \& $V_{*}$ vs. $V_{OII}$}{2}{section*.22}
 \contentsline {subsection}{\numberline {2}Voronoi}{2}{section*.23}
 \contentsline {subsection}{\numberline {3}Galactic classification}{3}{section*.24}
-\contentsline {subsection}{\numberline {4}Galactic stellar formation}{4}{section*.25}
+\contentsline {subsection}{\numberline {4}Galactic stellar formation}{5}{section*.25}
 \contentsline {subsection}{\numberline {5}Galactic data}{6}{section*.26}
 \contentsline {subsubsection}{\numberline {1}HUDF}{6}{section*.27}
-\contentsline {subsubsection}{\numberline {2}MUSE}{6}{section*.28}
+\contentsline {subsubsection}{\numberline {2}MUSE}{7}{section*.28}
 \contentsline {subsection}{\numberline {6}Project Aims}{7}{section*.30}
 \contentsline {section}{\numberline {4}Analysis}{7}{section*.31}
-\contentsline {subsection}{\numberline {1}Cube extraction}{8}{section*.32}
+\contentsline {subsection}{\numberline {1}Cube extraction}{7}{section*.32}
 \contentsline {subsection}{\numberline {2}Line fittings and pPXF}{8}{section*.34}
-\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{8}{section*.35}
+\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{9}{section*.35}
 \contentsline {subsubsection}{\numberline {2}pPXF fitting}{9}{section*.36}
 \contentsline {section}{\numberline {5}Conclusions}{11}{section*.37}
 \contentsline {section}{\numberline {}Acknowledgments}{11}{section*.38}
