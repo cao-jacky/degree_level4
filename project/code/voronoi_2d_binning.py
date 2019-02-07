@@ -107,6 +107,8 @@ def voronoi_binned_map(cube_id):
     g.tight_layout()
     g.savefig(cr_folder+"/cube_"+str(cube_id)+"_voronoi_map.pdf")
 
+    #plt.show()
+
 def voronoi_binning(cube_id):
     cda = data_file_creator(cube_id) # cube_data_array
     cd = cda['data'] # cube_data

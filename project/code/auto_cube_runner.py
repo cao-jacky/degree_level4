@@ -132,6 +132,7 @@ def voronoi_runner():
                     spectra = spectra + curr_spec
 
             # run pPXF on the final spectra and store results 
+            """
             if np.isnan(np.sum(spectra)) == True:
                 ppxf_vel = 0
                 ppxf_sigma = 0
@@ -151,10 +152,13 @@ def voronoi_runner():
 
             np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
                 "_curr_voronoi_ppxf_results.npy", cube_ppxf_results)
+            """
+
+            # fit for the OII doublet for the final spectra
 
         # Save each cube_ppxf_results into cube_results folder
-        np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-                "_voronoi_ppxf_results.npy", cube_ppxf_results)
+        #np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                #"_voronoi_ppxf_results.npy", cube_ppxf_results)
 
 
 
