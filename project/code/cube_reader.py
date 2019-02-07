@@ -396,7 +396,7 @@ def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
     term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
     return (c*x + term1 + term2)
 
-def otwo_doublet_fitting(file_name, sky_file_name):
+def otwo_doublet_fitting(file_name, sky_file_name, y_data):
     sa_data     = spectra_analysis(file_name, sky_file_name)
     y_shifted   = sa_data['gd_shifted'] 
     orr         = wavelength_solution(file_name)
