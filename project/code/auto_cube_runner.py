@@ -252,6 +252,6 @@ def voronoi_runner():
 
 
 if __name__ == '__main__':
-    #voronoi_cube_runner()
-    voronoi_runner()
-    voronoi_plotter(1578)
+    voronoi_cube_runner()
+    #voronoi_runner()
+    #voronoi_plotter(1804)
