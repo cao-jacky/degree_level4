@@ -26,7 +26,7 @@ def data_file_creator(cube_id):
     # I need to create four columns: x-coord, y-coord, signal, noise
     # load up the inidividual MUSE cubes, then save the data as a numpy array file?
     cube_data = ("data/cubes_better/cube_"+str(int(cube_id))+".npy")
-    if (os.path.exists(cube_data)):
+    if not (os.path.exists(cube_data)):
         # obtaining the compressed median data for single galaxy cube
         file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" 
                     + "cube_" + str(cube_id) + ".fits")
@@ -116,28 +116,30 @@ def voronoi_binning(cube_id):
     x = cd[:,0] * 0.20 # x and y have to be in arc seconds
     y = cd[:,1] * 0.20 # one MUSE pixel has size 0.2 arcsec/pixel
     signal = np.abs(np.nan_to_num(cd[:,2]))
-    noise = np.nan_to_num(cd[:,3]) 
-    
+    noise = np.nan_to_num(cd[:,3])
+   
+    avg_noise = np.average(noise)
+
+    if avg_noise < 1.0:
+        noise = noise + 5
+
     """
     for i_n in range(len(noise)):
         curr_noise = noise[i_n]
         if curr_noise == 0.0:
-            noise[i_n] = 1.0
+            noise[i_n] = np.max(noise)
     """
 
     targetSN = cda['signal'] / cda['noise']
-    print(signal/noise)
-    targetSN = 500
-
-    print(targetSN)
+    targetSN = 250
 
     # Perform the actual computation. The vectors
     # (binNum, xNode, yNode, xBar, yBar, sn, nPixels, scale)
     # are all generated in *output*
     binNum, xNode, yNode, xBar, yBar, sn, nPixels, scale = voronoi_2d_binning(
-        x, y, signal, noise, targetSN, plot=1, quiet=0)
+            x, y, signal, noise, targetSN, plot=1, quiet=0)
 
-    plt.show()
+    #plt.show()
     
     binned = np.column_stack([x, y, binNum])
     cr_loc = ("cube_results/cube_"+str(cube_id)) 
@@ -149,7 +151,7 @@ def voronoi_binning(cube_id):
 #-----------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    voronoi_binning(1804)
+    voronoi_binning(1578)
     #data_file_creator(1804)
 
     #voronoi_binning_example()

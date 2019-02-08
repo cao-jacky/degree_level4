@@ -26,6 +26,7 @@ def voronoi_cube_runner():
 
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
+        print("Working with cube_"+str(cube_id))
         voronoi_2d_binning.voronoi_binning(cube_id)
 
 def voronoi_plotter(cube_id): 
@@ -33,7 +34,7 @@ def voronoi_plotter(cube_id):
             "_binned.npy") # Voronoi binned data
 
     ppxf_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-            "_voronoi_ppxf_results.npy") # pPXF data
+            "_curr_voronoi_ppxf_results.npy") # pPXF data
     lmfit_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
             "_voronoi_lmfit_results.npy") # lmfit data
 
@@ -128,7 +129,7 @@ def voronoi_runner():
     bright_objects = cf['bo']
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
-    uc = np.array([1804])
+    uc = np.array([1578])
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
 
@@ -176,7 +177,6 @@ def voronoi_runner():
                     spectra = spectra + curr_spec
 
             # run pPXF on the final spectra and store results 
-            """
             if np.isnan(np.sum(spectra)) == True:
                 ppxf_vel = 0
                 ppxf_sigma = 0
@@ -196,7 +196,6 @@ def voronoi_runner():
 
             np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
                 "_curr_voronoi_ppxf_results.npy", cube_ppxf_results)
-            """
 
             # fitting OII doublet for the final spectra
             # wavelength solution
@@ -243,8 +242,8 @@ def voronoi_runner():
             cube_lmfit_results[i_vid][3] = lmfit_sigma             
             
         # Save each cube_ppxf_results into cube_results folder
-        #np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-                #"_voronoi_ppxf_results.npy", cube_ppxf_results)
+        np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                "_voronoi_ppxf_results.npy", cube_ppxf_results)
 
         # saving cube_lmfit_results into cube_results folder
         np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
@@ -253,6 +252,6 @@ def voronoi_runner():
 
 
 if __name__ == '__main__':
-    #cube_runner()
-    #voronoi_runner()
-    voronoi_plotter(1804)
+    #voronoi_cube_runner()
+    voronoi_runner()
+    voronoi_plotter(1578)
