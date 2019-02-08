@@ -80,6 +80,13 @@ def voronoi_plotter(cube_id):
     ppxf_sigma_unique = np.unique(ppxf_sigma_data)
     ppxf_sigma_data[ppxf_sigma_data == 0] = np.nan
 
+    lmfit_vel_unique = np.unique(lmfit_vel_data)
+    lmfit_vel_data[lmfit_vel_data == 0] = np.nan
+
+    lmfit_sigma_unique = np.unique(lmfit_sigma_data)
+    lmfit_sigma_data[lmfit_sigma_data == 0] = np.nan
+
+
     f, (ax1, ax2) = plt.subplots(1,2)
     fax1 = ax1.imshow(np.fliplr(np.rot90(ppxf_vel_data,3)), cmap='jet', 
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
@@ -87,7 +94,8 @@ def voronoi_plotter(cube_id):
     ax1.set_title(r'\textbf{Velocity Map}', fontsize=13)
     f.colorbar(fax1, ax=ax1)
 
-    fax2 = ax2.imshow(np.fliplr(np.rot90(ppxf_sigma_data,3)), cmap='jet')
+    fax2 = ax2.imshow(np.fliplr(np.rot90(ppxf_sigma_data,3)), cmap='jet',
+            vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1])
     ax2.tick_params(labelsize=13)
     ax2.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=13)
     f.colorbar(fax2, ax=ax2)
@@ -96,20 +104,15 @@ def voronoi_plotter(cube_id):
     f.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
             +"_ppxf_maps.pdf")
 
-    lmfit_vel_unique = np.unique(lmfit_vel_data)
-    lmfit_vel_data[lmfit_vel_data == 0] = np.nan
-
-    lmfit_sigma_unique = np.unique(lmfit_sigma_data)
-    lmfit_sigma_data[lmfit_sigma_data == 0] = np.nan
-
     g, (ax3, ax4) = plt.subplots(1,2)
     gax3 = ax3.imshow(np.fliplr(np.rot90(lmfit_vel_data,3)), cmap='jet', 
-            vmin=lmfit_vel_unique[1], vmax=lmfit_vel_unique[-1])
+            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
     ax3.tick_params(labelsize=13)
     ax3.set_title(r'\textbf{Velocity Map}', fontsize=13)
     g.colorbar(gax3, ax=ax3)
 
-    gax4 = ax4.imshow(np.fliplr(np.rot90(lmfit_sigma_data,3)), cmap='jet')
+    gax4 = ax4.imshow(np.fliplr(np.rot90(lmfit_sigma_data,3)), cmap='jet',
+            vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1])
     ax4.tick_params(labelsize=13)
     ax4.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=13)
     g.colorbar(gax4, ax=ax4)
