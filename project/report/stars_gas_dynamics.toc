@@ -2,9 +2,9 @@
 \contentsline {section}{\numberline {}Contents}{1}{section*.1}
 \tocdepth@restore 
 \contentsline {section}{\numberline {1}Introduction}{2}{section*.2}
-\contentsline {subsection}{\numberline {1}The Hubble sequence and the local universe}{2}{section*.3}
-\contentsline {subsection}{\numberline {2}Dynamical studies of galaxies along the Hubble sequence}{3}{section*.5}
-\contentsline {subsubsection}{\numberline {1}Evolution of galactic dynamics}{3}{section*.6}
+\contentsline {subsection}{\numberline {1}Galaxy classification with the Hubble sequence}{2}{section*.3}
+\contentsline {subsection}{\numberline {2}Dynamical studies of galaxies along the Hubble sequence}{2}{section*.5}
+\contentsline {subsubsection}{\numberline {1}Evolution of galactic dynamics}{2}{section*.6}
 \contentsline {subsubsection}{\numberline {2}Tully-Fisher and Faber-Jackson relationships}{3}{section*.7}
 \contentsline {subsection}{\numberline {3}High-redshifts}{3}{section*.8}
 \contentsline {subsubsection}{\numberline {1}Galaxy formation models}{3}{section*.9}
