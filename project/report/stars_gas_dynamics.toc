@@ -2,27 +2,27 @@
 \contentsline {section}{\numberline {}Contents}{1}{section*.1}
 \tocdepth@restore 
 \contentsline {section}{\numberline {1}Introduction}{2}{section*.2}
-\contentsline {subsection}{\numberline {1}Hubble sequence and the local Universe}{2}{section*.3}
-\contentsline {subsection}{\numberline {2}Dynamical studies of galaxies along the Hubble sequence}{2}{section*.5}
-\contentsline {subsubsection}{\numberline {1}Evolution of galactic dynamics}{2}{section*.6}
-\contentsline {subsubsection}{\numberline {2}Tully-Fisher and Faber-Jackson relationships}{2}{section*.7}
-\contentsline {subsection}{\numberline {3}High-redshifts}{2}{section*.8}
-\contentsline {subsubsection}{\numberline {1}Galaxy formation models}{2}{section*.9}
-\contentsline {subsubsection}{\numberline {2}Stellar formation}{2}{section*.10}
-\contentsline {subsubsection}{\numberline {3}Gas collapse in dark matter halos}{2}{section*.11}
-\contentsline {subsubsection}{\numberline {4}Evolution of scaling relations}{2}{section*.12}
-\contentsline {subsection}{\numberline {4}The Hubble Ultra Deep Field}{2}{section*.13}
-\contentsline {subsubsection}{\numberline {1}HST}{2}{section*.14}
-\contentsline {subsubsection}{\numberline {2}MUSE}{2}{section*.15}
-\contentsline {subsubsection}{\numberline {3}Testing the local-Universe scaling relation}{2}{section*.16}
-\contentsline {subsection}{\numberline {5}Project}{2}{section*.17}
-\contentsline {section}{\numberline {2}Observations and data analysis}{2}{section*.18}
-\contentsline {subsection}{\numberline {1}HST HUDF}{2}{section*.19}
-\contentsline {subsection}{\numberline {2}MUSE HUDF}{2}{section*.20}
-\contentsline {section}{\numberline {3}Discussion}{2}{section*.21}
-\contentsline {subsection}{\numberline {1}$\sigma _{*}$ vs. $\sigma _{OII}$ \& $V_{*}$ vs. $V_{OII}$}{2}{section*.22}
-\contentsline {subsection}{\numberline {2}Voronoi}{2}{section*.23}
-\contentsline {subsection}{\numberline {3}Galactic classification}{3}{section*.24}
+\contentsline {subsection}{\numberline {1}The Hubble sequence and the local universe}{2}{section*.3}
+\contentsline {subsection}{\numberline {2}Dynamical studies of galaxies along the Hubble sequence}{3}{section*.5}
+\contentsline {subsubsection}{\numberline {1}Evolution of galactic dynamics}{3}{section*.6}
+\contentsline {subsubsection}{\numberline {2}Tully-Fisher and Faber-Jackson relationships}{3}{section*.7}
+\contentsline {subsection}{\numberline {3}High-redshifts}{3}{section*.8}
+\contentsline {subsubsection}{\numberline {1}Galaxy formation models}{3}{section*.9}
+\contentsline {subsubsection}{\numberline {2}Stellar formation}{3}{section*.10}
+\contentsline {subsubsection}{\numberline {3}Gas collapse in dark matter halos}{3}{section*.11}
+\contentsline {subsubsection}{\numberline {4}Evolution of scaling relations}{3}{section*.12}
+\contentsline {subsection}{\numberline {4}The Hubble Ultra Deep Field}{3}{section*.13}
+\contentsline {subsubsection}{\numberline {1}HST}{3}{section*.14}
+\contentsline {subsubsection}{\numberline {2}MUSE}{3}{section*.15}
+\contentsline {subsubsection}{\numberline {3}Testing the local-Universe scaling relation}{3}{section*.16}
+\contentsline {subsection}{\numberline {5}Project}{3}{section*.17}
+\contentsline {section}{\numberline {2}Observations and data analysis}{3}{section*.18}
+\contentsline {subsection}{\numberline {1}HST HUDF}{3}{section*.19}
+\contentsline {subsection}{\numberline {2}MUSE HUDF}{3}{section*.20}
+\contentsline {section}{\numberline {3}Discussion}{3}{section*.21}
+\contentsline {subsection}{\numberline {1}$\sigma _{*}$ vs. $\sigma _{OII}$ \& $V_{*}$ vs. $V_{OII}$}{3}{section*.22}
+\contentsline {subsection}{\numberline {2}Voronoi}{3}{section*.23}
+\contentsline {subsection}{\numberline {3}Galactic classification}{4}{section*.24}
 \contentsline {subsection}{\numberline {4}Galactic stellar formation}{5}{section*.25}
 \contentsline {subsection}{\numberline {5}Galactic data}{6}{section*.26}
 \contentsline {subsubsection}{\numberline {1}HUDF}{6}{section*.27}
@@ -31,8 +31,8 @@
 \contentsline {section}{\numberline {4}Analysis}{7}{section*.31}
 \contentsline {subsection}{\numberline {1}Cube extraction}{7}{section*.32}
 \contentsline {subsection}{\numberline {2}Line fittings and pPXF}{8}{section*.34}
-\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{9}{section*.35}
+\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{8}{section*.35}
 \contentsline {subsubsection}{\numberline {2}pPXF fitting}{9}{section*.36}
 \contentsline {section}{\numberline {5}Conclusions}{11}{section*.37}
-\contentsline {section}{\numberline {}Acknowledgments}{11}{section*.38}
-\contentsline {section}{\numberline {}References}{11}{section*.39}
+\contentsline {section}{\numberline {}Acknowledgments}{12}{section*.38}
+\contentsline {section}{\numberline {}References}{12}{section*.39}
