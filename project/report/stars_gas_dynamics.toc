@@ -4,7 +4,7 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{section*.2}
 \contentsline {subsection}{\numberline {1}Galaxy classification with the Hubble sequence}{2}{section*.3}
 \contentsline {subsection}{\numberline {2}Dynamical studies of galaxies along the Hubble sequence}{2}{section*.5}
-\contentsline {subsubsection}{\numberline {1}Evolution of galactic dynamics}{2}{section*.6}
+\contentsline {subsubsection}{\numberline {1}Angular momentum and the evolution of galactic dynamics}{2}{section*.6}
 \contentsline {subsubsection}{\numberline {2}Tully-Fisher and Faber-Jackson relationships}{3}{section*.7}
 \contentsline {subsection}{\numberline {3}High-redshifts}{3}{section*.8}
 \contentsline {subsubsection}{\numberline {1}Galaxy formation models}{3}{section*.9}
@@ -31,7 +31,7 @@
 \contentsline {section}{\numberline {4}Analysis}{7}{section*.31}
 \contentsline {subsection}{\numberline {1}Cube extraction}{7}{section*.32}
 \contentsline {subsection}{\numberline {2}Line fittings and pPXF}{8}{section*.34}
-\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{8}{section*.35}
+\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{9}{section*.35}
 \contentsline {subsubsection}{\numberline {2}pPXF fitting}{9}{section*.36}
 \contentsline {section}{\numberline {5}Conclusions}{11}{section*.37}
 \contentsline {section}{\numberline {}Acknowledgments}{12}{section*.38}
