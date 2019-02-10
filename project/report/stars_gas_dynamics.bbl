@@ -56,6 +56,11 @@ Currie, M.~J. et~al.  \harvardyearleft 2013\harvardyearright , `{Starlink
   Software in 2013}', {\em Astronomical Society of the Pacific Conference
   Series} {\bf 485}.
 
+\harvarditem{{de Vaucouleurs}}{1959}{1959HDP....53..275D}
+{de Vaucouleurs}, G.  \harvardyearleft 1959\harvardyearright , `{Classification
+  and Morphology of External Galaxies.}', {\em Handbuch der Physik} {\bf
+  53},~275.
+
 \harvarditem[Henault et~al.]{Henault, Bacon, Bonneville
   et~al.}{2003}{bacon_muse_proposal}
 Henault, F., Bacon, R., Bonneville, C. et~al.  \harvardyearleft
@@ -102,8 +107,22 @@ NASA, ESA, Beckwith, S. \harvardand\ {HUDF Team}  \harvardyearleft
 
 \harvarditem{{Roberts}}{1963}{1963ARA&A...1..149R}
 {Roberts}, M.~S.  \harvardyearleft 1963\harvardyearright , `{The Content of
-  Galaxies: Stars and Gas}', {\em {Annual Review of Astronomy and
-  Astrophysics}} {\bf 1},~149.
+  Galaxies: Stars and Gas}', {\em Annual Review of Astronomy and Astrophysics}
+  {\bf 1},~149.
+
+\harvarditem{{Sandage}}{1961}{1961hag..book.....S}
+{Sandage}, A.  \harvardyearleft 1961\harvardyearright , {\em {The Hubble Atlas
+  of Galaxies}}, {Carnegie Institution of Washington}.
+
+\harvarditem{{Sandage}}{1975}{1975gaun.book....1S}
+{Sandage}, A.  \harvardyearleft 1975\harvardyearright , {\em Classification and
+  Stellar Content of Galaxies Obtained from Direct Photography}, the University
+  of Chicago Press.
+
+\harvarditem{{Sandage} \harvardand\ {Bedke}}{1994}{1994cag..book.....S}
+{Sandage}, A. \harvardand\ {Bedke}, J.  \harvardyearleft 1994\harvardyearright
+  , {\em {The Carnegie Atlas of Galaxies. Volumes I, II.}}, Carnegie
+  Institution of Washington.
 
 \harvarditem[{Valdes} et~al.]{{Valdes}, {Gupta}, {Rose}, {Singh} \harvardand\
   {Bell}}{2004}{valdes_coude}
