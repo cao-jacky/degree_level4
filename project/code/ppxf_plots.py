@@ -250,11 +250,11 @@ def sigma_stars_vs_sigma_oii():
             color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
             capsize=5, capthick=1.0, zorder=0)
 
-
     y_over_x = data[:][:,0][:,2]/data[:][:,0][:,1]
 
     ax.annotate("median y/x val: "+str(np.median(y_over_x)), (150,10))
 
+    """
     low_sn = np.array([554, 765, 849, 1129, 895, 175])
     for i_low in range(len(low_sn)):
         curr_cube = low_sn[i_low] # current cube and it's ID number
@@ -268,6 +268,7 @@ def sigma_stars_vs_sigma_oii():
             pass
         else:
             ax.scatter(cc_x, cc_y, s=20, c="#d32f2f", zorder=1)
+    """
 
     for i in range(len(data[:][:,0])):
         curr_id = data[:][i,0][0]

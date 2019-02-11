@@ -71,7 +71,7 @@ def cat_func():
     catalogue = np.load("data/matched_catalogue.npy")
     catalogue = catalogue[catalogue[:,8].argsort()]
     catalogue = catalogue[0:300,:] 
-    bright_objects = np.where(catalogue[:,5] < 26.0)[0]
+    bright_objects = np.where(catalogue[:,5] < 25.5)[0]
     return {'cat': catalogue, 'bo': bright_objects}
 
 def ignore_cubes():
@@ -100,6 +100,7 @@ def usable_cubes(catalogue, bright_objects):
     for i_cube in range(len(bright_objects)):
         curr_obj = catalogue[i_cube]
         cube_id = int(curr_obj[0])
+        print(curr_obj)
 
         if (cube_id in avoid_cubes):
             pass
@@ -299,6 +300,8 @@ def ppxf_cube_auto():
         frac_err = sigma_uncertainties.uncertainties(cube_id)
         fe_ppxf = frac_err['ppxf']
         fe_lmfit = frac_err['lmfit']
+
+        print(cube_id, fe_ppxf)
 
         uncert_ppxf = fe_ppxf * sigma_stars
         uncert_lmfit = fe_lmfit * vel_dispersion

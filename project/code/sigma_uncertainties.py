@@ -350,7 +350,7 @@ def ppxf_graphs():
         np.save("uncert_ppxf/curve_best_values_ppxf", np.array([curve_bp['a']]))        
         plt.plot(xd[idx], curve_bf, c="#d32f2f", lw=1.5, alpha=0.8)
         
-        plt.ylim([10**(-3),10])
+        plt.ylim([10**(-1),10])
         plt.yscale('log')
         plt.tick_params(labelsize=15)
         plt.xlabel(r'\textbf{S/N}', fontsize=15)
@@ -597,7 +597,7 @@ if __name__ == '__main__':
     #cubes = np.array([1804])
 
     #ppxf_uncertainty(cubes, 300)
-    #ppxf_graphs()
+    ppxf_graphs()
 
     #lmfit_uncertainty(cubes, 300)
     #lmfit_graphs()
