@@ -304,14 +304,14 @@ def graphs():
                 f, (ax1, ax2)  = plt.subplots(1, 2)
             
                 ax1.imshow(im_coll_data['median'], cmap='gray_r') 
-                ax1.set_title(r'\textbf{galaxy: median}', fontsize=13)    
-                ax1.set_xlabel(r'\textbf{Pixels}', fontsize=13)
-                ax1.set_ylabel(r'\textbf{Pixels}', fontsize=13) 
+                ax1.set_title(r'\textbf{galaxy: median}', fontsize=20)    
+                ax1.set_xlabel(r'\textbf{Pixels}', fontsize=20)
+                ax1.set_ylabel(r'\textbf{Pixels}', fontsize=20) 
 
                 ax2.imshow(im_coll_data['sum'], cmap='gray_r')
-                ax2.set_title(r'\textbf{galaxy: sum}', fontsize=13)        
-                ax2.set_xlabel(r'\textbf{Pixels}', fontsize=13)
-                ax2.set_ylabel(r'\textbf{Pixels}', fontsize=13)
+                ax2.set_title(r'\textbf{galaxy: sum}', fontsize=20)        
+                ax2.set_xlabel(r'\textbf{Pixels}', fontsize=20)
+                ax2.set_ylabel(r'\textbf{Pixels}', fontsize=20)
 
                 gal = patches.Rectangle((gal_region[0],gal_region[1]),
                         gal_region[3]-gal_region[0],gal_region[2]-gal_region[1],
@@ -362,9 +362,9 @@ def graphs():
         #ax.annotate(int(txt), (usable_cubes[i][1], usable_cubes[i][4]), alpha=0.2)
 
     #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)       
-    ax.tick_params(labelsize=15)
-    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=15)
-    ax.set_ylabel(r'\textbf{MUSE Spectrum S/N}', fontsize=15)
+    ax.tick_params(labelsize=20)
+    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=20)
+    ax.set_ylabel(r'\textbf{MUSE Spectrum S/N}', fontsize=20)
     ax.invert_xaxis()
     ax.set_yscale('log')
     plt.tight_layout()
@@ -409,9 +409,9 @@ def graphs():
         ax.annotate(int(txt), (usable_cubes_no_oii[i][7], oii_flux[i]), alpha=0.2)
 
     #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)       
-    #ax.tick_params(labelsize=15)
-    ax.set_xlabel(r'\textbf{Galaxy Colour (B-I)}', fontsize=13)
-    ax.set_ylabel(r'\textbf{O[II] Flux}', fontsize=13)
+    ax.tick_params(labelsize=20)
+    ax.set_xlabel(r'\textbf{Galaxy Colour (B-I)}', fontsize=20)
+    ax.set_ylabel(r'\textbf{O[II] Flux}', fontsize=20)
     plt.tight_layout()
     plt.savefig("graphs/oii_flux_vs_colour.pdf")
     plt.close("all")
@@ -424,9 +424,9 @@ def graphs():
     
     ax.hist(usable_cubes_no_oii[:,13], facecolor="#000000")
      
-    #ax.tick_params(labelsize=15)
-    ax.set_xlabel(r'\textbf{Redshift}', fontsize=13)
-    ax.set_ylabel(r'\textbf{Number of galaxies}', fontsize=13)
+    ax.tick_params(labelsize=20)
+    ax.set_xlabel(r'\textbf{Redshift}', fontsize=20)
+    ax.set_ylabel(r'\textbf{Number of galaxies}', fontsize=20)
     plt.tight_layout()
     plt.savefig("graphs/redshift_distribution_oii_emitters.pdf")
     plt.close("all")
@@ -441,7 +441,7 @@ def graphs():
 
     fig, ax = plt.subplots()
     ax.plot(ofs_redshifts, ofs_luminosity, linewidth=0.5, color="#9e9e9e")
-    ax.scatter(usable_cubes_no_oii[:,13], cubes_luminosity, s=7, color="#000000")
+    ax.scatter(usable_cubes_no_oii[:,13], cubes_luminosity, s=10, color="#000000")
 
     cube_ids = usable_cubes_no_oii[:,0]
     for i, txt in enumerate(cube_ids):
@@ -449,9 +449,9 @@ def graphs():
         #ax.annotate(int(txt), (usable_cubes_no_oii[i][13], cubes_luminosity[i]), 
             #alpha=0.2)
   
-    ax.tick_params(labelsize=15)
-    ax.set_xlabel(r'\textbf{Redshift}', fontsize=15)
-    ax.set_ylabel(r'\textbf{O[II] Luminosity}', fontsize=15)
+    ax.tick_params(labelsize=20)
+    ax.set_xlabel(r'\textbf{Redshift}', fontsize=20)
+    ax.set_ylabel(r'\textbf{O[II] Luminosity}', fontsize=20)
     ax.set_yscale('log')
     ax.set_xlim([0.2, 1.5])
     ax.set_ylim((0.007*10**51,1.7*10**51))
@@ -463,6 +463,6 @@ def graphs():
 #print(highest_sn())
 #data_cube_analyser(1804)
 
-#graphs()
+graphs()
 
 #cube_noise()

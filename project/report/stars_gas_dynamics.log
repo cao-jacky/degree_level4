@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  11 FEB 2019 14:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  11 FEB 2019 17:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -936,7 +936,7 @@ Underfull \hbox (badness 1038) in paragraph at lines 399--400
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
  inclusion: multiple pdfs with page group included in a single page
 >]
-<data/o_ii_luminosity_vs_redshift.pdf, id=404, 462.52798pt x 346.89601pt>
+<data/o_ii_luminosity_vs_redshift.pdf, id=401, 462.52798pt x 346.89601pt>
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
@@ -953,7 +953,7 @@ Underfull \hbox (badness 1789) in paragraph at lines 403--403
 \OT1/cmr/m/n/10.95 red-shift. Vari-ables used for each galaxy
  []
 
-<data/cube_1804_fitted.pdf, id=407, 462.52798pt x 346.89601pt>
+<data/cube_1804_fitted.pdf, id=404, 462.52798pt x 346.89601pt>
 File: data/cube_1804_fitted.pdf Graphic file (type pdf)
 <use data/cube_1804_fitted.pdf>
 Package pdftex.def Info: data/cube_1804_fitted.pdf  used on input line 416.
@@ -968,7 +968,7 @@ See the caption package documentation for explanation.
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/cube_1804_fitted.pdf)
 : PDF inclusion: multiple pdfs with page group included in a single page
 >]
-<data/oii_ppxf_vs_oii_lmfit.pdf, id=459, 462.52798pt x 346.89601pt>
+<data/oii_ppxf_vs_oii_lmfit.pdf, id=456, 462.52798pt x 346.89601pt>
 File: data/oii_ppxf_vs_oii_lmfit.pdf Graphic file (type pdf)
 <use data/oii_ppxf_vs_oii_lmfit.pdf>
 Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 432
@@ -984,7 +984,7 @@ See the caption package documentation for explanation.
 LaTeX Warning: Reference `fig:sn_difference' on page 11 undefined on input line
  439.
 
-<data/frac_error_vs_sn_ppxf.pdf, id=460, 462.52798pt x 346.89601pt>
+<data/frac_error_vs_sn_ppxf.pdf, id=457, 462.52798pt x 346.89601pt>
 File: data/frac_error_vs_sn_ppxf.pdf Graphic file (type pdf)
 <use data/frac_error_vs_sn_ppxf.pdf>
 Package pdftex.def Info: data/frac_error_vs_sn_ppxf.pdf  used on input line 444
@@ -1000,7 +1000,7 @@ File: data/frac_error_vs_sn_ppxf.pdf Graphic file (type pdf)
 Package pdftex.def Info: data/frac_error_vs_sn_ppxf.pdf  used on input line 451
 .
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
-<data/frac_error_vs_sn_lmfit.pdf, id=461, 462.52798pt x 346.89601pt>
+<data/frac_error_vs_sn_lmfit.pdf, id=458, 462.52798pt x 346.89601pt>
 File: data/frac_error_vs_sn_lmfit.pdf Graphic file (type pdf)
 <use data/frac_error_vs_sn_lmfit.pdf>
 Package pdftex.def Info: data/frac_error_vs_sn_lmfit.pdf  used on input line 45
@@ -1137,10 +1137,10 @@ al/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/
 texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/t
 exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (13 pages, 4957068 bytes).
+Output written on stars_gas_dynamics.pdf (13 pages, 4957313 bytes).
 PDF statistics:
- 613 PDF objects out of 1000 (max. 8388607)
- 535 compressed objects within 6 object streams
+ 610 PDF objects out of 1000 (max. 8388607)
+ 532 compressed objects within 6 object streams
  90 named destinations out of 1000 (max. 500000)
  339 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -43,9 +43,9 @@ def graph_sn_mag(x_data, y_data, cubes_data):
         pass
         #ax.annotate(int(txt), (catalogue[:,5][i], cat_sn[i]), alpha=0.2)
 
-    ax.tick_params(labelsize=15)
-    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=15)
-    ax.set_ylabel(r'\textbf{MUSE Image Flux S/N}', fontsize=15)
+    ax.tick_params(labelsize=20)
+    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=20)
+    ax.set_ylabel(r'\textbf{MUSE Image Flux S/N}', fontsize=20)
 
     ax.set_yscale('log')
     ax.invert_xaxis()
@@ -57,8 +57,9 @@ def graph_counts_mag(x_data, y_data):
     fig, ax = plt.subplots()
     ax.scatter(x_data, y_data, s=7, color="#000000")
 
-    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=13)
-    ax.set_ylabel(r'\textbf{MUSE Counts}', fontsize=13)
+    ax.tick_params(labelsize=20)
+    ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=20)
+    ax.set_ylabel(r'\textbf{MUSE Counts}', fontsize=20)
 
     ax.set_yscale('log')
     ax.invert_xaxis()
