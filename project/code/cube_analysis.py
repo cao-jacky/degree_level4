@@ -463,6 +463,6 @@ def graphs():
 #print(highest_sn())
 #data_cube_analyser(1804)
 
-graphs()
+#graphs()
 
 #cube_noise()
