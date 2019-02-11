@@ -441,10 +441,29 @@ Another synthetic test of pPXF was performed where 10 galaxy spectra were each p
 % Provide values for the instrumental and template resolutions?
 
 \begin{center}
-\includegraphics[width=1.0\linewidth]{data/reprocessed_sn_vs_delta_sigma}
+\includegraphics[width=1.0\linewidth]{data/frac_error_vs_sn_ppxf}
 \captionof{figure}[S/N vs. delta(sigma)]{Signal-to-noise versus the modulus difference between the optimal pPXF velocity dispersion and the values from the perturbed models. As the S/N decreases, the difference increases manifold which implies that high S/N galaxies should be used as they would have smaller fractional uncertainty.}
-\label{fig:sn_difference}
+\label{fig:ppxf_sn_difference}
 \end{center}
+
+\begin{figure*}
+  \begin{subfigure}[b]{0.495\textwidth}
+    \includegraphics[width=\textwidth]{data/frac_error_vs_sn_ppxf}
+    \captionsetup{justification=justified}
+    \caption{pPXF fractional error}
+    \label{fig:image_sn_vband}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.495\textwidth}
+    \includegraphics[width=\textwidth]{data/frac_error_vs_sn_lmfit}
+    \captionsetup{justification=justified}    
+    \caption{[OII] fractional error}
+    \label{fig:spec_sn_vband}
+  \end{subfigure}
+  \captionsetup{justification=justified}
+  \caption[HUDF Objects]{Signal-to-noise versus the modulus difference between the optimal pPXF velocity dispersion and the values from the perturbed models. As the S/N decreases, the difference increases manifold which implies that high S/N galaxies should be used as they would have smaller fractional uncertainty.}
+  \label{fig:sn_vband}
+\end{figure*}
 
 Whilst it can be understood what type of data should be passed to the pPXF routine, the routine itself still needs more unravelling if accurate and precise results are wanted in the comparisons of gas and stellar dynamics in galaxies.
 

@@ -348,13 +348,13 @@ def ppxf_graphs():
         curve_bp = curve_result.best_values
 
         np.save("uncert_ppxf/curve_best_values_ppxf", np.array([curve_bp['a']]))        
-        plt.plot(xd[idx], curve_bf, c="#d32f2f", lw=1.5, alpha=0.8)
+        plt.plot(xd[idx], curve_bf, c="#d32f2f", lw=2, alpha=1.0)
         
-        plt.ylim([10**(-1),10])
+        plt.ylim([10**(-1.1),5])
         plt.yscale('log')
-        plt.tick_params(labelsize=15)
-        plt.xlabel(r'\textbf{S/N}', fontsize=15)
-        plt.ylabel(r'\textbf{${|\Delta \sigma|}/{\sigma_{best}}$}', fontsize=15)
+        plt.tick_params(labelsize=20)
+        plt.xlabel(r'\textbf{S/N}', fontsize=20)
+        plt.ylabel(r'\textbf{${|\Delta \sigma|}/{\sigma_{best}}$}', fontsize=20)
 
         plt.tight_layout()
         plt.savefig("uncert_ppxf/frac_error_vs_sn.pdf")
@@ -544,13 +544,14 @@ def lmfit_graphs():
 
         gen_xd = np.linspace(0,150, 500)
         gen_yd = curve(gen_xd, curve_bp['a'])
-        plt.plot(gen_xd, gen_yd, c="#d32f2f", lw=1.5, alpha=0.8)
+        plt.plot(gen_xd, gen_yd, c="#d32f2f", lw=2.0, alpha=1.0)
 
-        plt.ylim([10**(-3),200])
+        #plt.xlim([0,10])
+        plt.ylim([10**(-2),10])
         plt.yscale('log')
-        plt.tick_params(labelsize=15)
-        plt.xlabel(r'\textbf{S/N}', fontsize=15)
-        plt.ylabel(r'\textbf{${|\Delta \sigma|}/{\sigma_{best}}$}', fontsize=15)
+        plt.tick_params(labelsize=20)
+        plt.xlabel(r'\textbf{S/N}', fontsize=20)
+        plt.ylabel(r'\textbf{${|\Delta \sigma|}/{\sigma_{best}}$}', fontsize=20)
 
         plt.tight_layout()
         plt.savefig("uncert_lmfit/frac_error_vs_sn.pdf")
@@ -597,9 +598,9 @@ if __name__ == '__main__':
     #cubes = np.array([1804])
 
     #ppxf_uncertainty(cubes, 300)
-    ppxf_graphs()
+    #ppxf_graphs()
 
     #lmfit_uncertainty(cubes, 300)
-    #lmfit_graphs()
+    lmfit_graphs()
 
     #uncertainties(1804)

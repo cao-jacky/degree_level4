@@ -33,6 +33,6 @@
 \contentsline {subsection}{\numberline {2}Line fittings and pPXF}{8}{section*.34}
 \contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{9}{section*.35}
 \contentsline {subsubsection}{\numberline {2}pPXF fitting}{9}{section*.36}
-\contentsline {section}{\numberline {5}Conclusions}{11}{section*.37}
-\contentsline {section}{\numberline {}Acknowledgments}{12}{section*.38}
-\contentsline {section}{\numberline {}References}{12}{section*.39}
+\contentsline {section}{\numberline {5}Conclusions}{11}{section*.38}
+\contentsline {section}{\numberline {}Acknowledgments}{12}{section*.39}
+\contentsline {section}{\numberline {}References}{12}{section*.40}
