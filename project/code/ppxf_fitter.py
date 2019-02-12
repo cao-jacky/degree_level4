@@ -100,8 +100,7 @@ def usable_cubes(catalogue, bright_objects):
     for i_cube in range(len(bright_objects)):
         curr_obj = catalogue[i_cube]
         cube_id = int(curr_obj[0])
-        print(curr_obj)
-
+    
         if (cube_id in avoid_cubes):
             pass
         else:
@@ -154,11 +153,12 @@ def ppxf_cube_auto():
     #   [9] : range end which is considered 
     #   [10] : pPXF sigma from Voigt profile fitter
     #   [11] : sigma from our own Voigt fitter
-    #   [12] : fractional error for pPXF for sigma value
+    #   [12] : fractional error for pPXF for sigma value 
     #   [13] : fractional error for lmfit for sigma value
     #   [14] : velocity value from the pPXF fitting
     #   [15] : error value for the pPXF velocity
-    data = np.zeros([len(uc), 1+len(ranges), 16]) 
+    #   [16] : pPXF fractional difference for velocity dispersion
+    data = np.zeros([len(uc), 1+len(ranges), 17]) 
  
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
@@ -301,7 +301,7 @@ def ppxf_cube_auto():
         fe_ppxf = frac_err['ppxf']
         fe_lmfit = frac_err['lmfit']
 
-        print(cube_id, fe_ppxf)
+        data[i_cube][0][16] = fe_ppxf  
 
         uncert_ppxf = fe_ppxf * sigma_stars
         uncert_lmfit = fe_lmfit * vel_dispersion

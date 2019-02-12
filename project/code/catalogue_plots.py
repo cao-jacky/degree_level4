@@ -30,13 +30,13 @@ def graph_sn_mag(x_data, y_data, cubes_data):
     z_limit = (4800/3727) - 1 
     small_redshift = cubes_data[cubes_data[:,7]<=z_limit, :]
     sr_sn = small_redshift[:,9] / small_redshift[:,10]
-    ax.scatter(small_redshift[:,5], sr_sn, s=7, color="#d50000", alpha=0.25)
+    ax.scatter(small_redshift[:,5], sr_sn, s=10, color="#d50000", alpha=0.25)
 
     large_redshift = cubes_data[cubes_data[:,7]>=z_limit, :]
     catalogue = large_redshift[large_redshift[:,8].argsort()]
     catalogue = catalogue[0:300]
     cat_sn = catalogue[:,9] / catalogue[:,10]
-    ax.scatter(catalogue[:,5], cat_sn, s=7, color="#00c853", alpha=0.25)
+    ax.scatter(catalogue[:,5], cat_sn, s=10, color="#00c853", alpha=0.25)
 
     cube_ids = catalogue[:,0]
     for i, txt in enumerate(cube_ids):
