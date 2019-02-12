@@ -72,6 +72,7 @@ def graph_sn_mag(x_data, y_data, cubes_data):
         pass
         #ax.annotate(int(txt), (catalogue[:,5][i], cat_sn[i]), alpha=0.2)
 
+    ax.set_ylim([0.7,100])
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=20)
     ax.set_ylabel(r'\textbf{MUSE Image Flux S/N}', fontsize=20)
