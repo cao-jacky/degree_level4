@@ -6,6 +6,8 @@ from matplotlib import rc
 
 from astropy.io import fits
 
+import ppxf_fitter
+
 import warnings
 from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)
@@ -24,19 +26,46 @@ def read_cat(file_name):
     return {'header': header, 'data': data}
 
 def graph_sn_mag(x_data, y_data, cubes_data):
+    unusable_cubes = ppxf_fitter.ignore_cubes()
+    
     fig, ax = plt.subplots()
-    ax.scatter(x_data, y_data, s=7, color="#000000", alpha=0.25)
 
     z_limit = (4800/3727) - 1 
     small_redshift = cubes_data[cubes_data[:,7]<=z_limit, :]
     sr_sn = small_redshift[:,9] / small_redshift[:,10]
-    ax.scatter(small_redshift[:,5], sr_sn, s=10, color="#d50000", alpha=0.25)
 
     large_redshift = cubes_data[cubes_data[:,7]>=z_limit, :]
     catalogue = large_redshift[large_redshift[:,8].argsort()]
     catalogue = catalogue[0:300]
     cat_sn = catalogue[:,9] / catalogue[:,10]
-    ax.scatter(catalogue[:,5], cat_sn, s=10, color="#00c853", alpha=0.25)
+
+    # plotting the cubes which are not used at all
+    for i in range(len(x_data)):
+        curr_x = x_data[i]
+        curr_y = y_data[i]
+
+        if curr_x in catalogue[:,5] and curr_y in cat_sn:
+            pass
+        if curr_x in small_redshift[:,5] and curr_y in sr_sn:
+            pass
+        if curr_x not in catalogue[:,5] and curr_y not in cat_sn:
+            ax.scatter(x_data[i], y_data[i], s=20, color="#000000", alpha=0.3)
+
+    # plotting cubes with z<0.3
+    ax.scatter(small_redshift[:,5], sr_sn, s=20, color="#d50000", alpha=0.4)
+
+    # plotting the usable cubes
+    for i in range(len(catalogue[:,0])):
+        curr_cube = int(catalogue[:,0][i]) 
+        if curr_cube in unusable_cubes['ac']:
+            ax.scatter(catalogue[:,5][i], cat_sn[i], s=20, color="#ffa000", alpha=0.5,
+                    marker="x")
+        if curr_cube in unusable_cubes['ga']:
+            ax.scatter(catalogue[:,5][i], cat_sn[i], s=20, color="#ffa000", alpha=0.5,
+                    marker="x") 
+        if curr_cube not in unusable_cubes['ac']:
+            ax.scatter(catalogue[:,5][i], cat_sn[i], s=20, color="#00c853", alpha=0.5,
+                    marker="o", zorder=3)
 
     cube_ids = catalogue[:,0]
     for i, txt in enumerate(cube_ids):
@@ -144,6 +173,5 @@ def catalogue_analysis(file_name):
     #for i in range(len(cubes_data)):
         #print(cubes_data[i][0], cubes_data[i][8])
 
-
-catalogue_analysis("data/matched_catalogues.fits")
-
+if __name__ == '__main__':
+    catalogue_analysis("data/matched_catalogues.fits")
