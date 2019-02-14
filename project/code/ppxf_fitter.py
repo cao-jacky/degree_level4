@@ -108,7 +108,7 @@ def usable_cubes(catalogue, bright_objects):
 
     # testing for individual cubes
     #list_usable = [1804, 1578]
-    #list_usable = [1804]
+    list_usable = [1804]
 
     return list_usable
 
@@ -131,7 +131,7 @@ def ppxf_cube_auto():
     ranges = np.array([
         [3700, 4200],
         ])
-    ranges = np.array([])
+    #ranges = np.array([])
 
     np.save("data/ppxf_fitting_ranges", ranges)
 

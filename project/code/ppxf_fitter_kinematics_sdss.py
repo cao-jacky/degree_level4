@@ -108,7 +108,7 @@ def fitting_plotter(cube_id, ranges, x_data, y_data, x_model, y_model, noise):
     #plt.scatter(x_data[rmask], residual[rmask], s=3, color="#f44336", alpha=0.5)
     plt.scatter(x_data[mask], residual[mask]-1, s=3, color="#43a047")
 
-    plt.xlim([ranges[0]*(1+z), ranges[1]*(1+z)])
+    plt.xlim([ranges[0], ranges[1]])
 
     plt.tick_params(labelsize=15)
     plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
