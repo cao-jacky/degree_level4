@@ -107,7 +107,7 @@ def colour_image():
     #image = make_lupton_rgb(b, v, i, Q=10, stretch=0.5, 
             #filename="results/hst_hudf.jpeg")
 
-    colour_data = mkcol(b,v,i, 0.5, 0.5)
+    colour_data = mkcol(b,v,i, 0.95, 0.5)
 
     fig = plt.figure()
     fig.set_size_inches(10,10)
