@@ -11,4 +11,4 @@ Nonzero Templates: 19 / 135
 Formal errors: 
      dV    dsigma   dh3      dh4 
  6.1e+02      58      79    0.55
-Elapsed time in PPXF: 14.42 s
+Elapsed time in PPXF: 14.30 s
