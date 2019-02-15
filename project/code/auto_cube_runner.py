@@ -188,14 +188,14 @@ def voronoi_runner():
             curr_where = np.where(voronoi_data[:,2] == curr_vid)[0]
 
             # create a single spectra from the found pixels
-            spectra = np.zeros([np.shape(image_data)[0]])
-
+            spectra = np.zeros([len(curr_where),np.shape(image_data)[0]])
+     
             if len(curr_where) == 1:
                 pixel_x = int(voronoi_data[curr_where][0][0])
                 pixel_y = int(voronoi_data[curr_where][0][1])
 
                 single_spec = image_data[:][:,pixel_y][:,pixel_x]
-                spectra = spectra + single_spec 
+                spectra[0] = single_spec
             else: 
                 for i_cw in range(len(curr_where)):
                     curr_pixel_id = curr_where[i_cw]
@@ -204,7 +204,11 @@ def voronoi_runner():
                     pixel_y = int(voronoi_data[curr_pixel_id][1])
                     
                     curr_spec = image_data[:][:,pixel_y][:,pixel_x]
+
+                    # I shouldn't be adding all the spectra together
                     spectra = spectra + curr_spec 
+
+            spectra = np.median(spectra, axis=0)
 
             # calculate the S/N on the new generated spectra
             # parameters from lmfit
@@ -245,9 +249,12 @@ def voronoi_runner():
 
                 # use the returned data from pPXF to plot the spectra
                 x_data = ppxf_run['x_data']
-                y_data = ppxf_run['y_data']
+                y_data = ppxf_run['y_data']                
                 best_fit = ppxf_run['model_data']
 
+                y_data = y_data / np.max(y_data)
+                best_fit = best_fit / np.max(y_data)
+                
                 sax1.plot(x_data, y_data) # plotting initial spectra
                 sax1.plot(x_data, best_fit) # plotting pPXF best fit
 
