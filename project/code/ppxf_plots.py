@@ -534,6 +534,61 @@ def sigma_old_vs_new():
     fig.savefig("graphs/sigma_old_vs_new.pdf")
     plt.close("all") 
 
+def sigma_stars_old_vs_new():
+    data = np.load("data/ppxf_fitter_data.npy") 
+
+    old_stars = data[:][:,1][:]
+    new_stars = data[:][:,3][:]
+
+    cube_ids = old_stars[:,0]
+    old_sigma = old_stars[:,2]
+    new_sigma = new_stars[:,2]
+
+    old_sigma_err = old_stars[:,12]
+    new_sigma_err = new_stars[:,12]
+
+    gq_val = []
+
+    fig, ax = plt.subplots()
+
+    for i in range(len(cube_ids)):
+        cube_id = cube_ids[i]
+
+        cos = old_sigma[i]
+        cns = new_sigma[i]
+        #print(cos, cns)
+    
+        cose = old_sigma_err[i]
+        cnse = new_sigma_err[i]
+
+        gq_val.append(cns/cos)
+
+        ax.errorbar(cns, cos, xerr=cnse, yerr=cose, 
+                color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
+                capsize=5, capthick=1.0, zorder=0)
+        ax.annotate(str(int(cube_id)), (cns, cos))
+
+    ax.tick_params(labelsize=15)
+    ax.set_ylabel(r'\textbf{$\sigma_{*-old}$ (kms$^{-1}$)}', fontsize=15)
+    ax.set_xlabel(r'\textbf{$\sigma_{*-new}$ (kms$^{-1}$)}', fontsize=15)
+
+    ax.set_xlim([0,750]) 
+    ax.set_ylim([0,750])
+
+    ax.set_title(r"\textbf{(3500Å to 4200Å) vs. (4000Å to 4500Å)}")
+
+    # plot 1:1 line
+    f_xd = np.linspace(0,750,750)
+    ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
+
+    ax.annotate("median y/x val: "+str(np.median(gq_val)), (125,10))
+
+    fig.tight_layout()
+    fig.savefig("graphs/sigma_stars_old_vs_new.pdf")
+    plt.close("all") 
+
+
+
 if __name__ == '__main__':
     #chi_squared_cal(1804)
     #model_data_overlay(549)
@@ -542,7 +597,7 @@ if __name__ == '__main__':
 
     #voigt_sigmas()
 
-    sigma_stars_vs_sigma_oii()
+    #sigma_stars_vs_sigma_oii()
     #ranges_sigma_stars_vs_sigma_oii()
 
     #testing_ranges()
@@ -552,3 +607,5 @@ if __name__ == '__main__':
     #sigma_ranker()
 
     #sigma_old_vs_new()
+
+    sigma_stars_old_vs_new()
