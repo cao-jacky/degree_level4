@@ -38,6 +38,9 @@ def voronoi_plotter(cube_id):
     lmfit_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
             "_voronoi_lmfit_results.npy") # lmfit data
 
+    sn_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                "_curr_voronoi_sn_results.npy") # signal to noise data
+
     oc_data = np.load("data/cubes_better/cube_"+str(int(cube_id))+".npy")  
 
     # changing the shape of the data
@@ -48,6 +51,8 @@ def voronoi_plotter(cube_id):
 
     lmfit_sigma_data = np.copy(binned_data)
     lmfit_vel_data = np.copy(binned_data)
+
+    curr_sn_data = np.copy(binned_data)
 
     curr_row = 0 
     for i_x in range(np.shape(oc_data)[2]):
@@ -71,7 +76,13 @@ def voronoi_plotter(cube_id):
             lmfit_curr_sigma = lmfit_vars[3]
 
             lmfit_vel_data[i_y][i_x] = lmfit_curr_vel
-            lmfit_sigma_data[i_y][i_x] = lmfit_curr_sigma         
+            lmfit_sigma_data[i_y][i_x] = lmfit_curr_sigma      
+
+            sn_loc = np.where(sn_data[:,1] == vb_id)[0]
+            sn_vars = sn_data[sn_loc][0]
+            curr_sn = sn_vars[2]
+
+            curr_sn_data[i_y][i_x] = curr_sn
 
             curr_row += 1
 
@@ -87,6 +98,8 @@ def voronoi_plotter(cube_id):
     lmfit_sigma_unique = np.unique(lmfit_sigma_data)
     lmfit_sigma_data[lmfit_sigma_data == 0] = np.nan
 
+    curr_sn_unique = np.unique(curr_sn_data)
+    print(sn_data)
 
     f, (ax1, ax2) = plt.subplots(1,2)
     fax1 = ax1.imshow(np.fliplr(np.rot90(ppxf_vel_data,3)), cmap='jet', 
@@ -121,6 +134,17 @@ def voronoi_plotter(cube_id):
     g.tight_layout()
     g.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
             +"_lmfit_maps.pdf")
+
+    h, (ax5) = plt.subplots(1,1)
+    hax5 = ax5.imshow(np.fliplr(np.rot90(curr_sn_data,3)), cmap='jet', 
+            vmin=np.min(sn_data[:,2]), vmax=np.max(sn_data[:,2]))
+    ax5.tick_params(labelsize=13)
+    ax5.set_title(r'\textbf{S/N Map}', fontsize=13)
+    h.colorbar(hax5, ax=ax5)
+
+    h.tight_layout()
+    h.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
+            +"_signal_noise_map.pdf")
 
 def voronoi_runner():
     # Running to obtain results from pPXF and OII fitting
@@ -282,5 +306,5 @@ def voronoi_runner():
 
 if __name__ == '__main__':
     #voronoi_cube_runner()
-    voronoi_runner()
-    #voronoi_plotter(1804)
+    #voronoi_runner()
+    voronoi_plotter(1804)
