@@ -337,10 +337,16 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
 
     t = process_time()
 
+    # don't run pPXF plotter if custom spectra data is being processed
+    if np.sum(y_data_var) != 0:
+        plot_var = False
+    else:
+        plot_var = True
+
     f = io.StringIO()
     with redirect_stdout(f):
         pp = ppxf(templates, galaxy, noise, velscale, start, sky=skyNew,
-            goodpixels=goodpixels, plot=True, moments=4,
+            goodpixels=goodpixels, plot=plot_var, moments=4,
             degree=12, vsyst=dv, clean=True, lam=lam_gal) 
 
     ppxf_variables = pp.sol
@@ -415,6 +421,8 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
         # goodpixels range specifier for array
         np.save(file_loc + "/cube_" + str(int(cube_id)) + "_goodpixels_" + 
                 str(fit_range[0]) + "_" + str(fit_range[1]), goodpixels)
+
+    plt.close("all")
 
     # save the goodpixels array depending on if a reduced ranged is being used
 

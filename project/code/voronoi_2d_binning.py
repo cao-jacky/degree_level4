@@ -131,7 +131,7 @@ def voronoi_binning(cube_id):
     """
 
     targetSN = cda['signal'] / cda['noise']
-    targetSN = 12000
+    targetSN = 11000
 
     # Perform the actual computation. The vectors
     # (binNum, xNode, yNode, xBar, yBar, sn, nPixels, scale)

@@ -154,6 +154,8 @@ def voronoi_runner():
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
 
+        l, (sax1) = plt.subplots(1,1)
+
         # loading the MUSE spectroscopic data
         file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" 
                     + "cube_" + str(cube_id) + ".fits")
@@ -202,7 +204,7 @@ def voronoi_runner():
                     pixel_y = int(voronoi_data[curr_pixel_id][1])
                     
                     curr_spec = image_data[:][:,pixel_y][:,pixel_x]
-                    spectra = spectra + curr_spec
+                    spectra = spectra + curr_spec 
 
             # calculate the S/N on the new generated spectra
             # parameters from lmfit
@@ -235,10 +237,19 @@ def voronoi_runner():
             else:
                 ppxf_run = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
                         spectra, "all")
+                plt.close("all")
                 ppxf_vars = ppxf_run['variables']
 
                 ppxf_vel = ppxf_vars[0]
                 ppxf_sigma = ppxf_vars[1]
+
+                # use the returned data from pPXF to plot the spectra
+                x_data = ppxf_run['x_data']
+                y_data = ppxf_run['y_data']
+                best_fit = ppxf_run['model_data']
+
+                sax1.plot(x_data, y_data) # plotting initial spectra
+                sax1.plot(x_data, best_fit) # plotting pPXF best fit
 
             # Storing data into cube_ppxf_results array
             cube_ppxf_results[i_vid][0] = int(cube_id)
@@ -292,7 +303,10 @@ def voronoi_runner():
             cube_lmfit_results[i_vid][1] = int(i_vid)
             cube_lmfit_results[i_vid][2] = lmfit_vel
             cube_lmfit_results[i_vid][3] = lmfit_sigma             
-            
+        
+        l.savefig("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))
+                + "_voronoi_spectra_stacked.pdf") 
+
         # Save each cube_ppxf_results into cube_results folder
         np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
                 "_voronoi_ppxf_results.npy", cube_ppxf_results)
@@ -303,5 +317,5 @@ def voronoi_runner():
 
 if __name__ == '__main__':
     #voronoi_cube_runner()
-    #voronoi_runner()
+    voronoi_runner()
     voronoi_plotter(1804)
