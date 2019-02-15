@@ -129,7 +129,7 @@ def voronoi_runner():
     bright_objects = cf['bo']
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
-    uc = np.array([1578])
+    uc = np.array([1804])
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
 
@@ -138,11 +138,18 @@ def voronoi_runner():
                     + "cube_" + str(cube_id) + ".fits")
         fits_file = cube_reader.read_file(file_name)
         image_data = fits_file[1]
+
+        # loading the wavelength solution
+        ws_data = cube_reader.wavelength_solution(file_name)
+        wl_sol = np.linspace(ws_data['begin'], ws_data['end'], ws_data['steps'])
     
         # open the voronoi binned data
         voronoi_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
                 +"_binned.npy")
         voronoi_unique = np.unique(voronoi_data[:,2])
+
+        # Array which stores cube_id, VorID, S/N for region
+        cube_sn_results = np.zeros([len(voronoi_unique),3])
 
         # Array which stores cube_id, VorID, pPXF vel, and pPXF sigma
         cube_ppxf_results = np.zeros([len(voronoi_unique),4])
@@ -175,6 +182,30 @@ def voronoi_runner():
                     
                     curr_spec = image_data[:][:,pixel_y][:,pixel_x]
                     spectra = spectra + curr_spec
+
+            # calculate the S/N on the new generated spectra
+            # parameters from lmfit
+            lm_params = spectra_data.lmfit_data(cube_id)
+            z = lm_params['z']
+
+            region = np.array([4000,4080]) * (1+z)
+            region_mask = ((wl_sol > region[0]) & (wl_sol < region[1]))
+            
+            # masking useful region
+            masked_wlr = wl_sol[region_mask]
+            masked_spec = spectra[region_mask]
+
+            signal = masked_spec
+            noise = np.std(masked_spec) / len(masked_spec)
+
+            signal_noise = np.abs(np.average(signal/noise))
+
+            cube_sn_results[i_vid][0] = int(cube_id)
+            cube_sn_results[i_vid][1] = int(i_vid)
+            cube_sn_results[i_vid][2] = int(signal_noise)
+
+            np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                "_curr_voronoi_sn_results.npy", cube_sn_results)
 
             # run pPXF on the final spectra and store results 
             if np.isnan(np.sum(spectra)) == True:
@@ -249,9 +280,7 @@ def voronoi_runner():
         np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
                 "_voronoi_lmfit_results.npy", cube_lmfit_results)
 
-
-
 if __name__ == '__main__':
-    voronoi_cube_runner()
-    #voronoi_runner()
+    #voronoi_cube_runner()
+    voronoi_runner()
     #voronoi_plotter(1804)

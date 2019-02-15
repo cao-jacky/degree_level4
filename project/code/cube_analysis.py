@@ -216,41 +216,21 @@ def graphs():
             usable_cubes[usable_count][1] = vband_mag
 
             # we want to select a region to calculate the signal to noise
-            cube_file = ("cube_results/cube_" + str(cube_id) + "/cube_" + str(cube_id) 
-                    + "_lmfit.txt")
-            cube_file_data = open(cube_file)
+            # parameters from lmfit
+            lm_params = spectra_data.lmfit_data(cube_id)
+            c = lm_params['c']
+            i1 = lm_params['i1']
+            i2 = lm_params['i2']
+            sigma_gal = lm_params['sigma_gal']
+            z = lm_params['z']
+            sigma_inst = lm_params['sigma_inst']
 
-            cb_file_lines = sum(1 for line in open("cube_results/cube_" + str(cube_id) 
-                + "/cube_" + str(cube_id) + "_lmfit.txt")) - 1
-
-            cb_file_count = 0
-            for cb_line in cube_file_data:
-                if (cb_file_count == 15):
-                    cb_curr_line = cb_line.split()
-                    c = float(cb_curr_line[1])
-                    usable_cubes[usable_count][10] = c
-                if (cb_file_count == 16):
-                    cb_curr_line = cb_line.split()
-                    i1 = float(cb_curr_line[1])
-                    usable_cubes[usable_count][8] = i1 
-                if (cb_file_count == 18):
-                    cb_curr_line = cb_line.split()
-                    i2 = float(cb_curr_line[1])
-                    usable_cubes[usable_count][9] = i2
-                if (cb_file_count == 19):
-                    cb_curr_line = cb_line.split()
-                    sigma_gal = float(cb_curr_line[1])
-                    usable_cubes[usable_count][11] = sigma_gal
-                if (cb_file_count == 20 ):
-                    cb_curr_line = cb_line.split()
-                    z = float(cb_curr_line[1])
-                    usable_cubes[usable_count][13] = z
-                if (cb_file_count == 21 ):
-                    cb_curr_line = cb_line.split()
-                    sigma_inst = float(cb_curr_line[1])
-                    usable_cubes[usable_count][12] = sigma_inst
-
-                cb_file_count += 1
+            usable_cubes[usable_count][10] = c
+            usable_cubes[usable_count][8] = i1 
+            usable_cubes[usable_count][9] = i2
+            usable_cubes[usable_count][11] = sigma_gal
+            usable_cubes[usable_count][13] = z
+            usable_cubes[usable_count][12] = sigma_inst
             
             # plotting s/n vs mag
             lower_lambda = (1+z)*3700
