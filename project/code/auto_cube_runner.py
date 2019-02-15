@@ -98,9 +98,6 @@ def voronoi_plotter(cube_id):
     lmfit_sigma_unique = np.unique(lmfit_sigma_data)
     lmfit_sigma_data[lmfit_sigma_data == 0] = np.nan
 
-    curr_sn_unique = np.unique(curr_sn_data)
-    print(sn_data)
-
     f, (ax1, ax2) = plt.subplots(1,2)
     fax1 = ax1.imshow(np.fliplr(np.rot90(ppxf_vel_data,3)), cmap='jet', 
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
