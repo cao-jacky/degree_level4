@@ -205,10 +205,10 @@ def voronoi_runner():
                     
                     curr_spec = image_data[:][:,pixel_y][:,pixel_x]
 
-                    # I shouldn't be adding all the spectra together
-                    spectra = spectra + curr_spec 
+                    # saving spectra into specific row of spectra array
+                    spectra[i_cw] = curr_spec 
 
-            spectra = np.median(spectra, axis=0)
+            spectra = np.nanmedian(spectra, axis=0)
 
             # calculate the S/N on the new generated spectra
             # parameters from lmfit
@@ -251,12 +251,11 @@ def voronoi_runner():
                 x_data = ppxf_run['x_data']
                 y_data = ppxf_run['y_data']                
                 best_fit = ppxf_run['model_data']
-
-                y_data = y_data / np.max(y_data)
-                best_fit = best_fit / np.max(y_data)
-                
-                sax1.plot(x_data, y_data) # plotting initial spectra
-                sax1.plot(x_data, best_fit) # plotting pPXF best fit
+ 
+                # plotting initial spectra
+                sax1.plot(x_data, y_data, lw=1.5, c="#000000")         
+                # plotting pPXF best fit
+                sax1.plot(x_data, best_fit, lw=1.5, c="#d32f2f") 
 
             # Storing data into cube_ppxf_results array
             cube_ppxf_results[i_vid][0] = int(cube_id)
@@ -310,7 +309,11 @@ def voronoi_runner():
             cube_lmfit_results[i_vid][1] = int(i_vid)
             cube_lmfit_results[i_vid][2] = lmfit_vel
             cube_lmfit_results[i_vid][3] = lmfit_sigma             
-        
+       
+        sax1.tick_params(labelsize=20)
+        sax1.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
+        sax1.set_ylabel(r'\textbf{Relative Flux}', fontsize=20)
+        l.tight_layout()
         l.savefig("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))
                 + "_voronoi_spectra_stacked.pdf") 
 
