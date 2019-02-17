@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  17 FEB 2019 13:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  17 FEB 2019 13:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -798,6 +798,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [2]
+Underfull \hbox (badness 1424) in paragraph at lines 113--114
+\OT1/cmr/m/n/12 sumes that the mass and an-gu-lar mo-
+ []
+
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 149.
@@ -1137,7 +1141,7 @@ al/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/
 texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/t
 exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (14 pages, 4958208 bytes).
+Output written on stars_gas_dynamics.pdf (14 pages, 4958672 bytes).
 PDF statistics:
  617 PDF objects out of 1000 (max. 8388607)
  539 compressed objects within 6 object streams
