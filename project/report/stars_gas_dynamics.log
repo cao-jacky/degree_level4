@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  17 FEB 2019 12:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  17 FEB 2019 13:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -782,6 +782,11 @@ Underfull \hbox (badness 1226) in paragraph at lines 101--102
  []
 
 
+Underfull \hbox (badness 1521) in paragraph at lines 105--106
+[]\OT1/cmr/m/n/12 Whilst these modi-fic-a-tions provide a
+ []
+
+
 Underfull \hbox (badness 1515) in paragraph at lines 109--110
 []\OT1/cmr/m/n/12 The mass, en-ergy, and an-gu-lar mo-
  []
@@ -1132,7 +1137,7 @@ al/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/
 texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/t
 exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (14 pages, 4958186 bytes).
+Output written on stars_gas_dynamics.pdf (14 pages, 4958208 bytes).
 PDF statistics:
  617 PDF objects out of 1000 (max. 8388607)
  539 compressed objects within 6 object streams
