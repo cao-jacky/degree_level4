@@ -257,10 +257,10 @@ def voronoi_runner():
                 masked_spec = spectra[region_mask]
 
                 signal = masked_spec
-                noise = np.std(masked_spec) / len(masked_spec)
+                noise = np.std(masked_spec) 
 
                 signal_noise = np.abs(np.average(signal/noise))
-                print(signal_noise)
+                print(np.median(signal), noise, signal_noise)
 
                 cube_sn_results[i_vid][0] = int(cube_id)
                 cube_sn_results[i_vid][1] = int(i_vid)
@@ -379,5 +379,5 @@ def voronoi_runner():
 
 if __name__ == '__main__':
     #voronoi_cube_runner()
-    #voronoi_runner()
+    voronoi_runner()
     voronoi_plotter(1804)
