@@ -44,7 +44,7 @@ def voronoi_plotter(cube_id):
     oc_data = np.load("data/cubes_better/cube_"+str(int(cube_id))+".npy")  
 
     # changing the shape of the data
-    binned_data = np.zeros([np.shape(oc_data)[2],np.shape(oc_data)[1]])
+    binned_data = np.zeros([np.shape(oc_data)[1],np.shape(oc_data)[0]])
 
     ppxf_sigma_data = np.copy(binned_data) # producing a copy for pPXF sigma data
     ppxf_vel_data = np.copy(binned_data) # copying for pPXF velocity data
@@ -55,7 +55,7 @@ def voronoi_plotter(cube_id):
     curr_sn_data = np.copy(binned_data)
 
     curr_row = 0 
-    for i_x in range(np.shape(oc_data)[2]):
+    for i_x in range(np.shape(oc_data)[0]):
         for i_y in range(np.shape(oc_data)[1]):
             vb_id = vb_data[curr_row][2]
             binned_data[i_y][i_x] = vb_id
@@ -98,14 +98,18 @@ def voronoi_plotter(cube_id):
     lmfit_sigma_unique = np.unique(lmfit_sigma_data)
     lmfit_sigma_data[lmfit_sigma_data == 0] = np.nan
 
+    # loading the binary segmentation map 
+    seg_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+            str(int(cube_id))+"_segmentation.npy")
+
     f, (ax1, ax2) = plt.subplots(1,2)
-    fax1 = ax1.imshow(np.fliplr(np.rot90(ppxf_vel_data,3)), cmap='jet', 
+    fax1 = ax1.imshow(np.fliplr(np.rot90(ppxf_vel_data,3))*seg_map, cmap='jet', 
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
     ax1.tick_params(labelsize=13)
     ax1.set_title(r'\textbf{Velocity Map}', fontsize=13)
     f.colorbar(fax1, ax=ax1)
 
-    fax2 = ax2.imshow(np.fliplr(np.rot90(ppxf_sigma_data,3)), cmap='jet',
+    fax2 = ax2.imshow(np.fliplr(np.rot90(ppxf_sigma_data,3))*seg_map, cmap='jet',
             vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1])
     ax2.tick_params(labelsize=13)
     ax2.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=13)
@@ -116,13 +120,13 @@ def voronoi_plotter(cube_id):
             +"_ppxf_maps.pdf")
 
     g, (ax3, ax4) = plt.subplots(1,2)
-    gax3 = ax3.imshow(np.fliplr(np.rot90(lmfit_vel_data,3)), cmap='jet', 
+    gax3 = ax3.imshow(np.fliplr(np.rot90(lmfit_vel_data,3))*seg_map, cmap='jet', 
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
     ax3.tick_params(labelsize=13)
     ax3.set_title(r'\textbf{Velocity Map}', fontsize=13)
     g.colorbar(gax3, ax=ax3)
 
-    gax4 = ax4.imshow(np.fliplr(np.rot90(lmfit_sigma_data,3)), cmap='jet',
+    gax4 = ax4.imshow(np.fliplr(np.rot90(lmfit_sigma_data,3))*seg_map, cmap='jet',
             vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1])
     ax4.tick_params(labelsize=13)
     ax4.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=13)
@@ -133,7 +137,7 @@ def voronoi_plotter(cube_id):
             +"_lmfit_maps.pdf")
 
     h, (ax5) = plt.subplots(1,1)
-    hax5 = ax5.imshow(np.fliplr(np.rot90(curr_sn_data,3)), cmap='jet', 
+    hax5 = ax5.imshow(np.fliplr(np.rot90(curr_sn_data,3))*seg_map, cmap='jet', 
             vmin=np.min(sn_data[:,2]), vmax=np.max(sn_data[:,2]))
     ax5.tick_params(labelsize=13)
     ax5.set_title(r'\textbf{S/N Map}', fontsize=13)
@@ -215,8 +219,7 @@ def voronoi_runner():
                 curr_where = np.where(vor_map == curr_vid)
                 
                 # create a single spectra from the found pixels
-                spectra = np.zeros([len(curr_where[0])*len(curr_where[1]),
-                    np.shape(image_data)[0]])
+                spectra = np.zeros([len(curr_where[0]),np.shape(image_data)[0]])
                 print(np.shape(spectra))
          
                 if len(curr_where) == 1:
@@ -228,19 +231,16 @@ def voronoi_runner():
                 else:
                     spec_counter = 0 
                     for i_x in range(len(curr_where[0])):
-                        # looking at current x position
-                        for i_y in range(len(curr_where[1])):
-                            # looking at current y posotion
+                        # looking at current x and y positions
+                        pixel_x = int(curr_where[0][i_x]) 
+                        pixel_y = int(curr_where[1][i_x]) 
+                    
+                        curr_spec = image_data[:][:,pixel_y][:,pixel_x]
 
-                            pixel_x = int(curr_where[0][i_x])
-                            pixel_y = int(curr_where[1][i_y])
+                        # saving spectra into specific row of spectra array
+                        spectra[spec_counter] = curr_spec 
                         
-                            curr_spec = image_data[:][:,pixel_y][:,pixel_x]
-
-                            # saving spectra into specific row of spectra array
-                            spectra[spec_counter] = curr_spec 
-                            
-                            spec_counter += 1
+                        spec_counter += 1
 
                 spectra = np.nansum(spectra, axis=0)
 
@@ -260,6 +260,7 @@ def voronoi_runner():
                 noise = np.std(masked_spec) / len(masked_spec)
 
                 signal_noise = np.abs(np.average(signal/noise))
+                print(signal_noise)
 
                 cube_sn_results[i_vid][0] = int(cube_id)
                 cube_sn_results[i_vid][1] = int(i_vid)
@@ -378,5 +379,5 @@ def voronoi_runner():
 
 if __name__ == '__main__':
     #voronoi_cube_runner()
-    voronoi_runner()
+    #voronoi_runner()
     voronoi_plotter(1804)
