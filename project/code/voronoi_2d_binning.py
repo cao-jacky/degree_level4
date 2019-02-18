@@ -26,7 +26,7 @@ def data_file_creator(cube_id):
     # I need to create four columns: x-coord, y-coord, signal, noise
     # load up the inidividual MUSE cubes, then save the data as a numpy array file?
     cube_data = ("data/cubes_better/cube_"+str(int(cube_id))+".npy")
-    if not (os.path.exists(cube_data)):
+    if (os.path.exists(cube_data)):
         # obtaining the compressed median data for single galaxy cube
         file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" 
                     + "cube_" + str(cube_id) + ".fits")
@@ -35,30 +35,37 @@ def data_file_creator(cube_id):
         image_data = fits_file[1]
         id_shape = np.shape(image_data)
 
+        # loading segmentation data and turning everything not cube ID into 0 and
+        # everything which *is* the cube ID into 1
+        segmentation_data = fits_file[2]
+
+        segmentation_data[segmentation_data == cube_id] = 1
+        segmentation_data[segmentation_data != cube_id] = 0
+
+        print(np.shape(segmentation_data))
+
         cb_noise = cube_reader.cube_noise(cube_id)
         cn_val = cb_noise['noise_value']
 
         # 2 arrays to store the signal and then the noise
-        cube_data_array = np.zeros((2,id_shape[1],id_shape[2]))
+        cube_data_array = np.zeros((id_shape[1],id_shape[2]))
         for i_ra in range(id_shape[2]):
             for i_dec in range(id_shape[1]):
                 pixel_data = image_data[:][:,i_dec][:,i_ra]
 
                 # storing the sum pixel in signal array
                 pd_sum = np.nansum(pixel_data)
-                cube_data_array[0][i_dec][i_ra] = pd_sum
-
-                # noise is the standard deviation
-                pd_std = np.nanstd(pixel_data)
-                cube_data_array[1][i_dec][i_ra] = cn_val 
+                cube_data_array[i_dec][i_ra] = pd_sum
+        
+        # rotated and flipped the data array
+        cube_data_array = np.fliplr(np.rot90(cube_data_array[:][:],3))         
         np.save(cube_data, cube_data_array)
         cube_data = cube_data_array
         pass
     else:
         cube_data = np.load(cube_data)
         pass 
-
-    cube_data = np.fliplr(np.rot90(cube_data[0][:][:],3)) # rotated and flipped
+ 
     cube_data_noise = np.std(cube_data[40:50,:])
     print(cube_data_noise)
     print(cube_data)
@@ -89,9 +96,9 @@ def voronoi_binned_map(cube_id):
     o_cd = np.load("data/cubes_better/cube_"+str(int(cube_id))+".npy")    
 
     # changing the shape of the data
-    binned_data = np.zeros([np.shape(o_cd)[2],np.shape(o_cd)[1]])
+    binned_data = np.zeros([np.shape(o_cd)[0],np.shape(o_cd)[1]])
     curr_row = 0 
-    for i_x in range(np.shape(o_cd)[2]):
+    for i_x in range(np.shape(o_cd)[0]):
         for i_y in range(np.shape(o_cd)[1]):
             binned_data[i_x][i_y] = vb_data[curr_row][2]
             curr_row += 1
@@ -100,14 +107,14 @@ def voronoi_binned_map(cube_id):
     ax1.imshow(binned_data, cmap='prism')
     ax1.tick_params(labelsize=13)
 
-    ax2.imshow(np.fliplr(np.rot90(o_cd[0][:][:],3)))
+    ax2.imshow(o_cd)
     ax2.tick_params(labelsize=13)
 
     f.tight_layout()
     f.savefig(cr_folder+"/cube_"+str(cube_id)+"_voronoi_map_image.pdf")
 
     g, (gax1) = plt.subplots(1,1)
-    gax1.imshow(np.fliplr(np.rot90(binned_data,3)), cmap='prism')
+    gax1.imshow(binned_data, cmap='prism')
     gax1.tick_params(labelsize=13)
 
     g.tight_layout()
