@@ -38,12 +38,13 @@ def data_file_creator(cube_id):
         # loading segmentation data and turning everything not cube ID into 0 and
         # everything which *is* the cube ID into 1
         segmentation_data = fits_file[2]
+        segmentation_data = np.fliplr(np.rot90(segmentation_data[:][:],3))
 
-        segmentation_data[segmentation_data == cube_id] = 1
         segmentation_data[segmentation_data != cube_id] = 0
+        segmentation_data[segmentation_data == cube_id] = 1
 
-        print(np.shape(segmentation_data))
-
+        np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
+                "_segmentation.npy", segmentation_data)
         cb_noise = cube_reader.cube_noise(cube_id)
         cn_val = cb_noise['noise_value']
 
@@ -67,12 +68,9 @@ def data_file_creator(cube_id):
         pass 
  
     cube_data_noise = np.std(cube_data[40:50,:])
-    print(cube_data_noise)
-    print(cube_data)
 
     # array which has rows equal to x*y and four columns 
     cd_unpack = np.zeros((np.shape(cube_data)[0]*np.shape(cube_data)[1],4))
-    print(cd_unpack)
     cd_curr_row = 0
     # read over every pixel and store the signal, noise into the array
     for i_x in range(np.shape(cube_data)[0]):
@@ -86,7 +84,8 @@ def data_file_creator(cube_id):
 
     median_signal = np.nanmedian(cd_unpack[:,2])
     median_noise = np.nanmedian(cd_unpack[:,3])
-    return {'data': cd_unpack, 'original_data': cube_data}
+    return {'data': cd_unpack, 'original_data': cube_data, 
+            'seg_map': segmentation_data}
 
 def voronoi_binned_map(cube_id):
     cr_folder = "cube_results/cube_"+str(cube_id)
@@ -94,6 +93,10 @@ def voronoi_binned_map(cube_id):
 
     # original cube_data
     o_cd = np.load("data/cubes_better/cube_"+str(int(cube_id))+".npy")    
+
+    # segmentation data
+    seg = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
+                "_segmentation.npy")
 
     # changing the shape of the data
     binned_data = np.zeros([np.shape(o_cd)[0],np.shape(o_cd)[1]])
@@ -103,8 +106,13 @@ def voronoi_binned_map(cube_id):
             binned_data[i_x][i_y] = vb_data[curr_row][2]
             curr_row += 1
 
+    # save Voronoi map as an array
+    np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
+                "_voronoi_map.npy", binned_data)
+
     f, (ax1, ax2) = plt.subplots(1,2)
-    ax1.imshow(binned_data, cmap='prism')
+    ax1.imshow(binned_data, cmap='prism') # plotting Voronoi tessellated map
+    ax1.imshow(seg, cmap='gray', alpha=0.5) # overlaying segmentation map
     ax1.tick_params(labelsize=13)
 
     ax2.imshow(o_cd)
@@ -131,7 +139,7 @@ def voronoi_binning(cube_id):
     signal = np.abs(np.nan_to_num(cd[:,2]))
     noise = cd[:,3] 
 
-    targetSN = 65
+    targetSN = 60
 
     # Perform the actual computation. The vectors
     # (binNum, xNode, yNode, xBar, yBar, sn, nPixels, scale)

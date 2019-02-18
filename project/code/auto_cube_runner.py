@@ -149,6 +149,10 @@ def voronoi_runner():
     catalogue = cf['cat'] # calling sorted catalogue from cataogue function
     bright_objects = cf['bo']
 
+    run_sn = True
+    run_ppxf = False
+    run_lmfit = False
+
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     uc = np.array([1804])
     for i_cube in range(len(uc)):
@@ -160,10 +164,24 @@ def voronoi_runner():
 
         # loading the MUSE spectroscopic data
         file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" 
-                    + "cube_" + str(cube_id) + ".fits")
+                    +"cube_"+str(cube_id)+".fits")
         fits_file = cube_reader.read_file(file_name)
-        image_data = fits_file[1]
 
+        image_data = fits_file[1] # image data from fits file is "wrong way around"
+        image_data =  np.fliplr(np.rot90(image_data, 1, (1,2)))
+
+        # loading Voronoi map - need to add 1 to distinguish between 1st bin and 
+        # the 'off' areas as defined by binary segmentation map
+        vor_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+                str(int(cube_id))+"_voronoi_map.npy") + 1
+
+        # loading the binary segmentation map 
+        seg_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+                str(int(cube_id))+"_segmentation.npy")
+
+        vor_map = vor_map * seg_map
+        voronoi_unique = np.unique(vor_map)
+    
         # loading the wavelength solution
         ws_data = cube_reader.wavelength_solution(file_name)
         wl_sol = np.linspace(ws_data['begin'], ws_data['end'], ws_data['steps'])
@@ -171,8 +189,7 @@ def voronoi_runner():
         # open the voronoi binned data
         voronoi_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
                 +"_binned.npy")
-        voronoi_unique = np.unique(voronoi_data[:,2])
-
+    
         # Array which stores cube_id, VorID, S/N for region
         cube_sn_results = np.zeros([len(voronoi_unique),3])
 
@@ -181,140 +198,155 @@ def voronoi_runner():
 
         # Array which stores cube_id, VorID, lmfit vel, and lmfit sigma (converted)
         cube_lmfit_results = np.zeros([len(voronoi_unique),4])
+
+        # Applying the segmentation map to the Voronoi map
+        # I want to work with the converted map 
         
         for i_vid in range(len(voronoi_unique)):
-            curr_vid = int(voronoi_unique[i_vid])
-            print("Considering cube_"+str(cube_id)+" and Voronoi ID "+str(curr_vid))
-            
-            # find what pixels are at the current voronoi id 
-            curr_where = np.where(voronoi_data[:,2] == curr_vid)[0]
-
-            # create a single spectra from the found pixels
-            spectra = np.zeros([len(curr_where),np.shape(image_data)[0]])
-     
-            if len(curr_where) == 1:
-                pixel_x = int(voronoi_data[curr_where][0][0])
-                pixel_y = int(voronoi_data[curr_where][0][1])
-
-                single_spec = image_data[:][:,pixel_y][:,pixel_x]
-                spectra[0] = single_spec
-            else: 
-                for i_cw in range(len(curr_where)):
-                    curr_pixel_id = curr_where[i_cw]
-
-                    pixel_x = int(voronoi_data[curr_pixel_id][0])
-                    pixel_y = int(voronoi_data[curr_pixel_id][1])
-                    
-                    curr_spec = image_data[:][:,pixel_y][:,pixel_x]
-
-                    # saving spectra into specific row of spectra array
-                    spectra[i_cw] = curr_spec 
-
-            spectra = np.nansum(spectra, axis=0)
-
-            # calculate the S/N on the new generated spectra
-            # parameters from lmfit
-            lm_params = spectra_data.lmfit_data(cube_id)
-            z = lm_params['z']
-
-            region = np.array([4000,4080]) * (1+z)
-            region_mask = ((wl_sol > region[0]) & (wl_sol < region[1]))
-            
-            # masking useful region
-            masked_wlr = wl_sol[region_mask]
-            masked_spec = spectra[region_mask]
-
-            signal = masked_spec
-            noise = np.std(masked_spec) / len(masked_spec)
-
-            signal_noise = np.abs(np.average(signal/noise))
-
-            cube_sn_results[i_vid][0] = int(cube_id)
-            cube_sn_results[i_vid][1] = int(i_vid)
-            cube_sn_results[i_vid][2] = int(signal_noise)
-
-            np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-                "_curr_voronoi_sn_results.npy", cube_sn_results)
-
-            # run pPXF on the final spectra and store results 
-            if np.isnan(np.sum(spectra)) == True:
-                ppxf_vel = 0
-                ppxf_sigma = 0
+            if i_vid == 0:
+                # ignoring the 'off' areas of the Voronoi map
+                pass
             else:
-                ppxf_run = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
-                        spectra, "all")
-                plt.close("all")
-                ppxf_vars = ppxf_run['variables']
+                curr_vid = int(voronoi_unique[i_vid])
+                print("Considering cube_"+str(cube_id)+" and Voronoi ID "+
+                        str(curr_vid))
+                
+                # find what pixels are at the current voronoi id
+                curr_where = np.where(vor_map == curr_vid)
+                
+                # create a single spectra from the found pixels
+                spectra = np.zeros([len(curr_where[0])*len(curr_where[1]),
+                    np.shape(image_data)[0]])
+                print(np.shape(spectra))
+         
+                if len(curr_where) == 1:
+                    pixel_x = int(curr_where[0])
+                    pixel_y = int(curr_where[1])
 
-                ppxf_vel = ppxf_vars[0]
-                ppxf_sigma = ppxf_vars[1]
+                    single_spec = image_data[:][:,pixel_x][:,pixel_y]
+                    spectra[0] = single_spec
+                else:
+                    spec_counter = 0 
+                    for i_x in range(len(curr_where[0])):
+                        # looking at current x position
+                        for i_y in range(len(curr_where[1])):
+                            # looking at current y posotion
 
-                # use the returned data from pPXF to plot the spectra
-                x_data = ppxf_run['x_data']
-                y_data = ppxf_run['y_data']                
-                best_fit = ppxf_run['model_data']
- 
-                # plotting initial spectra
-                sax1.plot(x_data, y_data, lw=1.5, c="#000000")         
-                # plotting pPXF best fit
-                sax1.plot(x_data, best_fit, lw=1.5, c="#d32f2f") 
+                            pixel_x = int(curr_where[0][i_x])
+                            pixel_y = int(curr_where[1][i_y])
+                        
+                            curr_spec = image_data[:][:,pixel_y][:,pixel_x]
 
-                max1.plot(x_data, best_fit+150*i_vid, lw=1.5, c="#d32f2f")
-                nax1.plot(x_data, y_data+1000*i_vid, lw=1.5, c="#000000")
+                            # saving spectra into specific row of spectra array
+                            spectra[spec_counter] = curr_spec 
+                            
+                            spec_counter += 1
 
-            # Storing data into cube_ppxf_results array
-            cube_ppxf_results[i_vid][0] = int(cube_id)
-            cube_ppxf_results[i_vid][1] = int(i_vid)
-            cube_ppxf_results[i_vid][2] = ppxf_vel
-            cube_ppxf_results[i_vid][3] = ppxf_sigma
+                spectra = np.nansum(spectra, axis=0)
 
-            np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-                "_curr_voronoi_ppxf_results.npy", cube_ppxf_results)
+                # calculate the S/N on the new generated spectra
+                # parameters from lmfit
+                lm_params = spectra_data.lmfit_data(cube_id)
+                z = lm_params['z']
 
-            # fitting OII doublet for the final spectra
-            # wavelength solution
-            x_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-                    "_cbd_x.npy")
+                region = np.array([4000,4080]) * (1+z)
+                region_mask = ((wl_sol > region[0]) & (wl_sol < region[1]))
+                
+                # masking useful region
+                masked_wlr = wl_sol[region_mask]
+                masked_spec = spectra[region_mask]
 
-            # loading redshift and sigma_inst
-            doublet_params = spectra_data.lmfit_data(cube_id)
-            z = doublet_params['z']
-            sigma_inst = doublet_params['sigma_inst']
+                signal = masked_spec
+                noise = np.std(masked_spec) / len(masked_spec)
 
-            # masking out doublet region
-            x_mask = ((x_data > (1+z)*3600) & (x_data < (1+z)*3750))
-            x_masked = x_data[x_mask]
-            y_masked = spectra[x_mask]
+                signal_noise = np.abs(np.average(signal/noise))
 
-            oii_doublets = [3727.092, 3729.875]
+                cube_sn_results[i_vid][0] = int(cube_id)
+                cube_sn_results[i_vid][1] = int(i_vid)
+                cube_sn_results[i_vid][2] = int(signal_noise)
 
-            dbt_params = Parameters()
-            dbt_params.add('c', value=0)
-            dbt_params.add('i1', value=np.max(y_masked), min=0.0)
-            dbt_params.add('r', value=1.3, min=0.5, max=1.5)
-            dbt_params.add('i2', expr='i1/r', min=0.0)
-            dbt_params.add('sigma_gal', value=3)
-            dbt_params.add('z', value=z)
-            dbt_params.add('sigma_inst', value=sigma_inst, vary=False)
+                np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                    "_curr_voronoi_sn_results.npy", cube_sn_results)
 
-            dbt_model = Model(spectra_data.f_doublet)
-            dbt_result = dbt_model.fit(y_masked, x=x_masked, params=dbt_params)
+                # run pPXF on the final spectra and store results 
+                if np.isnan(np.sum(spectra)) == True:
+                    ppxf_vel = 0
+                    ppxf_sigma = 0
+                else:
+                    ppxf_run = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
+                            spectra, "all")
+                    plt.close("all")
+                    ppxf_vars = ppxf_run['variables']
 
-            best_result = dbt_result.best_values
-            best_z = best_result['z']
-            best_sigma = best_result['sigma_gal']
+                    ppxf_vel = ppxf_vars[0]
+                    ppxf_sigma = ppxf_vars[1]
 
-            c = 299792.458 # speed of light in kms^-1
-            lmfit_vel = c*np.log(1+best_z)
+                    # use the returned data from pPXF to plot the spectra
+                    x_data = ppxf_run['x_data']
+                    y_data = ppxf_run['y_data']                
+                    best_fit = ppxf_run['model_data']
+     
+                    # plotting initial spectra
+                    sax1.plot(x_data, y_data, lw=1.5, c="#000000")         
+                    # plotting pPXF best fit
+                    sax1.plot(x_data, best_fit, lw=1.5, c="#d32f2f") 
 
-            lmfit_sigma = (best_sigma / (3727*(1+best_z))) * c
-            
-            # indexing data into lmfit array
-            cube_lmfit_results[i_vid][0] = int(cube_id)
-            cube_lmfit_results[i_vid][1] = int(i_vid)
-            cube_lmfit_results[i_vid][2] = lmfit_vel
-            cube_lmfit_results[i_vid][3] = lmfit_sigma             
-       
+                    max1.plot(x_data, best_fit+150*i_vid, lw=1.5, c="#d32f2f")
+                    nax1.plot(x_data, y_data+1000*i_vid, lw=1.5, c="#000000")
+
+                # Storing data into cube_ppxf_results array
+                cube_ppxf_results[i_vid][0] = int(cube_id)
+                cube_ppxf_results[i_vid][1] = int(i_vid)
+                cube_ppxf_results[i_vid][2] = ppxf_vel
+                cube_ppxf_results[i_vid][3] = ppxf_sigma
+
+                np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                    "_curr_voronoi_ppxf_results.npy", cube_ppxf_results)
+
+                # fitting OII doublet for the final spectra
+                # wavelength solution
+                x_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+
+                        str(cube_id)+"_cbd_x.npy")
+
+                # loading redshift and sigma_inst
+                doublet_params = spectra_data.lmfit_data(cube_id)
+                z = doublet_params['z']
+                sigma_inst = doublet_params['sigma_inst']
+
+                # masking out doublet region
+                x_mask = ((x_data > (1+z)*3600) & (x_data < (1+z)*3750))
+                x_masked = x_data[x_mask]
+                y_masked = spectra[x_mask]
+
+                oii_doublets = [3727.092, 3729.875]
+
+                dbt_params = Parameters()
+                dbt_params.add('c', value=0)
+                dbt_params.add('i1', value=np.max(y_masked), min=0.0)
+                dbt_params.add('r', value=1.3, min=0.5, max=1.5)
+                dbt_params.add('i2', expr='i1/r', min=0.0)
+                dbt_params.add('sigma_gal', value=3)
+                dbt_params.add('z', value=z)
+                dbt_params.add('sigma_inst', value=sigma_inst, vary=False)
+
+                dbt_model = Model(spectra_data.f_doublet)
+                dbt_result = dbt_model.fit(y_masked, x=x_masked, params=dbt_params)
+
+                best_result = dbt_result.best_values
+                best_z = best_result['z']
+                best_sigma = best_result['sigma_gal']
+
+                c = 299792.458 # speed of light in kms^-1
+                lmfit_vel = c*np.log(1+best_z)
+
+                lmfit_sigma = (best_sigma / (3727*(1+best_z))) * c
+                
+                # indexing data into lmfit array
+                cube_lmfit_results[i_vid][0] = int(cube_id)
+                cube_lmfit_results[i_vid][1] = int(i_vid)
+                cube_lmfit_results[i_vid][2] = lmfit_vel
+                cube_lmfit_results[i_vid][3] = lmfit_sigma             
+           
         sax1.tick_params(labelsize=20)
         sax1.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
         sax1.set_ylabel(r'\textbf{Relative Flux}', fontsize=20)
