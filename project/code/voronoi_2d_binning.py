@@ -58,22 +58,28 @@ def data_file_creator(cube_id):
         cube_data = np.load(cube_data)
         pass 
 
+    cube_data = np.fliplr(np.rot90(cube_data[0][:][:],3)) # rotated and flipped
+    cube_data_noise = np.std(cube_data[40:50,:])
+    print(cube_data_noise)
+    print(cube_data)
+
     # array which has rows equal to x*y and four columns 
-    cd_unpack = np.zeros([np.shape(cube_data)[1]*np.shape(cube_data)[2],4])
+    cd_unpack = np.zeros((np.shape(cube_data)[0]*np.shape(cube_data)[1],4))
+    print(cd_unpack)
     cd_curr_row = 0
     # read over every pixel and store the signal, noise into the array
-    for i_x in range(np.shape(cube_data)[2]):
+    for i_x in range(np.shape(cube_data)[0]):
         for i_y in range(np.shape(cube_data)[1]):
             cd_unpack[cd_curr_row][0] = i_x # x-coord
             cd_unpack[cd_curr_row][1] = i_y # y-corrd
-            cd_unpack[cd_curr_row][2] = cube_data[0][i_y][i_x] # signal
-            cd_unpack[cd_curr_row][3] = cube_data[1][i_y][i_x] # noise
+            cd_unpack[cd_curr_row][2] = cube_data[i_x][i_y] # signal
+            cd_unpack[cd_curr_row][3] = cube_data_noise
 
             cd_curr_row += 1
 
     median_signal = np.nanmedian(cd_unpack[:,2])
     median_noise = np.nanmedian(cd_unpack[:,3])
-    return {'data': cd_unpack, 'signal': median_signal, 'noise': median_noise}
+    return {'data': cd_unpack, 'original_data': cube_data}
 
 def voronoi_binned_map(cube_id):
     cr_folder = "cube_results/cube_"+str(cube_id)
@@ -87,11 +93,11 @@ def voronoi_binned_map(cube_id):
     curr_row = 0 
     for i_x in range(np.shape(o_cd)[2]):
         for i_y in range(np.shape(o_cd)[1]):
-            binned_data[i_y][i_x] = vb_data[curr_row][2]
+            binned_data[i_x][i_y] = vb_data[curr_row][2]
             curr_row += 1
 
     f, (ax1, ax2) = plt.subplots(1,2)
-    ax1.imshow(np.fliplr(np.rot90(binned_data,3)), cmap='prism')
+    ax1.imshow(binned_data, cmap='prism')
     ax1.tick_params(labelsize=13)
 
     ax2.imshow(np.fliplr(np.rot90(o_cd[0][:][:],3)))
@@ -116,22 +122,9 @@ def voronoi_binning(cube_id):
     x = cd[:,0] * 0.20 # x and y have to be in arc seconds
     y = cd[:,1] * 0.20 # one MUSE pixel has size 0.2 arcsec/pixel
     signal = np.abs(np.nan_to_num(cd[:,2]))
-    noise = np.nan_to_num(cd[:,3])
-   
-    avg_noise = np.average(noise)
+    noise = cd[:,3] 
 
-    if avg_noise < 1.0:
-        noise = noise + 5
-
-    """
-    for i_n in range(len(noise)):
-        curr_noise = noise[i_n]
-        if curr_noise == 0.0:
-            noise[i_n] = np.max(noise)
-    """
-
-    targetSN = cda['signal'] / cda['noise']
-    targetSN = 11000
+    targetSN = 65
 
     # Perform the actual computation. The vectors
     # (binNum, xNode, yNode, xBar, yBar, sn, nPixels, scale)
