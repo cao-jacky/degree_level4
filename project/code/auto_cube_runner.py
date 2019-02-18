@@ -154,7 +154,9 @@ def voronoi_runner():
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
 
-        l, (sax1) = plt.subplots(1,1)
+        l, (sax1) = plt.subplots(1,1) # spectra and pPXF on same plot
+        m, (max1) = plt.subplots(1,1) # pPXF plots
+        n, (nax1) = plt.subplots(1,1) # spectra plots
 
         # loading the MUSE spectroscopic data
         file_name = ("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" 
@@ -208,7 +210,7 @@ def voronoi_runner():
                     # saving spectra into specific row of spectra array
                     spectra[i_cw] = curr_spec 
 
-            spectra = np.nanmedian(spectra, axis=0)
+            spectra = np.nansum(spectra, axis=0)
 
             # calculate the S/N on the new generated spectra
             # parameters from lmfit
@@ -256,6 +258,9 @@ def voronoi_runner():
                 sax1.plot(x_data, y_data, lw=1.5, c="#000000")         
                 # plotting pPXF best fit
                 sax1.plot(x_data, best_fit, lw=1.5, c="#d32f2f") 
+
+                max1.plot(x_data, best_fit+150*i_vid, lw=1.5, c="#d32f2f")
+                nax1.plot(x_data, y_data+1000*i_vid, lw=1.5, c="#000000")
 
             # Storing data into cube_ppxf_results array
             cube_ppxf_results[i_vid][0] = int(cube_id)
@@ -315,7 +320,21 @@ def voronoi_runner():
         sax1.set_ylabel(r'\textbf{Relative Flux}', fontsize=20)
         l.tight_layout()
         l.savefig("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))
-                + "_voronoi_spectra_stacked.pdf") 
+                + "_voronoi_spectra_stacked.pdf")
+
+        max1.tick_params(labelsize=20)
+        max1.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
+        max1.set_ylabel(r'\textbf{Relative Flux}', fontsize=20)
+        m.tight_layout()
+        m.savefig("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))
+                + "_voronoi_spectra_stacked_ppxf.pdf") 
+
+        nax1.tick_params(labelsize=20)
+        nax1.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
+        nax1.set_ylabel(r'\textbf{Relative Flux}', fontsize=20)
+        n.tight_layout()
+        n.savefig("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))
+                + "_voronoi_spectra_stacked_spectra.pdf") 
 
         # Save each cube_ppxf_results into cube_results folder
         np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
