@@ -113,8 +113,8 @@ def fitting_plotter(cube_id):
     plt.figure()
 
     plt.plot(x_data, y_data_scaled, linewidth=1.1, color="#000000")
-    plt.plot(x_data, y_data_scaled+noise_stddev, linewidth=0.1, color="#616161", alpha=0.1)
-    plt.plot(x_data, y_data_scaled-noise_stddev, linewidth=0.1, color="#616161", alpha=0.1)
+    plt.plot(x_data, y_data_scaled+noise_stddev, linewidth=0.1, c="#616161", alpha=0.1)
+    plt.plot(x_data, y_data_scaled-noise_stddev, linewidth=0.1, c="#616161", alpha=0.1)
     
     # plotting over the OII doublet
     doublets = np.array([3727.092, 3728.875]) * (1+z)

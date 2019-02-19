@@ -12,6 +12,8 @@ from matplotlib import rc
 
 from lmfit import Parameters, Model
 
+import os
+
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = [r'\boldmath']
@@ -54,6 +56,13 @@ def voronoi_plotter(cube_id):
 
     curr_sn_data = np.copy(binned_data)
 
+    # obtaining redshift from integrated galaxy lmfit data
+    lmfit_fitting = spectra_data.lmfit_data(cube_id)
+    z = lmfit_fitting['z']
+
+    c = 299792.458 # speed of light in kms^-1
+    vel_gal = c*np.log(1+z)
+
     curr_row = 0 
     for i_x in range(np.shape(oc_data)[0]):
         for i_y in range(np.shape(oc_data)[1]):
@@ -66,7 +75,7 @@ def voronoi_plotter(cube_id):
             ppxf_curr_vel = ppxf_vars[2]
             ppxf_curr_sigma = ppxf_vars[3]
 
-            ppxf_vel_data[i_y][i_x] = ppxf_curr_vel
+            ppxf_vel_data[i_y][i_x] = ppxf_curr_vel - vel_gal
             ppxf_sigma_data[i_y][i_x] = ppxf_curr_sigma 
 
             lmfit_loc = np.where(lmfit_data[:,1] == vb_id)[0]
@@ -75,7 +84,7 @@ def voronoi_plotter(cube_id):
             lmfit_curr_vel = lmfit_vars[2]
             lmfit_curr_sigma = lmfit_vars[3]
 
-            lmfit_vel_data[i_y][i_x] = lmfit_curr_vel
+            lmfit_vel_data[i_y][i_x] = lmfit_curr_vel - vel_gal
             lmfit_sigma_data[i_y][i_x] = lmfit_curr_sigma      
 
             sn_loc = np.where(sn_data[:,1] == vb_id)[0]
@@ -286,6 +295,26 @@ def voronoi_runner():
                     x_data = ppxf_run['x_data']
                     y_data = ppxf_run['y_data']                
                     best_fit = ppxf_run['model_data']
+
+                    # plot indidividual spectra 
+                    indiv_spec_dir = ("cube_results/cube_"+str(cube_id)+
+                            "/voronoi_spectra") 
+
+                    if not os.path.exists(indiv_spec_dir):
+                        os.mkdir(indiv_spec_dir)
+
+                    t, (tax1) = plt.subplots(1,1)
+                    tax1.plot(x_data, y_data, lw=1.5, c="#000000")
+                    tax1.plot(x_data, best_fit, lw=1.5, c="#d32f2f") 
+            
+                    tax1.tick_params(labelsize=20)
+                    tax1.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
+                    tax1.set_ylabel(r'\textbf{Relative Flux}', fontsize=20)
+
+                    t.tight_layout()
+                    t.savefig(indiv_spec_dir+"/cube_"+str(cube_id)+"_"+str(i_vid)+
+                            "_spectra.pdf")
+                    plt.close("all")
      
                     # plotting initial spectra
                     sax1.plot(x_data, y_data, lw=1.5, c="#000000")         
