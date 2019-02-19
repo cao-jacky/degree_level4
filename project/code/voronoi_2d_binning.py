@@ -67,7 +67,8 @@ def data_file_creator(cube_id):
         cube_data = np.load(cube_data)
         pass 
  
-    cube_data_noise = np.std(cube_data[40:50,:])
+    cube_data_noise = np.std(cube_data[40:50,:]) # pixel noise from a non-data region
+    cube_data = cube_data * segmentation_data # apply segmentation mask to data
 
     # array which has rows equal to x*y and four columns 
     cd_unpack = np.zeros((np.shape(cube_data)[0]*np.shape(cube_data)[1],4))
@@ -139,7 +140,7 @@ def voronoi_binning(cube_id):
     signal = np.abs(np.nan_to_num(cd[:,2]))
     noise = cd[:,3] 
 
-    targetSN = 60
+    targetSN = 40
 
     # Perform the actual computation. The vectors
     # (binNum, xNode, yNode, xBar, yBar, sn, nPixels, scale)
