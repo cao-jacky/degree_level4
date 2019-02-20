@@ -95,6 +95,13 @@ def voronoi_plotter(cube_id):
 
             curr_row += 1
 
+    # rotate the maps and save them as a numpy array instead of during imshow plotting
+    ppxf_vel_data = np.fliplr(np.rot90(ppxf_vel_data,3))
+    ppxf_sigma_data = np.fliplr(np.rot90(ppxf_sigma_data,3))
+
+    lmfit_vel_data = np.fliplr(np.rot90(lmfit_vel_data,3))
+    lmfit_sigma_data = np.fliplr(np.rot90(lmfit_sigma_data,3))
+
     ppxf_vel_unique = np.unique(ppxf_vel_data)
     ppxf_vel_data[ppxf_vel_data == 0] = np.nan
 
@@ -112,13 +119,13 @@ def voronoi_plotter(cube_id):
             str(int(cube_id))+"_segmentation.npy")
 
     f, (ax1, ax2) = plt.subplots(1,2)
-    fax1 = ax1.imshow(np.fliplr(np.rot90(ppxf_vel_data,3))*seg_map, cmap='jet', 
+    fax1 = ax1.imshow(ppxf_vel_data*seg_map, cmap='jet', 
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
     ax1.tick_params(labelsize=13)
     ax1.set_title(r'\textbf{Velocity Map}', fontsize=13)
     f.colorbar(fax1, ax=ax1)
 
-    fax2 = ax2.imshow(np.fliplr(np.rot90(ppxf_sigma_data,3))*seg_map, cmap='jet',
+    fax2 = ax2.imshow(ppxf_sigma_data*seg_map, cmap='jet',
             vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1])
     ax2.tick_params(labelsize=13)
     ax2.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=13)
@@ -129,13 +136,13 @@ def voronoi_plotter(cube_id):
             +"_ppxf_maps.pdf")
 
     g, (ax3, ax4) = plt.subplots(1,2)
-    gax3 = ax3.imshow(np.fliplr(np.rot90(lmfit_vel_data,3))*seg_map, cmap='jet', 
+    gax3 = ax3.imshow(lmfit_vel_data*seg_map, cmap='jet', 
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
     ax3.tick_params(labelsize=13)
     ax3.set_title(r'\textbf{Velocity Map}', fontsize=13)
     g.colorbar(gax3, ax=ax3)
 
-    gax4 = ax4.imshow(np.fliplr(np.rot90(lmfit_sigma_data,3))*seg_map, cmap='jet',
+    gax4 = ax4.imshow(lmfit_sigma_data*seg_map, cmap='jet',
             vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1])
     ax4.tick_params(labelsize=13)
     ax4.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=13)
@@ -405,6 +412,15 @@ def voronoi_runner():
         # saving cube_lmfit_results into cube_results folder
         np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
                 "_voronoi_lmfit_results.npy", cube_lmfit_results)
+
+def galaxy_rotator(cube_id):
+    # load the velocity maps for stars and gas
+
+    # rotate array by an angle
+
+    # save the rotated array 
+
+    # create an image
 
 if __name__ == '__main__':
     #voronoi_cube_runner()
