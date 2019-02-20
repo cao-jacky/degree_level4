@@ -427,19 +427,10 @@ def galaxy_rotator(cube_id):
     # load the velocity maps for stars and gas
     galaxy_maps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
             str(int(cube_id))+"_maps.npy")
-    maps_list = {0: 'ppxf_velocity', 1: 'ppxf_velocity_dispersion', 
-            2: 'lmfit_velocity', 3: 'lmfit_velocity_dispersion', 4: 'signal_noise'}
-
     seg_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
             str(int(cube_id))+"_segmentation.npy")
-
-    #galaxy_maps = galaxy_maps * seg_map
-
-    # rotate all the maps by an angle
-    rotated_galaxy_maps = ndimage.rotate(galaxy_maps, angle=45, axes=(1,2),
-            mode='nearest', reshape=False)
-
-    print(np.median(galaxy_maps[0]), np.median(rotated_galaxy_maps[0]))
+    maps_list = {0: 'ppxf_velocity', 1: 'ppxf_velocity_dispersion', 
+            2: 'lmfit_velocity', 3: 'lmfit_velocity_dispersion', 4: 'signal_noise'}
 
     # scaling by pPXF maps
     ppxf_vel_data = galaxy_maps[0]
@@ -448,10 +439,20 @@ def galaxy_rotator(cube_id):
     ppxf_vel_unique = np.unique(ppxf_vel_data)
     ppxf_sigma_unique = np.unique(ppxf_sigma_data)
 
-    for i_map in range(np.shape(rotated_galaxy_maps)[0]):
-        curr_map_data = galaxy_maps[i_map]
-        curr_map_data[curr_map_data == 0] = np.nan
+    # rotate all the maps by an angle
+    rotated_galaxy_maps = ndimage.rotate(galaxy_maps, angle=45, axes=(1,2),
+            mode='nearest', reshape=False)
+ 
+    rotated_seg_map = ndimage.rotate(seg_map, angle=45, mode='nearest', reshape=False)
+    rotated_galaxy_maps = rotated_galaxy_maps * rotated_seg_map
 
+    # changing all 0 values to nan
+    rotated_galaxy_maps[np.where(rotated_galaxy_maps == 0)] = np.nan
+
+    
+    for i_map in range(np.shape(rotated_galaxy_maps)[0]):
+        curr_map_data = rotated_galaxy_maps[i_map]
+       
         f, (ax) = plt.subplots(1,1)
 
         if i_map in np.array([0,2]):
