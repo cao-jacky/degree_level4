@@ -44,63 +44,59 @@ def voronoi_plotter(cube_id):
                 "_curr_voronoi_sn_results.npy") # signal to noise data
 
     oc_data = np.load("data/cubes_better/cube_"+str(int(cube_id))+".npy")  
-
-    # changing the shape of the data
-    binned_data = np.zeros([np.shape(oc_data)[1],np.shape(oc_data)[0]])
-
-    ppxf_sigma_data = np.copy(binned_data) # producing a copy for pPXF sigma data
-    ppxf_vel_data = np.copy(binned_data) # copying for pPXF velocity data
-
-    lmfit_sigma_data = np.copy(binned_data)
-    lmfit_vel_data = np.copy(binned_data)
-
-    curr_sn_data = np.copy(binned_data)
-
+    
+    # Array to store various maps 
+    # [0] : pPXF stellar velocity map
+    # [1] : pPXF stellar velocity dispersion map
+    # [2] : lmfit gas velocity map
+    # [3] : lmfit gas velocity dispersion map
+    # [4] : S/N map
+    binned_data = np.zeros([5, np.shape(oc_data)[1],np.shape(oc_data)[0]])
+   
     # obtaining redshift from integrated galaxy lmfit data
     lmfit_fitting = spectra_data.lmfit_data(cube_id)
     z = lmfit_fitting['z']
 
+    # calculating velocity of galaxy based on redshift from integrated spectrum
     c = 299792.458 # speed of light in kms^-1
-    vel_gal = c*np.log(1+z)
+    vel_gal = c*np.log(1+z) # galaxy velocity
 
     curr_row = 0 
     for i_x in range(np.shape(oc_data)[0]):
         for i_y in range(np.shape(oc_data)[1]):
             vb_id = vb_data[curr_row][2]
-            binned_data[i_y][i_x] = vb_id
+            #binned_data[i_y][i_x] = vb_id
 
+            # pPXF variables
             ppxf_loc = np.where(ppxf_data[:,1] == vb_id)[0]
             ppxf_vars = ppxf_data[ppxf_loc][0]
             
-            ppxf_curr_vel = ppxf_vars[2]
-            ppxf_curr_sigma = ppxf_vars[3]
+            binned_data[0][i_y][i_x] = ppxf_vars[2] - vel_gal # rest velocity
+            binned_data[1][i_y][i_x] = ppxf_vars[3] # velocity dispersion 
 
-            ppxf_vel_data[i_y][i_x] = ppxf_curr_vel - vel_gal
-            ppxf_sigma_data[i_y][i_x] = ppxf_curr_sigma 
-
+            # lmfit variables
             lmfit_loc = np.where(lmfit_data[:,1] == vb_id)[0]
             lmfit_vars = lmfit_data[lmfit_loc][0]
             
-            lmfit_curr_vel = lmfit_vars[2]
-            lmfit_curr_sigma = lmfit_vars[3]
+            binned_data[2][i_y][i_x] = lmfit_vars[2] - vel_gal # rest velocity
+            binned_data[3][i_y][i_x] = lmfit_vars[3] # velocity dispersion
 
-            lmfit_vel_data[i_y][i_x] = lmfit_curr_vel - vel_gal
-            lmfit_sigma_data[i_y][i_x] = lmfit_curr_sigma      
-
+            # S/N variable
             sn_loc = np.where(sn_data[:,1] == vb_id)[0]
             sn_vars = sn_data[sn_loc][0]
-            curr_sn = sn_vars[2]
 
-            curr_sn_data[i_y][i_x] = curr_sn
+            binned_data[4][i_y][i_x] = sn_vars[2] # current signal-to-noise
 
             curr_row += 1
 
     # rotate the maps and save them as a numpy array instead of during imshow plotting
-    ppxf_vel_data = np.fliplr(np.rot90(ppxf_vel_data,3))
-    ppxf_sigma_data = np.fliplr(np.rot90(ppxf_sigma_data,3))
+    ppxf_vel_data = np.fliplr(np.rot90(binned_data[0],3))
+    ppxf_sigma_data = np.fliplr(np.rot90(binned_data[1],3))
 
-    lmfit_vel_data = np.fliplr(np.rot90(lmfit_vel_data,3))
-    lmfit_sigma_data = np.fliplr(np.rot90(lmfit_sigma_data,3))
+    lmfit_vel_data = np.fliplr(np.rot90(binned_data[2],3))
+    lmfit_sigma_data = np.fliplr(np.rot90(binned_data[3],3))
+
+    curr_sn_data = np.fliplr(np.rot90(binned_data[4],3))
 
     ppxf_vel_unique = np.unique(ppxf_vel_data)
     ppxf_vel_data[ppxf_vel_data == 0] = np.nan
@@ -153,7 +149,7 @@ def voronoi_plotter(cube_id):
             +"_lmfit_maps.pdf")
 
     h, (ax5) = plt.subplots(1,1)
-    hax5 = ax5.imshow(np.fliplr(np.rot90(curr_sn_data,3))*seg_map, cmap='jet', 
+    hax5 = ax5.imshow(curr_sn_data*seg_map, cmap='jet', 
             vmin=np.min(sn_data[:,2]), vmax=np.max(sn_data[:,2]))
     ax5.tick_params(labelsize=13)
     ax5.set_title(r'\textbf{S/N Map}', fontsize=13)
@@ -421,8 +417,9 @@ def galaxy_rotator(cube_id):
     # save the rotated array 
 
     # create an image
+    pass
 
 if __name__ == '__main__':
     #voronoi_cube_runner()
-    voronoi_runner()
+    #voronoi_runner()
     voronoi_plotter(1804)
