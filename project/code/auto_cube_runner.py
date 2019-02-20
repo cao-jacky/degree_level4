@@ -457,16 +457,14 @@ def galaxy_rotator(cube_id):
         if i_map in np.array([0,2]):
             fax = ax.imshow(curr_map_data, cmap='jet', 
                     vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
-            f.colorbar(fax, ax=ax)
         if i_map in np.array([1,3]):
             fax = ax.imshow(curr_map_data, cmap='jet', 
                     vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1]) 
-            f.colorbar(fax, ax=ax)
-        else:
+        if i_map > 3:
             fax = ax.imshow(curr_map_data, cmap='jet')
-            f.colorbar(fax, ax=ax)
 
         ax.tick_params(labelsize=13)
+        f.colorbar(fax, ax=ax)
 
         f.tight_layout()
 
