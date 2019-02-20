@@ -90,13 +90,17 @@ def voronoi_plotter(cube_id):
             curr_row += 1
 
     # rotate the maps and save them as a numpy array instead of during imshow plotting
-    ppxf_vel_data = np.fliplr(np.rot90(binned_data[0],3))
-    ppxf_sigma_data = np.fliplr(np.rot90(binned_data[1],3))
+    binned_data = np.fliplr(np.rot90(binned_data, 1, (1,2)))
+    np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
+            "_maps.npy", binned_data)
 
-    lmfit_vel_data = np.fliplr(np.rot90(binned_data[2],3))
-    lmfit_sigma_data = np.fliplr(np.rot90(binned_data[3],3))
+    ppxf_vel_data = binned_data[0]
+    ppxf_sigma_data = binned_data[1]
 
-    curr_sn_data = np.fliplr(np.rot90(binned_data[4],3))
+    lmfit_vel_data = binned_data[2]
+    lmfit_sigma_data = binned_data[3]
+
+    curr_sn_data = binned_data[4]
 
     ppxf_vel_unique = np.unique(ppxf_vel_data)
     ppxf_vel_data[ppxf_vel_data == 0] = np.nan
@@ -411,6 +415,9 @@ def voronoi_runner():
 
 def galaxy_rotator(cube_id):
     # load the velocity maps for stars and gas
+    galaxy_maps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+            str(int(cube_id))+"_maps.npy")
+    print(np.shape(galaxy_maps))
 
     # rotate array by an angle
 
@@ -422,4 +429,6 @@ def galaxy_rotator(cube_id):
 if __name__ == '__main__':
     #voronoi_cube_runner()
     #voronoi_runner()
-    voronoi_plotter(1804)
+    #voronoi_plotter(1804)
+
+    galaxy_rotator(1804)
