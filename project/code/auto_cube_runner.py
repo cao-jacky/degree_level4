@@ -75,18 +75,22 @@ def voronoi_plotter(cube_id):
     # adding 1 to ignore the "0" bins which is area out of segmentation map
     vb_data[:,2] = vb_data[:,2] + 1
 
+    print(lmfit_data)
+
     curr_row = 0 
     for i_x in range(np.shape(oc_data)[0]):
         for i_y in range(np.shape(oc_data)[1]):
             vb_id = vb_data[curr_row][2]
             #binned_data[i_y][i_x] = vb_id
 
-            # pPXF variables
+            # pPXF variables and errors
             ppxf_loc = np.where(ppxf_data[:,1] == vb_id)[0]
             ppxf_vars = ppxf_data[ppxf_loc][0]
             
             binned_data[0][i_y][i_x] = ppxf_vars[2] - cen_pix_vel_ppxf # rest velocity
             binned_data[1][i_y][i_x] = ppxf_vars[3] # velocity dispersion
+
+            binned_data[5][i_y][i_x] = ppxf_vars[4] # vel error
 
             # lmfit variables
             lmfit_loc = np.where(lmfit_data[:,1] == vb_id)[0]
@@ -94,6 +98,8 @@ def voronoi_plotter(cube_id):
             
             binned_data[2][i_y][i_x] = lmfit_vars[2] - cen_pix_vel_lmfit # rest vel 
             binned_data[3][i_y][i_x] = lmfit_vars[3] # velocity dispersion
+
+            binned_data[6][i_y][i_x] = lmfit_vars[4] # vel error
 
             # S/N variable
             sn_loc = np.where(sn_data[:,1] == vb_id)[0]
@@ -414,7 +420,7 @@ def voronoi_runner():
                 cube_lmfit_results[i_vid][1] = int(i_vid)
                 cube_lmfit_results[i_vid][2] = lmfit_vel
                 cube_lmfit_results[i_vid][3] = lmfit_sigma             
-                cube_lmfit_results[i_vid][3] = lmfit_vel_err  
+                cube_lmfit_results[i_vid][4] = lmfit_vel_err  
 
                 print(ppxf_vel_err, lmfit_vel_err)
            
@@ -454,7 +460,8 @@ def rotation_curves(cube_id):
     seg_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
             str(int(cube_id))+"_segmentation.npy")
     maps_list = {0: 'ppxf_velocity', 1: 'ppxf_velocity_dispersion', 
-            2: 'lmfit_velocity', 3: 'lmfit_velocity_dispersion', 4: 'signal_noise'}
+            2: 'lmfit_velocity', 3: 'lmfit_velocity_dispersion', 4: 'signal_noise',
+            5: 'ppxf_vel_error', 6: 'lmfit_vel_error'}
 
     # scaling by pPXF maps
     ppxf_vel_data = galaxy_maps[0]
@@ -595,7 +602,7 @@ def rotation_curves(cube_id):
  
 if __name__ == '__main__':
     #voronoi_cube_runner()
-    voronoi_runner()
+    #voronoi_runner()
     voronoi_plotter(1804)
 
     rotation_curves(1804)
