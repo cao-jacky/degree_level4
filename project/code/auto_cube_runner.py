@@ -9,10 +9,6 @@ import spectra_data
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
-
-from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
-from mpl_toolkits.axes_grid1.colorbar import colorbar
-
 from lmfit import Parameters, Model
 
 from scipy import ndimage
@@ -74,8 +70,6 @@ def voronoi_plotter(cube_id):
 
     # adding 1 to ignore the "0" bins which is area out of segmentation map
     vb_data[:,2] = vb_data[:,2] + 1
-
-    print(lmfit_data)
 
     curr_row = 0 
     for i_x in range(np.shape(oc_data)[0]):
@@ -493,9 +487,11 @@ def rotation_curves(cube_id):
     rot_labels = {0: 'Stars', 2: 'Gas'}
     rot_c = {0: '#03a9f4', 2: '#f44336'}
 
-    # array to store x-scale, pPXF vel, lmfit vel
-    sliced_vel = np.zeros([3, np.shape(rotated_galaxy_maps)[1]])
+    # array to store x-scale, pPXF vel, lmfit vel, pPXF vel err, lmfit vel err
+    sliced_vel = np.zeros([5, np.shape(rotated_galaxy_maps)[1]])
     muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
+
+    ppxf_mask = []
 
     # creating image for each map
     for i_map in range(np.shape(rotated_galaxy_maps)[0]):
@@ -515,10 +511,21 @@ def rotation_curves(cube_id):
             map_slice = curr_map_data[c_y-1:c_y+2,:]
             map_median = np.nanmedian(map_slice, axis=0)
 
+            ppxf_vel_err_slice = np.nanmedian(rotated_galaxy_maps[5][c_y-1:c_y+2,:],
+                    axis=0)
+            lmfit_vel_err_slice = np.nanmedian(rotated_galaxy_maps[6][c_y-1:c_y+2,:],
+                    axis=0)
+
+            sliced_vel[3] = ppxf_vel_err_slice
+            sliced_vel[4] = lmfit_vel_err_slice
+
             if i_map == 0:
                 sliced_vel[1] = map_median
+                yerr = ppxf_vel_err_slice
+                ppxf_mask = (np.where(yerr < np.nanmedian(yerr)*1.30))
             else:
                 sliced_vel[2] = map_median
+                yerr = lmfit_vel_err_slice 
 
             # array which defines the x-scale 
             x_scale = np.arange(0, map_shape[0], 1.0) 
@@ -526,10 +533,12 @@ def rotation_curves(cube_id):
 
             x_scale = x_scale - c_x # setting central pixel as radius 0
             x_scale = x_scale * muse_scale # converting to MUSE scale
- 
-            ax1.scatter(x_scale, map_median, s=20, c=rot_c[i_map],
-                    label=rot_labels[i_map])        
-    
+
+            # masking out points with pPXF vel err > 1500km/s 
+
+            ax1.errorbar(x_scale[ppxf_mask], map_median[ppxf_mask], 
+                    yerr=yerr[ppxf_mask], ms=5, fmt='o', c=rot_c[i_map], 
+                    label=rot_labels[i_map], elinewidth=1.0, capsize=5, capthick=1.0)         
             fax = ax.imshow(curr_map_data, cmap='jet', 
                     vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])  
 
@@ -581,10 +590,13 @@ def rotation_curves(cube_id):
     # arcseconds labels
     x_scale = sliced_vel[0] - c_x # setting central pixel as radius 0
     x_scale = sliced_vel[0] * muse_scale # converting to MUSE scale
-
+    
     # pPXF stellar velocity 
-    hax3.scatter(sliced_vel[0], sliced_vel[1], s=20, c=rot_c[0], label=rot_labels[0]) 
-    hax3.scatter(sliced_vel[0], sliced_vel[2], s=20, c=rot_c[2], label=rot_labels[2]) 
+    hax3.errorbar(sliced_vel[0], sliced_vel[1], yerr=sliced_vel[3], ms=5, c=rot_c[0],
+            label=rot_labels[0], elinewidth=1.0, capsize=5, capthick=1.0, fmt='o') 
+    # lmfit stellar velocity
+    hax3.errorbar(sliced_vel[0], sliced_vel[2], yerr=sliced_vel[4], ms=5, c=rot_c[2],
+            label=rot_labels[2], elinewidth=1.0, capsize=5, capthick=1.0, fmt='o') 
 
     #hax3.set_aspect('auto')
 
