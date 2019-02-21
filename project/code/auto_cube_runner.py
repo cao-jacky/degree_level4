@@ -10,6 +10,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
+from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
+from mpl_toolkits.axes_grid1.colorbar import colorbar
+
 from lmfit import Parameters, Model
 
 from scipy import ndimage
@@ -63,6 +66,13 @@ def voronoi_plotter(cube_id):
     c = 299792.458 # speed of light in kms^-1
     vel_gal = c*np.log(1+z) # galaxy velocity
 
+    # velocity of galaxy for the central pixel
+    cen_pix_vel_ppxf = ppxf_data[1][2]
+    cen_pix_vel_lmfit = lmfit_data[1][2]
+
+    # adding 1 to ignore the "0" bins which is area out of segmentation map
+    vb_data[:,2] = vb_data[:,2] + 1
+
     curr_row = 0 
     for i_x in range(np.shape(oc_data)[0]):
         for i_y in range(np.shape(oc_data)[1]):
@@ -73,14 +83,14 @@ def voronoi_plotter(cube_id):
             ppxf_loc = np.where(ppxf_data[:,1] == vb_id)[0]
             ppxf_vars = ppxf_data[ppxf_loc][0]
             
-            binned_data[0][i_y][i_x] = ppxf_vars[2] - vel_gal # rest velocity
-            binned_data[1][i_y][i_x] = ppxf_vars[3] # velocity dispersion 
+            binned_data[0][i_y][i_x] = ppxf_vars[2] - cen_pix_vel_ppxf # rest velocity
+            binned_data[1][i_y][i_x] = ppxf_vars[3] # velocity dispersion
 
             # lmfit variables
             lmfit_loc = np.where(lmfit_data[:,1] == vb_id)[0]
             lmfit_vars = lmfit_data[lmfit_loc][0]
             
-            binned_data[2][i_y][i_x] = lmfit_vars[2] - vel_gal # rest velocity
+            binned_data[2][i_y][i_x] = lmfit_vars[2] - cen_pix_vel_lmfit # rest vel 
             binned_data[3][i_y][i_x] = lmfit_vars[3] # velocity dispersion
 
             # S/N variable
@@ -129,8 +139,8 @@ def voronoi_plotter(cube_id):
     #current_cmap.set_bad(color='black')
 
     f, (ax1, ax2) = plt.subplots(1,2)
-    fax1 = ax1.imshow(ppxf_vel_data, cmap='jet', 
-            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
+    fax1 = ax1.imshow(ppxf_vel_data, cmap='jet')
+            #vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
     ax1.tick_params(labelsize=13)
     ax1.set_title(r'\textbf{Velocity Map}', fontsize=13)
     f.colorbar(fax1, ax=ax1)
@@ -423,7 +433,7 @@ def voronoi_runner():
         np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
                 "_voronoi_lmfit_results.npy", cube_lmfit_results)
 
-def galaxy_rotator(cube_id):
+def rotation_curves(cube_id):
     # load the velocity maps for stars and gas
     galaxy_maps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
             str(int(cube_id))+"_maps.npy")
@@ -439,25 +449,72 @@ def galaxy_rotator(cube_id):
     ppxf_vel_unique = np.unique(ppxf_vel_data)
     ppxf_sigma_unique = np.unique(ppxf_sigma_data)
 
+    rot_angle = 45 # rotation angle
+
     # rotate all the maps by an angle
-    rotated_galaxy_maps = ndimage.rotate(galaxy_maps, angle=45, axes=(1,2),
+    rotated_galaxy_maps = ndimage.rotate(galaxy_maps, angle=rot_angle, axes=(1,2),
             mode='nearest', reshape=False)
  
-    rotated_seg_map = ndimage.rotate(seg_map, angle=45, mode='nearest', reshape=False)
+    rotated_seg_map = ndimage.rotate(seg_map, angle=rot_angle, mode='nearest', 
+            reshape=False)
     rotated_galaxy_maps = rotated_galaxy_maps * rotated_seg_map
 
     # changing all 0 values to nan
     rotated_galaxy_maps[np.where(rotated_galaxy_maps == 0)] = np.nan
 
-    
+    # save the rotated arrays
+    np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+            str(int(cube_id))+"_rotated_maps.npy", rotated_galaxy_maps)
+
+    g, (ax1) = plt.subplots(1,1) # plotting the rotation curves for OII and gas
+
+    # defining colours and labels
+    rot_labels = {0: 'Stars', 2: 'Gas'}
+    rot_c = {0: '#03a9f4', 2: '#f44336'}
+
+    # array to store x-scale, pPXF vel, lmfit vel
+    sliced_vel = np.zeros([3, np.shape(rotated_galaxy_maps)[1]])
+
+    # creating image for each map
     for i_map in range(np.shape(rotated_galaxy_maps)[0]):
         curr_map_data = rotated_galaxy_maps[i_map]
-       
-        f, (ax) = plt.subplots(1,1)
+        map_string = maps_list[i_map]
 
+        # finding central pixel
+        map_shape = np.shape(curr_map_data)
+        c_x = int(map_shape[0]/2)-1
+        c_y = int(map_shape[1]/2)-1
+      
+        f, (ax) = plt.subplots(1,1) # converting the maps into a viewable pdf   
+
+        # velocity maps
         if i_map in np.array([0,2]):
+            # select out a horizontal strip based on central pixel
+            map_slice = curr_map_data[c_y-1:c_y+2,:]
+            map_median = np.nanmedian(map_slice, axis=0)
+
+            # array which defines the x-scale 
+            x_scale = np.arange(0, map_shape[0], 1.0) 
+            sliced_vel[0] = x_scale
+
+            # setting central pixel as radius 0
+            x_scale = x_scale - c_x
+            
+            if i_map == 0:
+                sliced_vel[1] = map_median
+            else:
+                sliced_vel[2] = map_median
+
+            muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
+            x_scale = x_scale * muse_scale # converting to MUSE scale
+ 
+            ax1.scatter(x_scale, map_median, s=20, c=rot_c[i_map],
+                    label=rot_labels[i_map])        
+    
             fax = ax.imshow(curr_map_data, cmap='jet', 
-                    vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
+                    vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])  
+
+        # velocity dispersion maps
         if i_map in np.array([1,3]):
             fax = ax.imshow(curr_map_data, cmap='jet', 
                     vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1]) 
@@ -466,22 +523,52 @@ def galaxy_rotator(cube_id):
 
         ax.tick_params(labelsize=13)
         f.colorbar(fax, ax=ax)
-
         f.tight_layout()
-
-        map_string = maps_list[i_map]
         f.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+"_rotated_"
-                +map_string+".pdf")
+                +map_string+".pdf") 
+
         plt.close("all")
 
-    # save the rotated array 
+    ax1.tick_params(labelsize=20)
+    ax1.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
+    ax1.set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=20)   
+    ax1.legend(loc='upper right', prop={'size': 17})
+    g.tight_layout()
+    g.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+            "_rotation_curves.pdf")
 
-    # create an image
-    pass
+    plt.close("all")
 
+    # plotting the velocity curves underneath the velocity maps
+    h, (hax1, hax2, hax3) = plt.subplots(3, 1, sharex=True) 
+    
+    # Stellar velocity map from pPXF
+    hax = hax1.imshow(rotated_galaxy_maps[0], cmap='jet', 
+            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1]) 
+    # Stellar velocity map from lmfit
+    hax2.imshow(rotated_galaxy_maps[2], cmap='jet', 
+            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1]) 
+
+    # pPXF stellar velocity 
+    hax3.scatter(sliced_vel[0], sliced_vel[1], s=20, c=rot_c[0], label=rot_labels[0]) 
+    hax3.scatter(sliced_vel[0], sliced_vel[2], s=20, c=rot_c[2], label=rot_labels[2]) 
+
+    #hax1.tick_params(labelsize=13)
+    #hax_divider = make_axes_locatable(hax1)
+    #chax1 = hax_divider.append_axes("top", size="7%", pad="2%")
+    #cb = colorbar(hax, ax=chax1, orientation="horizontal")
+    #chax1.xaxis.set_ticks_position("top")
+
+    #h.colorbar(hax, ax=[hax1, hax2])
+    h.tight_layout()
+    h.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+"_velocity.pdf") 
+    plt.close("all")
+
+
+    
 if __name__ == '__main__':
     #voronoi_cube_runner()
     #voronoi_runner()
     #voronoi_plotter(1804)
 
-    galaxy_rotator(1804)
+    rotation_curves(1804)
