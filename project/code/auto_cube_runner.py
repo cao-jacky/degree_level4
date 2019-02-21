@@ -56,7 +56,9 @@ def voronoi_plotter(cube_id):
     # [2] : lmfit gas velocity map
     # [3] : lmfit gas velocity dispersion map
     # [4] : S/N map
-    binned_data = np.zeros([5, np.shape(oc_data)[1],np.shape(oc_data)[0]])
+    # [5] : pPXF velocity errors map
+    # [6] : lmfit velocity errors map
+    binned_data = np.zeros([7, np.shape(oc_data)[1],np.shape(oc_data)[0]])
    
     # obtaining redshift from integrated galaxy lmfit data
     lmfit_fitting = spectra_data.lmfit_data(cube_id)
@@ -139,8 +141,8 @@ def voronoi_plotter(cube_id):
     #current_cmap.set_bad(color='black')
 
     f, (ax1, ax2) = plt.subplots(1,2)
-    fax1 = ax1.imshow(ppxf_vel_data, cmap='jet')
-            #vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
+    fax1 = ax1.imshow(ppxf_vel_data, cmap='jet',
+            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
     ax1.tick_params(labelsize=13)
     ax1.set_title(r'\textbf{Velocity Map}', fontsize=13)
     f.colorbar(fax1, ax=ax1)
@@ -157,7 +159,7 @@ def voronoi_plotter(cube_id):
 
     g, (ax3, ax4) = plt.subplots(1,2)
     gax3 = ax3.imshow(lmfit_vel_data, cmap='jet', 
-            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
+            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
     ax3.tick_params(labelsize=13)
     ax3.set_title(r'\textbf{Velocity Map}', fontsize=13)
     g.colorbar(gax3, ax=ax3)
@@ -233,11 +235,11 @@ def voronoi_runner():
         # Array which stores cube_id, VorID, S/N for region
         cube_sn_results = np.zeros([len(voronoi_unique),3])
 
-        # Array which stores cube_id, VorID, pPXF vel, and pPXF sigma
-        cube_ppxf_results = np.zeros([len(voronoi_unique),4])
+        # Array which stores cube_id, VorID, pPXF vel, pPXF sigma, vel err
+        cube_ppxf_results = np.zeros([len(voronoi_unique),5])
 
         # Array which stores cube_id, VorID, lmfit vel, and lmfit sigma (converted)
-        cube_lmfit_results = np.zeros([len(voronoi_unique),4])
+        cube_lmfit_results = np.zeros([len(voronoi_unique),5])
 
         # Applying the segmentation map to the Voronoi map
         # I want to work with the converted map 
@@ -296,7 +298,6 @@ def voronoi_runner():
                 noise = np.std(masked_spec) 
 
                 signal_noise = np.abs(np.average(signal/noise))
-                print(np.median(signal), noise, signal_noise)
 
                 cube_sn_results[i_vid][0] = int(cube_id)
                 cube_sn_results[i_vid][1] = int(i_vid)
@@ -313,10 +314,15 @@ def voronoi_runner():
                     ppxf_run = ppxf_fitter_kinematics_sdss.kinematics_sdss(cube_id, 
                             spectra, "all")
                     plt.close("all")
-                    ppxf_vars = ppxf_run['variables']
 
+                    # variables from pPXF
+                    ppxf_vars = ppxf_run['variables']
                     ppxf_vel = ppxf_vars[0]
                     ppxf_sigma = ppxf_vars[1]
+
+                    # errors from pPXF
+                    ppxf_errs = ppxf_run['errors']
+                    ppxf_vel_err = ppxf_errs[0]
 
                     # use the returned data from pPXF to plot the spectra
                     x_data = ppxf_run['x_data']
@@ -356,6 +362,7 @@ def voronoi_runner():
                 cube_ppxf_results[i_vid][1] = int(i_vid)
                 cube_ppxf_results[i_vid][2] = ppxf_vel
                 cube_ppxf_results[i_vid][3] = ppxf_sigma
+                cube_ppxf_results[i_vid][4] = ppxf_vel_err
 
                 np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
                     "_curr_voronoi_ppxf_results.npy", cube_ppxf_results)
@@ -394,15 +401,22 @@ def voronoi_runner():
                 best_sigma = best_result['sigma_gal']
 
                 c = 299792.458 # speed of light in kms^-1
-                lmfit_vel = c*np.log(1+best_z)
 
+                lmfit_vel = c*np.log(1+best_z)
                 lmfit_sigma = (best_sigma / (3727*(1+best_z))) * c
-                
+
+                lmfit_errors = dbt_result.params
+                z_err = lmfit_errors['z'].stderr
+                lmfit_vel_err = c*np.log(1+z_err)
+                 
                 # indexing data into lmfit array
                 cube_lmfit_results[i_vid][0] = int(cube_id)
                 cube_lmfit_results[i_vid][1] = int(i_vid)
                 cube_lmfit_results[i_vid][2] = lmfit_vel
                 cube_lmfit_results[i_vid][3] = lmfit_sigma             
+                cube_lmfit_results[i_vid][3] = lmfit_vel_err  
+
+                print(ppxf_vel_err, lmfit_vel_err)
            
         sax1.tick_params(labelsize=20)
         sax1.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
@@ -449,7 +463,7 @@ def rotation_curves(cube_id):
     ppxf_vel_unique = np.unique(ppxf_vel_data)
     ppxf_sigma_unique = np.unique(ppxf_sigma_data)
 
-    rot_angle = 45 # rotation angle
+    rot_angle = 270 # rotation angle
 
     # rotate all the maps by an angle
     rotated_galaxy_maps = ndimage.rotate(galaxy_maps, angle=rot_angle, axes=(1,2),
@@ -510,7 +524,14 @@ def rotation_curves(cube_id):
                     label=rot_labels[i_map])        
     
             fax = ax.imshow(curr_map_data, cmap='jet', 
-                    vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])  
+                    vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])  
+
+            # overlaying area which has been considered
+            overlay_slice = curr_map_data * rotated_seg_map
+            overlay_slice[np.where(overlay_slice != 1.0)] = np.nan
+            overlay_slice[c_y-1:c_y+2,:] = 2.0
+
+            ax.imshow(overlay_slice, cmap='gray', alpha=0.5)
 
         # velocity dispersion maps
         if i_map in np.array([1,3]):
@@ -542,12 +563,12 @@ def rotation_curves(cube_id):
     
     # Stellar velocity map from pPXF
     hax = hax1.imshow(rotated_galaxy_maps[0], cmap='jet', aspect="auto",
-            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1]) 
+            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2]) 
     hax1.set_ylabel(r'\textbf{Stellar}', fontsize=20)
 
     # Stellar velocity map from lmfit
     hax2.imshow(rotated_galaxy_maps[2], cmap='jet', aspect="auto", 
-            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
+            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
     hax2.set_ylabel(r'\textbf{Gas}', fontsize=20)
 
     # arcseconds labels
@@ -571,12 +592,10 @@ def rotation_curves(cube_id):
     h.tight_layout()
     h.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+"_velocity.pdf") 
     plt.close("all")
-
-
-    
+ 
 if __name__ == '__main__':
     #voronoi_cube_runner()
-    #voronoi_runner()
-    #voronoi_plotter(1804)
+    voronoi_runner()
+    voronoi_plotter(1804)
 
     rotation_curves(1804)

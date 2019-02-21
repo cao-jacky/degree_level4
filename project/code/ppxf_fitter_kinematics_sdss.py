@@ -350,7 +350,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
             degree=12, vsyst=dv, clean=True, lam=lam_gal) 
 
     ppxf_variables = pp.sol
-    ppxf_errors = pp.error
+    ppxf_errors = pp.error*np.sqrt(pp.chi2)
  
     red_chi2 = pp.chi2
     best_fit = pp.bestfit
@@ -359,6 +359,7 @@ def kinematics_sdss(cube_id, y_data_var, fit_range):
     y_data = cube_y_data[mask]
 
     print(ppxf_variables)
+    print(ppxf_errors)
     #plt.show()
     
     if ((np.sum(y_data_var) == 0) and isinstance(fit_range, str)):
