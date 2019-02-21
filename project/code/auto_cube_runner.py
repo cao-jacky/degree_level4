@@ -474,6 +474,7 @@ def rotation_curves(cube_id):
 
     # array to store x-scale, pPXF vel, lmfit vel
     sliced_vel = np.zeros([3, np.shape(rotated_galaxy_maps)[1]])
+    muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
 
     # creating image for each map
     for i_map in range(np.shape(rotated_galaxy_maps)[0]):
@@ -493,19 +494,16 @@ def rotation_curves(cube_id):
             map_slice = curr_map_data[c_y-1:c_y+2,:]
             map_median = np.nanmedian(map_slice, axis=0)
 
-            # array which defines the x-scale 
-            x_scale = np.arange(0, map_shape[0], 1.0) 
-            sliced_vel[0] = x_scale
-
-            # setting central pixel as radius 0
-            x_scale = x_scale - c_x
-            
             if i_map == 0:
                 sliced_vel[1] = map_median
             else:
                 sliced_vel[2] = map_median
 
-            muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
+            # array which defines the x-scale 
+            x_scale = np.arange(0, map_shape[0], 1.0) 
+            sliced_vel[0] = x_scale
+
+            x_scale = x_scale - c_x # setting central pixel as radius 0
             x_scale = x_scale * muse_scale # converting to MUSE scale
  
             ax1.scatter(x_scale, map_median, s=20, c=rot_c[i_map],
@@ -540,24 +538,34 @@ def rotation_curves(cube_id):
     plt.close("all")
 
     # plotting the velocity curves underneath the velocity maps
-    h, (hax1, hax2, hax3) = plt.subplots(3, 1, sharex=True) 
+    h, (hax1, hax2, hax3) = plt.subplots(3, 1, sharex=True, figsize=(4, 8)) 
     
     # Stellar velocity map from pPXF
-    hax = hax1.imshow(rotated_galaxy_maps[0], cmap='jet', 
+    hax = hax1.imshow(rotated_galaxy_maps[0], cmap='jet', aspect="auto",
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1]) 
+    hax1.set_ylabel(r'\textbf{Stellar}', fontsize=20)
+
     # Stellar velocity map from lmfit
-    hax2.imshow(rotated_galaxy_maps[2], cmap='jet', 
-            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1]) 
+    hax2.imshow(rotated_galaxy_maps[2], cmap='jet', aspect="auto", 
+            vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-1])
+    hax2.set_ylabel(r'\textbf{Gas}', fontsize=20)
+
+    # arcseconds labels
+    x_scale = sliced_vel[0] - c_x # setting central pixel as radius 0
+    x_scale = sliced_vel[0] * muse_scale # converting to MUSE scale
 
     # pPXF stellar velocity 
     hax3.scatter(sliced_vel[0], sliced_vel[1], s=20, c=rot_c[0], label=rot_labels[0]) 
     hax3.scatter(sliced_vel[0], sliced_vel[2], s=20, c=rot_c[2], label=rot_labels[2]) 
 
-    #hax1.tick_params(labelsize=13)
-    #hax_divider = make_axes_locatable(hax1)
-    #chax1 = hax_divider.append_axes("top", size="7%", pad="2%")
-    #cb = colorbar(hax, ax=chax1, orientation="horizontal")
-    #chax1.xaxis.set_ticks_position("top")
+    #hax3.set_aspect('auto')
+
+    #hax3.set_xticklabels(sliced_vel[0], x_scale)
+
+    hax3.tick_params(labelsize=20)
+    hax3.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
+    hax3.set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=20) 
+    hax3.legend(loc='lower left', prop={'size': 15})
 
     #h.colorbar(hax, ax=[hax1, hax2])
     h.tight_layout()
