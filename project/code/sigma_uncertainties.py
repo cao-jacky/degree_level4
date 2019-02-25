@@ -324,7 +324,7 @@ def ppxf_graphs():
 
         plt.figure()
         for i in range(len(data[:])):
-            plt.scatter(data[i][:,3], data[i][:,2], c=colours[i], s=10, alpha=0.2)
+            plt.scatter(data[i][:,3], data[i][:,2], c=colours[i], s=15, alpha=0.2)
 
         # Running median for data
         Y_sn = data[:,:,2]
@@ -334,7 +334,7 @@ def ppxf_graphs():
         xd = bins-delta/2
 
         #plt.plot(xd, rm3, c="#000000", lw=1.5, alpha=0.7)
-        plt.scatter(xd, rm3, c="#000000", s=10, alpha=0.7)
+        plt.scatter(xd, rm3, c="#000000", s=15, alpha=0.7)
 
         # Fitting an a/x line to the data 
         curve_params = Parameters()
@@ -347,7 +347,7 @@ def ppxf_graphs():
         curve_bf = curve_result.best_fit
         curve_bp = curve_result.best_values
 
-        np.save("uncert_ppxf/curve_best_values_ppxf", np.array([curve_bp['a']]))        
+        np.save("uncert_ppxf/sigma_curve_best_values_ppxf", np.array([curve_bp['a']]))        
         plt.plot(xd[idx], curve_bf, c="#d32f2f", lw=2, alpha=1.0)
         
         plt.ylim([10**(-1.1),5])
@@ -357,7 +357,7 @@ def ppxf_graphs():
         plt.ylabel(r'\textbf{${|\Delta \sigma|}/{\sigma_{best}}$}', fontsize=20)
 
         plt.tight_layout()
-        plt.savefig("uncert_ppxf/frac_error_vs_sn.pdf")
+        plt.savefig("uncert_ppxf/sigma_frac_error_vs_sn.pdf")
         plt.close("all")
 
     sn_vs_delta_sigma_sigma()
@@ -368,7 +368,7 @@ def ppxf_graphs():
     personal_scripts.notifications("ppxf_plots","Reprocessed plots have been plotted!")
 
 def lmfit_uncertainty(cubes, runs):
-    data = np.zeros([len(cubes), runs, 5]) 
+    data = np.zeros([len(cubes), runs, 7]) 
 
     # 1st dimension: one array per cube
     # 2nd dimension: same number of rows as runs variable
@@ -378,6 +378,8 @@ def lmfit_uncertainty(cubes, runs):
     #   [2] : (sigma_best - sigma_new) / sigma_best
     #   [3] : new signal to noise value 
     #   [4] : new signal to noise which has been scaled
+    #   [5] : new velocity produced
+    #   [6] : (vel_best - vel_new) / vel_best
 
     # Looping over all of the provided cubes
     for i_cube in range(len(cubes)):
@@ -387,6 +389,9 @@ def lmfit_uncertainty(cubes, runs):
         bd = spectra_data.lmfit_data(cube_id) # best data
         best_sigma = bd['sigma_gal']
         best_z = bd['z']
+
+        c = 299792.458 # speed of light in kms^-1
+        best_vel = c*np.log(1+best_z)
 
         # Load (non-redshifted) wavelength and flux data
         x_data = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
@@ -451,8 +456,13 @@ def lmfit_uncertainty(cubes, runs):
 
             new_best_values = gauss_result.best_values
             new_best_sigma = new_best_values['sigma_gal']
+            new_z = new_best_values['z']
+
+            c = 299792.458 # speed of light in kms^-1
+            new_best_vel = c*np.log(1+new_z)
 
             sigma_ratio = np.abs(best_sigma-new_best_sigma) / best_sigma
+            vel_ratio = np.abs(best_vel-new_best_vel) / best_vel
            
             # non-doublet region to calculate noise
             ndr_mask = ((xf_dr > 3500) & (xf_dr < 3700))
@@ -471,9 +481,11 @@ def lmfit_uncertainty(cubes, runs):
 
             data[i_cube][curr_loop][0] = new_signal # new signal
             data[i_cube][curr_loop][1] = new_best_sigma # new doublet sigma
-            data[i_cube][curr_loop][2] = np.abs(sigma_ratio) # new fractional error
+            data[i_cube][curr_loop][2] = np.abs(sigma_ratio) # new fractional error sig
             data[i_cube][curr_loop][3] = new_sn # new S/N 
             data[i_cube][curr_loop][4] = new_sn_scaled # new scaled S/N 
+            data[i_cube][curr_loop][5] = new_best_vel # new velocity
+            data[i_cube][curr_loop][6] = vel_ratio # new fractional error vel 
  
             plt.figure() 
             plt.plot(xf_dr, y_fake, linewidth=0.5, color="#8bc34a")
@@ -516,7 +528,7 @@ def lmfit_graphs():
 
         plt.figure()
         for i in range(len(data[:])):
-            plt.scatter(data[i][:,3], data[i][:,2], c=colours[i], s=10, alpha=0.2)
+            plt.scatter(data[i][:,3], data[i][:,2], c=colours[i], s=15, alpha=0.2)
         
         #plt.scatter(data[3][:,3], data[3][:,2], c="#8e24aa", s=10, alpha=0.2)
 
@@ -527,7 +539,7 @@ def lmfit_graphs():
 
         rm_frac_error = np.array(running_median)        
         sn_data = (bins-delta/2)
-        plt.scatter(sn_data, rm_frac_error, c="#000000", s=10, alpha=0.7)
+        plt.scatter(sn_data, rm_frac_error, c="#000000", s=15, alpha=0.7)
 
         # Fitting an a/x line to the data 
         curve_params = Parameters()
@@ -540,7 +552,8 @@ def lmfit_graphs():
     
         curve_bf = curve_result.best_fit
         curve_bp = curve_result.best_values
-        np.save("uncert_lmfit/curve_best_values_lmfit", np.array([curve_bp['a']]))
+        np.save("uncert_lmfit/sigma_curve_best_values_lmfit", 
+                np.array([curve_bp['a']]))
 
         gen_xd = np.linspace(0,150, 500)
         gen_yd = curve(gen_xd, curve_bp['a'])
@@ -554,7 +567,7 @@ def lmfit_graphs():
         plt.ylabel(r'\textbf{${|\Delta \sigma|}/{\sigma_{best}}$}', fontsize=20)
 
         plt.tight_layout()
-        plt.savefig("uncert_lmfit/frac_error_vs_sn.pdf")
+        plt.savefig("uncert_lmfit/sigma_frac_error_vs_sn.pdf")
         plt.close("all")
 
     frac_error_vs_sn()
