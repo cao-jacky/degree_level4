@@ -54,7 +54,8 @@ def voronoi_plotter(cube_id):
     # [4] : S/N map
     # [5] : pPXF velocity errors map
     # [6] : lmfit velocity errors map
-    binned_data = np.zeros([7, np.shape(oc_data)[1],np.shape(oc_data)[0]])
+    # [7] : Voronoi ID map
+    binned_data = np.zeros([8, np.shape(oc_data)[1],np.shape(oc_data)[0]])
    
     # obtaining redshift from integrated galaxy lmfit data
     lmfit_fitting = spectra_data.lmfit_data(cube_id)
@@ -75,7 +76,7 @@ def voronoi_plotter(cube_id):
     for i_x in range(np.shape(oc_data)[0]):
         for i_y in range(np.shape(oc_data)[1]):
             vb_id = vb_data[curr_row][2]
-            #binned_data[i_y][i_x] = vb_id
+            binned_data[7][i_y][i_x] = vb_id
 
             # pPXF variables and errors
             ppxf_loc = np.where(ppxf_data[:,1] == vb_id)[0]
@@ -455,7 +456,7 @@ def rotation_curves(cube_id):
             str(int(cube_id))+"_segmentation.npy")
     maps_list = {0: 'ppxf_velocity', 1: 'ppxf_velocity_dispersion', 
             2: 'lmfit_velocity', 3: 'lmfit_velocity_dispersion', 4: 'signal_noise',
-            5: 'ppxf_vel_error', 6: 'lmfit_vel_error'}
+            5: 'ppxf_vel_error', 6: 'lmfit_vel_error', 7: 'voronoi_id'}
 
     # scaling by pPXF maps
     ppxf_vel_data = galaxy_maps[0]
@@ -487,8 +488,17 @@ def rotation_curves(cube_id):
     rot_labels = {0: 'Stars', 2: 'Gas'}
     rot_c = {0: '#03a9f4', 2: '#f44336'}
 
-    # array to store x-scale, pPXF vel, lmfit vel, pPXF vel err, lmfit vel err
-    sliced_vel = np.zeros([5, np.shape(rotated_galaxy_maps)[1]])
+    # array to store the following
+    # [0] : x-scale
+    # [1] : pPXF velocity
+    # [2] : lmfit velocity
+    # [3] : pPXF velocity error
+    # [4] : lmfit velocity error
+    # [5] : S/N
+    # [6] : Voronoi ID
+    # [7] : pPXF velocity fractional error
+    # [8] : lmfit velocity fractional error
+    sliced_vel = np.zeros([9, np.shape(rotated_galaxy_maps)[1]])
     muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
 
     ppxf_mask = []
@@ -511,6 +521,7 @@ def rotation_curves(cube_id):
             map_slice = curr_map_data[c_y-1:c_y+2,:]
             map_median = np.nanmedian(map_slice, axis=0)
 
+            # extracting original velocity errors
             ppxf_vel_err_slice = np.nanmedian(rotated_galaxy_maps[5][c_y-1:c_y+2,:],
                     axis=0)
             lmfit_vel_err_slice = np.nanmedian(rotated_galaxy_maps[6][c_y-1:c_y+2,:],
@@ -518,6 +529,12 @@ def rotation_curves(cube_id):
 
             sliced_vel[3] = ppxf_vel_err_slice
             sliced_vel[4] = lmfit_vel_err_slice
+
+            sn_slice = np.nanmedian(rotated_galaxy_maps[4][c_y-1:c_y+2,:], axis=0)
+            sliced_vel[5] = sn_slice
+
+            vid_slice = np.nanmedian(rotated_galaxy_maps[7][c_y-1:c_y+2,:], axis=0)
+            print(vid_slice)
 
             if i_map == 0:
                 sliced_vel[1] = map_median
