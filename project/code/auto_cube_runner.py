@@ -498,8 +498,8 @@ def rotation_curves(cube_id):
     rot_labels = {0: 'Stars', 2: 'Gas', 8: 'Stars', 9: 'Gas'}
     rot_c = {0: '#03a9f4', 2: '#f44336', 8: '#03a9f4', 9: '#f44336'}
 
-    # array to store the following
-    # [0] : x-scale
+    # array to store the following, sliced velocities
+    # [0] : x-scale in units of pixel
     # [1] : pPXF velocity
     # [2] : lmfit velocity
     # [3] : pPXF velocity error
@@ -508,7 +508,10 @@ def rotation_curves(cube_id):
     # [6] : Voronoi ID
     # [7] : pPXF velocity fractional error
     # [8] : lmfit velocity fractional error
-    sliced_vel = np.zeros([9, np.shape(rotated_galaxy_maps)[1]])
+    # [9] : x-scale in units of arcseconds
+    sliced_vel = np.zeros([10, np.shape(rotated_galaxy_maps)[1]]) # original array
+    sliced_vel = np.full_like(sliced_vel, np.nan, dtype=float) # fill with nan vals
+
     muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
 
     ppxf_mask = []
@@ -575,6 +578,8 @@ def rotation_curves(cube_id):
             x_scale = x_scale - c_x # setting central pixel as radius 0
             x_scale = x_scale * muse_scale # converting to MUSE scale
             x_scale = x_scale[unique_locs] # masking out repeated values
+
+            sliced_vel[9][0:len(x_scale)] = x_scale
          
             fax = ax.imshow(curr_map_data, cmap='jet', 
                     vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])  
@@ -619,17 +624,9 @@ def rotation_curves(cube_id):
                 y_values = sliced_vel[2]
                 y_err = sliced_vel[8]
 
-            x_values = sliced_vel[0]
-            x_values = x_values - c_x # setting central pixel as radius 0
-            x_values = x_values * muse_scale # converting to MUSE scale
+            x_values = sliced_vel[9]
 
-            # mask out y_values=0 values
-            y_mask = np.where(y_values != 0)
-            x_values = x_values[y_mask]
-            y_values = y_values[y_mask]
-            y_err = y_err[y_mask]
-
-            ax1.errorbar(x_values, y_values, yerr = y_err, 
+            ax1.errorbar(x_values, y_values, yerr=y_err, 
                     ms=5, fmt='o', c=rot_c[i_map], 
                     label=rot_labels[i_map], elinewidth=1.0, capsize=5, capthick=1.0) 
 
@@ -649,12 +646,35 @@ def rotation_curves(cube_id):
     ax1.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
     ax1.set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=20)   
     ax1.legend(loc='lower right', prop={'size': 17})
+    ax1.set_xlim([-(np.nanmax(x_values)+0.2), (np.nanmax(x_values)+0.2)])
     g.tight_layout()
     g.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
             "_rotation_curves.pdf")
 
     plt.close("all")
 
+    # ------------------------------------------------------------------------------ #
+    # plotting the offset between gas and stellar velocities in a galaxy
+    j, (jax1) = plt.subplots(1,1)
+
+    vel_diff = sliced_vel[2]-sliced_vel[1] # stellar vel - gas vel
+    prop_err = np.sqrt(sliced_vel[7]**2 + sliced_vel[8]**2) # propagated error
+
+    jax1.errorbar(sliced_vel[9], vel_diff, yerr=prop_err, 
+                    ms=5, fmt='o', c="#000000", elinewidth=1.0, capsize=5, 
+                    capthick=1.0) 
+
+    jax1.set_xlim([-(np.nanmax(sliced_vel[9])+0.2), (np.nanmax(sliced_vel[9])+0.2)])
+    jax1.tick_params(labelsize=20)
+    jax1.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
+    jax1.set_ylabel(r'\textbf{V$_{stellar}$-V$_{gas}$ (kms$^{-1}$)}', fontsize=20) 
+    
+    j.tight_layout()
+    j.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+            "_velocity_offsets.pdf")
+    plt.close("all")
+
+    # ------------------------------------------------------------------------------ #
     # plotting the velocity curves underneath the velocity maps
     h, (hax1, hax2, hax3) = plt.subplots(3, 1, sharex=True, figsize=(4, 8)) 
     
@@ -673,10 +693,10 @@ def rotation_curves(cube_id):
     x_scale = sliced_vel[0] * muse_scale # converting to MUSE scale
     
     # pPXF stellar velocity 
-    hax3.errorbar(sliced_vel[0], sliced_vel[1], yerr=sliced_vel[3], ms=5, c=rot_c[0],
+    hax3.errorbar(sliced_vel[0], sliced_vel[1], yerr=sliced_vel[7], ms=5, c=rot_c[0],
             label=rot_labels[0], elinewidth=1.0, capsize=5, capthick=1.0, fmt='o') 
     # lmfit stellar velocity
-    hax3.errorbar(sliced_vel[0], sliced_vel[2], yerr=sliced_vel[4], ms=5, c=rot_c[2],
+    hax3.errorbar(sliced_vel[0], sliced_vel[2], yerr=sliced_vel[8], ms=5, c=rot_c[2],
             label=rot_labels[2], elinewidth=1.0, capsize=5, capthick=1.0, fmt='o') 
 
     #hax3.set_aspect('auto')
@@ -686,7 +706,7 @@ def rotation_curves(cube_id):
     hax3.tick_params(labelsize=20)
     hax3.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
     hax3.set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=20) 
-    hax3.legend(loc='lower left', prop={'size': 15})
+    hax3.legend(loc='lower right', prop={'size': 15})
 
     #h.colorbar(hax, ax=[hax1, hax2])
     h.tight_layout()
