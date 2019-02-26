@@ -98,16 +98,16 @@ def read_cube(file_name):
     return data
 
 def colour_image():
-    b = read_cube("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF_weighted/hlsp_xdf_hst_acswfc-30mas_hudf_f435w_v1_wht.fits")
-    v = read_cube("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF_weighted/hlsp_xdf_hst_acswfc-30mas_hudf_f606w_v1_wht.fits")
-    i = read_cube("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF_weighted/hlsp_xdf_hst_acswfc-30mas_hudf_f775w_v1_wht.fits")
+    i = read_cube("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-60mas_hudf_f435w_v1_sci.fits")
+    v = read_cube("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-60mas_hudf_f606w_v1_sci.fits")
+    b = read_cube("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-60mas_hudf_f775w_v1_sci.fits")
 
     data_array = np.zeros((b.shape[0], b.shape[1], 3), dtype=float)
 
     #image = make_lupton_rgb(b, v, i, Q=10, stretch=0.5, 
             #filename="results/hst_hudf.jpeg")
 
-    colour_data = mkcol(b,v,i, 0.99, 0.5)
+    colour_data = mkcol(b,v,i, 0.99, 0.99)
 
     fig = plt.figure()
     fig.set_size_inches(10,10)
