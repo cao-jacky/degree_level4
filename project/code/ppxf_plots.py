@@ -52,7 +52,6 @@ def model_data_overlay(cube_id):
     #plt.plot(x_data, y_data, linewidth=0.5, color="#42a5f5")
     plt.savefig("ppxf_results/cube_" + str(int(cube_id)) + "data_model.pdf")
 
-
 def fitting_plotter(cube_id):
     # defining wavelength as the x-axis
     x_data = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
@@ -230,6 +229,9 @@ def voigt_sigmas():
     fig.savefig("graphs/voigt_sigmas_1_1.pdf")
     plt.close("all")
 
+def linear(x, m, c):
+    return (m*x) + c
+
 def sigma_stars_vs_sigma_oii():
     data = np.load("data/ppxf_fitter_data.npy") 
 
@@ -246,15 +248,53 @@ def sigma_stars_vs_sigma_oii():
     xerr=data[:][:,0][:,13][y_mask]
     yerr=data[:][:,0][:,12][y_mask]
    
-    print(yerr)
-
     ax.errorbar(x_dat, y_dat, xerr=xerr, yerr=yerr,
             color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
             capsize=5, capthick=1.0, zorder=0)
 
+    # y/x value
     y_over_x = data[:][:,0][:,2]/data[:][:,0][:,1]
+    #ax.annotate("median y/x val: "+str(np.median(y_over_x)), (150,10))
 
-    ax.annotate("median y/x val: "+str(np.median(y_over_x)), (150,10))
+    # plotting 1:1 line
+    f_xd = np.linspace(-10,400,500)
+    ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3) 
+
+    # Fitting straight-line models to the data y=mx+c
+    sl_model = Model(linear) # straight line model
+
+    # Model 1 : free m and c
+    md1p = Parameters() # Model 1 parameters
+    md1p.add('m', value=1.0)
+    md1p.add('c', value=0.0)
+
+    md1r = sl_model.fit(y_dat, x=x_dat, params=md1p) # Model 1 results
+
+    md1_bf = md1r.best_values
+    md1_fit = linear(f_xd, md1_bf['m'], md1_bf['c'])
+    ax.plot(f_xd, md1_fit, lw=1.5, c="#ce93d8", label="m: free, c: free")
+
+    # Model 2: constrain m=1.0, free c
+    md2p = Parameters()
+    md2p.add('m', value=1.0, vary=False)
+    md2p.add('c', value=0.0)
+
+    md2r = sl_model.fit(y_dat, x=x_dat, params=md2p) 
+
+    md2_bf = md2r.best_values
+    md2_fit = linear(f_xd, md2_bf['m'], md2_bf['c'])
+    ax.plot(f_xd, md2_fit, lw=1.5, c="#a5d6a7", label="m: fixed, c: free")
+
+    # Model 3: free m, constrain c=0.0
+    md3p = Parameters()
+    md3p.add('m', value=1.0)
+    md3p.add('c', value=0.0, vary=False)
+
+    md3r = sl_model.fit(y_dat, x=x_dat, params=md3p) 
+
+    md3_bf = md3r.best_values
+    md3_fit = linear(f_xd, md3_bf['m'], md3_bf['c'])
+    ax.plot(f_xd, md3_fit, lw=1.5, c="#80deea", label="m: free, c: fixed")
 
     """
     low_sn = np.array([554, 765, 849, 1129, 895, 175])
@@ -282,17 +322,15 @@ def sigma_stars_vs_sigma_oii():
         else:
             ax.annotate(int(curr_id), (curr_x, curr_y))
         
-    ax.tick_params(labelsize=15)
-    ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
-    ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=15)
+    ax.tick_params(labelsize=20)
+    ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=20)
+    ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=20)
  
     ax.set_xlim([-10,250]) 
     ax.set_ylim([-10,250])
     #ax.set_aspect('equal', 'box')
 
-    # plot 1:1 line
-    f_xd = np.linspace(-10,400,500)
-    ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3) 
+    ax.legend(loc='lower right', prop={'size': 17})
 
     fig.tight_layout()
     fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")
