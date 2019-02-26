@@ -199,12 +199,63 @@ def noise_cube_extractor(file_name):
 
     print('Elapsed time in creating cubes: %.2f s' % (process_time() - t))
 
+def hst_hudf_extractor(file_name):
+    fits_file = fits.open(file_name)
 
-#cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
-#colour_image_data_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
+    header = fits_file[0].header
+    data = fits_file[0].data
 
-#colour_image_collapser()
-#colour_image()
+    ds = np.shape(data) # data shape
 
-#noise_cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
+    # data grid array to store various things
+    # [0] : grid with pixel references
+    # [1] : grid with RA references
+    # [2] : grid with dec references
+    data_grid = np.zeros([3, ds[0], ds[1]])
+    print(np.shape(data_grid))
+
+    # reference pixels
+    rp_x = header['CRPIX1'] # x-coordinate of reference pixel
+    rp_y = header['CRPIX2'] # y-coordinate of reference pixel
+
+    rp = data[int(rp_x-0.5):int(rp_x+0.5),int(rp_y-0.5):int(rp_y+0.5)]
+
+    # x-axis
+    xp_b = rp_x # x-coordinate of reference pixel 
+    xv_b = header['CRVAL1'] # x-axis true value of reference pixel 
+    xp_s = header['CD1_1'] # x-axis step size
+    
+    xa_s = ds[0] # x-axis number of steps
+
+    # y-axis
+    yp_b = rp_y # y-coordinate of reference pixel 
+    yv_b = header['CRVAL2'] # y-axis true value of reference pixel 
+    yp_s = header['CD2_2'] # y-axis step size
+    
+    ya_s = ds[1] # y-axis number of steps
+
+
+    # creating x-axis in units of RA
+    #xaxis = np.linspace(, wl_soln['end'], wl_soln['steps'])
+
+    #steps       = data_length
+    #range_end   = range_begin + steps * step_size
+
+    print(header)
+    print(rp)
+    print(xv_b, yv_b)
+
+    catalogue = np.load("data/matched_catalogue.npy")
+    #print(catalogue)
+
+if __name__ == '__main__':
+    #cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
+    #colour_image_data_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
+
+    #colour_image_collapser()
+    #colour_image()
+
+    #noise_cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
+
+    hst_hudf_extractor("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-30mas_hudf_f606w_v1_sci.fits")
 
