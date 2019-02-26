@@ -245,7 +245,9 @@ def sigma_stars_vs_sigma_oii():
 
     xerr=data[:][:,0][:,13][y_mask]
     yerr=data[:][:,0][:,12][y_mask]
-    
+   
+    print(yerr)
+
     ax.errorbar(x_dat, y_dat, xerr=xerr, yerr=yerr,
             color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
             capsize=5, capthick=1.0, zorder=0)
@@ -284,8 +286,8 @@ def sigma_stars_vs_sigma_oii():
     ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=15)
     ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=15)
  
-    ax.set_xlim([-10,300]) 
-    ax.set_ylim([-10,300])
+    ax.set_xlim([-10,250]) 
+    ax.set_ylim([-10,250])
     #ax.set_aspect('equal', 'box')
 
     # plot 1:1 line
@@ -572,8 +574,8 @@ def sigma_stars_old_vs_new():
     ax.set_ylabel(r'\textbf{$\sigma_{*-old}$ (kms$^{-1}$)}', fontsize=15)
     ax.set_xlabel(r'\textbf{$\sigma_{*-new}$ (kms$^{-1}$)}', fontsize=15)
 
-    ax.set_xlim([0,750]) 
-    ax.set_ylim([0,750])
+    ax.set_xlim([0,600]) 
+    ax.set_ylim([0,600])
 
     ax.set_title(r"\textbf{(3500Å to 4200Å) vs. (4000Å to 4500Å)}")
 
@@ -597,7 +599,7 @@ if __name__ == '__main__':
 
     #voigt_sigmas()
 
-    #sigma_stars_vs_sigma_oii()
+    sigma_stars_vs_sigma_oii()
     #ranges_sigma_stars_vs_sigma_oii()
 
     #testing_ranges()
@@ -608,4 +610,4 @@ if __name__ == '__main__':
 
     #sigma_old_vs_new()
 
-    sigma_stars_old_vs_new()
+    #sigma_stars_old_vs_new()

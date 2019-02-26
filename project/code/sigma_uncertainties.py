@@ -597,11 +597,11 @@ def uncertainties(cube_id):
     average_sn = np.average(sn)
 
     # pPXF: uncertainty for sigma_star
-    bf_ppxf = np.load("uncert_ppxf/curve_best_values_ppxf.npy")
+    bf_ppxf = np.load("uncert_ppxf/sigma_curve_best_values_ppxf.npy")
     uncert_ppxf = curve(average_sn, bf_ppxf)
 
     # lmfit: uncertainty for sigma_OII
-    bf_lmfit = np.load("uncert_lmfit/curve_best_values_lmfit.npy")
+    bf_lmfit = np.load("uncert_lmfit/sigma_curve_best_values_lmfit.npy")
     uncert_lmfit = curve(average_sn, bf_lmfit)
 
     return {'ppxf': uncert_ppxf, 'lmfit': uncert_lmfit, 'sn': sn}

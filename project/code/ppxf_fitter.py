@@ -71,7 +71,7 @@ def cat_func():
     catalogue = np.load("data/matched_catalogue.npy")
     catalogue = catalogue[catalogue[:,8].argsort()]
     catalogue = catalogue[0:300,:] 
-    bright_objects = np.where(catalogue[:,5] < 25.5)[0]
+    bright_objects = np.where(catalogue[:,5] < 25.0)[0]
     return {'cat': catalogue, 'bo': bright_objects}
 
 def ignore_cubes():
