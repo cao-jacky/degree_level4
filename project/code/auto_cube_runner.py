@@ -651,15 +651,15 @@ def rotation_curves(cube_id):
             ax1.errorbar(x_values, y_values, yerr=y_err, 
                     ms=5, fmt='o', c=rot_c[i_map], 
                     label=rot_labels[i_map], elinewidth=1.0, capsize=5, capthick=1.0) 
-
-        if i_map > 3:
+        if i_map == 4:
             fax = ax.imshow(curr_map_data, cmap='jet')
         
         ax.tick_params(labelsize=13)
         f.colorbar(fax, ax=ax)
         f.tight_layout()
-        f.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+"_rotated_"
-                +map_string+".pdf") 
+        if i_map not in np.array([5,6,7,8,9]):
+            f.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                    "_rotated_"+map_string+".pdf") 
 
         plt.close("all")
 
