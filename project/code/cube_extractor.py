@@ -1,8 +1,12 @@
+import os
 from time import process_time
 
 import numpy as np
 
+from scipy import ndimage
+
 from astropy.io import fits
+from astropy import wcs
 
 import warnings
 from astropy.utils.exceptions import AstropyWarning
@@ -10,6 +14,8 @@ warnings.simplefilter('ignore', category=AstropyWarning)
 
 import matplotlib.pyplot as plt
 from matplotlib import rc
+
+import hst_udf
 
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
@@ -199,54 +205,89 @@ def noise_cube_extractor(file_name):
 
     print('Elapsed time in creating cubes: %.2f s' % (process_time() - t))
 
-def hst_hudf_extractor(file_name):
-    fits_file = fits.open(file_name)
+def colour_image_extractor():
+    # HST frames
+    frame_i = ("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-30mas_hudf_f435w_v1_sci.fits")
+    frame_v = ("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-30mas_hudf_f606w_v1_sci.fits")
+    frame_b = ("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-30mas_hudf_f775w_v1_sci.fits")
+    frames = {0: frame_i, 1: frame_v, 2: frame_b}
 
-    header = fits_file[0].header
-    data = fits_file[0].data
-
-    ds = np.shape(data) # data shape
-
-    # data grid array to store various things
-    # [0] : grid with pixel references
-    # [1] : grid with RA references
-    # [2] : grid with dec references
-    data_grid = np.zeros([3, ds[0], ds[1]])
-    print(np.shape(data_grid))
-
-    # reference pixels
-    rp_x = header['CRPIX1'] # x-coordinate of reference pixel
-    rp_y = header['CRPIX2'] # y-coordinate of reference pixel
-
-    rp = data[int(rp_x-0.5):int(rp_x+0.5),int(rp_y-0.5):int(rp_y+0.5)]
-
-    # x-axis
-    xp_b = rp_x # x-coordinate of reference pixel 
-    xv_b = header['CRVAL1'] # x-axis true value of reference pixel 
-    xp_s = header['CD1_1'] # x-axis step size
-    
-    xa_s = ds[0] # x-axis number of steps
-
-    # y-axis
-    yp_b = rp_y # y-coordinate of reference pixel 
-    yv_b = header['CRVAL2'] # y-axis true value of reference pixel 
-    yp_s = header['CD2_2'] # y-axis step size
-    
-    ya_s = ds[1] # y-axis number of steps
-
-
-    # creating x-axis in units of RA
-    #xaxis = np.linspace(, wl_soln['end'], wl_soln['steps'])
-
-    #steps       = data_length
-    #range_end   = range_begin + steps * step_size
-
-    print(header)
-    print(rp)
-    print(xv_b, yv_b)
+    # loading one of the MUSE colour frames to find out the size of it
+    r = np.load("data/frame_r.npy")
+    shape_muse = np.shape(r)
 
     catalogue = np.load("data/matched_catalogue.npy")
-    #print(catalogue)
+    # sorting catalogue by the probability that the object is a star
+    catalogue = catalogue[catalogue[:,8].argsort()]
+
+    for i_obj in range(len(catalogue)):
+        # we just want to consider the first 300 objects
+        if (i_obj <= 300):
+            cube_id = int(catalogue[i_obj][0])
+
+            print("Currently cube_"+str(cube_id))
+
+            cube_dir = "cube_results/cube_"+str(cube_id)
+            if not os.path.exists(cube_dir):
+                # Only create colour images for cubes already processed
+                pass
+            else:
+                rl = [250,250] # cutout limits 
+                colour_data = np.zeros([3, rl[0]+rl[1], rl[0]+rl[1]])
+
+                for i in range(3):
+                    curr_frame = frames[i] # load current frame
+                    fits_file = fits.open(curr_frame) # open frame
+
+                    # read header and data
+                    header = fits_file[0].header 
+                    data = fits_file[0].data
+
+                    shape_hst = np.shape(data)
+
+                    scale_x = int(shape_hst[1]/shape_muse[1])
+                    scale_y = int(shape_hst[0]/shape_muse[0])
+
+                    # Parse the WCS keywords in the primary HDU
+                    w = wcs.WCS(header)
+
+                    posn_ra = catalogue[i_obj][16]
+                    posn_dec = catalogue[i_obj][17]
+                    wcs_coord = np.array([[posn_ra, posn_dec]])
+
+                    # converted from RA-dec to integer pixel location
+                    pixel_coord = w.wcs_world2pix(wcs_coord, 1).astype(int) 
+                    posn_x = pixel_coord[0][0]
+                    posn_y = pixel_coord[0][1]
+
+                    subcube_data = data[posn_y-rl[0]:posn_y+rl[1],
+                            posn_x-rl[0]:posn_x+rl[1]]
+                    colour_data[i] = np.flipud(subcube_data)
+                
+                # rotating data so that it's approx same angle as MUSE data
+                colour_data = ndimage.rotate(colour_data, angle=225, axes=(1,2), 
+                            mode='nearest', reshape=False)
+                # flipping the data
+                #colour_data = np.flipud(colour_data)
+
+                b = colour_data[2]
+                v = colour_data[1]
+                i = colour_data[0]
+                coloured_image = hst_udf.mkcol(b,v,i, 0.99, 0.99)
+
+                # save as array
+                np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                        "_coloured_image_data.npy", coloured_image)
+                
+                # save as colour image
+                plt.figure()
+                plt.imshow(coloured_image, interpolation='nearest')
+                plt.axis('off')
+                plt.tight_layout()
+                plt.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+                        "_coloured_image.pdf")
+
+                plt.close("all")
 
 if __name__ == '__main__':
     #cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
@@ -257,5 +298,7 @@ if __name__ == '__main__':
 
     #noise_cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
 
-    hst_hudf_extractor("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-30mas_hudf_f606w_v1_sci.fits")
+    #hst_hudf_extractor("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-30mas_hudf_f606w_v1_sci.fits")
+
+    colour_image_extractor()
 

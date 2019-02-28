@@ -120,8 +120,10 @@ def catalogue_analysis(file_name):
     # [13]: OII3729 flux sum from catalogue (288)
     # [14]: HST 435nm mag (62)
     # [15]: HST 814nm mag (70)
+    # [16]: HST RA coord (1)
+    # [17]: HST dec coord (2)
 
-    cubes_data = np.zeros((len(file_data), 16))
+    cubes_data = np.zeros((len(file_data), 18))
 
     for i_object in range(len(file_data)):
         curr_object = file_data[i_object]
@@ -148,6 +150,9 @@ def catalogue_analysis(file_name):
 
         cubes_data[i_object][14] = curr_object[62] # HST 435nm mag
         cubes_data[i_object][15] = curr_object[70] # HST 814nm mag
+
+        cubes_data[i_object][16] = curr_object[1] # HST RA coord
+        cubes_data[i_object][17] = curr_object[2] # HST RA coord
 
     np.save("data/matched_catalogue_complete", cubes_data)
 
