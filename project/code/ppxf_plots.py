@@ -232,10 +232,13 @@ def voigt_sigmas():
 def linear(x, m, c):
     return (m*x) + c
 
+def chisq(data, data_err, model):
+    return np.sum((data-model)**2/data_err**2)
+
 def sigma_stars_vs_sigma_oii():
     data = np.load("data/ppxf_fitter_data.npy") 
 
-    fig, ax = plt.subplots() 
+    fig, ax = plt.subplots()
 
     x_dat = data[:][:,0][:,1]
     y_dat = data[:][:,0][:,2]
@@ -249,7 +252,7 @@ def sigma_stars_vs_sigma_oii():
     yerr=data[:][:,0][:,12][y_mask]
    
     ax.errorbar(x_dat, y_dat, xerr=xerr, yerr=yerr,
-            color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
+            color="#000000", fmt="o", ms=5, elinewidth=1.0, 
             capsize=5, capthick=1.0, zorder=0)
 
     # y/x value
@@ -283,7 +286,7 @@ def sigma_stars_vs_sigma_oii():
 
     md2_bf = md2r.best_values
     md2_fit = linear(f_xd, md2_bf['m'], md2_bf['c'])
-    ax.plot(f_xd, md2_fit, lw=1.5, c="#a5d6a7", label="m: fixed, c: free")
+    #ax.plot(f_xd, md2_fit, lw=1.5, c="#a5d6a7", label="m: fixed, c: free")
 
     # Model 3: free m, constrain c=0.0
     md3p = Parameters()
@@ -294,8 +297,18 @@ def sigma_stars_vs_sigma_oii():
 
     md3_bf = md3r.best_values
     md3_fit = linear(f_xd, md3_bf['m'], md3_bf['c'])
-    ax.plot(f_xd, md3_fit, lw=1.5, c="#80deea", label="m: free, c: fixed")
+    #ax.plot(f_xd, md3_fit, lw=1.5, c="#80deea", label="m: free, c: fixed")
 
+    # Calculating reduced chi-squared values for all three models
+    csq_m1 = linear(x_dat, md1_bf['m'], md1_bf['c'])
+    rchisq_1 = chisq(y_dat, yerr, csq_m1) / (len(y_dat)-2) # model 1
+    
+    csq_m2 = linear(x_dat, md2_bf['m'], md2_bf['c'])
+    rchisq_2 = chisq(y_dat, yerr, csq_m2) / (len(y_dat)-2) # model 2
+
+    csq_m3 = linear(x_dat, md2_bf['m'], md3_bf['c'])
+    rchisq_3 = chisq(y_dat, yerr, csq_m3) / (len(y_dat)-2) # model 3
+ 
     """
     low_sn = np.array([554, 765, 849, 1129, 895, 175])
     for i_low in range(len(low_sn)):
@@ -326,11 +339,11 @@ def sigma_stars_vs_sigma_oii():
     ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=20)
     ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=20)
  
-    ax.set_xlim([-10,250]) 
-    ax.set_ylim([-10,250])
+    ax.set_xlim([-10,225]) 
+    ax.set_ylim([-10,225])
     #ax.set_aspect('equal', 'box')
 
-    ax.legend(loc='lower right', prop={'size': 17})
+    #ax.legend(loc='lower right', prop={'size': 17})
 
     fig.tight_layout()
     fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")
