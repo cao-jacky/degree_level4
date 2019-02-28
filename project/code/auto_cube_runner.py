@@ -207,7 +207,7 @@ def voronoi_runner():
     run_lmfit = False
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
-    uc = np.array([1804])
+    uc = np.array([1578])
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
 
@@ -494,8 +494,12 @@ def rotation_curves(cube_id):
     ppxf_vel_data = galaxy_maps[0]
     ppxf_sigma_data = galaxy_maps[1]
 
-    ppxf_vel_unique = np.unique(ppxf_vel_data)
+    ppxf_vel_unique, ppxf_vu_counts = np.unique(ppxf_vel_data, return_counts=True)
     ppxf_sigma_unique = np.unique(ppxf_sigma_data)
+
+    # rotate data so that the major kinematics axis is horizontal
+    # locate bin with one of highest velocity and largest number of pixels with vel
+    print(ppxf_vel_unique, ppxf_vu_counts)
 
     rot_angle = cc_ha # rotation angle, defined by the horizontal angle
 
@@ -696,7 +700,7 @@ def rotation_curves(cube_id):
     ax1.set_xlim([-(np.nanmax(x_values)+0.2), (np.nanmax(x_values)+0.2)])
     g.tight_layout()
     g.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-            "_1d_rotation_curves.pdf")
+            "_rotation_curves_1d.pdf")
 
     plt.close("all")
 
