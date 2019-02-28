@@ -9,9 +9,13 @@ import spectra_data
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
+
 from lmfit import Parameters, Model
+from lmfit.models import StepModel, LinearModel
 
 from scipy import ndimage
+
+from astropy.io import ascii
 
 import os
 
@@ -468,6 +472,20 @@ def rotation_curves(cube_id):
             5: 'ppxf_vel_error', 6: 'lmfit_vel_error', 7: 'voronoi_id',
             8: 'ppxf_vel_redshifted', 9: 'lmfit_vel_redshifted'}
 
+    # Read the sextractor data file which contains various bits of info
+    sextractor_data = np.loadtxt("data/GaiaCatalog0.ASC")
+    sd_cc_loc = np.where(sextractor_data[:,0]==cube_id)[0] # current cube location
+
+    # [8] : major axis in units of pixels
+    # [9] : minor axis in units of pixels
+    sd_curr_cube = sextractor_data[sd_cc_loc][0]
+    cc_b = sd_curr_cube[8] /2 # semi-major axis
+    cc_a = sd_curr_cube[9] /2 # semi-major axis
+
+    gal_inc = np.arccos(cc_a/cc_b) # inclination angle of galaxy in radians
+
+    print(cc_b, cc_a, cc_b/cc_a, gal_inc)
+
     # scaling by pPXF maps
     ppxf_vel_data = galaxy_maps[0]
     ppxf_sigma_data = galaxy_maps[1]
@@ -633,7 +651,6 @@ def rotation_curves(cube_id):
         if i_map > 3:
             fax = ax.imshow(curr_map_data, cmap='jet')
         
-
         ax.tick_params(labelsize=13)
         f.colorbar(fax, ax=ax)
         f.tight_layout()
@@ -642,6 +659,32 @@ def rotation_curves(cube_id):
 
         plt.close("all")
 
+    """
+    # plotting model curve for rotation curve plot
+    mcp = Parameters()
+    mcp.add('sigma', value=0.0)
+    mcp.add('center', value=0.0)
+    mcp.add('amplitude', value=0.0)
+    mcp.add('intercept', value=0.0)
+    mcp.add('slope', value=1.0)
+
+    mcm = StepModel() + LinearModel()
+    
+    mc_y = np.nan_to_num(np.append(sliced_vel[1], sliced_vel[2]))
+    mc_x = np.nan_to_num(np.append(sliced_vel[9], sliced_vel[9]))
+
+    y_nz = np.where(mc_y != 0.0)
+    mc_y = mc_y[y_nz]
+    mc_x = mc_x[y_nz]
+
+    mcr = mcm.fit(mc_y, x=mc_x, params=mcp)
+    mc_bf = mcr.best_fit
+
+    mc_xrange = np.linspace(-(np.nanmax(x_values)+0.2),(np.nanmax(x_values)+0.2),100)
+
+    ax1.scatter(mc_x, mc_bf, color="#000000", alpha=0.3)
+    """
+    
     ax1.tick_params(labelsize=20)
     ax1.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
     ax1.set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=20)   
@@ -649,7 +692,7 @@ def rotation_curves(cube_id):
     ax1.set_xlim([-(np.nanmax(x_values)+0.2), (np.nanmax(x_values)+0.2)])
     g.tight_layout()
     g.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-            "_rotation_curves.pdf")
+            "_1d_rotation_curves.pdf")
 
     plt.close("all")
 
