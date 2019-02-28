@@ -478,11 +478,15 @@ def rotation_curves(cube_id):
 
     # [8] : major axis in units of pixels
     # [9] : minor axis in units of pixels
+    # [10] : angle between major axis and horizontal 
     sd_curr_cube = sextractor_data[sd_cc_loc][0]
     cc_b = sd_curr_cube[8] /2 # semi-major axis
     cc_a = sd_curr_cube[9] /2 # semi-major axis
 
     gal_inc = np.arccos(cc_a/cc_b) # inclination angle of galaxy in radians
+
+    cc_ha = sd_curr_cube[10] # horizontal angle
+    print(cc_ha)
 
     print(cc_b, cc_a, cc_b/cc_a, gal_inc)
 
@@ -493,7 +497,7 @@ def rotation_curves(cube_id):
     ppxf_vel_unique = np.unique(ppxf_vel_data)
     ppxf_sigma_unique = np.unique(ppxf_sigma_data)
 
-    rot_angle = 270 # rotation angle
+    rot_angle = cc_ha # rotation angle, defined by the horizontal angle
 
     # rotate all the maps by an angle
     rotated_galaxy_maps = ndimage.rotate(galaxy_maps, angle=rot_angle, axes=(1,2),
