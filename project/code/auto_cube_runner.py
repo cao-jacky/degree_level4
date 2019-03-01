@@ -475,6 +475,11 @@ def rotation_curves(cube_id):
             5: 'ppxf_vel_error', 6: 'lmfit_vel_error', 7: 'voronoi_id',
             8: 'ppxf_vel_redshifted', 9: 'lmfit_vel_redshifted'}
 
+    # obtaining fractional uncertainties from signal-to-noise
+    # loading "a" factors in a/x model
+    a_ppxf = np.load("uncert_ppxf/vel_curve_best_values_ppxf.npy")
+    a_lmfit = np.load("uncert_lmfit/vel_curve_best_values_lmfit.npy")
+
     # Read the sextractor data file which contains various bits of info
     sextractor_data = np.loadtxt("data/GaiaCatalog0.ASC")
     sd_cc_loc = np.where(sextractor_data[:,0]==cube_id)[0] # current cube location
@@ -492,6 +497,34 @@ def rotation_curves(cube_id):
     print(cc_ha)
 
     print(cc_b, cc_a, cc_b/cc_a, gal_inc)
+
+    # mapping out the galaxy from semi-major, semi-minor, and major-horizontal angle
+
+    width, height = 11, 11
+    a, b = 5, 5
+    r = 5
+    EPSILON = 2.2
+
+    map_ = [['.' for x in range(width)] for y in range(height)]
+
+    # scanning over a map of the galaxy
+    for map_y in range(np.shape(galaxy_maps[0])[0]):
+        for map_x in range(np.shape(galaxy_maps[0])[0]):
+            pass
+            #print(map_y, map_x)
+
+    """
+    # draw the circle
+    for y in range(height):
+        for x in range(width):
+            # see if we're close to (x-a)**2 + (y-b)**2 == r**2
+            if abs((x-a)**2 + (y-b)**2 - r**2) < EPSILON**2:
+                map_[y][x] = '#'
+
+    # print the map
+    for line in map_:
+        print(' '.join(line))
+    """
 
     # scaling by pPXF maps
     ppxf_vel_data = galaxy_maps[0]
@@ -534,7 +567,8 @@ def rotation_curves(cube_id):
     np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+
             str(int(cube_id))+"_rotated_maps.npy", rotated_galaxy_maps)
 
-    g, (ax1) = plt.subplots(1,1) # plotting the rotation curves for OII and gas
+    g, (ax1) = plt.subplots(1,1) # 1D rotation curves for OII and gas
+    p2, (p2ax1) = plt.subplots(1,1) # 2D  rotation curves for OII and gas
 
     # defining colours and labels
     rot_labels = {0: 'Stars', 2: 'Gas', 8: 'Stars', 9: 'Gas'}
@@ -556,8 +590,6 @@ def rotation_curves(cube_id):
 
     muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
 
-    ppxf_mask = []
-
     # creating image for each map
     for i_map in range(np.shape(rotated_galaxy_maps)[0]):
         curr_map_data = rotated_galaxy_maps[i_map]
@@ -567,11 +599,48 @@ def rotation_curves(cube_id):
         map_shape = np.shape(curr_map_data)
         c_x = int(map_shape[0]/2)-1
         c_y = int(map_shape[1]/2)-1
-      
+        
         f, (ax) = plt.subplots(1,1) # converting the maps into a viewable pdf   
 
         # velocity maps
         if i_map in np.array([0,2]):
+            # --------------------------------------------------#
+
+            # working with rotated 2D data - major kinematic axis should be horizontal
+            for cm_y in range(np.shape(curr_map_data)[1]):
+                for cm_x in range(np.shape(curr_map_data)[0]):
+                    cp_d = curr_map_data[cm_y][cm_x] # current pixel data 
+                    
+                    if cp_d != np.nan:
+                        # current S/N for pixel
+                        cp_sn = rotated_galaxy_maps[4][cm_y][cm_x]                         
+                        # top left corner is defined as (x=0,y=0) posn, 
+                        # distances between central pixel and curr
+                        cpx_dist = cm_x - c_x                 
+                        cpy_dist = cm_y - c_y 
+                        
+                        cp_obs = np.sqrt(cpx_dist**2 + cpy_dist**2)
+
+                        cp_radius = np.sqrt(cp_obs**2 + cpy_dist**2*np.tan(gal_inc)**2)
+                        cp_radius = cp_radius * muse_scale # convert to MUSE scale
+
+                        if i_map == 0:
+                            # pPXF velocity fractional error
+                            frac_err_ppxf = curve(cp_sn, a_ppxf) * cp_d
+                            y_err = frac_err_ppxf
+                        else:
+                            # lmfit velocity fractional error
+                            frac_err_lmfit = curve(cp_sn, a_lmfit) * cp_d
+                            y_err = frac_err_lmfit
+
+                        p2ax1.errorbar(cp_radius, cp_d, yerr=y_err, 
+                            ms=5, fmt='o', c=rot_c[i_map], label=rot_labels[i_map], 
+                            elinewidth=1.0, capsize=5, capthick=1.0)
+
+    
+            # --------------------------------------------------#
+
+
             # slice containing the Voronoi IDs
             vid_slice = np.nanmedian(rotated_galaxy_maps[7][c_y-1:c_y+2,:], axis=0)
             vid_slice = np.nan_to_num(vid_slice)
@@ -599,11 +668,6 @@ def rotation_curves(cube_id):
                     axis=0)[unique_locs]
 
             sliced_vel[5][0:len(sn_slice)] = sn_slice  
-
-            # obtaining fractional uncertainties from signal-to-noise
-            # loading "a" factors in a/x model
-            a_ppxf = np.load("uncert_ppxf/vel_curve_best_values_ppxf.npy")
-            a_lmfit = np.load("uncert_lmfit/vel_curve_best_values_lmfit.npy")
 
             if i_map == 0:
                 sliced_vel[1][0:len(map_median)] = map_median
@@ -664,7 +728,7 @@ def rotation_curves(cube_id):
                 sliced_vel[8][0:len(sn_slice)] = frac_err_lmfit
                 
                 y_values = sliced_vel[2]
-                y_err = sliced_vel[8]
+                y_err = sliced_vel[8] 
 
             x_values = sliced_vel[9]
 
@@ -717,6 +781,17 @@ def rotation_curves(cube_id):
     g.tight_layout()
     g.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
             "_rotation_curves_1d.pdf")
+
+    plt.close("all")
+
+    p2ax1.tick_params(labelsize=20)
+    p2ax1.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
+    p2ax1.set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=20)   
+    #p2ax1.legend(loc='lower right', prop={'size': 17})
+    #p2ax1.set_xlim([-(np.nanmax(x_values)+0.2), (np.nanmax(x_values)+0.2)])
+    p2.tight_layout()
+    p2.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+            "_rotation_curves_2d.pdf")
 
     plt.close("all")
 
@@ -788,7 +863,7 @@ def rotation_curves_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = uc[3:]
-    uc = np.array([1129])
+    uc = np.array([1804])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
