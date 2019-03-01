@@ -497,11 +497,41 @@ def rotation_curves(cube_id):
     ppxf_vel_unique, ppxf_vu_counts = np.unique(ppxf_vel_data, return_counts=True)
     ppxf_sigma_unique = np.unique(ppxf_sigma_data)
 
+    #print(ppxf_vel_unique, ppxf_vu_counts)
+
+    # loop through ppxf_vu_counts, looking at the velocity value and the number of  
+    # pixels with same value - want the two extremes in terms of velocities and
+    # size of bin
+    
+    # array for current: velocity, counts, index
+    curr_details = np.array([ppxf_vel_unique[0],ppxf_vu_counts[0],0])
+
+    for i_pvu in range(len(ppxf_vel_unique)):
+        new_vel = ppxf_vel_unique[i_pvu]
+        new_counts = ppxf_vu_counts[i_pvu]
+
+        print(new_vel, new_counts)
+
     # rotate data so that the major kinematics axis is horizontal
     # locate bin with one of highest velocity and largest number of pixels with vel
-    print(ppxf_vel_unique, ppxf_vu_counts)
+    ppxf_vel_unique = ppxf_vel_unique[-10:,]
+    ppxf_vu_counts = ppxf_vu_counts[-10:,]
+
+    ppxf_vlbi = np.argmax(ppxf_vu_counts) # velocity largest bin index in last 10 items
+    ppxf_vlbv = ppxf_vel_unique[ppxf_vlbi] # value of largest bin
+
+    ppxf_vlb_loc_y, ppxf_vlb_loc_x = np.where(ppxf_vel_data == ppxf_vlbv)
+
+    # finding which axis direction is the longest 
+    pvlx_len = np.abs(np.max(ppxf_vlb_loc_x) - np.min(ppxf_vlb_loc_x)) 
+    pvly_len = np.abs(np.max(ppxf_vlb_loc_y) - np.min(ppxf_vlb_loc_y)) 
+
+    #print(ppxf_vlb_loc_y, ppxf_vlb_loc_x)
+    #print(np.min(ppxf_vlb_loc_x), np.min(ppxf_vlb_loc_y))
+    #print(np.max(ppxf_vlb_loc_x), np.max(ppxf_vlb_loc_y))
 
     rot_angle = cc_ha # rotation angle, defined by the horizontal angle
+    print(cc_ha)
 
     # rotate all the maps by an angle
     rotated_galaxy_maps = ndimage.rotate(galaxy_maps, angle=rot_angle, axes=(1,2),
@@ -767,6 +797,6 @@ def rotation_curves(cube_id):
 if __name__ == '__main__':
     #voronoi_cube_runner()
     #voronoi_runner()
-    voronoi_plotter(1804)
+    voronoi_plotter(1578)
 
-    rotation_curves(1804)
+    rotation_curves(1578)
