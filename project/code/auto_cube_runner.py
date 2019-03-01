@@ -494,24 +494,6 @@ def rotation_curves(cube_id):
     gal_inc = np.arccos(cc_a/cc_b) # inclination angle of galaxy in radians
 
     cc_ha = sd_curr_cube[10] # horizontal angle
-    print(cc_ha)
-
-    print(cc_b, cc_a, cc_b/cc_a, gal_inc)
-
-    # mapping out the galaxy from semi-major, semi-minor, and major-horizontal angle
-
-    width, height = 11, 11
-    a, b = 5, 5
-    r = 5
-    EPSILON = 2.2
-
-    map_ = [['.' for x in range(width)] for y in range(height)]
-
-    # scanning over a map of the galaxy
-    for map_y in range(np.shape(galaxy_maps[0])[0]):
-        for map_x in range(np.shape(galaxy_maps[0])[0]):
-            pass
-            #print(map_y, map_x)
 
     """
     # draw the circle
@@ -611,7 +593,9 @@ def rotation_curves(cube_id):
                 for cm_x in range(np.shape(curr_map_data)[0]):
                     cp_d = curr_map_data[cm_y][cm_x] # current pixel data 
                     
-                    if cp_d != np.nan:
+                    if np.isnan(cp_d) == True:
+                        pass
+                    else:
                         # current S/N for pixel
                         cp_sn = rotated_galaxy_maps[4][cm_y][cm_x]                         
                         # top left corner is defined as (x=0,y=0) posn, 
@@ -619,24 +603,25 @@ def rotation_curves(cube_id):
                         cpx_dist = cm_x - c_x                 
                         cpy_dist = cm_y - c_y 
                         
-                        cp_obs = np.sqrt(cpx_dist**2 + cpy_dist**2)
+                        cp_obs = cpx_dist**2 + cpy_dist**2
 
-                        cp_radius = np.sqrt(cp_obs**2 + cpy_dist**2*np.tan(gal_inc)**2)
+                        cp_radius = np.sqrt(cp_obs+cpy_dist**2*np.tan(gal_inc)**2)
                         cp_radius = cp_radius * muse_scale # convert to MUSE scale
 
                         if i_map == 0:
-                            # pPXF velocity fractional error
-                            frac_err_ppxf = curve(cp_sn, a_ppxf) * cp_d
-                            y_err = frac_err_ppxf
+                            frac_err = a_ppxf # pPXF velocity fractional error
+                            redshifted_cp_d = rotated_galaxy_maps[8][cm_y][cm_x]
                         else:
-                            # lmfit velocity fractional error
-                            frac_err_lmfit = curve(cp_sn, a_lmfit) * cp_d
-                            y_err = frac_err_lmfit
+                            frac_err = a_lmfit # lmfit velocity fractional error
+                            redshifted_cp_d = rotated_galaxy_maps[9][cm_y][cm_x]
+                        y_err = curve(cp_sn, frac_err) * redshifted_cp_d
 
-                        p2ax1.errorbar(cp_radius, cp_d, yerr=y_err, 
-                            ms=5, fmt='o', c=rot_c[i_map], label=rot_labels[i_map], 
-                            elinewidth=1.0, capsize=5, capthick=1.0)
-
+                        if y_err > 50:
+                            pass
+                        else:
+                            p2ax1.errorbar(cp_radius-c_x, cp_d, yerr=y_err, 
+                                ms=5, fmt='o', c=rot_c[i_map], label=rot_labels[i_map],
+                                elinewidth=1.0, capsize=5, capthick=1.0)
     
             # --------------------------------------------------#
 
