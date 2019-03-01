@@ -202,12 +202,10 @@ def voronoi_runner():
     catalogue = cf['cat'] # calling sorted catalogue from cataogue function
     bright_objects = cf['bo']
 
-    run_sn = True
-    run_ppxf = False
-    run_lmfit = False
-
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
-    uc = np.array([1578])
+    uc = uc[3:]
+    #uc = np.array([849])
+    print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
 
@@ -418,6 +416,10 @@ def voronoi_runner():
 
                 lmfit_errors = dbt_result.params
                 z_err = lmfit_errors['z'].stderr
+
+                if z_err is None:
+                    z_err = 0.0
+
                 lmfit_vel_err = c*np.log(1+z_err)
                  
                 # indexing data into lmfit array
@@ -426,8 +428,6 @@ def voronoi_runner():
                 cube_lmfit_results[i_vid][2] = lmfit_vel
                 cube_lmfit_results[i_vid][3] = lmfit_sigma             
                 cube_lmfit_results[i_vid][4] = lmfit_vel_err  
-
-                print(ppxf_vel_err, lmfit_vel_err)
            
         sax1.tick_params(labelsize=20)
         sax1.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
@@ -457,6 +457,9 @@ def voronoi_runner():
         # saving cube_lmfit_results into cube_results folder
         np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
                 "_voronoi_lmfit_results.npy", cube_lmfit_results)
+
+        voronoi_plotter(cube_id)
+        rotation_curves(cube_id)
 
 def curve(x, a):
     return (a/x)
@@ -497,41 +500,24 @@ def rotation_curves(cube_id):
     ppxf_vel_unique, ppxf_vu_counts = np.unique(ppxf_vel_data, return_counts=True)
     ppxf_sigma_unique = np.unique(ppxf_sigma_data)
 
-    #print(ppxf_vel_unique, ppxf_vu_counts)
+    # I'm just going to do it manually
+    cra = {
+            '1804': 0,
+            '1578': -180,
+            '849': -180,
+            '286': -190,
+            '5': 0,
+            '767': cc_ha + 10,
+            '414': -25,
+            '549': -100,
+            '175': -55,
+            '1129': 175,
+            }
 
-    # loop through ppxf_vu_counts, looking at the velocity value and the number of  
-    # pixels with same value - want the two extremes in terms of velocities and
-    # size of bin
-    
-    # array for current: velocity, counts, index
-    curr_details = np.array([ppxf_vel_unique[0],ppxf_vu_counts[0],0])
-
-    for i_pvu in range(len(ppxf_vel_unique)):
-        new_vel = ppxf_vel_unique[i_pvu]
-        new_counts = ppxf_vu_counts[i_pvu]
-
-        print(new_vel, new_counts)
-
-    # rotate data so that the major kinematics axis is horizontal
-    # locate bin with one of highest velocity and largest number of pixels with vel
-    ppxf_vel_unique = ppxf_vel_unique[-10:,]
-    ppxf_vu_counts = ppxf_vu_counts[-10:,]
-
-    ppxf_vlbi = np.argmax(ppxf_vu_counts) # velocity largest bin index in last 10 items
-    ppxf_vlbv = ppxf_vel_unique[ppxf_vlbi] # value of largest bin
-
-    ppxf_vlb_loc_y, ppxf_vlb_loc_x = np.where(ppxf_vel_data == ppxf_vlbv)
-
-    # finding which axis direction is the longest 
-    pvlx_len = np.abs(np.max(ppxf_vlb_loc_x) - np.min(ppxf_vlb_loc_x)) 
-    pvly_len = np.abs(np.max(ppxf_vlb_loc_y) - np.min(ppxf_vlb_loc_y)) 
-
-    #print(ppxf_vlb_loc_y, ppxf_vlb_loc_x)
-    #print(np.min(ppxf_vlb_loc_x), np.min(ppxf_vlb_loc_y))
-    #print(np.max(ppxf_vlb_loc_x), np.max(ppxf_vlb_loc_y))
-
-    rot_angle = cc_ha # rotation angle, defined by the horizontal angle
-    print(cc_ha)
+    if str(cube_id) in cra:
+        rot_angle = cc_ha + cra[str(cube_id)] # rotation angle
+    else:
+        rot_angle = cc_ha
 
     # rotate all the maps by an angle
     rotated_galaxy_maps = ndimage.rotate(galaxy_maps, angle=rot_angle, axes=(1,2),
@@ -793,10 +779,30 @@ def rotation_curves(cube_id):
     h.tight_layout()
     h.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+"_velocity.pdf") 
     plt.close("all")
- 
+
+def rotation_curves_runner():
+    # Running to obtain results from pPXF and OII fitting
+    cf = ppxf_fitter.cat_func()
+    catalogue = cf['cat'] # calling sorted catalogue from cataogue function
+    bright_objects = cf['bo']
+
+    uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
+    #uc = uc[3:]
+    uc = np.array([1129])
+    print(uc)
+    for i_cube in range(len(uc)):
+        cube_id = int(uc[i_cube])
+
+        print("cube_"+str(cube_id)+": ")
+        
+        voronoi_plotter(cube_id)
+        rotation_curves(cube_id)
+
 if __name__ == '__main__':
     #voronoi_cube_runner()
+    
     #voronoi_runner()
-    voronoi_plotter(1578)
+    #voronoi_plotter(849)
+    #rotation_curves(849)
 
-    rotation_curves(1578)
+    rotation_curves_runner()
