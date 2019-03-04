@@ -84,33 +84,37 @@ def voronoi_plotter(cube_id):
             vb_id = vb_data[curr_row][2]
             binned_data[7][i_y][i_x] = vb_id
 
+            # S/N variable
+            sn_loc = np.where(sn_data[:,1] == vb_id)[0]
+            sn_vars = sn_data[sn_loc][0]
+
+            binned_data[4][i_y][i_x] = sn_vars[2] # current signal-to-noise
+
             # pPXF variables and errors
             ppxf_loc = np.where(ppxf_data[:,1] == vb_id)[0]
             ppxf_vars = ppxf_data[ppxf_loc][0]
             
-            binned_data[0][i_y][i_x] = ppxf_vars[2] - cen_pix_vel_ppxf # rest velocity
             binned_data[8][i_y][i_x] = ppxf_vars[2] # redshifted velocity
-            
-            binned_data[1][i_y][i_x] = ppxf_vars[3] # velocity dispersion
-
             binned_data[5][i_y][i_x] = ppxf_vars[4] # pPXF velocity error
 
             # lmfit variables
             lmfit_loc = np.where(lmfit_data[:,1] == vb_id)[0]
             lmfit_vars = lmfit_data[lmfit_loc][0]
             
-            binned_data[2][i_y][i_x] = lmfit_vars[2] - cen_pix_vel_lmfit # rest vel 
             binned_data[9][i_y][i_x] = lmfit_vars[2] # redshifted velocity
+            binned_data[6][i_y][i_x] = lmfit_vars[4] # lmfit velocity error 
 
-            binned_data[3][i_y][i_x] = lmfit_vars[3] # velocity dispersion
-
-            binned_data[6][i_y][i_x] = lmfit_vars[4] # lmfit velocity error
-
-            # S/N variable
-            sn_loc = np.where(sn_data[:,1] == vb_id)[0]
-            sn_vars = sn_data[sn_loc][0]
-
-            binned_data[4][i_y][i_x] = sn_vars[2] # current signal-to-noise
+            # storing values which are only high enough S/N
+            if sn_vars[2] > 4:
+                # rest velocities for pPXF and lmfit
+                binned_data[0][i_y][i_x] = ppxf_vars[2] - cen_pix_vel_ppxf 
+                binned_data[2][i_y][i_x] = lmfit_vars[2] - cen_pix_vel_lmfit
+            if sn_vars[2] > 7:
+                pass
+            else:
+                # velocity dispersions for pPXF and lmfit
+                binned_data[1][i_y][i_x] = ppxf_vars[3] # velocity dispersion
+                binned_data[3][i_y][i_x] = lmfit_vars[3] # velocity dispersion
 
             curr_row += 1
 
@@ -119,8 +123,9 @@ def voronoi_plotter(cube_id):
             str(int(cube_id))+"_segmentation.npy")
 
     # rotate the maps and save them as a numpy array instead of during imshow plotting
-    binned_data = np.fliplr(np.rot90(binned_data, 1, (1,2))) * seg_map
-    
+    binned_data = np.fliplr(np.rot90(binned_data, 1, (1,2))) 
+    binned_data = binned_data * seg_map    
+
     np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
             "_maps.npy", binned_data)
 
@@ -475,6 +480,13 @@ def rotation_curves(cube_id):
             5: 'ppxf_vel_error', 6: 'lmfit_vel_error', 7: 'voronoi_id',
             8: 'ppxf_vel_redshifted', 9: 'lmfit_vel_redshifted'}
 
+    # cutting all the galaxy maps according to velocity S/N or velocity dispersion S/N
+    sn_map = galaxy_maps[4]
+
+    # masking out regions in velocity maps with low S/N
+    galaxy_maps[0] = np.where(sn_map > 4, galaxy_maps[0], -0.0)
+    galaxy_maps[2] = np.where(sn_map > 4, galaxy_maps[2], -0.0)
+    
     # obtaining fractional uncertainties from signal-to-noise
     # loading "a" factors in a/x model
     a_ppxf = np.load("uncert_ppxf/vel_curve_best_values_ppxf.npy")
@@ -521,16 +533,19 @@ def rotation_curves(cube_id):
     else:
         rot_angle = cc_ha
 
-    # rotate all the maps by an angle
+    # rotate all the maps by an angle and masking out non-useful regions
+    galaxy_mask = np.where(galaxy_maps == 0, galaxy_maps, 1)
     rotated_galaxy_maps = ndimage.rotate(galaxy_maps, angle=rot_angle, axes=(1,2),
             mode='nearest', reshape=False)
  
-    rotated_seg_map = ndimage.rotate(seg_map, angle=rot_angle, mode='nearest', 
-            reshape=False)
-    rotated_galaxy_maps = rotated_galaxy_maps * rotated_seg_map
-
-    # changing all 0 values to nan
-    rotated_galaxy_maps[np.where(rotated_galaxy_maps == 0)] = np.nan
+    rotated_mask = ndimage.rotate(galaxy_mask, angle=rot_angle, axes=(1,2),
+            mode='nearest', reshape=False)
+    rotated_mask = np.where(rotated_mask > 1*10**(-1), rotated_mask, 0)
+    
+    # applying mask and setting 0 values to nan
+    rotated_galaxy_maps = rotated_galaxy_maps * rotated_mask
+    rotated_galaxy_maps = np.where(rotated_galaxy_maps != 0, rotated_galaxy_maps, 
+            np.nan)
 
     # save the rotated arrays
     np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+
@@ -559,6 +574,9 @@ def rotation_curves(cube_id):
 
     muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
 
+    current_cmap = plt.cm.jet
+    current_cmap.set_bad(color='white')
+
     # creating image for each map
     for i_map in range(np.shape(rotated_galaxy_maps)[0]):
         curr_map_data = rotated_galaxy_maps[i_map]
@@ -578,7 +596,7 @@ def rotation_curves(cube_id):
             # working with rotated 2D data - major kinematic axis should be horizontal
             for cm_y in range(np.shape(curr_map_data)[1]):
                 for cm_x in range(np.shape(curr_map_data)[0]):
-                    cp_d = curr_map_data[cm_y][cm_x] # current pixel data 
+                    cp_d = np.abs(curr_map_data[cm_y][cm_x]) # current pixel data 
                     
                     if np.isnan(cp_d) == True:
                         pass
@@ -655,13 +673,14 @@ def rotation_curves(cube_id):
             x_scale = x_scale * muse_scale # converting to MUSE scale
             x_scale = x_scale[unique_locs] # masking out repeated values
 
-            sliced_vel[9][0:len(x_scale)] = x_scale
-         
+            sliced_vel[9][0:len(x_scale)] = x_scale 
+
             fax = ax.imshow(curr_map_data, cmap='jet', 
                     vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])  
 
             # overlaying area which has been considered
-            overlay_slice = curr_map_data * rotated_seg_map
+            #overlay_slice = curr_map_data * rotated_seg_map
+            overlay_slice = curr_map_data
             overlay_slice[np.where(overlay_slice != 1.0)] = np.nan
             overlay_slice[c_y-1:c_y+2,:] = 2.0
 
@@ -833,7 +852,7 @@ def rotation_curves_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = uc[3:]
-    uc = np.array([1804])
+    #uc = np.array([849])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
