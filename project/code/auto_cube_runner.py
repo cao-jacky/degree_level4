@@ -546,7 +546,7 @@ def rotation_curves(cube_id):
     rotated_galaxy_maps = rotated_galaxy_maps * rotated_mask
     rotated_galaxy_maps = np.where(rotated_galaxy_maps != 0, rotated_galaxy_maps, 
             np.nan)
-
+    
     # save the rotated arrays
     np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+
             str(int(cube_id))+"_rotated_maps.npy", rotated_galaxy_maps)
@@ -761,6 +761,54 @@ def rotation_curves(cube_id):
 
     ax1.scatter(mc_x, mc_bf, color="#000000", alpha=0.3)
     """
+
+    rgmaps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+            str(int(cube_id))+"_rotated_maps.npy")
+
+    # Creating V_OII vs V_* plot
+    map_shape = np.shape(rgmaps[0])
+    c_x = int(map_shape[0]/2)-1
+    c_y = int(map_shape[1]/2)-1
+
+    vel_diffs = []
+
+    print(np.unique(rgmaps[0]))
+    print(rgmaps[2][24][24])
+
+    for cm_y in range(np.shape(rgmaps[0])[1]):
+        for cm_x in range(np.shape(rgmaps[0])[0]):
+            cpd_stellar = rgmaps[0][cm_y][cm_x] # stellar velocity
+            cpd_oii = rgmaps[2][cm_y][cm_x]
+
+            if np.isnan(cpd_stellar) == True:
+                pass
+            else:
+                if (cm_x-c_x)**2/cc_b**2 + (cm_y-c_y)**2/cc_a**2 < 1:
+                    cp_sn = rgmaps[4][cm_y][cm_x]                         
+                    # top left corner is defined as (x=0,y=0) posn, 
+                    # distances between central pixel and curr
+                    cpx_dist = cm_x - c_x                 
+                    cpy_dist = cm_y - c_y 
+                    
+                    cp_obs = cpx_dist**2 + cpy_dist**2
+
+                    cp_radius = np.sqrt(cp_obs+cpy_dist**2*np.tan(gal_inc)**2)
+                    cp_radius = cp_radius * muse_scale # convert to MUSE scale
+
+                    frac_err_ppxf = a_ppxf # pPXF velocity fractional error
+                    rcpd_ppxf = rgmaps[8][cm_y][cm_x]
+                    cpds_e = curve(cp_sn, frac_err_ppxf) * rcpd_ppxf # stellar error
+
+                    frac_err_lmfit = a_lmfit # lmfit velocity fractional error
+                    rcpd_lmfit = rgmaps[9][cm_y][cm_x]
+                    cpdo_e = curve(cp_sn, frac_err_lmfit) * rcpd_lmfit # OII error
+
+                    vel_diffs.append([cp_radius, cpd_stellar, cpds_e[0], cpd_oii, 
+                        cpdo_e[0]])
+
+    print(vel_diffs)
+
+
     
     ax1.tick_params(labelsize=20)
     ax1.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
@@ -808,7 +856,7 @@ def rotation_curves(cube_id):
     # ------------------------------------------------------------------------------ #
     # plotting the velocity curves underneath the velocity maps
     h, (hax1, hax2, hax3) = plt.subplots(3, 1, sharex=True, figsize=(4, 8)) 
-    
+   
     # Stellar velocity map from pPXF
     hax = hax1.imshow(rotated_galaxy_maps[0], cmap='jet', aspect="auto",
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2]) 
@@ -852,7 +900,7 @@ def rotation_curves_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = uc[3:]
-    #uc = np.array([849])
+    uc = np.array([1804])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
