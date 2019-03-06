@@ -284,13 +284,17 @@ def auto_runner():
     bright_objects = cf['bo']
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
-    uc = np.array([1804])
+    uc = np.array([1804, 1578])
     print(uc)
+
+    fig, axs = plt.subplots(len(uc), 9, figsize=(35,8), gridspec_kw={'hspace':0.3,
+        'wspace': 0.5, 'width_ratios':[7,7,15,7,7,7,10,1,1]})
+
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
 
-        print("cube_"+str(cube_id)+": ")
-        
+        print("cube_"+str(cube_id))
+
         seg_overlay(cube_id) # creating image of galaxy with segmentation map overlayed
         spectra(cube_id) # creating a spectra
 
@@ -298,6 +302,140 @@ def auto_runner():
         #cube_reader.analysis("/Volumes/Jacky_Cao/University/level4/project/"+
                 #"cubes_better/cube_"+str(cube_id)+".fits", 
                 #"data/skyvariance_csub.fits")
+
+        # HST colour image
+        hst_colour = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
+                +"_coloured_image_data.npy")
+
+        axs[i_cube,0].imshow(hst_colour, interpolation='nearest', aspect="auto")
+        axs[i_cube,0].set_axis_off()
+       
+        # MUSE collapsed image and segmentation map
+        muse_collapsed = np.load("data/cubes_better/cube_"+str(cube_id)+".npy")
+        segmentation = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+            "_segmentation.npy")
+    
+        axs[i_cube,1].imshow(muse_collapsed, cmap='gray_r', aspect="auto")
+        axs[i_cube,1].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
+        axs[i_cube,1].set_axis_off()
+
+        # Spectra
+        # parameters from lmfit
+        lm_params = spectra_data.lmfit_data(cube_id)
+        z = lm_params['z']
+
+        # defining wavelength as the x-axis
+        x_data = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
+                str(int(cube_id)) + "_lamgal.npy")
+
+        # defining the flux from the data and model
+        y_data = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
+                str(int(cube_id)) + "_flux.npy")
+        y_model = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
+                str(int(cube_id)) + "_model.npy")
+
+        # scaling y data using the median of the data
+        y_data_scaled = y_data/np.median(y_data)
+        
+        axs[i_cube,2].plot(x_data, y_data_scaled, linewidth=2, color="#000000")
+        axs[i_cube,2].plot(x_data, y_model, linewidth=2, color="#b71c1c")
+
+        axs[i_cube,2].tick_params(labelsize=20)
+        axs[i_cube,2].set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
+        axs[i_cube,2].set_ylabel(r'\textbf{Relative flux}', fontsize=20)
+        
+        # ADD OII DOUBLET ONTO PLOT
+
+        # Voronoi data
+        voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+                str(int(cube_id))+"_voronoi_map.npy")
+        axs[i_cube,3].imshow(voronoi_map, cmap="prism", aspect="auto")
+        axs[i_cube,3].tick_params(labelsize=20)
+
+        # Galaxy maps
+        galaxy_maps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+            str(int(cube_id))+"_maps.npy")
+
+        # Rotated maps 
+        rotated_maps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+            str(int(cube_id))+"_rotated_maps.npy")
+
+        # scaling by pPXF maps
+        ppxf_vel_data = galaxy_maps[0]
+        ppxf_vel_unique = np.unique(ppxf_vel_data)
+
+        # V_OII map (lmfit)
+        voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+                str(int(cube_id))+"_voronoi_map.npy")
+        voii = axs[i_cube,4].imshow(rotated_maps[2], cmap="jet", aspect="auto",
+                vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
+        axs[i_cube,4].tick_params(labelsize=20)
+        fcbar = fig.colorbar(voii, ax=axs[i_cube,4])
+        fcbar.ax.tick_params(labelsize=20)
+
+        # V_star map (lmfit)
+        voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+                str(int(cube_id))+"_voronoi_map.npy")
+        voii = axs[i_cube,5].imshow(rotated_maps[0], cmap="jet", aspect="auto",
+                vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
+        axs[i_cube,5].tick_params(labelsize=20)
+        fcbar = fig.colorbar(voii, ax=axs[i_cube,5])
+        fcbar.ax.tick_params(labelsize=20)
+
+        # 1D rotation curve
+        # finding central pixel
+        map_shape = np.shape(rotated_maps[0])
+        c_x = int(map_shape[0]/2)-1
+        c_y = int(map_shape[1]/2)-1
+
+        muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
+
+        # slice containing the Voronoi IDs
+        vid_slice = np.nanmedian(rotated_maps[7][c_y-1:c_y+2,:], axis=0)
+        vid_slice = np.nan_to_num(vid_slice)
+
+        # unique Voronoi IDs and their locations 
+        unique_vids, unique_locs = np.unique(vid_slice.astype(int), return_index=True)
+
+        # select out a horizontal strip based on central pixel
+        ppxf_map_slice = rotated_maps[0][c_y-1:c_y+2,:]
+        ppxf_map_median = np.nanmedian(ppxf_map_slice, axis=0)
+        ppxf_map_median = ppxf_map_median[unique_locs] # masking out repeated values
+
+        lmfit_map_slice = rotated_maps[2][c_y-1:c_y+2,:]
+        lmfit_map_median = np.nanmedian(lmfit_map_slice, axis=0)
+        lmfit_map_median = lmfit_map_median[unique_locs] # masking out repeated values
+
+        # loading "a" factors in a/x model
+        a_ppxf = np.load("uncert_ppxf/vel_curve_best_values_ppxf.npy")
+        a_lmfit = np.load("uncert_lmfit/vel_curve_best_values_lmfit.npy")
+
+        sn_slice = np.nanmedian(rotated_maps[4][c_y-1:c_y+2,:], axis=0)[unique_locs]
+        
+        print(ppxf_map_median)
+
+        # pPXF velocity fractional error
+        frac_err_ppxf = (a_ppxf/sn_slice) * ppxf_map_median
+        ppxf_y_err = frac_err_ppxf
+
+        # lmfit velocity fractional error
+        lmfit_err_ppxf = (a_lmfit/sn_slice) * lmfit_map_median
+        lmfit_y_err = lmfit_err_ppxf
+
+        # array which defines the x-scale 
+        x_scale = np.arange(0, map_shape[0], 1.0)  
+
+        x_scale = x_scale - c_x # setting central pixel as radius 0
+        x_scale = x_scale * muse_scale # converting to MUSE scale
+        x_values = x_scale[unique_locs] # masking out repeated values
+
+        axs[i_cube,6].errorbar(x_values, ppxf_map_median, yerr=ppxf_y_err, 
+                ms=5, fmt='o', c='#03a9f4', elinewidth=1.0, capsize=5, capthick=1.0)
+        axs[i_cube,6].errorbar(x_values, lmfit_map_median, yerr=lmfit_y_err, 
+                ms=5, fmt='o', c='#f44336', elinewidth=1.0, capsize=5, capthick=1.0)
+
+    #fig.tight_layout()
+    fig.savefig("graphs/spectra_complete.pdf", bbox_inches="tight")
     
 
 if __name__ == '__main__':
