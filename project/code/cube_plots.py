@@ -7,6 +7,7 @@ from matplotlib import rc
 import multi_cubes
 import cube_reader
 import ppxf_fitter
+import spectra_data
 
 def data_matcher(catalogue_array, cubes_text_file):
     """ matching our cubes file which contains the details of processed cubes """
@@ -186,8 +187,92 @@ def plots(catalogue_array, cubes_text_file):
 
 def seg_overlay(cube_id):
     muse_collapsed = np.load("data/cubes_better/cube_"+str(cube_id)+".npy")
-    print(np.shape(muse_collapsed))
-    pass
+    segmentation = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+            "_segmentation.npy")
+    
+    fig, ax = plt.subplots()
+    ax.imshow(muse_collapsed, cmap='gray_r')
+    ax.imshow(segmentation, cmap="Blues", alpha=0.5)
+    
+    ax.axis('off')
+
+    plt.tight_layout()
+    plt.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+            "_seg_overlayed.pdf")
+    plt.close("all")
+
+def spectra(cube_id):
+    # parameters from lmfit
+    lm_params = spectra_data.lmfit_data(cube_id)
+    z = lm_params['z']
+
+    # defining wavelength as the x-axis
+    x_data = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
+            str(int(cube_id)) + "_lamgal.npy")
+
+    # defining the flux from the data and model
+    y_data = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
+            str(int(cube_id)) + "_flux.npy")
+    y_model = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
+            str(int(cube_id)) + "_model.npy")
+
+    # scaling y data using the median of the data
+    y_data_scaled = y_data/np.median(y_data)
+    
+    fig, ax = plt.subplots(figsize=(8,4))
+    ax.plot(x_data, y_data_scaled, linewidth=2, color="#000000")
+    ax.plot(x_data, y_model, linewidth=2, color="#b71c1c")
+
+    # residuals
+    residual = y_data_scaled - y_model
+    res_median = np.median(residual)
+    res_stddev = np.std(residual)    
+    mask = ((residual < res_stddev) & (residual > -res_stddev))     
+
+    ax.scatter(x_data[mask], residual[mask]-1, s=10, color="#43a047", alpha=0.5)
+
+    # spectral lines
+    sl = spectra_data.spectral_lines()
+    doublets = np.array([3727.092, 3728.875]) * (1+z)
+    max_y = np.max(y_data_scaled)
+
+    for e_key, e_val in sl['emis'].items():
+        spec_line = float(e_val)*(1+z)
+        spec_label = e_key
+
+        if (e_val in str(doublets)):
+            alpha_line = 0.2
+        else:
+            alpha_line = 0.7
+            
+        alpha_text = 0.75
+
+        ax.axvline(x=spec_line, linewidth=1.5, color="#1e88e5", alpha=alpha_line)
+        ax.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=alpha_text,
+                weight="bold", fontsize=15) 
+
+    for e_key, e_val in sl['abs'].items():
+        spec_line = float(e_val)*(1+z)
+        spec_label = e_key
+
+        ax.axvline(x=spec_line, linewidth=1.5, color="#ff8f00", alpha=0.7)
+        ax.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=0.75,
+                weight="bold", fontsize=15)
+
+    # iron spectral lines
+    for e_key, e_val in sl['iron'].items(): 
+        spec_line = float(e_val)*(1+z)
+
+        ax.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
+
+    ax.tick_params(labelsize=20)
+    ax.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
+    ax.set_ylabel(r'\textbf{Relative flux}', fontsize=20)
+
+    plt.tight_layout()
+    plt.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+            "_spectra_complete.pdf", bbox_inches="tight")
+    plt.close("all")
 
 def cube_table():
     pass
@@ -206,7 +291,13 @@ def auto_runner():
 
         print("cube_"+str(cube_id)+": ")
         
-        seg_overlay(cube_id)
+        seg_overlay(cube_id) # creating image of galaxy with segmentation map overlayed
+        spectra(cube_id) # creating a spectra
+
+        # Remaking old plots
+        #cube_reader.analysis("/Volumes/Jacky_Cao/University/level4/project/"+
+                #"cubes_better/cube_"+str(cube_id)+".fits", 
+                #"data/skyvariance_csub.fits")
     
 
 if __name__ == '__main__':

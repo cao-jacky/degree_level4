@@ -114,20 +114,22 @@ def voronoi_binned_map(cube_id):
     f, (ax1, ax2) = plt.subplots(1,2)
     ax1.imshow(binned_data, cmap='prism') # plotting Voronoi tessellated map
     ax1.imshow(seg, cmap='gray', alpha=0.5) # overlaying segmentation map
-    ax1.tick_params(labelsize=13)
+    ax1.tick_params(labelsize=20)
 
     ax2.imshow(o_cd)
-    ax2.tick_params(labelsize=13)
+    ax2.tick_params(labelsize=20)
 
     f.tight_layout()
-    f.savefig(cr_folder+"/cube_"+str(cube_id)+"_voronoi_map_image.pdf")
+    f.savefig(cr_folder+"/cube_"+str(cube_id)+"_voronoi_map_image.pdf", 
+            bbox_inches="tight")
 
     g, (gax1) = plt.subplots(1,1)
     gax1.imshow(binned_data, cmap='prism')
-    gax1.tick_params(labelsize=13)
+    gax1.tick_params(labelsize=20)
+    #gax1.axis('off')
 
     g.tight_layout()
-    g.savefig(cr_folder+"/cube_"+str(cube_id)+"_voronoi_map.pdf")
+    g.savefig(cr_folder+"/cube_"+str(cube_id)+"_voronoi_map.pdf", bbox_inches="tight")
 
     #plt.show()
 
@@ -160,5 +162,5 @@ def voronoi_binning(cube_id):
 #-----------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    voronoi_binning(1578)
+    voronoi_binning(1804)
     #data_file_creator(1804)    

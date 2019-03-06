@@ -159,47 +159,56 @@ def voronoi_plotter(cube_id):
     f, (ax1, ax2) = plt.subplots(1,2)
     fax1 = ax1.imshow(ppxf_vel_data, cmap='jet',
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
-    ax1.tick_params(labelsize=13)
-    ax1.set_title(r'\textbf{Velocity Map}', fontsize=13)
-    f.colorbar(fax1, ax=ax1)
+    ax1.tick_params(labelsize=20)
+    ax1.set_title(r'\textbf{Velocity Map}', fontsize=20)
+    fcbar = f.colorbar(fax1, ax=ax1)
+    fcbar.ax.tick_params(labelsize=20) 
 
     fax2 = ax2.imshow(ppxf_sigma_data, cmap='jet',
             vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1])
-    ax2.tick_params(labelsize=13)
-    ax2.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=13)
-    f.colorbar(fax2, ax=ax2)
+    ax2.tick_params(labelsize=20)
+    ax2.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=20)
+    fcbar = f.colorbar(fax2, ax=ax2)
+    fcbar.ax.tick_params(labelsize=20) 
 
     f.tight_layout()
     f.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
-            +"_ppxf_maps.pdf")
+            +"_ppxf_maps.pdf", bbox_inches="tight")
 
     g, (ax3, ax4) = plt.subplots(1,2)
     gax3 = ax3.imshow(lmfit_vel_data, cmap='jet', 
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
-    ax3.tick_params(labelsize=13)
-    ax3.set_title(r'\textbf{Velocity Map}', fontsize=13)
-    g.colorbar(gax3, ax=ax3)
+    ax3.tick_params(labelsize=20)
+    ax3.set_title(r'\textbf{Velocity Map}', fontsize=20)
+    gcbar = g.colorbar(gax3, ax=ax3)
+    gcbar.ax.tick_params(labelsize=20)
 
     gax4 = ax4.imshow(lmfit_sigma_data, cmap='jet',
             vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1])
-    ax4.tick_params(labelsize=13)
-    ax4.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=13)
-    g.colorbar(gax4, ax=ax4)
+    ax4.tick_params(labelsize=20)
+    ax4.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=20)
+    gcbar = g.colorbar(gax4, ax=ax4)
+    gcbar.ax.tick_params(labelsize=20)
 
     g.tight_layout()
     g.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
-            +"_lmfit_maps.pdf")
+            +"_lmfit_maps.pdf", bbox_inches="tight")
 
     h, (ax5) = plt.subplots(1,1)
     hax5 = ax5.imshow(curr_sn_data, cmap='jet', 
             vmin=np.min(sn_data[:,2]), vmax=np.max(sn_data[:,2]))
-    ax5.tick_params(labelsize=13)
-    ax5.set_title(r'\textbf{S/N Map}', fontsize=13)
-    h.colorbar(hax5, ax=ax5)
+    
+    #ax5.axis('off')
+    ax5.tick_params(labelsize=20)
+    #ax5.set_title(r'\textbf{S/N Map}', fontsize=20)
+
+    hcbar = h.colorbar(hax5, ax=ax5)
+    hcbar.ax.tick_params(labelsize=20)
+    hcbar.ax.set_ylabel(r"$\bf{S/N}$", fontsize=20, rotation=270, labelpad=30) 
 
     h.tight_layout()
     h.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
-            +"_signal_noise_map.pdf")
+            +"_signal_noise_map.pdf", bbox_inches="tight")
 
 def voronoi_runner():
     # Running to obtain results from pPXF and OII fitting
@@ -726,13 +735,20 @@ def rotation_curves(cube_id):
                     label=rot_labels[i_map], elinewidth=1.0, capsize=5, capthick=1.0) 
         if i_map == 4:
             fax = ax.imshow(curr_map_data, cmap='jet')
-        
-        ax.tick_params(labelsize=13)
-        f.colorbar(fax, ax=ax)
+       
+        #ax.axis('off')
+        ax.tick_params(labelsize=20)
+        fcbar = f.colorbar(fax, ax=ax)
+        fcbar.ax.tick_params(labelsize=20)
+
+        if i_map in np.array([0]):
+            fcbar.ax.set_ylabel(r"\textbf{Stellar velocity (kms$^{-1}$)}", 
+                    fontsize=20, rotation=270, labelpad=30)
+
         f.tight_layout()
         if i_map not in np.array([5,6,7,8,9]):
             f.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-                    "_rotated_"+map_string+".pdf") 
+                    "_rotated_"+map_string+".pdf", bbox_inches="tight") 
 
         plt.close("all")
 
@@ -772,9 +788,6 @@ def rotation_curves(cube_id):
 
     vel_diffs = []
 
-    print(np.unique(rgmaps[0]))
-    print(rgmaps[2][24][24])
-
     for cm_y in range(np.shape(rgmaps[0])[1]):
         for cm_x in range(np.shape(rgmaps[0])[0]):
             cpd_stellar = rgmaps[0][cm_y][cm_x] # stellar velocity
@@ -806,10 +819,6 @@ def rotation_curves(cube_id):
                     vel_diffs.append([cp_radius, cpd_stellar, cpds_e[0], cpd_oii, 
                         cpdo_e[0]])
 
-    print(vel_diffs)
-
-
-    
     ax1.tick_params(labelsize=20)
     ax1.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
     ax1.set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=20)   

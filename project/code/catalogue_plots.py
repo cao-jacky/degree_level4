@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
+from collections import OrderedDict
 
 from astropy.io import fits
 
@@ -49,23 +50,25 @@ def graph_sn_mag(x_data, y_data, cubes_data):
         if curr_x in small_redshift[:,5] and curr_y in sr_sn:
             pass
         if curr_x not in catalogue[:,5] and curr_y not in cat_sn:
-            ax.scatter(x_data[i], y_data[i], s=20, color="#000000", alpha=0.3)
+            ax.scatter(x_data[i], y_data[i], s=20, color="#000000", alpha=0.3,
+                    label=r'\textbf{Unused}')
 
     # plotting cubes with z<0.3
-    ax.scatter(small_redshift[:,5], sr_sn, s=20, color="#d50000", alpha=0.4)
+    ax.scatter(small_redshift[:,5], sr_sn, s=20, color="#d50000", alpha=0.4, 
+            label=r'$z<0.3$')
 
     # plotting the usable cubes
     for i in range(len(catalogue[:,0])):
         curr_cube = int(catalogue[:,0][i]) 
         if curr_cube in unusable_cubes['ac']:
             ax.scatter(catalogue[:,5][i], cat_sn[i], s=20, color="#ffa000", alpha=0.5,
-                    marker="x")
+                    marker="x", label=r'\textbf{Not usable}')
         if curr_cube in unusable_cubes['ga']:
             ax.scatter(catalogue[:,5][i], cat_sn[i], s=20, color="#ffa000", alpha=0.5,
                     marker="x") 
         if curr_cube not in unusable_cubes['ac']:
             ax.scatter(catalogue[:,5][i], cat_sn[i], s=20, color="#00c853", alpha=0.5,
-                    marker="o", zorder=3)
+                    marker="o", zorder=3, label=r'\textbf{Usable}')
 
     cube_ids = catalogue[:,0]
     for i, txt in enumerate(cube_ids):
@@ -76,6 +79,11 @@ def graph_sn_mag(x_data, y_data, cubes_data):
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=20)
     ax.set_ylabel(r'\textbf{MUSE Image Flux S/N}', fontsize=20)
+
+    handles, labels = plt.gca().get_legend_handles_labels()
+    by_label = OrderedDict(zip(labels, handles))
+
+    ax.legend(by_label.values(), by_label.keys(), loc='upper left', prop={'size': 15})
 
     ax.set_yscale('log')
     ax.invert_xaxis()

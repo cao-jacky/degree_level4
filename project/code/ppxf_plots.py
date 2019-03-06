@@ -233,7 +233,9 @@ def linear(x, m, c):
     return (m*x) + c
 
 def chisq(data, data_err, model):
-    return np.sum((data-model)**2/data_err**2)
+    chisq_indivs = (data-model)**2/data_err**2
+    chisq = (chisq_indivs < 100)
+    return np.sum(chisq_indivs[chisq])
 
 def sigma_stars_vs_sigma_oii():
     data = np.load("data/ppxf_fitter_data.npy") 
@@ -274,8 +276,7 @@ def sigma_stars_vs_sigma_oii():
     md1r = sl_model.fit(y_dat, x=x_dat, params=md1p) # Model 1 results
 
     md1_bf = md1r.best_values
-    md1_fit = linear(f_xd, md1_bf['m'], md1_bf['c'])
-    ax.plot(f_xd, md1_fit, lw=1.5, c="#ce93d8", label="m: free, c: free")
+    md1_fit = linear(f_xd, md1_bf['m'], md1_bf['c']) 
 
     # Model 2: constrain m=1.0, free c
     md2p = Parameters()
@@ -285,8 +286,7 @@ def sigma_stars_vs_sigma_oii():
     md2r = sl_model.fit(y_dat, x=x_dat, params=md2p) 
 
     md2_bf = md2r.best_values
-    md2_fit = linear(f_xd, md2_bf['m'], md2_bf['c'])
-    #ax.plot(f_xd, md2_fit, lw=1.5, c="#a5d6a7", label="m: fixed, c: free")
+    md2_fit = linear(f_xd, md2_bf['m'], md2_bf['c']) 
 
     # Model 3: free m, constrain c=0.0
     md3p = Parameters()
@@ -297,7 +297,6 @@ def sigma_stars_vs_sigma_oii():
 
     md3_bf = md3r.best_values
     md3_fit = linear(f_xd, md3_bf['m'], md3_bf['c'])
-    #ax.plot(f_xd, md3_fit, lw=1.5, c="#80deea", label="m: free, c: fixed")
 
     # Calculating reduced chi-squared values for all three models
     csq_m1 = linear(x_dat, md1_bf['m'], md1_bf['c'])
@@ -308,6 +307,23 @@ def sigma_stars_vs_sigma_oii():
 
     csq_m3 = linear(x_dat, md2_bf['m'], md3_bf['c'])
     rchisq_3 = chisq(y_dat, yerr, csq_m3) / (len(y_dat)-2) # model 3
+
+    print(rchisq_1, rchisq_2, rchisq_3)
+
+    # Plotting best fit lines onto plot
+
+    ax.plot(f_xd, md1_fit, lw=1.5, c="#ce93d8", 
+            label=r"\textbf{m: free, c: free, }" + r"$\chi^2_{\nu}$: " + r"$" +
+            str(np.round(rchisq_1, decimals=2)) + "$")
+
+    ax.plot(f_xd, md2_fit, lw=1.5, c="#a5d6a7",
+            label=r"\textbf{m: fixed, c: free, }" + r"$\chi^2_{\nu}$: " + r"$" +
+            str(np.round(rchisq_2, decimals=2)) + "$")
+
+    ax.plot(f_xd, md3_fit, lw=1.5, c="#80deea", 
+            label=r"\textbf{m: free, c: fixed, }" + r"$\chi^2_{\nu}$: " + r"$" +
+            str(np.round(rchisq_3, decimals=2)) + "$")
+
  
     """
     low_sn = np.array([554, 765, 849, 1129, 895, 175])
@@ -343,10 +359,10 @@ def sigma_stars_vs_sigma_oii():
     ax.set_ylim([-10,225])
     #ax.set_aspect('equal', 'box')
 
-    #ax.legend(loc='lower right', prop={'size': 17})
+    ax.legend(loc='lower right', prop={'size': 12})
 
     fig.tight_layout()
-    fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf")
+    fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf",bbox_inches="tight")
     plt.close("all") 
 
 def sigma_ranker():
@@ -371,7 +387,7 @@ def sigma_ranker():
 
     diff_data = diff_data[diff_data[:,1].argsort()[::-1]]
     
-    fig, axs = plt.subplots(array_len, 2, figsize=(8,8))
+    fig, axs = plt.subplots(array_len, 3, figsize=(16,16))
 
     for i_ax in range(array_len):
         cube_id = int(diff_data[i_ax][0])
@@ -380,11 +396,16 @@ def sigma_ranker():
         analysis = cube_reader.image_collapser("/Volumes/Jacky_Cao/University/level4/"
                 + "project/cubes_better/cube_"+str(cube_id)+".fits")  
 
+        hst_colour = np.load("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)
+                +"_coloured_image_data.npy")
+
         plt.axis('off')
         axs[i_ax,0].imshow(analysis['median'], cmap='gray_r')
         axs[i_ax,0].set_axis_off()
-        axs[i_ax,1].annotate(str(cube_id)+", "+str(cube_diff), (0.1,0.5))
+        axs[i_ax,1].imshow(hst_colour, interpolation='nearest')
         axs[i_ax,1].set_axis_off()
+        axs[i_ax,2].annotate(str(cube_id)+", "+str(cube_diff), (0.1,0.5))
+        axs[i_ax,2].set_axis_off()
 
     #fig.tight_layout()
     fig.savefig("graphs/sigma_diff_ranked.pdf")
@@ -657,7 +678,7 @@ if __name__ == '__main__':
 
     #vel_stars_vs_vel_oii()
     
-    #sigma_ranker()
+    sigma_ranker()
 
     #sigma_old_vs_new()
 

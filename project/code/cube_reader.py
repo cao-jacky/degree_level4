@@ -396,7 +396,7 @@ def f_doublet(x, c, i1, i2, sigma_gal, z, sigma_inst):
     term2 = ( i2 / norm ) * np.exp(-(x-l2)**2/(2*sigma**2)) 
     return (c*x + term1 + term2)
 
-def otwo_doublet_fitting(file_name, sky_file_name, y_data):
+def otwo_doublet_fitting(file_name, sky_file_name):
     sa_data     = spectra_analysis(file_name, sky_file_name)
     y_shifted   = sa_data['gd_shifted'] 
     orr         = wavelength_solution(file_name)
@@ -642,12 +642,12 @@ def analysis(file_name, sky_file_name):
         # plotting the data for the cutout [OII] region
         ot_x    = df_data['x_region']
         ot_y    = df_data['y_region']
-        plt.plot(ot_x, ot_y, linewidth=0.5, color="#000000")
+        plt.plot(ot_x, ot_y, linewidth=1.5, color="#000000")
 
         ## plotting the standard deviation region in the [OII] section
         std_x   = df_data['std_x']
         std_y   = df_data['std_y']
-        plt.plot(std_x, std_y, linewidth=0.5, color="#00acc1") 
+        #plt.plot(std_x, std_y, linewidth=1.5, color="#00acc1") 
 
         dblt_rng    = df_data['doublet_range']
         ot_x_b, ot_x_e  = dblt_rng[0], dblt_rng[-1]
@@ -657,8 +657,10 @@ def analysis(file_name, sky_file_name):
         lm_init     = df_data['lm_init_fit']
         lm_best     = df_data['lm_best_fit'] 
 
-        plt.plot(ot_x, lm_best, linewidth=0.5, color="#1e88e5")
-        plt.plot(ot_x, lm_init, linewidth=0.5, color="#43a047", alpha=0.5)
+        plt.plot(ot_x, lm_best, linewidth=1.5, color="#1e88e5", 
+                label=r"\textbf{Best fit}")
+        plt.plot(ot_x, lm_init, linewidth=1.5, color="#43a047", alpha=0.5,
+                label=r"\textbf{Initial guess}")
         
         lm_params   = df_data['lm_best_param']
         lm_params   = [prm_value for prm_key, prm_value in lm_params.items()]
@@ -674,8 +676,10 @@ def analysis(file_name, sky_file_name):
         lm_y1 = c + ( i_val1 / norm ) * np.exp(-(ot_x-l1)**2/(2*sig**2))
         lm_y2 = c + ( i_val2 / norm ) * np.exp(-(ot_x-l2)**2/(2*sig**2))
     
-        plt.plot(ot_x, lm_y1, linewidth=0.5, color="#e64a19", alpha=0.7) 
-        plt.plot(ot_x, lm_y2, linewidth=0.5, color="#1a237e", alpha=0.7)
+        plt.plot(ot_x, lm_y1, linewidth=1.5, color="#e64a19", alpha=0.7, 
+                label=r"\textbf{Gaussian 1}") 
+        plt.plot(ot_x, lm_y2, linewidth=1.5, color="#1a237e", alpha=0.7,
+                label=r"\textbf{Gaussian 2}")
 
         # plotting signal-to-noise straight line and gaussian to verify it works
         sn_line     = df_data['sn_line']
@@ -684,20 +688,24 @@ def analysis(file_name, sky_file_name):
         #plt.axhline(y=sn_line, linewidth=0.5, color="#5c6bc0", alpha=0.7) 
         #plt.plot(ot_x, sn_gauss, linewidth=0.5, color="#5c6bc0", alpha=0.7)
 
-        plt.title(r'\textbf{[OII] region}', fontsize=13)        
-        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=13)
-        plt.ylabel(r'\textbf{Flux}', fontsize=13)
-        plt.ylim([-500,5000]) # setting manual limits for now
-        plt.savefig(data_dir + "/" + stk_f_n + '_otwo_region.pdf')
+        #plt.title(r'\textbf{[OII] region}', fontsize=13)
+        plt.legend(loc='upper left', prop={'size': 15})
+        plt.tick_params(labelsize=20)
+        plt.xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
+        plt.ylabel(r'\textbf{Flux}', fontsize=20)
+        plt.xlim([l1-100,np.max(ot_x)])
+        plt.ylim([-100,np.max(ot_y)+100]) # setting manual limits for now
+        plt.savefig(data_dir + "/" + stk_f_n + '_otwo_region.pdf',bbox_inches="tight")
 
     #graphs_collapsed()
     #graphs_spectra()
-    #graphs_otwo_region()
+    graphs_otwo_region()
 
     plt.close("all")
 
     return {'image_data': im_coll_data, 'spectra_data': spectra_data, 'sr': sr,
             'df_data': df_data, 'gs_data': gs_data, 'snw_data': snw_data}
 
-#analysis("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
-        #"cube_1068.fits", "data/skyvariance_csub.fits")
+if __name__ == '__main__':
+    analysis("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" + 
+        "cube_1068.fits", "data/skyvariance_csub.fits")
