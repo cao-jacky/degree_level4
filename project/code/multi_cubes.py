@@ -110,5 +110,5 @@ def multi_cube_reader(catalogue_array):
             else:
                 print("Skipping cube " + str(obj_id))
                 pass
-
-multi_cube_reader("data/matched_catalogue.npy")
+if __name__ == '__main__':
+    multi_cube_reader("data/matched_catalogue.npy")

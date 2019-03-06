@@ -1,5 +1,5 @@
 # GAIA SExtractor configuration parameters file.
-CATALOG_NAME     GaiaCatalog0.ASC
+CATALOG_NAME     GaiaCatalog0_060319.ASC
 PARAMETERS_NAME     default.param
 CATALOG_TYPE     ASCII_HEAD
 DETECT_MINAREA   5

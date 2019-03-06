@@ -273,7 +273,7 @@ def colour_image_extractor():
                 b = colour_data[2]
                 v = colour_data[1]
                 i = colour_data[0]
-                coloured_image = hst_udf.mkcol(b,v,i, 0.99, 0.99)
+                coloured_image = hst_udf.mkcol(b,v,i, 0.99, 0.9)
 
                 # save as array
                 np.save("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+

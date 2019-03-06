@@ -6,6 +6,7 @@ from matplotlib import rc
 
 import multi_cubes
 import cube_reader
+import ppxf_fitter
 
 def data_matcher(catalogue_array, cubes_text_file):
     """ matching our cubes file which contains the details of processed cubes """
@@ -183,6 +184,34 @@ def plots(catalogue_array, cubes_text_file):
     flux()
     #mag_sigma()
 
-file_catalogue  = "data/matched_catalogue.npy"
-file_cubes      = "data/cubes.txt"
-plots(file_catalogue, file_cubes)
+def seg_overlay(cube_id):
+    muse_collapsed = np.load("data/cubes_better/cube_"+str(cube_id)+".npy")
+    print(np.shape(muse_collapsed))
+    pass
+
+def cube_table():
+    pass
+
+def auto_runner():
+    # Running through the usable sample
+    cf = ppxf_fitter.cat_func()
+    catalogue = cf['cat'] # calling sorted catalogue from cataogue function
+    bright_objects = cf['bo']
+
+    uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
+    uc = np.array([1804])
+    print(uc)
+    for i_cube in range(len(uc)):
+        cube_id = int(uc[i_cube])
+
+        print("cube_"+str(cube_id)+": ")
+        
+        seg_overlay(cube_id)
+    
+
+if __name__ == '__main__':
+    file_catalogue  = "data/matched_catalogue.npy"
+    file_cubes      = "data/cubes.txt"
+    #plots(file_catalogue, file_cubes)
+
+    auto_runner()
