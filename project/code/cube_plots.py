@@ -284,7 +284,7 @@ def auto_runner():
     bright_objects = cf['bo']
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
-    uc = np.array([1804, 1578])
+    #uc = np.array([1804, 1578])
     print(uc)
 
     fig, axs = plt.subplots(len(uc), 9, figsize=(35,8), gridspec_kw={'hspace':0.3,
