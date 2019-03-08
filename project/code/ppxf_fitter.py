@@ -87,6 +87,9 @@ def ignore_cubes():
     avoid_objects = np.load("data/avoid_objects.npy")
     avoid_cubes = np.append(cubes_to_ignore, avoid_objects) # create single array
 
+    # array for low signal-to-noise
+    low_sn = np.array([549, 849, 895])
+
     gas_avoid = np.array([1, 175, 895, 540, 414, 549, 849, 1075])
     
     return {'ac': avoid_cubes,'ga': gas_avoid}
@@ -308,9 +311,14 @@ def ppxf_cube_auto():
         uncert_ppxf = fe_ppxf * sigma_stars
         uncert_lmfit = fe_lmfit * vel_dispersion
 
-        print(fe_ppxf, sigma_stars, uncert_ppxf)
+        if np.abs(uncert_ppxf-sigma_stars_error) > 5 :
+            # replace fractional error estimate with pPXF estimate if the fractional
+            # error appears to be too small
+            if uncert_ppxf < sigma_stars_error:
+                print("using new error!")
+                uncert_ppxf = sigma_stars_error
 
-        # storing as uncertainty values
+        # storing uncertainty values
         data[i_cube][0][12] = uncert_ppxf
         data[i_cube][0][13] = uncert_lmfit
 
