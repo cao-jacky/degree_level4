@@ -133,7 +133,7 @@ def ppxf_cube_auto():
         [3800, 4000],
         [4000, 4500]
         ])
-    #ranges = np.array([])
+    ranges = np.array([])
 
     np.save("data/ppxf_fitting_ranges", ranges)
 
@@ -307,6 +307,8 @@ def ppxf_cube_auto():
 
         uncert_ppxf = fe_ppxf * sigma_stars
         uncert_lmfit = fe_lmfit * vel_dispersion
+
+        print(fe_ppxf, sigma_stars, uncert_ppxf)
 
         # storing as uncertainty values
         data[i_cube][0][12] = uncert_ppxf

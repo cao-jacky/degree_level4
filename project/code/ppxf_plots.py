@@ -252,6 +252,8 @@ def sigma_stars_vs_sigma_oii():
 
     xerr=data[:][:,0][:,13][y_mask]
     yerr=data[:][:,0][:,12][y_mask]
+
+    print(yerr)
    
     ax.errorbar(x_dat, y_dat, xerr=xerr, yerr=yerr,
             color="#000000", fmt="o", ms=5, elinewidth=1.0, 
