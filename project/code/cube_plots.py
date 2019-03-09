@@ -4,6 +4,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+
 import multi_cubes
 import cube_reader
 import ppxf_fitter
@@ -265,7 +267,7 @@ def spectra(cube_id):
 
         ax.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
 
-    ax.tick_params(labelsize=20)
+    ax.tick_params(labelsize=40)
     ax.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
     ax.set_ylabel(r'\textbf{Relative flux}', fontsize=20)
 
@@ -285,11 +287,11 @@ def auto_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = np.array([1804, 1578])
-    uc = uc[0:8] # 0:11 is the full usable sample for Voronoi plots
+    uc = uc[0:6] # 0:11 is the full usable sample for Voronoi plots
     print(uc)
 
-    fig, axs = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.3,
-        'wspace': 0.5, 'width_ratios':[7,7,15,7,7,7,10,1,1]})
+    fig, axs = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.35,
+        'wspace':0.45, 'width_ratios':[7,7,15,7,7,7,10,10,10]})
 
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
@@ -298,6 +300,10 @@ def auto_runner():
 
         seg_overlay(cube_id) # creating image of galaxy with segmentation map overlayed
         spectra(cube_id) # creating a spectra
+
+        # changing backgrounds of maps from white to black
+        #current_cmap = plt.cm.jet
+        #current_cmap.set_bad(color='white')
 
         # Remaking old plots
         #cube_reader.analysis("/Volumes/Jacky_Cao/University/level4/project/"+
@@ -320,7 +326,9 @@ def auto_runner():
     
         axs[i_cube,1].imshow(muse_collapsed, cmap='gray_r', aspect="auto")
         axs[i_cube,1].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
-        axs[i_cube,1].set_axis_off()
+        #axs[i_cube,1].set_axis_off()
+        axs[i_cube,1].tick_params(labelsize=40)
+        axs[i_cube,1].set_ylabel(r'\textbf{Pixels}', fontsize=40)
 
         # --------------------------------------------------#
 
@@ -345,9 +353,8 @@ def auto_runner():
         axs[i_cube,2].plot(x_data, y_data_scaled, linewidth=2, color="#000000")
         axs[i_cube,2].plot(x_data, y_model, linewidth=2, color="#b71c1c")
 
-        axs[i_cube,2].tick_params(labelsize=20)
-        axs[i_cube,2].set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
-        axs[i_cube,2].set_ylabel(r'\textbf{Relative flux}', fontsize=20)
+        axs[i_cube,2].tick_params(labelsize=40) 
+        axs[i_cube,2].set_ylabel(r'\textbf{Relative flux}', fontsize=40)
         
         # ADD OII DOUBLET ONTO PLOT
 
@@ -357,7 +364,8 @@ def auto_runner():
         voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
                 str(int(cube_id))+"_voronoi_map.npy")
         axs[i_cube,3].imshow(voronoi_map, cmap="prism", aspect="auto")
-        axs[i_cube,3].tick_params(labelsize=20)
+        axs[i_cube,3].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
+        axs[i_cube,3].tick_params(labelsize=40)
 
         # Galaxy maps
         galaxy_maps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
@@ -376,18 +384,24 @@ def auto_runner():
                 str(int(cube_id))+"_voronoi_map.npy")
         voii = axs[i_cube,4].imshow(rotated_maps[2], cmap="jet", aspect="auto",
                 vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
-        axs[i_cube,4].tick_params(labelsize=20)
-        fcbar = fig.colorbar(voii, ax=axs[i_cube,4])
-        fcbar.ax.tick_params(labelsize=20)
+        axs[i_cube,4].tick_params(labelsize=40)
+        
+        divider = make_axes_locatable(axs[i_cube,4])
+        cax = divider.append_axes("right", size="5%", pad=0.05)
+        fcbar = plt.colorbar(voii, ax=axs[i_cube,4], cax=cax)
+        fcbar.ax.tick_params(labelsize=30)
 
         # V_star map (lmfit)
         voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
                 str(int(cube_id))+"_voronoi_map.npy")
-        voii = axs[i_cube,5].imshow(rotated_maps[0], cmap="jet", aspect="auto",
+        vstar = axs[i_cube,5].imshow(rotated_maps[0], cmap="jet", aspect="auto",
                 vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
-        axs[i_cube,5].tick_params(labelsize=20)
-        fcbar = fig.colorbar(voii, ax=axs[i_cube,5])
-        fcbar.ax.tick_params(labelsize=20)
+        axs[i_cube,5].tick_params(labelsize=40)
+
+        divider = make_axes_locatable(axs[i_cube,5])
+        cax = divider.append_axes("right", size="5%", pad=0.05)
+        fcbar = plt.colorbar(vstar, ax=axs[i_cube,5], cax=cax)
+        fcbar.ax.tick_params(labelsize=30)
 
         # --------------------------------------------------#
 
@@ -420,16 +434,23 @@ def auto_runner():
         a_lmfit = np.load("uncert_lmfit/vel_curve_best_values_lmfit.npy")
 
         sn_slice = np.nanmedian(rotated_maps[4][c_y-1:c_y+2,:], axis=0)[unique_locs]
-        
-        print(ppxf_map_median)
+       
+        # using full velocity maps (not de-redshifted ones)
+        ppxf_map_fv_slice = rotated_maps[8][c_y-1:c_y+2,:]
+        ppxf_map_fv_median = np.nanmedian(ppxf_map_fv_slice, axis=0)
+        ppxf_map_fv_median = ppxf_map_fv_median[unique_locs] 
+
+        lmfit_map_fv_slice = rotated_maps[9][c_y-1:c_y+2,:]
+        lmfit_map_fv_median = np.nanmedian(lmfit_map_fv_slice, axis=0)
+        lmfit_map_fv_median = lmfit_map_fv_median[unique_locs] 
 
         # pPXF velocity fractional error
-        frac_err_ppxf = (a_ppxf/sn_slice) * ppxf_map_median
+        frac_err_ppxf = (a_ppxf/sn_slice) * ppxf_map_fv_median
         ppxf_y_err = frac_err_ppxf
 
         # lmfit velocity fractional error
-        lmfit_err_ppxf = (a_lmfit/sn_slice) * lmfit_map_median
-        lmfit_y_err = lmfit_err_ppxf
+        frac_err_lmfit = (a_lmfit/sn_slice) * lmfit_map_fv_median
+        lmfit_y_err = frac_err_lmfit
 
         # array which defines the x-scale 
         x_scale = np.arange(0, map_shape[0], 1.0)  
@@ -439,17 +460,49 @@ def auto_runner():
         x_values = x_scale[unique_locs] # masking out repeated values
 
         axs[i_cube,6].errorbar(x_values, ppxf_map_median, yerr=ppxf_y_err, 
-                ms=5, fmt='o', c='#03a9f4', elinewidth=1.0, capsize=5, capthick=1.0)
+                ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2)
         axs[i_cube,6].errorbar(x_values, lmfit_map_median, yerr=lmfit_y_err, 
-                ms=5, fmt='o', c='#f44336', elinewidth=1.0, capsize=5, capthick=1.0)
+                ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2)
 
+        axs[i_cube,6].tick_params(labelsize=40)
+        
         # --------------------------------------------------#
 
         # 2D rotation curve
         twod_data = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
                 str(int(cube_id))+"_vel_diff_data.npy")
 
-        print(twod_data)
+        axs[i_cube,7].errorbar(twod_data[:,0], twod_data[:,1], yerr=twod_data[:,2], 
+                ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2)
+        axs[i_cube,7].errorbar(twod_data[:,0], twod_data[:,3], yerr=twod_data[:,4], 
+                ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2)
+
+        axs[i_cube,7].tick_params(labelsize=40)
+        
+        # Add title for only first row of plots
+        if cube_id == uc[0]:
+            axs[i_cube,0].set_title(r'\textbf{HST}', fontsize=40, pad=10)
+            axs[i_cube,1].set_title(r'\textbf{MUSE}', fontsize=40, pad=10)
+            axs[i_cube,2].set_title(r'\textbf{Spectra}', fontsize=40, pad=10)
+            axs[i_cube,3].set_title(r'\textbf{Voronoi}', fontsize=40, pad=10)
+            axs[i_cube,4].set_title(r'\textbf{Stellar (kms$^{-1}$)}', fontsize=40, 
+                    pad=10)
+            axs[i_cube,5].set_title(r'\textbf{Gas (kms$^{-1}$)}', fontsize=40, pad=10)
+            axs[i_cube,6].set_title(r'\textbf{1D Rot. Curve}', fontsize=40, pad=10)
+            axs[i_cube,7].set_title(r'\textbf{2D Rot. Curve}', fontsize=40, pad=10)
+
+        # Add labels for only edge plots
+        if cube_id == uc[-1]:
+            axs[i_cube,1].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+            
+            axs[i_cube,2].set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=40)
+
+            axs[i_cube,3].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+            axs[i_cube,4].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+            axs[i_cube,5].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+        
+            axs[i_cube,6].set_xlabel(r'\textbf{Radius (")}', fontsize=40)
+            axs[i_cube,7].set_xlabel(r'\textbf{Radius (")}', fontsize=40)
 
     #fig.tight_layout()
     fig.savefig("graphs/spectra_complete.pdf", bbox_inches="tight")
