@@ -162,5 +162,5 @@ def voronoi_binning(cube_id):
 #-----------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    voronoi_binning(1804)
+    voronoi_binning(540)
     #data_file_creator(1804)    
