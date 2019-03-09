@@ -217,7 +217,7 @@ def voronoi_runner():
     bright_objects = cf['bo']
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
-    uc = uc[3:]
+    uc = uc[11:]
     #uc = np.array([849])
     print(uc)
     for i_cube in range(len(uc)):
@@ -781,12 +781,14 @@ def rotation_curves(cube_id):
     rgmaps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
             str(int(cube_id))+"_rotated_maps.npy")
 
+    # --------------------------------------------------#
+
     # Creating V_OII vs V_* plot
     map_shape = np.shape(rgmaps[0])
     c_x = int(map_shape[0]/2)-1
     c_y = int(map_shape[1]/2)-1
 
-    vel_diffs = []
+    vd_data = [] # list to store velocities, errors, and radii values
 
     for cm_y in range(np.shape(rgmaps[0])[1]):
         for cm_x in range(np.shape(rgmaps[0])[0]):
@@ -816,8 +818,35 @@ def rotation_curves(cube_id):
                     rcpd_lmfit = rgmaps[9][cm_y][cm_x]
                     cpdo_e = curve(cp_sn, frac_err_lmfit) * rcpd_lmfit # OII error
 
-                    vel_diffs.append([cp_radius, cpd_stellar, cpds_e[0], cpd_oii, 
+                    vd_data.append([cp_radius, cpd_stellar, cpds_e[0], cpd_oii, 
                         cpdo_e[0]])
+
+    vd_data = np.asarray(vd_data) 
+    np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
+            "_vel_diff_data.npy", vd_data) # save data to an array
+
+    # plotting V_OII-V_* against radius
+    vd, vdax1 = plt.subplots(1,1) 
+    
+    radii = vd_data[:,0]
+    v_oii = vd_data[:,3]
+    v_star = vd_data[:,1]
+
+    v_diff = (v_oii - v_star) # difference data
+    v_diff_err = np.sqrt(vd_data[:,2]**2 + vd_data[:,4]**2) # uncertainty data
+
+    vdax1.errorbar(radii, v_diff, yerr=v_diff_err, ms=5, fmt='o', c="#000000", 
+            elinewidth=1.0, capsize=5, capthick=1.0) 
+
+    vdax1.tick_params(labelsize=20)
+    vdax1.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
+    vdax1.set_ylabel(r'\textbf{V$_{gas}$-V$_{stellar}$ (kms$^{-1}$)}', fontsize=20) 
+
+    vd.tight_layout()
+    vd.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
+            "_velocity_differences.pdf", bbox_inches="tight")
+
+    # --------------------------------------------------#
 
     ax1.tick_params(labelsize=20)
     ax1.set_xlabel(r'\textbf{Radius (")}', fontsize=20)
@@ -826,7 +855,7 @@ def rotation_curves(cube_id):
     ax1.set_xlim([-(np.nanmax(x_values)+0.2), (np.nanmax(x_values)+0.2)])
     g.tight_layout()
     g.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-            "_rotation_curves_1d.pdf")
+            "_rotation_curves_1d.pdf", bbox_inches="tight")
 
     plt.close("all")
 
@@ -837,7 +866,7 @@ def rotation_curves(cube_id):
     #p2ax1.set_xlim([-(np.nanmax(x_values)+0.2), (np.nanmax(x_values)+0.2)])
     p2.tight_layout()
     p2.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-            "_rotation_curves_2d.pdf")
+            "_rotation_curves_2d.pdf", bbox_inches="tight")
 
     plt.close("all")
 
@@ -848,9 +877,8 @@ def rotation_curves(cube_id):
     vel_diff = sliced_vel[2]-sliced_vel[1] # stellar vel - gas vel
     prop_err = np.sqrt(sliced_vel[7]**2 + sliced_vel[8]**2) # propagated error
 
-    jax1.errorbar(sliced_vel[9], vel_diff, yerr=prop_err, 
-                    ms=5, fmt='o', c="#000000", elinewidth=1.0, capsize=5, 
-                    capthick=1.0) 
+    jax1.errorbar(sliced_vel[9], vel_diff, yerr=prop_err, ms=5, fmt='o', c="#000000", 
+            elinewidth=1.0, capsize=5, capthick=1.0) 
 
     jax1.set_xlim([-(np.nanmax(sliced_vel[9])+0.2), (np.nanmax(sliced_vel[9])+0.2)])
     jax1.tick_params(labelsize=20)
@@ -859,7 +887,7 @@ def rotation_curves(cube_id):
     
     j.tight_layout()
     j.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+
-            "_velocity_offsets.pdf")
+            "_velocity_offsets.pdf", bbox_inches="tight")
     plt.close("all")
 
     # ------------------------------------------------------------------------------ #
@@ -898,7 +926,8 @@ def rotation_curves(cube_id):
 
     #h.colorbar(hax, ax=[hax1, hax2])
     h.tight_layout()
-    h.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+"_velocity.pdf") 
+    h.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+"_velocity.pdf",
+            bbox_inches="tight") 
     plt.close("all")
 
 def rotation_curves_runner():
@@ -909,7 +938,7 @@ def rotation_curves_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = uc[3:]
-    uc = np.array([1804])
+    #uc = np.array([1804])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
