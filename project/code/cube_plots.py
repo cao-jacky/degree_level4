@@ -285,9 +285,10 @@ def auto_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = np.array([1804, 1578])
+    uc = uc[0:8] # 0:11 is the full usable sample for Voronoi plots
     print(uc)
 
-    fig, axs = plt.subplots(len(uc), 9, figsize=(35,8), gridspec_kw={'hspace':0.3,
+    fig, axs = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.3,
         'wspace': 0.5, 'width_ratios':[7,7,15,7,7,7,10,1,1]})
 
     for i_cube in range(len(uc)):
@@ -309,6 +310,8 @@ def auto_runner():
 
         axs[i_cube,0].imshow(hst_colour, interpolation='nearest', aspect="auto")
         axs[i_cube,0].set_axis_off()
+
+        # --------------------------------------------------#
        
         # MUSE collapsed image and segmentation map
         muse_collapsed = np.load("data/cubes_better/cube_"+str(cube_id)+".npy")
@@ -318,6 +321,8 @@ def auto_runner():
         axs[i_cube,1].imshow(muse_collapsed, cmap='gray_r', aspect="auto")
         axs[i_cube,1].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         axs[i_cube,1].set_axis_off()
+
+        # --------------------------------------------------#
 
         # Spectra
         # parameters from lmfit
@@ -345,6 +350,8 @@ def auto_runner():
         axs[i_cube,2].set_ylabel(r'\textbf{Relative flux}', fontsize=20)
         
         # ADD OII DOUBLET ONTO PLOT
+
+        # --------------------------------------------------#
 
         # Voronoi data
         voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
@@ -381,6 +388,8 @@ def auto_runner():
         axs[i_cube,5].tick_params(labelsize=20)
         fcbar = fig.colorbar(voii, ax=axs[i_cube,5])
         fcbar.ax.tick_params(labelsize=20)
+
+        # --------------------------------------------------#
 
         # 1D rotation curve
         # finding central pixel
@@ -433,6 +442,14 @@ def auto_runner():
                 ms=5, fmt='o', c='#03a9f4', elinewidth=1.0, capsize=5, capthick=1.0)
         axs[i_cube,6].errorbar(x_values, lmfit_map_median, yerr=lmfit_y_err, 
                 ms=5, fmt='o', c='#f44336', elinewidth=1.0, capsize=5, capthick=1.0)
+
+        # --------------------------------------------------#
+
+        # 2D rotation curve
+        twod_data = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+                str(int(cube_id))+"_vel_diff_data.npy")
+
+        print(twod_data)
 
     #fig.tight_layout()
     fig.savefig("graphs/spectra_complete.pdf", bbox_inches="tight")

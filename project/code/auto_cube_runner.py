@@ -926,8 +926,8 @@ def rotation_curves(cube_id):
 
     #h.colorbar(hax, ax=[hax1, hax2])
     h.tight_layout()
-    h.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+"_velocity.pdf",
-            bbox_inches="tight") 
+    #h.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+"_velocity.pdf",
+            #bbox_inches="tight") 
     plt.close("all")
 
 def rotation_curves_runner():

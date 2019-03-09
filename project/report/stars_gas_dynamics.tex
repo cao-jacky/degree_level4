@@ -51,6 +51,9 @@
 
 \usepackage[inline]{enumitem}
 
+\usepackage{rotating}
+\usepackage{afterpage}
+
 %%%%% Document %%%%%
 \begin{document}                     
 
@@ -166,6 +169,26 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 \subsection{$\sigma_{*}$ vs. $\sigma_{OII}$ \& $V_{*}$ vs. $V_{OII}$}
 
 \subsection{Voronoi}
+
+\subsection{Results}
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{data/spectra_complete_1}
+\captionsetup{justification=justified}
+\caption[Hubble Tuning Fork]{The Hubble sequence can be demonstrated graphically with the Hubble Tuning Fork \citep{hubble_tuning_fork} . This diagram illustrates the different galaxy morphologies and their classification into the groups: ellipticals, spirals, and irregulars.}
+\label{fig:hubble_tuning_fork}
+\end{figure*}
+
+\onecolumngrid
+
+\begin{sidewaysfigure*}
+\centering
+\includegraphics[width=1.0\textheight,height=0.6\textwidth]{data/spectra_complete}
+\vspace{2cm}  % get some vertical separation
+\end{sidewaysfigure*}
+
+\twocolumngrid
+
 
 Amongst the different types of cosmic structure within our universe, galaxies can be described as the most unique and diverse. With each containing countless numbers of stars and vast amounts of gas, dust, and dark matter \citep{carroll_astro}, it would be surprising if these various inner objects were not connected in any way.
 
