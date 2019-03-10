@@ -317,6 +317,13 @@ def auto_runner():
         axs[i_cube,0].imshow(hst_colour, interpolation='nearest', aspect="auto")
         axs[i_cube,0].set_axis_off()
 
+        hsts = np.shape(hst_colour) # shape of the HST frame
+
+        # cube_id label 
+        axs[i_cube,0].text(hsts[0]*0.5, hsts[1]*0.95, r'\textbf{C'+str(cube_id)+'}', 
+                {'color': "#ffffff", 'fontsize': 40}, horizontalalignment='center',
+                weight='heavy')
+
         # --------------------------------------------------#
        
         # MUSE collapsed image and segmentation map
@@ -335,7 +342,42 @@ def auto_runner():
         # Spectra
         # parameters from lmfit
         lm_params = spectra_data.lmfit_data(cube_id)
+        c = lm_params['c']
+        i1 = lm_params['i1']
+        i2 = lm_params['i2']
+        sigma_gal = lm_params['sigma_gal']
         z = lm_params['z']
+        sigma_inst = lm_params['sigma_inst']
+
+        # spectral lines
+        sl = spectra_data.spectral_lines() 
+
+        doublets = np.array([3727.092, 3728.875]) * (1+z)
+
+        # plotting spectral lines
+        for e_key, e_val in sl['emis'].items():
+            spec_line = float(e_val)*(1+z)
+            spec_label = e_key
+
+            if (e_val in str(doublets)):
+                alpha_line = 0.2
+            else:
+                alpha_line = 0.7
+
+            axs[i_cube,2].axvline(x=spec_line, linewidth=2, color="#1e88e5", 
+                    alpha=alpha_line)
+
+        for e_key, e_val in sl['abs'].items():
+            spec_line = float(e_val)*(1+z)
+            spec_label = e_key
+
+            axs[i_cube,2].axvline(x=spec_line, linewidth=2, color="#ff8f00", alpha=0.7)
+
+        # iron spectral lines
+        for e_key, e_val in sl['iron'].items(): 
+            spec_line = float(e_val)*(1+z)
+
+            axs[i_cube,2].axvline(x=spec_line, linewidth=2, color="#bdbdbd", alpha=0.3)
 
         # defining wavelength as the x-axis
         x_data = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
@@ -351,13 +393,23 @@ def auto_runner():
         y_data_scaled = y_data/np.median(y_data)
         
         axs[i_cube,2].plot(x_data, y_data_scaled, linewidth=2, color="#000000")
+        
+        # plotting over the OII doublet 
+        dblt_av = np.average(doublets)
+
+        dblt_x_mask = ((x_data > dblt_av-20) & (x_data < dblt_av+20))
+        doublet_x_data = x_data[dblt_x_mask]
+        doublet_data = spectra_data.f_doublet(doublet_x_data, c, i1, i2, sigma_gal, z, 
+                sigma_inst)
+        doublet_data = doublet_data / np.median(y_data)
+        axs[i_cube,2].plot(doublet_x_data, doublet_data, linewidth=2, 
+                color="#9c27b0")
+
         axs[i_cube,2].plot(x_data, y_model, linewidth=2, color="#b71c1c")
 
         axs[i_cube,2].tick_params(labelsize=40) 
         axs[i_cube,2].set_ylabel(r'\textbf{Relative flux}', fontsize=40)
         
-        # ADD OII DOUBLET ONTO PLOT
-
         # --------------------------------------------------#
 
         # Voronoi data
@@ -393,17 +445,17 @@ def auto_runner():
         if i_cube == 3:
             height_amount = 2.3
         if i_cube == 4:
-            height_amount = 0.05
+            height_amount = 0.0005
         if i_cube == 5:
             height_amount = 4.95
         else:
             height_amount = i_cube
 
-        cb_ax = fig.add_axes([0.515, 1-(0.202+0.136*height_amount), 0.015, 0.007])
+        cb_ax = fig.add_axes([0.515, 1-(0.195+0.136*height_amount), 0.015, 0.007])
         fcbar = plt.colorbar(voii, ax=axs[i_cube,4], cax=cb_ax, 
                 orientation='horizontal')
 
-        fcbar.ax.tick_params(labelsize=20, rotation=25)
+        fcbar.ax.tick_params(labelsize=20, rotation=90)
         fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7)
 
         # V_star map (pPXF)
@@ -413,11 +465,11 @@ def auto_runner():
                 vmin=np.nanmin(ppxf_vel_unique), vmax=np.nanmax(ppxf_vel_unique))
         axs[i_cube,5].tick_params(labelsize=40)
 
-        cb_ax = fig.add_axes([0.5915, 1-(0.202+0.136*height_amount), 0.015, 0.007])
+        cb_ax = fig.add_axes([0.5915, 1-(0.195+0.136*height_amount), 0.015, 0.007])
         fcbar = plt.colorbar(vstar, ax=axs[i_cube,5], cax=cb_ax, 
                 orientation='horizontal')
 
-        fcbar.ax.tick_params(labelsize=20, rotation=25)
+        fcbar.ax.tick_params(labelsize=20, rotation=90)
         fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7)
 
         # --------------------------------------------------#
@@ -482,8 +534,11 @@ def auto_runner():
                 ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2)
 
         axs[i_cube,6].tick_params(labelsize=40)
-        axs[i_cube,6].tick_params(axis={'y'}, labelsize=20, rotation=25)
         axs[i_cube,6].set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=40)
+
+        for tick in axs[i_cube,6].get_yticklabels():
+            # rotating y-axis labels 
+            tick.set_rotation(90)
         
         # --------------------------------------------------#
 
