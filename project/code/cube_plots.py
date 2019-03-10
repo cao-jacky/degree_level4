@@ -428,6 +428,11 @@ def auto_runner():
         rotated_maps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
             str(int(cube_id))+"_rotated_maps.npy")
 
+        # finding central pixel
+        map_shape = np.shape(rotated_maps[0])
+        c_x = int(map_shape[0]/2)-1
+        c_y = int(map_shape[1]/2)-1
+
         # scaling by pPXF maps
         ppxf_vel_data = rotated_maps[0]
         ppxf_vel_unique = np.unique(ppxf_vel_data)
@@ -470,15 +475,11 @@ def auto_runner():
                 orientation='horizontal')
 
         fcbar.ax.tick_params(labelsize=20, rotation=90)
-        fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7)
+        fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7) 
 
         # --------------------------------------------------#
 
-        # 1D rotation curve
-        # finding central pixel
-        map_shape = np.shape(rotated_maps[0])
-        c_x = int(map_shape[0]/2)-1
-        c_y = int(map_shape[1]/2)-1
+        # 1D rotation curve 
 
         muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
 
@@ -552,6 +553,23 @@ def auto_runner():
                 ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2)
 
         axs[i_cube,7].tick_params(labelsize=40)
+
+        # --------------------------------------------------#
+
+        # overlaying sliced regions for gas and stellar
+        overlayed_slice = rotated_maps[2]
+        overlayed_slice[np.where(overlayed_slice != 1.0)] = np.nan
+        overlayed_slice[c_y-1:c_y+2,:] = 2.0
+
+        axs[i_cube,4].imshow(overlayed_slice, cmap='gray', alpha=0.5)
+    
+        overlayed_slice = rotated_maps[0]
+        overlayed_slice[np.where(overlayed_slice != 1.0)] = np.nan
+        overlayed_slice[c_y-1:c_y+2,:] = 2.0
+
+        axs[i_cube,5].imshow(overlayed_slice, cmap='gray', alpha=0.5)
+
+        # --------------------------------------------------#
          
         # Add title for only first row of plots
         if cube_id == uc[0]:
