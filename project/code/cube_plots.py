@@ -288,6 +288,7 @@ def auto_runner():
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = np.array([1804, 1578])
     uc = uc[0:6] # 0:11 is the full usable sample for Voronoi plots
+    #uc = uc[7:11]
     print(uc)
 
     fig, axs = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.3,
