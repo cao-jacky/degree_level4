@@ -217,8 +217,8 @@ def voronoi_runner():
     bright_objects = cf['bo']
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
-    uc = uc[11:]
-    #uc = np.array([849])
+    #uc = uc[11:]
+    uc = np.array([849])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
@@ -527,9 +527,9 @@ def rotation_curves(cube_id):
     cra = {
             '1804': 0,
             '1578': -180,
-            '849': -180,
+            '849': 90,
             '286': -190,
-            '5': 0,
+            '5': 45,
             '767': cc_ha + 10,
             '414': -25,
             '549': -100,

@@ -267,7 +267,7 @@ def spectra(cube_id):
 
         ax.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
 
-    ax.tick_params(labelsize=40)
+    ax.tick_params(labelsize=33)
     ax.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
     ax.set_ylabel(r'\textbf{Relative flux}', fontsize=20)
 
@@ -290,7 +290,7 @@ def auto_runner():
     uc = uc[0:6] # 0:11 is the full usable sample for Voronoi plots
     print(uc)
 
-    fig, axs = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.35,
+    fig, axs = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.3,
         'wspace':0.45, 'width_ratios':[7,7,15,7,7,7,10,10,10]})
 
     for i_cube in range(len(uc)):
@@ -334,7 +334,7 @@ def auto_runner():
         axs[i_cube,1].imshow(muse_collapsed, cmap='gray_r', aspect="auto")
         axs[i_cube,1].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         #axs[i_cube,1].set_axis_off()
-        axs[i_cube,1].tick_params(labelsize=40)
+        axs[i_cube,1].tick_params(labelsize=33)
         axs[i_cube,1].set_ylabel(r'\textbf{Pixels}', fontsize=40)
 
         # --------------------------------------------------#
@@ -407,7 +407,7 @@ def auto_runner():
 
         axs[i_cube,2].plot(x_data, y_model, linewidth=2, color="#b71c1c")
 
-        axs[i_cube,2].tick_params(labelsize=40) 
+        axs[i_cube,2].tick_params(labelsize=33) 
         axs[i_cube,2].set_ylabel(r'\textbf{Relative flux}', fontsize=40)
         
         # --------------------------------------------------#
@@ -417,7 +417,7 @@ def auto_runner():
                 str(int(cube_id))+"_voronoi_map.npy")
         axs[i_cube,3].imshow(voronoi_map, cmap="prism", aspect="auto")
         axs[i_cube,3].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
-        axs[i_cube,3].tick_params(labelsize=40)
+        axs[i_cube,3].tick_params(labelsize=33)
         axs[i_cube,3].set_ylabel(r'\textbf{Pixels}', fontsize=40)
 
         # Galaxy maps
@@ -442,7 +442,7 @@ def auto_runner():
                 str(int(cube_id))+"_voronoi_map.npy")
         voii = axs[i_cube,4].imshow(rotated_maps[2], cmap="jet", aspect="auto",
                 vmin=np.nanmin(ppxf_vel_unique), vmax=np.nanmax(ppxf_vel_unique))
-        axs[i_cube,4].tick_params(labelsize=40)
+        axs[i_cube,4].tick_params(labelsize=33)
         
         # amount to shift the colour bar with respect to the y-axis
         if i_cube == 2:
@@ -468,7 +468,7 @@ def auto_runner():
                 str(int(cube_id))+"_voronoi_map.npy")
         vstar = axs[i_cube,5].imshow(rotated_maps[0], cmap="jet", aspect="auto",
                 vmin=np.nanmin(ppxf_vel_unique), vmax=np.nanmax(ppxf_vel_unique))
-        axs[i_cube,5].tick_params(labelsize=40)
+        axs[i_cube,5].tick_params(labelsize=33)
 
         cb_ax = fig.add_axes([0.5915, 1-(0.195+0.136*height_amount), 0.015, 0.007])
         fcbar = plt.colorbar(vstar, ax=axs[i_cube,5], cax=cb_ax, 
@@ -530,12 +530,17 @@ def auto_runner():
         x_values = x_scale[unique_locs] # masking out repeated values
 
         axs[i_cube,6].errorbar(x_values, ppxf_map_median, yerr=ppxf_y_err, 
-                ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2)
+                ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
+                label=r'\textbf{Stars}')
         axs[i_cube,6].errorbar(x_values, lmfit_map_median, yerr=lmfit_y_err, 
-                ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2)
+                ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2,
+                label=r'\textbf{Gas}')
 
-        axs[i_cube,6].tick_params(labelsize=40)
+        axs[i_cube,6].tick_params(labelsize=33)
         axs[i_cube,6].set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=40)
+
+        lgnd = axs[i_cube,6].legend(loc='upper left', prop={'size': 20})
+        lgnd.get_frame().set_alpha(0.5)
 
         for tick in axs[i_cube,6].get_yticklabels():
             # rotating y-axis labels 
@@ -547,12 +552,21 @@ def auto_runner():
         twod_data = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
                 str(int(cube_id))+"_vel_diff_data.npy")
 
-        axs[i_cube,7].errorbar(twod_data[:,0], twod_data[:,1], yerr=twod_data[:,2], 
-                ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2)
-        axs[i_cube,7].errorbar(twod_data[:,0], twod_data[:,3], yerr=twod_data[:,4], 
-                ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2)
+        radii = twod_data[:,0]
+        v_oii = twod_data[:,3]
+        v_star = twod_data[:,1]
 
-        axs[i_cube,7].tick_params(labelsize=40)
+        axs[i_cube,7].errorbar(radii, np.abs(v_star), yerr=twod_data[:,2], 
+                ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
+                label=r'\textbf{Stars}')
+        axs[i_cube,7].errorbar(radii, np.abs(v_oii), yerr=twod_data[:,4], 
+                ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2,
+                label=r'\textbf{Gas}')
+
+        axs[i_cube,7].tick_params(labelsize=33)
+
+        lgnd = axs[i_cube,7].legend(loc='upper left', prop={'size': 20})
+        lgnd.get_frame().set_alpha(0.5)
 
         # --------------------------------------------------#
 
@@ -561,26 +575,45 @@ def auto_runner():
         overlayed_slice[np.where(overlayed_slice != 1.0)] = np.nan
         overlayed_slice[c_y-1:c_y+2,:] = 2.0
 
-        axs[i_cube,4].imshow(overlayed_slice, cmap='gray', alpha=0.5)
+        axs[i_cube,4].imshow(overlayed_slice, cmap='gray', alpha=0.5, aspect="auto")
     
         overlayed_slice = rotated_maps[0]
         overlayed_slice[np.where(overlayed_slice != 1.0)] = np.nan
         overlayed_slice[c_y-1:c_y+2,:] = 2.0
 
-        axs[i_cube,5].imshow(overlayed_slice, cmap='gray', alpha=0.5)
+        axs[i_cube,5].imshow(overlayed_slice, cmap='gray', alpha=0.5, aspect="auto")
 
         # --------------------------------------------------#
-         
+
+        # V_OII-V_* vs. radius plots
+        v_diff = (v_oii - v_star) # difference data
+        v_diff_err = np.sqrt(twod_data[:,2]**2 + twod_data[:,4]**2) # uncertainty data
+
+        axs[i_cube,8].errorbar(radii, v_diff, yerr=v_diff_err, ms=10, fmt='o', 
+                c="#000000", elinewidth=2, capsize=10, capthick=2)
+
+        axs[i_cube,8].tick_params(labelsize=33)  
+        axs[i_cube,8].set_ylabel(r'\textbf{V$_{OII}$-V$_{*}$ (kms$^{-1}$)}', 
+                fontsize=40)
+
+        for tick in axs[i_cube,8].get_yticklabels():
+            # rotating y-axis labels 
+            tick.set_rotation(90)
+
+        # --------------------------------------------------#
+
         # Add title for only first row of plots
         if cube_id == uc[0]:
-            axs[i_cube,0].set_title(r'\textbf{HST}', fontsize=40, pad=20)
-            axs[i_cube,1].set_title(r'\textbf{MUSE}', fontsize=40, pad=20)
-            axs[i_cube,2].set_title(r'\textbf{Spectra}', fontsize=40, pad=20)
-            axs[i_cube,3].set_title(r'\textbf{Voronoi}', fontsize=40, pad=20)
-            axs[i_cube,4].set_title(r'\textbf{Gas}', fontsize=40, pad=20)
-            axs[i_cube,5].set_title(r'\textbf{Stellar}', fontsize=40, pad=20)
-            axs[i_cube,6].set_title(r'\textbf{1D Rot. Curve}', fontsize=40, pad=20)
-            axs[i_cube,7].set_title(r'\textbf{2D Rot. Curve}', fontsize=40, pad=20)
+            axs[i_cube,0].set_title(r'\textbf{HST}', fontsize=40, pad=18)
+            axs[i_cube,1].set_title(r'\textbf{MUSE}', fontsize=40, pad=18)
+            axs[i_cube,2].set_title(r'\textbf{Spectra}', fontsize=40, pad=18)
+            axs[i_cube,3].set_title(r'\textbf{Voronoi map}', fontsize=40, pad=18)
+            axs[i_cube,4].set_title(r'\textbf{V$_{OII}$ map}', fontsize=40, pad=18)
+            axs[i_cube,5].set_title(r'\textbf{V$_{*}$ map}', fontsize=40, pad=18)
+            axs[i_cube,6].set_title(r'\textbf{1D Rot. Curve}', fontsize=40, pad=18)
+            axs[i_cube,7].set_title(r'\textbf{2D Rot. Curve}', fontsize=40, pad=18)
+            axs[i_cube,8].set_title(r'\textbf{V$_{OII}$-V$_{*}$}', 
+                    fontsize=40, pad=18)
 
         # Add labels for only edge plots
         if cube_id == uc[-1]:
@@ -594,6 +627,7 @@ def auto_runner():
         
             axs[i_cube,6].set_xlabel(r'\textbf{Radius (")}', fontsize=40)
             axs[i_cube,7].set_xlabel(r'\textbf{Radius (")}', fontsize=40) 
+            axs[i_cube,8].set_xlabel(r'\textbf{Radius (")}', fontsize=40)
 
     #fig.tight_layout()
     fig.savefig("graphs/spectra_complete.pdf", bbox_inches="tight")
