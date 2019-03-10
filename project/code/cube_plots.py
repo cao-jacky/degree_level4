@@ -366,6 +366,7 @@ def auto_runner():
         axs[i_cube,3].imshow(voronoi_map, cmap="prism", aspect="auto")
         axs[i_cube,3].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         axs[i_cube,3].tick_params(labelsize=40)
+        axs[i_cube,3].set_ylabel(r'\textbf{Pixels}', fontsize=40)
 
         # Galaxy maps
         galaxy_maps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
@@ -376,32 +377,48 @@ def auto_runner():
             str(int(cube_id))+"_rotated_maps.npy")
 
         # scaling by pPXF maps
-        ppxf_vel_data = galaxy_maps[0]
+        ppxf_vel_data = rotated_maps[0]
         ppxf_vel_unique = np.unique(ppxf_vel_data)
 
         # V_OII map (lmfit)
         voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
                 str(int(cube_id))+"_voronoi_map.npy")
         voii = axs[i_cube,4].imshow(rotated_maps[2], cmap="jet", aspect="auto",
-                vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
+                vmin=np.nanmin(ppxf_vel_unique), vmax=np.nanmax(ppxf_vel_unique))
         axs[i_cube,4].tick_params(labelsize=40)
         
-        divider = make_axes_locatable(axs[i_cube,4])
-        cax = divider.append_axes("right", size="5%", pad=0.05)
-        fcbar = plt.colorbar(voii, ax=axs[i_cube,4], cax=cax)
-        fcbar.ax.tick_params(labelsize=30)
+        # amount to shift the colour bar with respect to the y-axis
+        if i_cube == 2:
+            height_amount = 1.8  
+        if i_cube == 3:
+            height_amount = 2.3
+        if i_cube == 4:
+            height_amount = 0.05
+        if i_cube == 5:
+            height_amount = 4.95
+        else:
+            height_amount = i_cube
 
-        # V_star map (lmfit)
+        cb_ax = fig.add_axes([0.515, 1-(0.202+0.136*height_amount), 0.015, 0.007])
+        fcbar = plt.colorbar(voii, ax=axs[i_cube,4], cax=cb_ax, 
+                orientation='horizontal')
+
+        fcbar.ax.tick_params(labelsize=20, rotation=25)
+        fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7)
+
+        # V_star map (pPXF)
         voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
                 str(int(cube_id))+"_voronoi_map.npy")
         vstar = axs[i_cube,5].imshow(rotated_maps[0], cmap="jet", aspect="auto",
-                vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
+                vmin=np.nanmin(ppxf_vel_unique), vmax=np.nanmax(ppxf_vel_unique))
         axs[i_cube,5].tick_params(labelsize=40)
 
-        divider = make_axes_locatable(axs[i_cube,5])
-        cax = divider.append_axes("right", size="5%", pad=0.05)
-        fcbar = plt.colorbar(vstar, ax=axs[i_cube,5], cax=cax)
-        fcbar.ax.tick_params(labelsize=30)
+        cb_ax = fig.add_axes([0.5915, 1-(0.202+0.136*height_amount), 0.015, 0.007])
+        fcbar = plt.colorbar(vstar, ax=axs[i_cube,5], cax=cb_ax, 
+                orientation='horizontal')
+
+        fcbar.ax.tick_params(labelsize=20, rotation=25)
+        fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7)
 
         # --------------------------------------------------#
 
@@ -465,6 +482,8 @@ def auto_runner():
                 ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2)
 
         axs[i_cube,6].tick_params(labelsize=40)
+        axs[i_cube,6].tick_params(axis={'y'}, labelsize=20, rotation=25)
+        axs[i_cube,6].set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=40)
         
         # --------------------------------------------------#
 
@@ -478,18 +497,17 @@ def auto_runner():
                 ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2)
 
         axs[i_cube,7].tick_params(labelsize=40)
-        
+         
         # Add title for only first row of plots
         if cube_id == uc[0]:
-            axs[i_cube,0].set_title(r'\textbf{HST}', fontsize=40, pad=10)
-            axs[i_cube,1].set_title(r'\textbf{MUSE}', fontsize=40, pad=10)
-            axs[i_cube,2].set_title(r'\textbf{Spectra}', fontsize=40, pad=10)
-            axs[i_cube,3].set_title(r'\textbf{Voronoi}', fontsize=40, pad=10)
-            axs[i_cube,4].set_title(r'\textbf{Stellar (kms$^{-1}$)}', fontsize=40, 
-                    pad=10)
-            axs[i_cube,5].set_title(r'\textbf{Gas (kms$^{-1}$)}', fontsize=40, pad=10)
-            axs[i_cube,6].set_title(r'\textbf{1D Rot. Curve}', fontsize=40, pad=10)
-            axs[i_cube,7].set_title(r'\textbf{2D Rot. Curve}', fontsize=40, pad=10)
+            axs[i_cube,0].set_title(r'\textbf{HST}', fontsize=40, pad=20)
+            axs[i_cube,1].set_title(r'\textbf{MUSE}', fontsize=40, pad=20)
+            axs[i_cube,2].set_title(r'\textbf{Spectra}', fontsize=40, pad=20)
+            axs[i_cube,3].set_title(r'\textbf{Voronoi}', fontsize=40, pad=20)
+            axs[i_cube,4].set_title(r'\textbf{Gas}', fontsize=40, pad=20)
+            axs[i_cube,5].set_title(r'\textbf{Stellar}', fontsize=40, pad=20)
+            axs[i_cube,6].set_title(r'\textbf{1D Rot. Curve}', fontsize=40, pad=20)
+            axs[i_cube,7].set_title(r'\textbf{2D Rot. Curve}', fontsize=40, pad=20)
 
         # Add labels for only edge plots
         if cube_id == uc[-1]:
@@ -502,7 +520,7 @@ def auto_runner():
             axs[i_cube,5].set_xlabel(r'\textbf{Pixels}', fontsize=40)
         
             axs[i_cube,6].set_xlabel(r'\textbf{Radius (")}', fontsize=40)
-            axs[i_cube,7].set_xlabel(r'\textbf{Radius (")}', fontsize=40)
+            axs[i_cube,7].set_xlabel(r'\textbf{Radius (")}', fontsize=40) 
 
     #fig.tight_layout()
     fig.savefig("graphs/spectra_complete.pdf", bbox_inches="tight")
