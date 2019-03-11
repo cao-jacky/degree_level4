@@ -110,8 +110,6 @@ def voronoi_plotter(cube_id):
                 binned_data[0][i_y][i_x] = ppxf_vars[2] - cen_pix_vel_ppxf 
                 binned_data[2][i_y][i_x] = lmfit_vars[2] - cen_pix_vel_lmfit
             if sn_vars[2] > 7:
-                pass
-            else:
                 # velocity dispersions for pPXF and lmfit
                 binned_data[1][i_y][i_x] = ppxf_vars[3] # velocity dispersion
                 binned_data[3][i_y][i_x] = lmfit_vars[3] # velocity dispersion
@@ -218,7 +216,7 @@ def voronoi_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = uc[11:]
-    uc = np.array([849])
+    #uc = np.array([849])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
@@ -549,7 +547,8 @@ def rotation_curves(cube_id):
  
     rotated_mask = ndimage.rotate(galaxy_mask, angle=rot_angle, axes=(1,2),
             mode='nearest', reshape=False)
-    rotated_mask = np.where(rotated_mask > 1*10**(-1), rotated_mask, 0)
+    rotated_mask = np.where(rotated_mask > 5*10**(-1), rotated_mask, 0)
+    print(np.unique(rotated_mask))
     
     # applying mask and setting 0 values to nan
     rotated_galaxy_maps = rotated_galaxy_maps * rotated_mask
@@ -938,7 +937,7 @@ def rotation_curves_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = uc[3:]
-    #uc = np.array([1804])
+    uc = np.array([1804])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
@@ -951,8 +950,8 @@ def rotation_curves_runner():
 if __name__ == '__main__':
     #voronoi_cube_runner()
     
-    #voronoi_runner()
+    #voronoi_runner() # run for pPXF and lmfit fittings
     #voronoi_plotter(849)
     #rotation_curves(849)
 
-    rotation_curves_runner()
+    rotation_curves_runner() # run for rotation curves
