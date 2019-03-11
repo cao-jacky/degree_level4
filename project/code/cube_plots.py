@@ -538,6 +538,9 @@ def auto_runner():
         axs[i_cube,6].tick_params(labelsize=33)
         axs[i_cube,6].set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=40)
 
+        x_max = np.max(np.abs(x_values))
+        axs[i_cube,6].set_xlim([-x_max,x_max]) # setting x-axis to be equal
+
         lgnd = axs[i_cube,6].legend(loc='upper left', prop={'size': 20})
         lgnd.get_frame().set_alpha(0.5)
 

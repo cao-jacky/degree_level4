@@ -617,39 +617,51 @@ def rotation_curves(cube_id):
         if i_map in np.array([0,2]):
             # --------------------------------------------------#
 
+            # Creating 2D rotation curve based on the Voronoi bins
+            vbid_map = rotated_galaxy_maps[7] # Voronoi bin ID map
+
+            curr_vbids = []
+    
             # working with rotated 2D data - major kinematic axis should be horizontal
             for cm_y in range(np.shape(curr_map_data)[1]):
                 for cm_x in range(np.shape(curr_map_data)[0]):
-                    cp_d = np.abs(curr_map_data[cm_y][cm_x]) # current pixel data 
-                    
-                    if np.isnan(cp_d) == True:
-                        pass
+                    cvbid = vbid_map[cm_y][cm_x] # current Vornoi bin ID
+                    if np.isnan(cvbid) == True:
+                        cvbid = 0
                     else:
+                        cvbid = int(cvbid)
+
+                    cp_d = np.abs(curr_map_data[cm_y][cm_x]) # current pixel data 
+
+                    if np.isnan(cvbid) != True or np.isnan(cp_d) != True:
+                        #if cvbid not in np.asarray(curr_vbids):
                         # current S/N for pixel
-                        if (cm_x-c_x)**2/cc_b**2 + (cm_y-c_y)**2/cc_a**2 < 1:
-                            cp_sn = rotated_galaxy_maps[4][cm_y][cm_x]                         
-                            # top left corner is defined as (x=0,y=0) posn, 
-                            # distances between central pixel and curr
-                            cpx_dist = cm_x - c_x                 
-                            cpy_dist = cm_y - c_y 
-                            
-                            cp_obs = cpx_dist**2 + cpy_dist**2
+                        #if (cm_x-c_x)**2/cc_b**2 + (cm_y-c_y)**2/cc_a**2 < 1:
+                        cp_sn = rotated_galaxy_maps[4][cm_y][cm_x]                         
+                        # top left corner is defined as (x=0,y=0) posn, 
+                        # distances between central pixel and curr
+                        cpx_dist = cm_x - c_x                 
+                        cpy_dist = cm_y - c_y 
+                        
+                        cp_obs = cpx_dist**2 + cpy_dist**2
 
-                            cp_radius = np.sqrt(cp_obs+cpy_dist**2*np.tan(gal_inc)**2)
-                            cp_radius = cp_radius * muse_scale # convert to MUSE scale
+                        cp_radius = np.sqrt(cp_obs+cpy_dist**2*np.tan(gal_inc)**2)
+                        cp_radius = cp_radius * muse_scale # convert to MUSE scale
 
-                            if i_map == 0:
-                                frac_err = a_ppxf # pPXF velocity fractional error
-                                redshifted_cp_d = rotated_galaxy_maps[8][cm_y][cm_x]
-                            else:
-                                frac_err = a_lmfit # lmfit velocity fractional error
-                                redshifted_cp_d = rotated_galaxy_maps[9][cm_y][cm_x]
-                            y_err = curve(cp_sn, frac_err) * redshifted_cp_d
+                        if i_map == 0:
+                            frac_err = a_ppxf # pPXF velocity fractional error
+                            redshifted_cp_d = rotated_galaxy_maps[8][cm_y][cm_x]
+                        else:
+                            frac_err = a_lmfit # lmfit velocity fractional error
+                            redshifted_cp_d = rotated_galaxy_maps[9][cm_y][cm_x]
+                        y_err = curve(cp_sn, frac_err) * redshifted_cp_d
 
-                            p2ax1.errorbar(cp_radius, cp_d, yerr=y_err, 
-                                ms=5, fmt='o', c=rot_c[i_map], label=rot_labels[i_map],
-                                elinewidth=1.0, capsize=5, capthick=1.0)
-        
+                        p2ax1.errorbar(cp_radius, cp_d, yerr=y_err, 
+                            ms=5, fmt='o', c=rot_c[i_map], label=rot_labels[i_map],
+                            elinewidth=1.0, capsize=5, capthick=1.0)
+
+                        curr_vbids.append(cvbid)
+            
             # --------------------------------------------------#
 
 
@@ -798,6 +810,15 @@ def rotation_curves(cube_id):
 
     # --------------------------------------------------#
 
+    # Creating 2D rotation curve based on the Voronoi bins
+    vbid_map = rgmaps[7] # Voronoi bin ID map
+    vbid_list = np.unique(vbid_map)
+    
+    for ivbid in range(len(vbid_list)):
+        curr_vbid = vbid_list[ivbid]
+
+    # --------------------------------------------------#
+
     # Creating V_OII vs V_* plot
     map_shape = np.shape(rgmaps[0])
     c_x = int(map_shape[0]/2)-1
@@ -813,28 +834,28 @@ def rotation_curves(cube_id):
             if np.isnan(cpd_stellar) == True:
                 pass
             else:
-                if (cm_x-c_x)**2/cc_b**2 + (cm_y-c_y)**2/cc_a**2 < 1:
-                    cp_sn = rgmaps[4][cm_y][cm_x]                         
-                    # top left corner is defined as (x=0,y=0) posn, 
-                    # distances between central pixel and curr
-                    cpx_dist = cm_x - c_x                 
-                    cpy_dist = cm_y - c_y 
-                    
-                    cp_obs = cpx_dist**2 + cpy_dist**2
+                #if (cm_x-c_x)**2/cc_b**2 + (cm_y-c_y)**2/cc_a**2 < 1:
+                cp_sn = rgmaps[4][cm_y][cm_x]                         
+                # top left corner is defined as (x=0,y=0) posn, 
+                # distances between central pixel and curr
+                cpx_dist = cm_x - c_x                 
+                cpy_dist = cm_y - c_y 
+                
+                cp_obs = cpx_dist**2 + cpy_dist**2
 
-                    cp_radius = np.sqrt(cp_obs+cpy_dist**2*np.tan(gal_inc)**2)
-                    cp_radius = cp_radius * muse_scale # convert to MUSE scale
+                cp_radius = np.sqrt(cp_obs+cpy_dist**2*np.tan(gal_inc)**2)
+                cp_radius = cp_radius * muse_scale # convert to MUSE scale
 
-                    frac_err_ppxf = a_ppxf # pPXF velocity fractional error
-                    rcpd_ppxf = rgmaps[8][cm_y][cm_x]
-                    cpds_e = curve(cp_sn, frac_err_ppxf) * rcpd_ppxf # stellar error
+                frac_err_ppxf = a_ppxf # pPXF velocity fractional error
+                rcpd_ppxf = rgmaps[8][cm_y][cm_x]
+                cpds_e = curve(cp_sn, frac_err_ppxf) * rcpd_ppxf # stellar error
 
-                    frac_err_lmfit = a_lmfit # lmfit velocity fractional error
-                    rcpd_lmfit = rgmaps[9][cm_y][cm_x]
-                    cpdo_e = curve(cp_sn, frac_err_lmfit) * rcpd_lmfit # OII error
+                frac_err_lmfit = a_lmfit # lmfit velocity fractional error
+                rcpd_lmfit = rgmaps[9][cm_y][cm_x]
+                cpdo_e = curve(cp_sn, frac_err_lmfit) * rcpd_lmfit # OII error
 
-                    vd_data.append([cp_radius, cpd_stellar, cpds_e[0], cpd_oii, 
-                        cpdo_e[0]])
+                vd_data.append([cp_radius, cpd_stellar, cpds_e[0], cpd_oii, 
+                    cpdo_e[0]])
 
     vd_data = np.asarray(vd_data) 
     np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
@@ -847,7 +868,9 @@ def rotation_curves(cube_id):
     v_oii = vd_data[:,3]
     v_star = vd_data[:,1]
 
-    v_diff = (v_oii - v_star) # difference data
+    print(np.unique(v_star, return_counts=True))
+
+    v_diff = np.abs(v_oii - v_star) # difference data
     v_diff_err = np.sqrt(vd_data[:,2]**2 + vd_data[:,4]**2) # uncertainty data
 
     vdax1.errorbar(radii, v_diff, yerr=v_diff_err, ms=5, fmt='o', c="#000000", 
@@ -889,7 +912,7 @@ def rotation_curves(cube_id):
     # plotting the offset between gas and stellar velocities in a galaxy
     j, (jax1) = plt.subplots(1,1)
 
-    vel_diff = sliced_vel[2]-sliced_vel[1] # stellar vel - gas vel
+    vel_diff = np.abs(sliced_vel[2]-sliced_vel[1]) # stellar vel - gas vel
     prop_err = np.sqrt(sliced_vel[7]**2 + sliced_vel[8]**2) # propagated error
 
     jax1.errorbar(sliced_vel[9], vel_diff, yerr=prop_err, ms=5, fmt='o', c="#000000", 
@@ -953,7 +976,7 @@ def rotation_curves_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = uc[3:]
-    #uc = np.array([849])
+    uc = np.array([1804])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
