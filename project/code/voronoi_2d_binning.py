@@ -142,7 +142,7 @@ def voronoi_binning(cube_id):
     signal = np.abs(np.nan_to_num(cd[:,2]))
     noise = cd[:,3] 
 
-    targetSN = 25
+    targetSN = 90
 
     # Perform the actual computation. The vectors
     # (binNum, xNode, yNode, xBar, yBar, sn, nPixels, scale)
@@ -162,5 +162,5 @@ def voronoi_binning(cube_id):
 #-----------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    voronoi_binning(767)
+    voronoi_binning(849)
     #data_file_creator(1804)    
