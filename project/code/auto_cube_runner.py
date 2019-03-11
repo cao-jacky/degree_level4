@@ -563,7 +563,7 @@ def rotation_curves(cube_id):
  
     rotated_mask = ndimage.rotate(galaxy_mask, angle=rot_angle, axes=(1,2),
             mode='nearest', reshape=False)
-    rotated_mask = np.where(rotated_mask > 7*10**(-1), rotated_mask, 0)
+    rotated_mask = np.where(rotated_mask > 8*10**(-1), rotated_mask, 0)
     print(np.unique(rotated_mask))
     
     # applying mask and setting 0 values to nan
@@ -953,7 +953,7 @@ def rotation_curves_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = uc[3:]
-    uc = np.array([849])
+    #uc = np.array([849])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])

@@ -588,8 +588,16 @@ def auto_runner():
         v_diff = (v_oii - v_star) # difference data
         v_diff_err = np.sqrt(twod_data[:,2]**2 + twod_data[:,4]**2) # uncertainty data
 
-        axs[i_cube,8].errorbar(radii, v_diff, yerr=v_diff_err, ms=10, fmt='o', 
-                c="#000000", elinewidth=2, capsize=10, capthick=2)
+        #axs[i_cube,8].errorbar(radii, v_diff, yerr=v_diff_err, ms=10, fmt='o', 
+                #c="#000000", elinewidth=2, capsize=10, capthick=2)
+
+        # using 1D rotation curve data instead of the 2D data
+        v_diff_oned = lmfit_map_median - ppxf_map_median
+        v_diff_err_oned = np.sqrt(ppxf_y_err**2 + lmfit_y_err**2)
+
+        axs[i_cube,8].errorbar(np.abs(x_values), np.abs(v_diff_oned), 
+                yerr=v_diff_err_oned, ms=10, fmt='o', c="#000000", elinewidth=2, 
+                capsize=10, capthick=2)
 
         axs[i_cube,8].tick_params(labelsize=33)  
         axs[i_cube,8].set_ylabel(r'\textbf{V$_{OII}$-V$_{*}$ (kms$^{-1}$)}', 
