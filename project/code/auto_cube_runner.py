@@ -10,6 +10,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+
 from lmfit import Parameters, Model
 from lmfit.models import StepModel, LinearModel
 
@@ -158,15 +160,21 @@ def voronoi_plotter(cube_id):
     fax1 = ax1.imshow(ppxf_vel_data, cmap='jet',
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
     ax1.tick_params(labelsize=20)
-    ax1.set_title(r'\textbf{Velocity Map}', fontsize=20)
-    fcbar = f.colorbar(fax1, ax=ax1)
+    ax1.set_title(r'\textbf{$V_{*}$ (kms$^{-1}$)}', fontsize=20)
+
+    divider = make_axes_locatable(ax1)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    fcbar = f.colorbar(fax1, ax=ax1, cax=cax)
     fcbar.ax.tick_params(labelsize=20) 
 
     fax2 = ax2.imshow(ppxf_sigma_data, cmap='jet',
             vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1])
     ax2.tick_params(labelsize=20)
-    ax2.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=20)
-    fcbar = f.colorbar(fax2, ax=ax2)
+    ax2.set_title(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=20)
+
+    divider = make_axes_locatable(ax2)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    fcbar = f.colorbar(fax2, ax=ax2, cax=cax)
     fcbar.ax.tick_params(labelsize=20) 
 
     f.tight_layout()
@@ -177,15 +185,21 @@ def voronoi_plotter(cube_id):
     gax3 = ax3.imshow(lmfit_vel_data, cmap='jet', 
             vmin=ppxf_vel_unique[1], vmax=ppxf_vel_unique[-2])
     ax3.tick_params(labelsize=20)
-    ax3.set_title(r'\textbf{Velocity Map}', fontsize=20)
-    gcbar = g.colorbar(gax3, ax=ax3)
+    ax3.set_title(r'\textbf{$V_{OII}$ (kms$^{-1}$)}', fontsize=20)
+
+    divider = make_axes_locatable(ax3)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    gcbar = g.colorbar(gax3, ax=ax3, cax=cax)
     gcbar.ax.tick_params(labelsize=20)
 
     gax4 = ax4.imshow(lmfit_sigma_data, cmap='jet',
             vmin=ppxf_sigma_unique[1], vmax=ppxf_sigma_unique[-1])
     ax4.tick_params(labelsize=20)
-    ax4.set_title(r'\textbf{Velocity Dispersion Map}', fontsize=20)
-    gcbar = g.colorbar(gax4, ax=ax4)
+    ax4.set_title(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=20)
+
+    divider = make_axes_locatable(ax4)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    gcbar = g.colorbar(gax4, ax=ax4, cax=cax)
     gcbar.ax.tick_params(labelsize=20)
 
     g.tight_layout()
@@ -200,7 +214,9 @@ def voronoi_plotter(cube_id):
     ax5.tick_params(labelsize=20)
     #ax5.set_title(r'\textbf{S/N Map}', fontsize=20)
 
-    hcbar = h.colorbar(hax5, ax=ax5)
+    divider = make_axes_locatable(ax5)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    hcbar = h.colorbar(hax5, ax=ax5, cax=cax)
     hcbar.ax.tick_params(labelsize=20)
     hcbar.ax.set_ylabel(r"$\bf{S/N}$", fontsize=20, rotation=270, labelpad=30) 
 
@@ -950,8 +966,8 @@ def rotation_curves_runner():
 if __name__ == '__main__':
     #voronoi_cube_runner()
     
-    #voronoi_runner() # run for pPXF and lmfit fittings
+    voronoi_runner() # run for pPXF and lmfit fittings
     #voronoi_plotter(849)
     #rotation_curves(849)
 
-    rotation_curves_runner() # run for rotation curves
+    #rotation_curves_runner() # run for rotation curves

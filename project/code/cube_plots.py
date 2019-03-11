@@ -4,8 +4,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-
 import multi_cubes
 import cube_reader
 import ppxf_fitter
