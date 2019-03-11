@@ -953,7 +953,7 @@ def rotation_curves_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = uc[3:]
-    uc = np.array([1804])
+    #uc = np.array([1804])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
@@ -966,8 +966,8 @@ def rotation_curves_runner():
 if __name__ == '__main__':
     #voronoi_cube_runner()
     
-    voronoi_runner() # run for pPXF and lmfit fittings
+    #voronoi_runner() # run for pPXF and lmfit fittings
     #voronoi_plotter(849)
     #rotation_curves(849)
 
-    #rotation_curves_runner() # run for rotation curves
+    rotation_curves_runner() # run for rotation curves
