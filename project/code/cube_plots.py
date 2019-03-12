@@ -530,6 +530,11 @@ def auto_runner():
         x_scale = x_scale * muse_scale # converting to MUSE scale
         x_values = x_scale[unique_locs] # masking out repeated values
 
+        # convert x_values into kpc
+        x_values = 1/x_values # convert to pc
+        x_values = np.where(np.isinf(x_values) != True, x_values, 0) # 0" is 0kpc
+        x_values = x_values * 10**(-3) # convert to kpc
+
         axs[i_cube,6].errorbar(x_values, ppxf_map_median, yerr=ppxf_y_err, 
                 ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
                 label=r'\textbf{Stars}')
@@ -560,6 +565,11 @@ def auto_runner():
         v_oii = twod_data[:,3]
         v_star = twod_data[:,1]
 
+        # convert radii into kpc
+        radii = 1/radii # convert to pc
+        radii = np.where(np.isinf(radii) != True, radii, 0) # 0" is 0kpc
+        radii = radii * 10**(-3) # convert to kpc
+    
         axs[i_cube,7].errorbar(radii, np.abs(v_star), yerr=twod_data[:,2], 
                 ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
                 label=r'\textbf{Stars}')
@@ -637,12 +647,12 @@ def auto_runner():
             axs[i_cube,4].set_xlabel(r'\textbf{Pixels}', fontsize=40)
             axs[i_cube,5].set_xlabel(r'\textbf{Pixels}', fontsize=40)
         
-            axs[i_cube,6].set_xlabel(r'\textbf{Radius (")}', fontsize=40)
-            axs[i_cube,7].set_xlabel(r'\textbf{Radius (")}', fontsize=40) 
-            axs[i_cube,8].set_xlabel(r'\textbf{Radius (")}', fontsize=40)
+            axs[i_cube,6].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
+            axs[i_cube,7].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40) 
+            axs[i_cube,8].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
 
     #fig.tight_layout()
-    fig.savefig("graphs/spectra_complete.pdf", bbox_inches="tight")
+    fig.savefig("graphs/spectra_complete_velocities.pdf", bbox_inches="tight")
     
 
 if __name__ == '__main__':
