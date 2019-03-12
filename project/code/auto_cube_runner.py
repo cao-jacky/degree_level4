@@ -734,6 +734,8 @@ def rotation_curves(cube_id):
             unique_vids, unique_locs = np.unique(vid_slice.astype(int), 
                     return_index=True)
 
+            print(unique_vids)
+
             # select out a horizontal strip based on central pixel
             map_slice = curr_map_data[c_y-1:c_y+2,:]
             map_median = np.nanmedian(map_slice, axis=0)
@@ -858,6 +860,7 @@ def rotation_curves(cube_id):
                     cpdo_e[0]])
 
     vd_data = np.asarray(vd_data) 
+    print(np.shape(vd_data))
     np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
             "_vel_diff_data.npy", vd_data) # save data to an array
 
@@ -867,8 +870,6 @@ def rotation_curves(cube_id):
     radii = vd_data[:,0]
     v_oii = vd_data[:,3]
     v_star = vd_data[:,1]
-
-    print(np.unique(v_star, return_counts=True))
 
     v_diff = np.abs(v_oii - v_star) # difference data
     v_diff_err = np.sqrt(vd_data[:,2]**2 + vd_data[:,4]**2) # uncertainty data

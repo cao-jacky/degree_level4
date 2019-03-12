@@ -460,7 +460,8 @@ def auto_runner():
                 orientation='horizontal')
 
         fcbar.ax.tick_params(labelsize=20, rotation=90)
-        fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7)
+        fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
+                bbox=dict(facecolor='white', alpha=0.7))
 
         # V_star map (pPXF)
         voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
@@ -474,7 +475,8 @@ def auto_runner():
                 orientation='horizontal')
 
         fcbar.ax.tick_params(labelsize=20, rotation=90)
-        fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7) 
+        fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
+                bbox=dict(facecolor='white', alpha=0.7)) 
 
         # --------------------------------------------------#
 
