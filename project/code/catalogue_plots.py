@@ -177,9 +177,12 @@ def catalogue_analysis(file_name):
     # sort by redshift z then cut the objects below the value of 0.3 
     z_limit = (4800/3727) - 1 
 
+    # save objects which have redshifts smaller than z_limit
+    sr_cubes_data = cubes_data[cubes_data[:,7]<=z_limit, :]
+    np.save("data/low_redshift_catalogue", sr_cubes_data)
+
     #cubes_data = cubes_data[cubes_data[:,7].argsort()]
     cubes_data = cubes_data[cubes_data[:,7]>=z_limit, :]
-    
     np.save("data/matched_catalogue", cubes_data)
 
     # attempting to deal with the star probability
