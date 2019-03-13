@@ -289,7 +289,12 @@ def auto_runner():
     #uc = uc[7:11]
     print(uc)
 
+    # plot for velocities
     fig, axs = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.3,
+        'wspace':0.45, 'width_ratios':[7,7,15,7,7,7,10,10,10]})
+
+    # plot for velocity dispersions
+    fig1, axvd = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.3,
         'wspace':0.45, 'width_ratios':[7,7,15,7,7,7,10,10,10]})
 
     for i_cube in range(len(uc)):
@@ -651,6 +656,7 @@ def auto_runner():
             axs[i_cube,7].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40) 
             axs[i_cube,8].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
 
+    # saving plot for velocities
     #fig.tight_layout()
     fig.savefig("graphs/spectra_complete_velocities.pdf", bbox_inches="tight")
     
