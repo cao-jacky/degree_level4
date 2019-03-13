@@ -297,6 +297,9 @@ def auto_runner():
     fig1, axvd = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.3,
         'wspace':0.45, 'width_ratios':[7,7,15,7,7,7,10,10,10]})
 
+    # deltaV on one plot
+    fig2, axdelv = plt.subplots()
+
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
 
@@ -629,6 +632,19 @@ def auto_runner():
 
         # --------------------------------------------------#
 
+        # plotting deltaV data onto a specific plot 
+        # scale by circular velocity (max velocity) from pPXF
+        ppxf_max = np.max(ppxf_map_median)
+        axdelv.errorbar(np.abs(x_values), np.abs(v_diff_oned), 
+                yerr=v_diff_err_oned, ms=5, fmt='o', c="#000000", elinewidth=1, 
+                capsize=5, capthick=1)
+
+        axdelv.tick_params(labelsize=20)  
+        axdelv.set_ylabel(r'\textbf{V$_{OII}$-V$_{*}$ (kms$^{-1}$)}', fontsize=20)
+        axdelv.set_xlabel(r'\textbf{Radius (kpc)}', fontsize=20)
+
+        # --------------------------------------------------#
+
         # Add title for only first row of plots
         if cube_id == uc[0]:
             axs[i_cube,0].set_title(r'\textbf{HST}', fontsize=40, pad=18)
@@ -659,6 +675,9 @@ def auto_runner():
     # saving plot for velocities
     #fig.tight_layout()
     fig.savefig("graphs/spectra_complete_velocities.pdf", bbox_inches="tight")
+    
+    # saving deltaV plot
+    fig2.savefig("graphs/deltav_vs_radius.pdf", bbox_inches="tight")
     
 
 if __name__ == '__main__':
