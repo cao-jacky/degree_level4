@@ -60,13 +60,11 @@ def cube_extractor(file_name):
 
     #wls = wavelength_solution(header, len(data))
 
-    #print(np.shape(data), np.shape(sdata))
-    print(sdata)
-
-    catalogue = np.load("data/matched_catalogue.npy")
+    #catalogue = np.load("data/matched_catalogue.npy")
+    catalogue = np.load("data/low_redshift_catalogue.npy") # low-redshift catalogue
     # sorting catalogue by the probability that the object is a star
     catalogue = catalogue[catalogue[:,8].argsort()]
-
+    
     t = process_time()
     for i_obj in range(len(catalogue)):
         # we just want to consider the first 300 objects
@@ -82,12 +80,14 @@ def cube_extractor(file_name):
             segmentation_data = sdata[y_posn-rl[0]:y_posn+rl[1],
                     x_posn-rl[0]:x_posn+rl[1]]
 
+            """
             if (i_obj == 0):
                 print(cube_id)
                 print(x_posn, y_posn)
                 print(y_posn-rl[0],y_posn+rl[1],x_posn-rl[0],x_posn+rl[1])
                 np.set_printoptions(threshold=np.nan)
                 print(segmentation_data)
+            """
 
             # saving both sets of data to one fits file
             # creating the header
@@ -104,8 +104,8 @@ def cube_extractor(file_name):
             hdul = fits.HDUList([primary_hdu, hdu1, hdu2])
 
             hdul.writeto("/Volumes/Jacky_Cao/University/level4/project/cubes_better/" 
-                    + "cube_" + str(cube_id) + ".fits" )
-
+                    + "cube_" + str(cube_id) + ".fits" ) 
+    
     print('Elapsed time in creating cubes: %.2f s' % (process_time() - t))
 
 def colour_image_data_extractor(file_name):
@@ -290,7 +290,7 @@ def colour_image_extractor():
                 plt.close("all")
 
 if __name__ == '__main__':
-    #cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
+    cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
     #colour_image_data_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
 
     #colour_image_collapser()
@@ -300,5 +300,5 @@ if __name__ == '__main__':
 
     #hst_hudf_extractor("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-30mas_hudf_f606w_v1_sci.fits")
 
-    colour_image_extractor()
+    #colour_image_extractor()
 
