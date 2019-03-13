@@ -274,9 +274,6 @@ def spectra(cube_id):
             "_spectra_complete.pdf", bbox_inches="tight")
     plt.close("all")
 
-def cube_table():
-    pass
-
 def auto_runner():
     # Running through the usable sample
     cf = ppxf_fitter.cat_func()
@@ -331,7 +328,14 @@ def auto_runner():
         hsts = np.shape(hst_colour) # shape of the HST frame
 
         # cube_id label 
-        axs[i_cube,0].text(hsts[0]*0.5, hsts[1]*0.95, r'\textbf{C'+str(cube_id)+'}', 
+        axvd[i_cube,0].text(hsts[0]*0.5, hsts[1]*0.95, r'\textbf{C'+str(cube_id)+'}', 
+                {'color': "#ffffff", 'fontsize': 40}, horizontalalignment='center',
+                weight='heavy')
+
+        # repeating plots for velocity dispersions
+        axvd[i_cube,0].imshow(hst_colour, interpolation='nearest', aspect="auto")
+        axvd[i_cube,0].set_axis_off()
+        axvd[i_cube,0].text(hsts[0]*0.5, hsts[1]*0.95, r'\textbf{C'+str(cube_id)+'}', 
                 {'color': "#ffffff", 'fontsize': 40}, horizontalalignment='center',
                 weight='heavy')
 
@@ -344,9 +348,14 @@ def auto_runner():
     
         axs[i_cube,1].imshow(muse_collapsed, cmap='gray_r', aspect="auto")
         axs[i_cube,1].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
-        #axs[i_cube,1].set_axis_off()
         axs[i_cube,1].tick_params(labelsize=33)
         axs[i_cube,1].set_ylabel(r'\textbf{Pixels}', fontsize=40)
+
+        # repeating plots for velocity dispersions
+        axvd[i_cube,1].imshow(muse_collapsed, cmap='gray_r', aspect="auto")
+        axvd[i_cube,1].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
+        axvd[i_cube,1].tick_params(labelsize=33)
+        axvd[i_cube,1].set_ylabel(r'\textbf{Pixels}', fontsize=40)
 
         # --------------------------------------------------#
 
@@ -377,18 +386,24 @@ def auto_runner():
 
             axs[i_cube,2].axvline(x=spec_line, linewidth=2, color="#1e88e5", 
                     alpha=alpha_line)
+            axvd[i_cube,2].axvline(x=spec_line, linewidth=2, color="#1e88e5", 
+                    alpha=alpha_line)
 
         for e_key, e_val in sl['abs'].items():
             spec_line = float(e_val)*(1+z)
             spec_label = e_key
 
             axs[i_cube,2].axvline(x=spec_line, linewidth=2, color="#ff8f00", alpha=0.7)
+            axvd[i_cube,2].axvline(x=spec_line, linewidth=2, color="#ff8f00", 
+                    alpha=0.7)
 
         # iron spectral lines
         for e_key, e_val in sl['iron'].items(): 
             spec_line = float(e_val)*(1+z)
 
             axs[i_cube,2].axvline(x=spec_line, linewidth=2, color="#bdbdbd", alpha=0.3)
+            axvd[i_cube,2].axvline(x=spec_line, linewidth=2, color="#bdbdbd", 
+                    alpha=0.3)
 
         # defining wavelength as the x-axis
         x_data = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 
@@ -404,6 +419,7 @@ def auto_runner():
         y_data_scaled = y_data/np.median(y_data)
         
         axs[i_cube,2].plot(x_data, y_data_scaled, linewidth=2, color="#000000")
+        axvd[i_cube,2].plot(x_data, y_data_scaled, linewidth=2, color="#000000")
         
         # plotting over the OII doublet 
         dblt_av = np.average(doublets)
@@ -420,6 +436,13 @@ def auto_runner():
 
         axs[i_cube,2].tick_params(labelsize=33) 
         axs[i_cube,2].set_ylabel(r'\textbf{Relative flux}', fontsize=40)
+
+        # repeating plots for velocity dispersions 
+        axvd[i_cube,2].plot(doublet_x_data, doublet_data, linewidth=2, 
+                color="#9c27b0")
+        axvd[i_cube,2].plot(x_data, y_model, linewidth=2, color="#b71c1c")
+        axvd[i_cube,2].tick_params(labelsize=33) 
+        axvd[i_cube,2].set_ylabel(r'\textbf{Relative flux}', fontsize=40)
         
         # --------------------------------------------------#
 
@@ -430,6 +453,12 @@ def auto_runner():
         axs[i_cube,3].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         axs[i_cube,3].tick_params(labelsize=33)
         axs[i_cube,3].set_ylabel(r'\textbf{Pixels}', fontsize=40)
+
+        # repeating plots for velocity dispersion
+        axvd[i_cube,3].imshow(voronoi_map, cmap="prism", aspect="auto")
+        axvd[i_cube,3].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
+        axvd[i_cube,3].tick_params(labelsize=33)
+        axvd[i_cube,3].set_ylabel(r'\textbf{Pixels}', fontsize=40)
 
         # Galaxy maps
         galaxy_maps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
@@ -448,12 +477,18 @@ def auto_runner():
         ppxf_vel_data = rotated_maps[0]
         ppxf_vel_unique = np.unique(ppxf_vel_data)
 
+        ppxf_sig_data = rotated_maps[1]
+        ppxf_sig_unique = np.unique(ppxf_sig_data)
+
         # V_OII map (lmfit)
-        voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
-                str(int(cube_id))+"_voronoi_map.npy")
         voii = axs[i_cube,4].imshow(rotated_maps[2], cmap="jet", aspect="auto",
                 vmin=np.nanmin(ppxf_vel_unique), vmax=np.nanmax(ppxf_vel_unique))
         axs[i_cube,4].tick_params(labelsize=33)
+
+        # sigma_OII map (lmfit)
+        sigoii = axvd[i_cube,4].imshow(rotated_maps[3], cmap="jet", aspect="auto",
+                vmin=np.nanmin(ppxf_sig_unique), vmax=np.nanmax(ppxf_sig_unique))
+        axvd[i_cube,4].tick_params(labelsize=33)
         
         # amount to shift the colour bar with respect to the y-axis
         if i_cube == 2:
@@ -470,14 +505,18 @@ def auto_runner():
         cb_ax = fig.add_axes([0.515, 1-(0.195+0.136*height_amount), 0.015, 0.007])
         fcbar = plt.colorbar(voii, ax=axs[i_cube,4], cax=cb_ax, 
                 orientation='horizontal')
-
         fcbar.ax.tick_params(labelsize=20, rotation=90)
         fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
                 bbox=dict(facecolor='white', alpha=0.7))
 
-        # V_star map (pPXF)
-        voronoi_map = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
-                str(int(cube_id))+"_voronoi_map.npy")
+        cb_ax1 = fig1.add_axes([0.515, 1-(0.195+0.136*height_amount), 0.015, 0.007])
+        fcbar1 = plt.colorbar(sigoii, ax=axvd[i_cube,4], cax=cb_ax1, 
+                orientation='horizontal')
+        fcbar1.ax.tick_params(labelsize=20, rotation=90)
+        fcbar1.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
+                bbox=dict(facecolor='white', alpha=0.7))
+
+        # V_star map (pPXF) 
         vstar = axs[i_cube,5].imshow(rotated_maps[0], cmap="jet", aspect="auto",
                 vmin=np.nanmin(ppxf_vel_unique), vmax=np.nanmax(ppxf_vel_unique))
         axs[i_cube,5].tick_params(labelsize=33)
@@ -485,14 +524,25 @@ def auto_runner():
         cb_ax = fig.add_axes([0.5915, 1-(0.195+0.136*height_amount), 0.015, 0.007])
         fcbar = plt.colorbar(vstar, ax=axs[i_cube,5], cax=cb_ax, 
                 orientation='horizontal')
-
         fcbar.ax.tick_params(labelsize=20, rotation=90)
         fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
                 bbox=dict(facecolor='white', alpha=0.7)) 
 
+        # sig_star map (pPXF) 
+        vstar = axvd[i_cube,5].imshow(rotated_maps[1], cmap="jet", aspect="auto",
+                vmin=np.nanmin(ppxf_sig_unique), vmax=np.nanmax(ppxf_sig_unique))
+        axvd[i_cube,5].tick_params(labelsize=33)
+
+        cb_ax1 = fig1.add_axes([0.5915, 1-(0.195+0.136*height_amount), 0.015, 0.007])
+        fcbar1 = plt.colorbar(vstar, ax=axvd[i_cube,5], cax=cb_ax1, 
+                orientation='horizontal')
+        fcbar1.ax.tick_params(labelsize=20, rotation=90)
+        fcbar1.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
+                bbox=dict(facecolor='white', alpha=0.7)) 
+
         # --------------------------------------------------#
 
-        # 1D rotation curve 
+        # 1D rotation curve for velocity 
 
         muse_scale = 0.20 # MUSE pixel scale in arcsec/pixel
 
@@ -684,6 +734,10 @@ def auto_runner():
 
     # saving plot for velocities
     fig.savefig("graphs/spectra_complete_velocities.pdf", bbox_inches="tight")
+
+    # saving plot for velocity dispersions
+    fig1.savefig("graphs/spectra_complete_velocity_dispersions.pdf", 
+            bbox_inches="tight")
 
     # --------------------------------------------------#
 
