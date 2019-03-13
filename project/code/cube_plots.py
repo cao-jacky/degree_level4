@@ -299,6 +299,10 @@ def auto_runner():
 
     # deltaV on one plot
     fig2, axdelv = plt.subplots()
+    delv_data = []
+
+    # deltaV histogram
+    fig3, axdelvh = plt.subplots()
 
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
@@ -615,15 +619,15 @@ def auto_runner():
                 #c="#000000", elinewidth=2, capsize=10, capthick=2)
 
         # using 1D rotation curve data instead of the 2D data
-        v_diff_oned = lmfit_map_median - ppxf_map_median
+        v_diff_oned = np.abs(lmfit_map_median - ppxf_map_median)
         v_diff_err_oned = np.sqrt(ppxf_y_err**2 + lmfit_y_err**2)
 
-        axs[i_cube,8].errorbar(np.abs(x_values), np.abs(v_diff_oned), 
+        axs[i_cube,8].errorbar(np.abs(x_values), v_diff_oned, 
                 yerr=v_diff_err_oned, ms=10, fmt='o', c="#000000", elinewidth=2, 
                 capsize=10, capthick=2)
 
         axs[i_cube,8].tick_params(labelsize=33)  
-        axs[i_cube,8].set_ylabel(r'\textbf{V$_{OII}$-V$_{*}$ (kms$^{-1}$)}', 
+        axs[i_cube,8].set_ylabel(r'\textbf{$\mid V_{OII}-V_{*} \mid$ (kms$^{-1}$)}', 
                 fontsize=40)
 
         for tick in axs[i_cube,8].get_yticklabels():
@@ -635,13 +639,17 @@ def auto_runner():
         # plotting deltaV data onto a specific plot 
         # scale by circular velocity (max velocity) from pPXF
         ppxf_max = np.max(ppxf_map_median)
-        axdelv.errorbar(np.abs(x_values), np.abs(v_diff_oned), 
+        axdelv.errorbar(np.abs(x_values), v_diff_oned, 
                 yerr=v_diff_err_oned, ms=5, fmt='o', c="#000000", elinewidth=1, 
                 capsize=5, capthick=1)
+        
+        # storing all the deltaV data to create the median values
+        for i_cval in range(len(x_values)):
+            curr_xval = np.abs(x_values[i_cval])
+            curr_yval = v_diff_oned[i_cval]
 
-        axdelv.tick_params(labelsize=20)  
-        axdelv.set_ylabel(r'\textbf{V$_{OII}$-V$_{*}$ (kms$^{-1}$)}', fontsize=20)
-        axdelv.set_xlabel(r'\textbf{Radius (kpc)}', fontsize=20)
+            # store x-values and the respective y-values into the delv_data list
+            delv_data.append(np.array([curr_xval, curr_yval])) 
 
         # --------------------------------------------------#
 
@@ -651,11 +659,11 @@ def auto_runner():
             axs[i_cube,1].set_title(r'\textbf{MUSE}', fontsize=40, pad=18)
             axs[i_cube,2].set_title(r'\textbf{Spectra}', fontsize=40, pad=18)
             axs[i_cube,3].set_title(r'\textbf{Voronoi map}', fontsize=40, pad=18)
-            axs[i_cube,4].set_title(r'\textbf{V$_{OII}$ map}', fontsize=40, pad=18)
-            axs[i_cube,5].set_title(r'\textbf{V$_{*}$ map}', fontsize=40, pad=18)
+            axs[i_cube,4].set_title(r'\textbf{$V_{OII}$ map}', fontsize=40, pad=18)
+            axs[i_cube,5].set_title(r'\textbf{$V_{*}$ map}', fontsize=40, pad=18)
             axs[i_cube,6].set_title(r'\textbf{1D Rot. Curve}', fontsize=40, pad=18)
             axs[i_cube,7].set_title(r'\textbf{2D Rot. Curve}', fontsize=40, pad=18)
-            axs[i_cube,8].set_title(r'\textbf{V$_{OII}$-V$_{*}$}', 
+            axs[i_cube,8].set_title(r'\textbf{$\mid V_{OII}-V_{*} \mid$}', 
                     fontsize=40, pad=18)
 
         # Add labels for only edge plots
@@ -672,12 +680,43 @@ def auto_runner():
             axs[i_cube,7].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40) 
             axs[i_cube,8].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
 
+    # --------------------------------------------------#
+
     # saving plot for velocities
-    #fig.tight_layout()
     fig.savefig("graphs/spectra_complete_velocities.pdf", bbox_inches="tight")
-    
+
+    # --------------------------------------------------#
+
+    # Reducing deltaV data into one single median curve
+    delv_data = np.stack(delv_data, axis=0) # combine lists into an array
+    ddu = np.unique(delv_data[:,0]) # unique radius from deltaV data
+
+    for i_ddu in range(len(ddu)):
+        curr_radius = ddu[i_ddu]
+        # find where current radius occurs, set other values as 0 
+        curr_vels = np.where(delv_data[:,0]==curr_radius, delv_data[:,1], np.nan) 
+        cvel_med = np.nanmedian(curr_vels) # median of the current velocities
+
+        axdelv.errorbar(curr_radius, cvel_med, ms=5, fmt='o', c="#e53935",
+                elinewidth=1, capsize=5, capthick=1)
+
+    axdelv.tick_params(labelsize=20)  
+    axdelv.set_ylabel(r'\textbf{$\mid V_{OII}-V_{*} \mid$ (kms$^{-1}$)}', fontsize=20)
+    axdelv.set_xlabel(r'\textbf{Radius (kpc)}', fontsize=20)
+ 
     # saving deltaV plot
     fig2.savefig("graphs/deltav_vs_radius.pdf", bbox_inches="tight")
+
+    axdelvh.hist(delv_data[:,1], 10, density=1, color="#000000")
+
+    axdelvh.tick_params(labelsize=20)  
+    axdelvh.set_xlabel(r'\textbf{$\mid V_{OII}-V_{*} \mid$ (kms$^{-1}$)}', fontsize=20)
+    axdelvh.set_ylabel(r'\textbf{Probability density}', fontsize=20)
+    
+    # saving deltaV histogram plot
+    fig3.savefig("graphs/deltav_histogram.pdf", bbox_inches="tight")
+
+    # --------------------------------------------------#
     
 
 if __name__ == '__main__':
