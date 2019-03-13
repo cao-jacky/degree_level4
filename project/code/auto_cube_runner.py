@@ -511,9 +511,12 @@ def rotation_curves(cube_id):
     galaxy_maps[2] = np.where(sn_map > 4, galaxy_maps[2], -0.0)
     
     # obtaining fractional uncertainties from signal-to-noise
-    # loading "a" factors in a/x model
+    # loading "a" factors in a/x model for velocities
     a_ppxf = np.load("uncert_ppxf/vel_curve_best_values_ppxf.npy")
     a_lmfit = np.load("uncert_lmfit/vel_curve_best_values_lmfit.npy")
+    # for velocity dispersions
+    a_vd_ppxf = np.load("uncert_ppxf/sigma_curve_best_values_ppxf.npy")
+    a_vd_lmfit = np.load("uncert_lmfit/sigma_curve_best_values_lmfit.npy")
 
     # Read the sextractor data file which contains various bits of info
     sextractor_data = np.loadtxt("data/GaiaCatalog0.ASC")
@@ -825,7 +828,8 @@ def rotation_curves(cube_id):
     c_x = int(map_shape[0]/2)-1
     c_y = int(map_shape[1]/2)-1
 
-    vd_data = [] # list to store velocities, errors, and radii values
+    v_data = [] # list to store velocities, errors, and radii values
+    vd_data = [] # list to store velocity dispersions, errors, and radii values
 
     # Creating 2D rotation curve based on the Voronoi bins
     vbid_map = np.nan_to_num(rgmaps[7]) # Voronoi bin ID map
@@ -848,10 +852,18 @@ def rotation_curves(cube_id):
             cpd_stellar = rgmaps[0][med_y][med_x] # stellar velocity
             cpd_oii = rgmaps[2][med_y][med_x] # gas velocity
 
+            cpd_vd_stellar = rgmaps[1][med_y][med_x] # stellar velocity dispersion
+            cpd_vd_oii = rgmaps[3][med_y][med_x] # gas velocity disperion
+
             # correcting velocity data for inclination
             phi_angle = np.arctan(med_y/med_x)
-            vcorr_stellar = cpd_stellar / (np.sin(gal_inc) * np.cos(phi_angle))
-            vcorr_oii = cpd_oii / (np.sin(gal_inc) * np.cos(phi_angle))
+            vcorr_stellar = cpd_vd_stellar / (np.sin(gal_inc) * np.cos(phi_angle))
+            vcorr_oii = cpd_vd_oii / (np.sin(gal_inc) * np.cos(phi_angle))
+
+            # correcting velocity dispersion data for inclination
+            phi_angle = np.arctan(med_y/med_x)
+            vcorr_vd_stellar = cpd_stellar / (np.sin(gal_inc) * np.cos(phi_angle))
+            vcorr_vd_oii = cpd_oii / (np.sin(gal_inc) * np.cos(phi_angle))
 
             cp_sn = rgmaps[4][med_y][med_x] # current S/N   
             # top left corner is defined as (x=0,y=0) posn, 
@@ -864,6 +876,7 @@ def rotation_curves(cube_id):
             cp_radius = np.sqrt(cp_obs+cpy_dist**2*np.tan(gal_inc)**2)
             cp_radius = cp_radius * muse_scale # convert to MUSE scale
 
+            # velocities 
             frac_err_ppxf = a_ppxf # pPXF velocity fractional error
             rcpd_ppxf = rgmaps[8][med_y][med_x]
             cpds_e = curve(cp_sn, frac_err_ppxf) * rcpd_ppxf # stellar error
@@ -872,12 +885,26 @@ def rotation_curves(cube_id):
             rcpd_lmfit = rgmaps[9][med_y][med_x]
             cpdo_e = curve(cp_sn, frac_err_lmfit) * rcpd_lmfit # OII error
 
-            vd_data.append([cp_radius, vcorr_stellar, cpds_e[0], vcorr_oii, 
+            v_data.append([cp_radius, vcorr_stellar, cpds_e[0], vcorr_oii, 
                 cpdo_e[0]])
+            
+            # velocity dispersions
+            frac_err_vd_ppxf = a_vd_ppxf # pPXF velocity fractional error
+            cpds_vd_e = curve(cp_sn, frac_err_vd_ppxf) * vcorr_vd_stellar # stellar
 
-    vd_data = np.asarray(vd_data) 
+            frac_err_vd_lmfit = a_vd_lmfit # lmfit velocity fractional error
+            cpdo_vd_e = curve(cp_sn, frac_err_vd_lmfit) * vcorr_vd_oii # OII
+
+            vd_data.append([cp_radius, vcorr_vd_stellar, cpds_vd_e[0], vcorr_vd_oii, 
+                cpdo_vd_e[0]])
+
+    v_data = np.asarray(v_data)
     np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
-            "_vel_diff_data.npy", vd_data) # save data to an array
+            "_vel_diff_data.npy", v_data) # save data to an array
+
+    vd_data = np.asarray(vd_data)
+    np.save("cube_results/cube_"+str(int(cube_id))+"/cube_"+str(int(cube_id))+
+            "_vel_disp_diff_data.npy", vd_data) # save data to an array
 
     # plotting V_OII-V_* against radius
     vd, vdax1 = plt.subplots(1,1) 

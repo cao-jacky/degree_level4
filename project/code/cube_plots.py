@@ -605,7 +605,7 @@ def auto_runner():
                 label=r'\textbf{Gas}')
 
         axs[i_cube,6].tick_params(labelsize=33)
-        axs[i_cube,6].set_ylabel(r'\textbf{Velocity (kms$^{-1}$)}', fontsize=40)
+        axs[i_cube,6].set_ylabel(r'\textbf{V (kms$^{-1}$)}', fontsize=40)
 
         x_max = np.max(np.abs(x_values))
         axs[i_cube,6].set_xlim([-x_max,x_max]) # setting x-axis to be equal
@@ -616,10 +616,56 @@ def auto_runner():
         for tick in axs[i_cube,6].get_yticklabels():
             # rotating y-axis labels 
             tick.set_rotation(90)
+
+        # --------------------------------------------------#
+
+        # 1D rotation curve for velocity dispersion 
+
+        # select out a horizontal strip based on central pixel
+        ppxf_vd_map_slice = rotated_maps[1][c_y-1:c_y+2,:]
+        ppxf_vd_map_median = np.nanmedian(ppxf_vd_map_slice, axis=0)
+        ppxf_vd_map_median = ppxf_vd_map_median[unique_locs] # mask out repeated values
+
+        lmfit_vd_map_slice = rotated_maps[3][c_y-1:c_y+2,:]
+        lmfit_vd_map_median = np.nanmedian(lmfit_vd_map_slice, axis=0)
+        lmfit_vd_map_median = lmfit_vd_map_median[unique_locs] # mask out repeat values
+
+        # loading "a" factors in a/x model
+        a_vd_ppxf = np.load("uncert_ppxf/sigma_curve_best_values_ppxf.npy")
+        a_vd_lmfit = np.load("uncert_lmfit/sigma_curve_best_values_lmfit.npy")
+
+        sn_slice = np.nanmedian(rotated_maps[4][c_y-1:c_y+2,:], axis=0)[unique_locs]
+       
+        # pPXF velocity fractional error
+        frac_err_vd_ppxf = (a_vd_ppxf/sn_slice) * ppxf_vd_map_median
+        
+        # lmfit velocity fractional error
+        frac_err_vd_lmfit = (a_vd_lmfit/sn_slice) * lmfit_vd_map_median
+        
+        axvd[i_cube,6].errorbar(x_values, ppxf_vd_map_median, yerr=frac_err_vd_ppxf, 
+                ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
+                label=r'\textbf{Stars}')
+        axvd[i_cube,6].errorbar(x_values, lmfit_vd_map_median, yerr=frac_err_vd_lmfit, 
+                ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2,
+                label=r'\textbf{Gas}')
+
+        #axvd[i_cube,6].set_yscale('log')
+        axvd[i_cube,6].tick_params(labelsize=33)
+        axvd[i_cube,6].set_ylabel(r'\textbf{$\sigma$ (kms$^{-1}$)}', fontsize=40)
+
+        x_max = np.max(np.abs(x_values))
+        axvd[i_cube,6].set_xlim([-x_max,x_max]) # setting x-axis to be equal
+
+        lgnd = axvd[i_cube,6].legend(loc='upper left', prop={'size': 20})
+        lgnd.get_frame().set_alpha(0.5)
+
+        for tick in axvd[i_cube,6].get_yticklabels():
+            # rotating y-axis labels 
+            tick.set_rotation(90)
         
         # --------------------------------------------------#
 
-        # 2D rotation curve
+        # 2D rotation curve for velocity
         twod_data = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
                 str(int(cube_id))+"_vel_diff_data.npy")
 
@@ -646,18 +692,48 @@ def auto_runner():
 
         # --------------------------------------------------#
 
-        # overlaying sliced regions for gas and stellar
+        # 2D rotation curve for velocity dispersion
+        twod_vd_data = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
+                str(int(cube_id))+"_vel_disp_diff_data.npy")
+
+        vd_radii = twod_vd_data[:,0]
+        sig_oii = twod_vd_data[:,3]
+        sig_star = twod_vd_data[:,1]
+
+        # convert radii into kpc
+        radii = 1/radii # convert to pc
+        radii = np.where(np.isinf(radii) != True, radii, 0) # 0" is 0kpc
+        radii = radii * 10**(-3) # convert to kpc
+    
+        axvd[i_cube,7].errorbar(vd_radii, np.abs(sig_star), yerr=twod_vd_data[:,2], 
+                ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
+                label=r'\textbf{Stars}')
+        axvd[i_cube,7].errorbar(vd_radii, np.abs(sig_oii), yerr=twod_vd_data[:,4], 
+                ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2,
+                label=r'\textbf{Gas}')
+
+        #axvd[i_cube,7].set_yscale('log')
+        axvd[i_cube,7].tick_params(labelsize=33)
+
+        lgnd = axvd[i_cube,7].legend(loc='upper left', prop={'size': 20})
+        lgnd.get_frame().set_alpha(0.5)
+
+        # --------------------------------------------------#
+
+        # overlaying sliced regions for gas and stellar in velocity and vel dispersion
         overlayed_slice = rotated_maps[2]
         overlayed_slice[np.where(overlayed_slice != 1.0)] = np.nan
         overlayed_slice[c_y-1:c_y+2,:] = 2.0
 
         axs[i_cube,4].imshow(overlayed_slice, cmap='gray', alpha=0.5, aspect="auto")
+        axvd[i_cube,4].imshow(overlayed_slice, cmap='gray', alpha=0.5, aspect="auto")
     
         overlayed_slice = rotated_maps[0]
         overlayed_slice[np.where(overlayed_slice != 1.0)] = np.nan
         overlayed_slice[c_y-1:c_y+2,:] = 2.0
 
         axs[i_cube,5].imshow(overlayed_slice, cmap='gray', alpha=0.5, aspect="auto")
+        axvd[i_cube,5].imshow(overlayed_slice, cmap='gray', alpha=0.5, aspect="auto")
 
         # --------------------------------------------------#
 
@@ -677,10 +753,35 @@ def auto_runner():
                 capsize=10, capthick=2)
 
         axs[i_cube,8].tick_params(labelsize=33)  
-        axs[i_cube,8].set_ylabel(r'\textbf{$\mid V_{OII}-V_{*} \mid$ (kms$^{-1}$)}', 
+        axs[i_cube,8].set_ylabel(r'\textbf{$\mid \Delta V \mid$ (kms$^{-1}$)}', 
                 fontsize=40)
 
         for tick in axs[i_cube,8].get_yticklabels():
+            # rotating y-axis labels 
+            tick.set_rotation(90)
+
+        # --------------------------------------------------#
+
+        # sigma_OII-sigma_* vs. radius plots
+        sig_diff = (sig_oii - sig_star) # difference data
+        sig_diff_err = np.sqrt(twod_vd_data[:,2]**2 + twod_vd_data[:,4]**2) 
+
+        #axs[i_cube,8].errorbar(radii, v_diff, yerr=v_diff_err, ms=10, fmt='o', 
+                #c="#000000", elinewidth=2, capsize=10, capthick=2)
+
+        # using 1D sigma curve data instead of the 2D data
+        sig_diff_oned = np.abs(lmfit_vd_map_median - ppxf_vd_map_median)
+        sig_diff_err_oned = np.sqrt(frac_err_vd_ppxf**2 + frac_err_vd_lmfit**2)
+
+        axvd[i_cube,8].errorbar(np.abs(x_values), sig_diff_oned, 
+                yerr=sig_diff_err_oned, ms=10, fmt='o', c="#000000", elinewidth=2, 
+                capsize=10, capthick=2)
+
+        axvd[i_cube,8].tick_params(labelsize=33)  
+        axvd[i_cube,8].set_ylabel(r'\textbf{$\mid \Delta \sigma \mid$ (kms$^{-1}$)}',
+                fontsize=40)
+
+        for tick in axvd[i_cube,8].get_yticklabels():
             # rotating y-axis labels 
             tick.set_rotation(90)
 
@@ -716,8 +817,23 @@ def auto_runner():
             axs[i_cube,8].set_title(r'\textbf{$\mid V_{OII}-V_{*} \mid$}', 
                     fontsize=40, pad=18)
 
+            axvd[i_cube,0].set_title(r'\textbf{HST}', fontsize=40, pad=18)
+            axvd[i_cube,1].set_title(r'\textbf{MUSE}', fontsize=40, pad=18)
+            axvd[i_cube,2].set_title(r'\textbf{Spectra}', fontsize=40, pad=18)
+            axvd[i_cube,3].set_title(r'\textbf{Voronoi map}', fontsize=40, pad=18)
+            axvd[i_cube,4].set_title(r'\textbf{$\sigma_{OII}$ map}', fontsize=40, 
+                    pad=18)
+            axvd[i_cube,5].set_title(r'\textbf{$\sigma_{*}$ map}', fontsize=40, pad=18)
+            axvd[i_cube,6].set_title(r'\textbf{1D $\sigma$ Curve}', fontsize=40, 
+                    pad=18)
+            axvd[i_cube,7].set_title(r'\textbf{2D $\sigma$ Curve}', fontsize=40, 
+                    pad=18)
+            axvd[i_cube,8].set_title(r'\textbf{$\mid \sigma_{OII}-\sigma_{*} \mid$}', 
+                    fontsize=40, pad=18)
+
         # Add labels for only edge plots
         if cube_id == uc[-1]:
+            # velocities 
             axs[i_cube,1].set_xlabel(r'\textbf{Pixels}', fontsize=40)
             
             axs[i_cube,2].set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=40)
@@ -729,6 +845,19 @@ def auto_runner():
             axs[i_cube,6].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
             axs[i_cube,7].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40) 
             axs[i_cube,8].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
+
+            # velocity dispersions
+            axvd[i_cube,1].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+            
+            axvd[i_cube,2].set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=40)
+
+            axvd[i_cube,3].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+            axvd[i_cube,4].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+            axvd[i_cube,5].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+        
+            axvd[i_cube,6].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
+            axvd[i_cube,7].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40) 
+            axvd[i_cube,8].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
 
     # --------------------------------------------------#
 
