@@ -290,7 +290,7 @@ def colour_image_extractor():
                 plt.close("all")
 
 if __name__ == '__main__':
-    cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
+    #cube_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
     #colour_image_data_extractor("/Volumes/Jacky_Cao/University/level4/project/DATACUBE_UDF-MOSAIC.fits")
 
     #colour_image_collapser()
@@ -300,5 +300,5 @@ if __name__ == '__main__':
 
     #hst_hudf_extractor("/Volumes/Jacky_Cao/University/level4/project/HST_HUDF/hlsp_xdf_hst_acswfc-30mas_hudf_f606w_v1_sci.fits")
 
-    #colour_image_extractor()
+    colour_image_extractor()
 

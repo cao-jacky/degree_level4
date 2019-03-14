@@ -222,7 +222,8 @@ def spectra_analysis(file_name, sky_file_name):
     cube_id = int(re.search(r'\d+', stk_f_n).group())
 
     # read catalogue and obtain the HST redshift estimate
-    catalogue = np.load("data/matched_catalogue.npy")
+    #catalogue = np.load("data/matched_catalogue.npy")
+    catalogue = np.load("data/low_redshift_catalogue.npy")
     cat_loc = np.where(catalogue[:,0] == cube_id)[0]
     cube_info = catalogue[cat_loc][0]
  
@@ -410,10 +411,13 @@ def otwo_doublet_fitting(file_name, sky_file_name):
     upper_lambda = (1+redshift)*3750
 
     otr = [lower_lambda, upper_lambda]
+    print(otr)
 
     orr_x       = np.linspace(orr['begin'], orr['end'], orr['steps'])
     dt_region   = [find_nearest(orr_x, x) for x in otr]
     otwo_region = y_shifted[dt_region[0]:dt_region[1]]
+
+    print(orr_x)
 
     ot_x        = orr_x[dt_region[0]:dt_region[1]]
 
@@ -533,10 +537,21 @@ def analysis(file_name, sky_file_name):
     # calling data once will be enough
     im_coll_data = image_collapser(file_name)
     spectra_data = spectrum_creator(file_name)
-    sr = wavelength_solution(file_name) 
-    df_data = otwo_doublet_fitting(file_name, sky_file_name) 
+    sr = wavelength_solution(file_name)  
     gs_data = spectra_analysis(file_name, sky_file_name)
-    snw_data = sky_noise_weighting(file_name, sky_file_name)
+    
+    def graph_indiv():
+        cbd_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
+        cbs_y   = gs_data['gd_shifted'] 
+
+        # plotting spectra to check
+        fig, ax3 = plt.subplots()
+        ax3.plot(cbd_x, cbs_y, linewidth=0.5, color="#000000")
+        ax3.tick_params(labelsize=20)
+        ax3.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
+        ax3.set_ylabel(r'\textbf{Flux}', fontsize=20)
+        fig.savefig(data_dir + "/" + stk_f_n + '_single_spectra.pdf', 
+                bbox_inches="tight")
 
     # --- for collapsed images ---
     def graphs_collapsed():  
@@ -555,9 +570,13 @@ def analysis(file_name, sky_file_name):
         f.subplots_adjust(wspace=0.4)
         f.savefig(data_dir + "/" + stk_f_n + '_collapsed_images.pdf')
 
+    
+    snw_data = sky_noise_weighting(file_name, sky_file_name)
+    df_data = otwo_doublet_fitting(file_name, sky_file_name)
+
     # --- spectra ---
     def graphs_spectra():
-        f, (ax1, ax2)  = plt.subplots(2, 1) 
+        f, (ax1, ax2) = plt.subplots(2, 1) 
 
         # --- redshifted data plotting
         cbd_x   = np.linspace(sr['begin'], sr['end'], sr['steps'])
@@ -569,6 +588,15 @@ def analysis(file_name, sky_file_name):
         ## plotting our sky noise data
         snd_y   = snw_data['sky_regions'][:,1]
         ax1.plot(cbd_x, snd_y, linewidth=0.5, color="#f44336", alpha=0.5)
+
+        # plotting spectra to check
+        fig, ax3 = plt.subplots()
+        ax3.plot(cbd_x, cbs_y, linewidth=0.5, color="#000000")
+        ax3.tick_params(labelsize=20)
+        ax3.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
+        ax3.set_ylabel(r'\textbf{Flux}', fontsize=20)
+        fig.savefig(data_dir + "/" + stk_f_n + '_single_spectra.pdf', 
+                bbox_inches="tight")
 
         ## plotting our [OII] region
         ot_x    = df_data['x_region']
@@ -697,8 +725,9 @@ def analysis(file_name, sky_file_name):
         plt.ylim([-100,np.max(ot_y)+100]) # setting manual limits for now
         plt.savefig(data_dir + "/" + stk_f_n + '_otwo_region.pdf',bbox_inches="tight")
 
-    #graphs_collapsed()
-    #graphs_spectra()
+    graph_indiv()
+    graphs_collapsed()
+    graphs_spectra()
     graphs_otwo_region()
 
     plt.close("all")

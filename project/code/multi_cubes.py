@@ -91,7 +91,10 @@ def multi_cube_reader(catalogue_array):
         1590,697,1160,667,897,861,153,1430,873,1312,463,271,677,1055,128,342,1707,
         1203,374,196,1535,1440,1335,774,146,565,1282,184,975,1226,1478,253,1356,
         502,684,1150,574,572,448,1331,125,1054,457,1589,605,17,1222,837,892,618,281,
-        707])
+        707,
+        1435,405,842,239,674,169,215,840,69,787,1143,1294,1534,1610,896,324,118,
+        1207,1168,472,911,1057,1584,1616,1686,1130,531,216,1009,81,460,1489,100,
+        698,1147,841,1288,1102])
 
     np.save("data/avoid_objects", avoid_objects)
 
@@ -111,4 +114,5 @@ def multi_cube_reader(catalogue_array):
                 print("Skipping cube " + str(obj_id))
                 pass
 if __name__ == '__main__':
-    multi_cube_reader("data/matched_catalogue.npy")
+    #multi_cube_reader("data/matched_catalogue.npy")
+    multi_cube_reader("data/low_redshift_catalogue.npy")

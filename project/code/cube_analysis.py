@@ -439,10 +439,10 @@ def graphs():
     plt.savefig("graphs/o_ii_luminosity_vs_redshift.pdf")
     plt.close("all")
  
+if __name__ == '__main__':
+    #print(highest_sn())
+    #data_cube_analyser(1804)
 
-#print(highest_sn())
-#data_cube_analyser(1804)
+    #graphs()
 
-#graphs()
-
-#cube_noise()
+    #cube_noise()
