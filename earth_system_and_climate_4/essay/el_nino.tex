@@ -43,6 +43,8 @@
     urlcolor=black,
 }
 
+\usepackage{tabularx}
+
 %%%%% Document %%%%%
 \begin{document}                     
 
@@ -64,17 +66,39 @@ The El Ni\~{n}o Southern Oscillations (ENSOs) are generally known as a composite
 With their model they were able to replicate features observed during ENSO events such as equatorial westerly wind anomalies in the central Pacific and large SST anomalies in the eastern Pacific, on top of that they were able to predict the onset of the 1986--1987 and 1991--1992 ENSO events. Despite this success, they recognised their limited ability in simulating the real complete system as detailed comparisons with observational data would reveal discrepancies in their atmospheric and oceanic simulations. Furthermore, the short warm episodes in 1993 and 1994 would be missed in the predictions made with the Zebiak-Cane (ZC) model. This therefore requires more sophisticated models to better describe and forecast ENSO events. \\
 % words: 112
 
-\section{Limitations of the Zebiak-Cane model}
+\section{Limitations with the Zebiak-Cane model}
 
-The prediction of ENSO events is particularly difficult as there are generally two types of El Ni\~{n}o events to account for. The first are canonical events which normally develop along the South American coast and then propagates westwards across the Pacific \citep{rasmusson1982variations}. The second type of events have warm SST mostly centred in the central Pacific which do not propagate \citep{ashok2007nino}.  \\
+The prediction of ENSO events is particularly difficult as there are generally two types of El Ni\~{n}o events to account for. The first are canonical events which normally develop along the South American coast and then propagates westwards across the Pacific, ``Eastern-Pacific'' events \citep{rasmusson1982variations}. The second type of events have warm SST mostly centred in the central Pacific which do not propagate, ``Central-Pacific'' events \citep{ashok2007nino}. The ZC model can be demonstrated to predict the Eastern-Pacific events well and the Central-Pacific types badly \citep{duan2013behaviors}. This indicates that the ZC model is more suited for deriving results for Eastern-Pacific events and may contain just the essential physics to do so in a perfect model environment. \\
+% words: 113
 
-They suggest that more sophisticated models would have to be produced to correctly simulate the real ENSO cycle. 
+There are additional challenges for the forecasting of ENSOs as the coupling between the ocean and atmospheric systems are nonlinear and complex, this requires various theoretical modifications of the original model to maintain a simple dynamical system whilst providing a better fit with the observational data. Several modern ENSO oscillator theories (Table \ref{table:enso_oscillators}) employ the ZC model as a basic foundation model whilst making adjustments to the atmospheric or oceanic components. \\ 
+
+\begin{table}[htbp]
+\begin{center}
+\renewcommand{\arraystretch}{1.0}
+%\begin{tabular}{c@{\hskip 20pt}c} 
+\begin{tabular}{|p{7cm}|p{9cm}|}
+ \hline
+ \textbf{Theory} & \textbf{Overview} \\ [0.5ex] 
+ \hline
+ The Delayed Oscillator \citep{Suarez:1988aa, Battisti:1988aa} & Considering the effects of equatorially trapped oceanic wave propagation. \\
+ \hline
+ The Recharge Oscillator \citep{Jin:1997aa} & Considering the buildup of warm water in the western Pacific as a precondition to the development of El Ni\~{n}o. \\
+ \hline
+\end{tabular}
+\captionof{table}[ENSO Oscillators]{Various ENSO oscillator theories and their main differences from the Zebiak-Cane model.}
+\label{table:enso_oscillators}
+\end{center}
+\end{table}
+
+the delayed oscillator \citep{Suarez:1988aa, Battisti:1988aa}, the recharge oscillator \citep{Jin:1997aa}, the western Pacific oscillator \citep{Weisberg:1997aa, wang1999effects}, and the advective-reflective oscillator \citep{Picaut663}.\\
+
+In an attempt to explore the effect of model errors on the prediction uncertainties for ENSO events, \cite{duan2015revealing} explored the nonlinear forcing singular vector (NFSV) approach which optimises an objective function to return a minimum point in phase space. The NFSV method is key in demonstrating the effects of nonlinearity in El Ni\~{n}o predictability. \\
+
+thus the uncertainties within the model are difficult to obtain as there are no effective approaches. \\
 
 \section{Improving the Zebiak-Cane model}
 
-For several modern ENSO oscillator theories, the Zebiak-Cane (ZC) model is used as a basic foundation: the delayed oscillator \citep{Suarez:1988aa, Battisti:1988aa}, the recharge oscillator \citep{Jin:1997aa}, the western Pacific oscillator \citep{Weisberg:1997aa, wang1999effects}, and the advective-reflective oscillator \citep{Picaut663}. These variants of Zebiak and Cane's work provide adjustments to the atmospheric and oceanic components of the ZC model which allows for improvements in the accuracy and precision in the prediction of ENSO events. \\
-
-It has 
 
 % Creating a sensible and logical narrative is so difficult 
 
@@ -86,7 +110,7 @@ It has
 \newpage
 
 %\nocite{wang2017nino}
-\nocite{ruddiman_climate}
+%\nocite{ruddiman_climate}
 \bibliographystyle{agsm}
 \bibliography{el_nino}
 
