@@ -3,44 +3,44 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: el_nino.aux
 The style file: agsm.bst
 Database file #1: el_nino.bib
-You've used 16 entries,
+You've used 12 entries,
             2909 wiz_defined-function locations,
-            765 strings with 7595 characters,
-and the built_in function-call counts, 60247 in all, are:
-= -- 9644
-> -- 853
+            733 strings with 6852 characters,
+and the built_in function-call counts, 43070 in all, are:
+= -- 6912
+> -- 583
 < -- 0
-+ -- 4531
-- -- 259
-* -- 5229
-:= -- 12184
-add.period$ -- 16
-call.type$ -- 16
-change.case$ -- 224
-chr.to.int$ -- 16
-cite$ -- 16
-duplicate$ -- 264
-empty$ -- 595
-format.name$ -- 312
-if$ -- 10792
++ -- 3221
+- -- 175
+* -- 3723
+:= -- 8754
+add.period$ -- 12
+call.type$ -- 12
+change.case$ -- 168
+chr.to.int$ -- 12
+cite$ -- 12
+duplicate$ -- 191
+empty$ -- 425
+format.name$ -- 222
+if$ -- 7708
 int.to.chr$ -- 5
 int.to.str$ -- 0
-missing$ -- 17
-newline$ -- 51
-num.names$ -- 165
-pop$ -- 53
+missing$ -- 13
+newline$ -- 39
+num.names$ -- 123
+pop$ -- 38
 preamble$ -- 1
-purify$ -- 240
+purify$ -- 180
 quote$ -- 0
-skip$ -- 217
+skip$ -- 157
 stack$ -- 0
-substring$ -- 13639
-swap$ -- 50
-text.length$ -- 224
+substring$ -- 9712
+swap$ -- 34
+text.length$ -- 168
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 62
+type$ -- 46
 warning$ -- 0
-while$ -- 365
+while$ -- 271
 width$ -- 0
-write$ -- 207
+write$ -- 153

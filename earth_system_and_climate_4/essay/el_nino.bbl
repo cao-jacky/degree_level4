@@ -1,9 +1,11 @@
 \begin{thebibliography}{xx}
 
-\harvarditem{An}{2008}{An:2008aa}
-An, S.-I.  \harvardyearleft 2008\harvardyearright , `{Interannual Variations of
-  the Tropical Ocean Instability Wave and ENSO}', {\em Journal of Climate} {\bf
-  21}(15),~3680--3686.
+\harvarditem[Ashok et~al.]{Ashok, Behera, Rao, Weng \harvardand\
+  Yamagata}{2007}{ashok2007nino}
+Ashok, K., Behera, S.~K., Rao, S.~A., Weng, H. \harvardand\ Yamagata, T.
+  \harvardyearleft 2007\harvardyearright , `El ni{\~n}o modoki and its possible
+  teleconnection', {\em Journal of Geophysical Research: Oceans} {\bf
+  112}(C11).
 
 \harvarditem{Battisti \harvardand\ Hirst}{1988}{Battisti:1988aa}
 Battisti, D.~S. \harvardand\ Hirst, A.~C.  \harvardyearleft
@@ -17,13 +19,6 @@ Bjerknes, J.  \harvardyearleft 1969\harvardyearright , `{Atmospheric
   teleconnections from the equatorial Pacific}', {\em Monthly Weather Review}
   {\bf 97}(3),~163--172.
 
-\harvarditem[Gebbie et~al.]{Gebbie, Eisenman, Wittenberg \harvardand\
-  Tziperman}{2007}{doi:10.1175/JAS4029.1}
-Gebbie, G., Eisenman, I., Wittenberg, A. \harvardand\ Tziperman, E.
-  \harvardyearleft 2007\harvardyearright , `{Modulation of Westerly Wind Bursts
-  by Sea Surface Temperature: A Semistochastic Feedback for ENSO}', {\em
-  Journal of the Atmospheric Sciences} {\bf 64}(9),~3281--3295.
-
 \harvarditem{Gill}{1980}{Gill:1980aa}
 Gill, A.~E.  \harvardyearleft 1980\harvardyearright , `Some simple solutions
   for heat‐induced tropical circulation', {\em Quarterly Journal of the Royal
@@ -34,24 +29,17 @@ Jin, F.-F.  \harvardyearleft 1997\harvardyearright , `{An Equatorial Ocean
   Recharge Paradigm for ENSO. Part I: Conceptual Model}', {\em Journal of the
   Atmospheric Sciences} {\bf 54}(7),~811--829.
 
-\harvarditem{Neelin}{1991}{Neelin:1991aa}
-Neelin, J.~D.  \harvardyearleft 1991\harvardyearright , `The slow sea surface
-  temperature mode and the fast-wave limit: Analytic theory for tropical
-  interannual oscillations and experiments in a hybrid coupled model', {\em
-  Journal of the Atmospheric Sciences} {\bf 48}(4),~584--606.
-
-\harvarditem[Neelin et~al.]{Neelin, Battisti, Hirst, Jin, Wakata, Yamagata
-  \harvardand\ Zebiak}{1998}{Neelin:1998aa}
-Neelin, J.~D., Battisti, D.~S., Hirst, A.~C., Jin, F., Wakata, Y., Yamagata, T.
-  \harvardand\ Zebiak, S.~E.  \harvardyearleft 1998\harvardyearright , `Enso
-  theory', {\em Journal of Geophysical Research: Oceans} {\bf
-  103}(C7),~14261--14290.
-
 \harvarditem[Picaut et~al.]{Picaut, Masia \harvardand\
   du~Penhoat}{1997}{Picaut663}
 Picaut, J., Masia, F. \harvardand\ du~Penhoat, Y.  \harvardyearleft
   1997\harvardyearright , `An advective-reflective conceptual model for the
   oscillatory nature of the enso', {\em Science} {\bf 277}(5326),~663--666.
+
+\harvarditem{Rasmusson \harvardand\ Carpenter}{1982}{rasmusson1982variations}
+Rasmusson, E.~M. \harvardand\ Carpenter, T.~H.  \harvardyearleft
+  1982\harvardyearright , `Variations in tropical sea surface temperature and
+  surface wind fields associated with the southern oscillation/el ni{\~n}o',
+  {\em Monthly Weather Review} {\bf 110}(5),~354--384.
 
 \harvarditem{Ruddiman}{2008}{ruddiman_climate}
 Ruddiman, W.~F.  \harvardyearleft 2008\harvardyearright , {\em {Earth's
@@ -61,18 +49,6 @@ Ruddiman, W.~F.  \harvardyearleft 2008\harvardyearright , {\em {Earth's
 Suarez, M.~J. \harvardand\ Schopf, P.~S.  \harvardyearleft
   1988\harvardyearright , `{A Delayed Action Oscillator for ENSO}', {\em
   Journal of the Atmospheric Sciences} {\bf 45}(21),~3283--3287.
-
-\harvarditem{Wang}{2001}{Wang:2001aa}
-Wang, C.  \harvardyearleft 2001\harvardyearright , `A unified oscillator model
-  for the el ni{\~n}o--southern oscillation', {\em Journal of Climate} {\bf
-  14}(1),~98--115.
-
-\harvarditem[Wang et~al.]{Wang, Deser, Yu, DiNezio \harvardand\
-  Clement}{2017}{wang2017nino}
-Wang, C., Deser, C., Yu, J.-Y., DiNezio, P. \harvardand\ Clement, A.
-  \harvardyearleft 2017\harvardyearright , {El Ni{\~n}o and southern
-  oscillation (ENSO): a review}, {\em in} `{Coral Reefs of the Eastern Tropical
-  Pacific}', Springer, pp.~85--106.
 
 \harvarditem[Wang et~al.]{Wang, Weisberg \harvardand\
   Yang}{1999}{wang1999effects}
