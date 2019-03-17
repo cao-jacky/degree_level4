@@ -48,7 +48,7 @@
 %%%%% Document %%%%%
 \begin{document}                     
 
-\title{Prediction limitations with ENSO models} 
+\title{Prediction limitations with ENSO models and the spring predictability barrier} 
 %\date{Submitted: \today{}} \author{Jacky Cao}
 
 \maketitle
@@ -66,7 +66,7 @@ The El Ni\~{n}o Southern Oscillations (ENSOs) are generally known as a composite
 With their model they were able to replicate features observed during ENSO events such as equatorial westerly wind anomalies in the central Pacific and large SST anomalies in the eastern Pacific, on top of that they were able to predict the onset of the 1986--1987 and 1991--1992 ENSO events. Despite this success, they recognised their limited ability in simulating the real complete system as detailed comparisons with observational data would reveal discrepancies in their atmospheric and oceanic simulations. Furthermore, the short warm episodes in 1993 and 1994 would be missed in the predictions made with the Zebiak-Cane (ZC) model. This therefore requires more sophisticated models to better describe and forecast ENSO events.
 % words: 112
 
-\section{Prediction limitations with the Zebiak-Cane model}
+\section{Prediction limitations and the Zebiak-Cane Model}
 
 The prediction of ENSO events is particularly difficult as there are generally two types of El Ni\~{n}o events to account for. The first are canonical events which generally develop along the South American coast and then propagate westwards across the Pacific, ``Eastern-Pacific'' events \citep{rasmusson1982variations}. The second type of events have non-propagating warm SST concentrated mostly in the central Pacific, ``Central-Pacific'' events \citep{ashok2007nino}. In an attempt to test whether the ZC model can predict either types of events, it was demonstrated by \cite{duan2013behaviors} that the model tended to do well whilst simulating Eastern-Pacific (EP) events and functioned badly when reproducing Central-Pacific (CP) events. This indicates that the ZC model may just contain the physics to explain EP events and that alterations would be required to additionally account for other events. \\
 % words: 129
@@ -102,9 +102,27 @@ It is therefore evident that the ZC model is a simplification of the real climat
 Changes to the ZC model are not limited to just the atmospheric and oceanic components, as a response to the model failing to agree with observations from 1992 to 1995, \cite{qian1997multiple} introduced planetary scale Hadley and Walker cells which improved the prediction of equatorial eastern Pacific SST anomalies for 1970--1971 and in 1992--1995. \\
 % words: 53
 
-However further shortfalls exist within the modelling for ENSOs which limits their accuracy and applicability. In particular, there is a limitation found in many models known as the ``spring predictability barrier'' this is where the seasonal predictions for ENSOs made during or before boreal spring (March--May) have much lower skill than those made at other times of the year \citep{torrence1998annual}. This barrier can be evidenced in oceanic circulation models \citep{latif1992much}, in dynamical-statistical models \citep{balmaseda1994enso}, and in coupled ocean-atmosphere models \citep{goswami1991predictability, xue1994prediction}. To better predict ENSO events, this barrier must be understood and circumnavigated. \\
+However further shortfalls exist within the modelling for ENSOs which limits their accuracy and applicability. In particular, there is a limitation found in many models known as the ``spring predictability barrier'' where the seasonal predictions for ENSOs made during or before boreal spring (March--May) have much lower skill than those made at other times of the year \citep{torrence1998annual}. This barrier can be evidenced in oceanic circulation models \citep{latif1992much}, in dynamical-statistical models \citep{balmaseda1994enso}, and in coupled ocean-atmosphere models \citep{goswami1991predictability, xue1994prediction}. To better predict ENSO events, this barrier therefore must be understood and accounted for within climate modelling.
+% words: 96
 
-\section{Origin of the spring predictability barrier}
+\section{Evidence for the spring predictability barrier}
+
+Examinations of the autocorrelation, persistence, and phase locking of ENSO data sets provides the tools to help discern the predictability barrier. \\
+% words: 21
+
+Autocorrelation is the correlation of a data set with a version of it self which has been shifted in time by a certain lag. \cite{trenberth1976spatial} analysed monthly sea level pressures across the Pacific Ocean to conclude that SST and Southern Oscillation Index (SOI) both have high degrees of autocorrelations which agree with observations that ENSO events normally persists for several months. This then allows for a forecast of persistence across several months where the prediction hinges on the starting month of the initial persistence forecast. \\
+% words: 85
+
+Persistence is an another analysis of the correlation, however it looks at the fixed-phase correlation between different months within a single time series \citep{troup1965southern}. Contrasting with autocorrelation, which is independent of the starting month, persistence allows you to see any seasonal changes in the correlation between one month and the next. \\
+
+\begin{figure}
+\includegraphics[width=\textwidth]{data/persistence_sst_soi}
+\captionsetup{justification=justified}
+\caption[Persistence]{Taken from \cite{torrence1998annual}. (a) Persistence of NINO3 surface sea temperature (SST) with each curve shifted to line up with the starting month on the top axis (JAJO=January, April, July, October), and the corresponding lag month on the lower axis. }
+\label{fig:persistence_sst_soi}
+\end{figure}
+
+\section{Origins of the spring predictability barrier}
 
 \section{Overcoming the spring predictability barrier}
 
