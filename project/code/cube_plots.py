@@ -2,12 +2,17 @@ import numpy as np
 
 import matplotlib
 import matplotlib.pyplot as plt
-from matplotlib import rc
+from matplotlib import rc,rcParams
+rc('font', weight='bold')
+rcParams['text.latex.preamble'] = [r'\usepackage{sfmath} \boldmath']
 
 import multi_cubes
 import cube_reader
 import ppxf_fitter
 import spectra_data
+
+from astropy.cosmology import LambdaCDM 
+cosmo = LambdaCDM(H0=70, Om0=0.3, Ode0=0.7) # specifying cosmology model
 
 def data_matcher(catalogue_array, cubes_text_file):
     """ matching our cubes file which contains the details of processed cubes """
@@ -284,7 +289,7 @@ def auto_runner():
     #uc = np.array([1804, 1578])
     uc = uc[0:6] # 0:11 is the full usable sample for Voronoi plots
     #uc = uc[7:11]
-    print(uc)
+    print(uc) 
 
     # plot for velocities
     fig, axs = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.3,
@@ -326,9 +331,9 @@ def auto_runner():
         axs[i_cube,0].set_axis_off()
 
         hsts = np.shape(hst_colour) # shape of the HST frame
-
+        
         # cube_id label 
-        axvd[i_cube,0].text(hsts[0]*0.5, hsts[1]*0.95, r'\textbf{C'+str(cube_id)+'}', 
+        axs[i_cube,0].text(hsts[0]*0.5, hsts[1]*0.95, r'\textbf{C'+str(cube_id)+'}', 
                 {'color': "#ffffff", 'fontsize': 40}, horizontalalignment='center',
                 weight='heavy')
 
@@ -349,13 +354,13 @@ def auto_runner():
         axs[i_cube,1].imshow(muse_collapsed, cmap='gray_r', aspect="auto")
         axs[i_cube,1].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         axs[i_cube,1].tick_params(labelsize=33)
-        axs[i_cube,1].set_ylabel(r'\textbf{Pixels}', fontsize=40)
+        axs[i_cube,1].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
 
         # repeating plots for velocity dispersions
         axvd[i_cube,1].imshow(muse_collapsed, cmap='gray_r', aspect="auto")
         axvd[i_cube,1].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         axvd[i_cube,1].tick_params(labelsize=33)
-        axvd[i_cube,1].set_ylabel(r'\textbf{Pixels}', fontsize=40)
+        axvd[i_cube,1].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
 
         # --------------------------------------------------#
 
@@ -485,6 +490,20 @@ def auto_runner():
                 vmin=np.nanmin(ppxf_vel_unique), vmax=np.nanmax(ppxf_vel_unique))
         axs[i_cube,4].tick_params(labelsize=33)
 
+        # converting ticks to different axis values
+        x_labels = np.array([0,25,49]) 
+        y_labels = np.array([0,25,50])
+
+        ang_diam_dist = cosmo.angular_diameter_distance(z) # angular diameter distance
+
+        x_rads = x_labels * np.pi/(180 * 3600) * 0.2 # radii in radians
+        x_mpc = (ang_diam_dist) * x_rads # radii in Mpc
+        x_kpc = x_mpc * 10**(3) # radii in kpc
+        x_labels_new = np.round(x_kpc.value, decimals=1)
+
+        axs[i_cube,4].set_xticks(x_labels) # locations of ticks
+        axs[i_cube,4].set_xticklabels(x_labels_new, weight="heavy") 
+
         # sigma_OII map (lmfit)
         sigoii = axvd[i_cube,4].imshow(rotated_maps[3], cmap="jet", aspect="auto",
                 vmin=np.nanmin(ppxf_sig_unique), vmax=np.nanmax(ppxf_sig_unique))
@@ -494,51 +513,55 @@ def auto_runner():
         if i_cube == 2:
             height_amount = 1.8  
         if i_cube == 3:
-            height_amount = 2.3
+            height_amount = 1.5
         if i_cube == 4:
-            height_amount = 0.0005
+            height_amount = 0.0000005
         if i_cube == 5:
             height_amount = 4.95
         else:
             height_amount = i_cube
 
-        cb_ax = fig.add_axes([0.515, 1-(0.195+0.136*height_amount), 0.015, 0.007])
+        cb_ax = fig.add_axes([0.515, 1-(0.195+0.136*height_amount-0.065),
+            0.015, 0.007])
         fcbar = plt.colorbar(voii, ax=axs[i_cube,4], cax=cb_ax, 
                 orientation='horizontal')
         fcbar.ax.tick_params(labelsize=20, rotation=90)
-        fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
-                bbox=dict(facecolor='white', alpha=0.7))
+        #fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
+                #bbox=dict(facecolor='white', alpha=0.7))
 
-        cb_ax1 = fig1.add_axes([0.515, 1-(0.195+0.136*height_amount), 0.015, 0.007])
+        cb_ax1 = fig1.add_axes([0.515, 1-(0.195+0.136*height_amount-0.065), 
+            0.015, 0.007])
         fcbar1 = plt.colorbar(sigoii, ax=axvd[i_cube,4], cax=cb_ax1, 
                 orientation='horizontal')
         fcbar1.ax.tick_params(labelsize=20, rotation=90)
-        fcbar1.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
-                bbox=dict(facecolor='white', alpha=0.7))
+        #fcbar1.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
+                #bbox=dict(facecolor='white', alpha=0.7))
 
         # V_star map (pPXF) 
         vstar = axs[i_cube,5].imshow(rotated_maps[0], cmap="jet", aspect="auto",
                 vmin=np.nanmin(ppxf_vel_unique), vmax=np.nanmax(ppxf_vel_unique))
         axs[i_cube,5].tick_params(labelsize=33)
 
-        cb_ax = fig.add_axes([0.5915, 1-(0.195+0.136*height_amount), 0.015, 0.007])
+        cb_ax = fig.add_axes([0.5915, 1-(0.195+0.136*height_amount-0.065), 
+            0.015, 0.007])
         fcbar = plt.colorbar(vstar, ax=axs[i_cube,5], cax=cb_ax, 
                 orientation='horizontal')
         fcbar.ax.tick_params(labelsize=20, rotation=90)
-        fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
-                bbox=dict(facecolor='white', alpha=0.7)) 
+        #fcbar.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
+                #bbox=dict(facecolor='white', alpha=0.7)) 
 
         # sig_star map (pPXF) 
         vstar = axvd[i_cube,5].imshow(rotated_maps[1], cmap="jet", aspect="auto",
                 vmin=np.nanmin(ppxf_sig_unique), vmax=np.nanmax(ppxf_sig_unique))
         axvd[i_cube,5].tick_params(labelsize=33)
 
-        cb_ax1 = fig1.add_axes([0.5915, 1-(0.195+0.136*height_amount), 0.015, 0.007])
+        cb_ax1 = fig1.add_axes([0.5915, 1-(0.195+0.136*height_amount-0.065), 
+            0.015, 0.007])
         fcbar1 = plt.colorbar(vstar, ax=axvd[i_cube,5], cax=cb_ax1, 
                 orientation='horizontal')
         fcbar1.ax.tick_params(labelsize=20, rotation=90)
-        fcbar1.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
-                bbox=dict(facecolor='white', alpha=0.7)) 
+        #fcbar1.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
+                #bbox=dict(facecolor='white', alpha=0.7)) 
 
         # --------------------------------------------------#
 
@@ -592,10 +615,12 @@ def auto_runner():
         x_scale = x_scale * muse_scale # converting to MUSE scale
         x_values = x_scale[unique_locs] # masking out repeated values
 
-        # convert x_values into kpc
-        x_values = 1/x_values # convert to pc
-        x_values = np.where(np.isinf(x_values) != True, x_values, 0) # 0" is 0kpc
-        x_values = x_values * 10**(-3) # convert to kpc
+        # convert radii into Mpc (x-values)
+        ang_diam_dist = cosmo.angular_diameter_distance(z) # angular diameter distance
+        radii_rads = x_values * np.pi/(180 * 3600) # radii in radians
+        radii_mpc = (ang_diam_dist) * radii_rads # radii in Mpc
+        radii_kpc = radii_mpc * 10**(3) # radii in kpc
+        x_values = radii_kpc.value # specfying value attribute to access just values
 
         axs[i_cube,6].errorbar(x_values, ppxf_map_median, yerr=ppxf_y_err, 
                 ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
@@ -673,11 +698,13 @@ def auto_runner():
         v_oii = twod_data[:,3]
         v_star = twod_data[:,1]
 
-        # convert radii into kpc
-        radii = 1/radii # convert to pc
-        radii = np.where(np.isinf(radii) != True, radii, 0) # 0" is 0kpc
-        radii = radii * 10**(-3) # convert to kpc
-    
+        # convert radii into Mpc
+        ang_diam_dist = cosmo.angular_diameter_distance(z) # angular diameter distance
+        radii_rads = radii * np.pi/(180 * 3600) # radii in radians
+        radii_mpc = (ang_diam_dist) * radii_rads # radii in Mpc
+        radii_kpc = radii_mpc * 10**(3) # radii in kpc
+        radii = radii_kpc.value # specfying value attribute to access just values
+         
         axs[i_cube,7].errorbar(radii, np.abs(v_star), yerr=twod_data[:,2], 
                 ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
                 label=r'\textbf{Stars}')
@@ -700,10 +727,12 @@ def auto_runner():
         sig_oii = twod_vd_data[:,3]
         sig_star = twod_vd_data[:,1]
 
-        # convert radii into kpc
-        radii = 1/radii # convert to pc
-        radii = np.where(np.isinf(radii) != True, radii, 0) # 0" is 0kpc
-        radii = radii * 10**(-3) # convert to kpc
+        # convert radii into Mpc
+        ang_diam_dist = cosmo.angular_diameter_distance(z) # angular diameter distance
+        vd_radii_rads = vd_radii * np.pi/(180 * 3600) # radii in radians
+        vd_radii_mpc = (ang_diam_dist) * vd_radii_rads # radii in Mpc
+        vd_radii_kpc = vd_radii_mpc * 10**(3) # radii in kpc
+        vd_radii = vd_radii_kpc.value # specfying value attribute to access just values
     
         axvd[i_cube,7].errorbar(vd_radii, np.abs(sig_star), yerr=twod_vd_data[:,2], 
                 ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
@@ -834,26 +863,27 @@ def auto_runner():
         # Add labels for only edge plots
         if cube_id == uc[-1]:
             # velocities 
-            axs[i_cube,1].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+            axs[i_cube,0].set_xlabel(r'\textbf{(kpc)}', fontsize=40)
+            axs[i_cube,1].set_xlabel(r'\textbf{(kpc)}', fontsize=40)
             
             axs[i_cube,2].set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=40)
 
-            axs[i_cube,3].set_xlabel(r'\textbf{Pixels}', fontsize=40)
-            axs[i_cube,4].set_xlabel(r'\textbf{Pixels}', fontsize=40)
-            axs[i_cube,5].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+            axs[i_cube,3].set_xlabel(r'\textbf{(kpc)}', fontsize=40)
+            axs[i_cube,4].set_xlabel(r'\textbf{(kpc)}', fontsize=40)
+            axs[i_cube,5].set_xlabel(r'\textbf{(kpc)}', fontsize=40)
         
             axs[i_cube,6].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
             axs[i_cube,7].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40) 
             axs[i_cube,8].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
 
             # velocity dispersions
-            axvd[i_cube,1].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+            axvd[i_cube,1].set_xlabel(r'\textbf{(kpc)}', fontsize=40)
             
             axvd[i_cube,2].set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=40)
 
-            axvd[i_cube,3].set_xlabel(r'\textbf{Pixels}', fontsize=40)
-            axvd[i_cube,4].set_xlabel(r'\textbf{Pixels}', fontsize=40)
-            axvd[i_cube,5].set_xlabel(r'\textbf{Pixels}', fontsize=40)
+            axvd[i_cube,3].set_xlabel(r'\textbf{(kpc)}', fontsize=40)
+            axvd[i_cube,4].set_xlabel(r'\textbf{(kpc)}', fontsize=40)
+            axvd[i_cube,5].set_xlabel(r'\textbf{(kpc)}', fontsize=40)
         
             axvd[i_cube,6].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40)
             axvd[i_cube,7].set_xlabel(r'\textbf{Radius (kpc)}', fontsize=40) 

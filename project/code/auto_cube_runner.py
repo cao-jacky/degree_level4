@@ -855,15 +855,18 @@ def rotation_curves(cube_id):
             cpd_vd_stellar = rgmaps[1][med_y][med_x] # stellar velocity dispersion
             cpd_vd_oii = rgmaps[3][med_y][med_x] # gas velocity disperion
 
-            # correcting velocity data for inclination
-            phi_angle = np.arctan(med_y/med_x)
-            vcorr_stellar = cpd_vd_stellar / (np.sin(gal_inc) * np.cos(phi_angle))
-            vcorr_oii = cpd_vd_oii / (np.sin(gal_inc) * np.cos(phi_angle))
+            # correcting velocities for inclination
+            vcorr_stellar = cpd_stellar / np.sin(gal_inc)
+            vcorr_oii = cpd_oii / np.sin(gal_inc)
+
+            if cube_id in np.array([5,767]):
+                # the cubes looks like they're face on
+                vcorr_stellar = cpd_stellar
+                vcorr_oii = cpd_oii
 
             # correcting velocity dispersion data for inclination
-            phi_angle = np.arctan(med_y/med_x)
-            vcorr_vd_stellar = cpd_stellar / (np.sin(gal_inc) * np.cos(phi_angle))
-            vcorr_vd_oii = cpd_oii / (np.sin(gal_inc) * np.cos(phi_angle))
+            #vcorr_vd_stellar = cpd_vd_stellar / np.sin(gal_inc)
+            #vcorr_vd_oii = cpd_vd_oii / np.sin(gal_inc)
 
             cp_sn = rgmaps[4][med_y][med_x] # current S/N   
             # top left corner is defined as (x=0,y=0) posn, 
@@ -890,12 +893,12 @@ def rotation_curves(cube_id):
             
             # velocity dispersions
             frac_err_vd_ppxf = a_vd_ppxf # pPXF velocity fractional error
-            cpds_vd_e = curve(cp_sn, frac_err_vd_ppxf) * vcorr_vd_stellar # stellar
+            cpds_vd_e = curve(cp_sn, frac_err_vd_ppxf) * cpd_vd_stellar # stellar
 
             frac_err_vd_lmfit = a_vd_lmfit # lmfit velocity fractional error
-            cpdo_vd_e = curve(cp_sn, frac_err_vd_lmfit) * vcorr_vd_oii # OII
+            cpdo_vd_e = curve(cp_sn, frac_err_vd_lmfit) * cpd_vd_oii # OII
 
-            vd_data.append([cp_radius, vcorr_vd_stellar, cpds_vd_e[0], vcorr_vd_oii, 
+            vd_data.append([cp_radius, cpd_vd_stellar, cpds_vd_e[0], cpd_vd_oii, 
                 cpdo_vd_e[0]])
 
     v_data = np.asarray(v_data)
@@ -1019,7 +1022,7 @@ def rotation_curves_runner():
 
     uc = ppxf_fitter.usable_cubes(catalogue, bright_objects) # usable cubes
     #uc = uc[3:]
-    #uc = np.array([1804])
+    #uc = np.array([5])
     print(uc)
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
