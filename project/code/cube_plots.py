@@ -314,6 +314,16 @@ def auto_runner():
         seg_overlay(cube_id) # creating image of galaxy with segmentation map overlayed
         spectra(cube_id) # creating a spectra
 
+        # Spectra
+        # parameters from lmfit
+        lm_params = spectra_data.lmfit_data(cube_id)
+        c = lm_params['c']
+        i1 = lm_params['i1']
+        i2 = lm_params['i2']
+        sigma_gal = lm_params['sigma_gal']
+        z = lm_params['z']
+        sigma_inst = lm_params['sigma_inst']
+
         # changing backgrounds of maps from white to black
         #current_cmap = plt.cm.jet
         #current_cmap.set_bad(color='white')
@@ -328,7 +338,34 @@ def auto_runner():
                 +"_coloured_image_data.npy")
 
         axs[i_cube,0].imshow(hst_colour, interpolation='nearest', aspect="auto")
-        axs[i_cube,0].set_axis_off()
+        #axs[i_cube,0].set_axis_off()
+        axs[i_cube,0].tick_params(labelsize=33)
+
+        # converting ticks to different axis values
+        x_labels = np.array([0,250,500]) 
+        y_labels = np.array([0,200,400])
+
+        hst_scale = 0.04 # HST pixel scale for WFC3
+
+        ang_diam_dist = cosmo.angular_diameter_distance(z) # angular diameter distance
+
+        x_rads = x_labels * np.pi/(180 * 3600) * hst_scale # radii in radians
+        x_mpc = (ang_diam_dist) * x_rads # radii in Mpc
+        x_kpc = x_mpc * 10**(3) # radii in kpc
+        x_labels_new = np.round(x_kpc.value, decimals=1)
+
+        axs[i_cube,0].set_xticks(x_labels) # locations of ticks
+        axs[i_cube,0].set_xticklabels([r'\textbf{'+str(x_labels_new[0])+'}',
+            r'\textbf{'+str(x_labels_new[1])+'}',r'\textbf{'+str(x_labels_new[2])+'}'])
+
+        y_rads = y_labels * np.pi/(180 * 3600) * hst_scale # radii in radians
+        y_mpc = (ang_diam_dist) * y_rads # radii in Mpc
+        y_kpc = y_mpc * 10**(3) # radii in kpc
+        y_labels_new = np.round(y_kpc.value, decimals=1)
+
+        axs[i_cube,0].set_yticks(y_labels) # locations of ticks
+        axs[i_cube,0].set_yticklabels([r'\textbf{'+str(y_labels_new[0])+'}',
+            r'\textbf{'+str(y_labels_new[1])+'}',r'\textbf{'+str(y_labels_new[2])+'}'])
 
         hsts = np.shape(hst_colour) # shape of the HST frame
         
@@ -344,6 +381,8 @@ def auto_runner():
                 {'color': "#ffffff", 'fontsize': 40}, horizontalalignment='center',
                 weight='heavy')
 
+        axs[i_cube,0].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
+
         # --------------------------------------------------#
        
         # MUSE collapsed image and segmentation map
@@ -354,7 +393,32 @@ def auto_runner():
         axs[i_cube,1].imshow(muse_collapsed, cmap='gray_r', aspect="auto")
         axs[i_cube,1].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         axs[i_cube,1].tick_params(labelsize=33)
-        axs[i_cube,1].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
+        #axs[i_cube,1].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
+
+        # converting ticks to different axis values
+        x_labels = np.array([0,25,49]) 
+        y_labels = np.array([0,10,25,40])
+
+        ang_diam_dist = cosmo.angular_diameter_distance(z) # angular diameter distance
+
+        x_rads = x_labels * np.pi/(180 * 3600) * 0.2 # radii in radians
+        x_mpc = (ang_diam_dist) * x_rads # radii in Mpc
+        x_kpc = x_mpc * 10**(3) # radii in kpc
+        x_labels_new = np.round(x_kpc.value, decimals=1)
+
+        axs[i_cube,1].set_xticks(x_labels) # locations of ticks
+        axs[i_cube,1].set_xticklabels([r'\textbf{'+str(x_labels_new[0])+'}',
+            r'\textbf{'+str(x_labels_new[1])+'}',r'\textbf{'+str(x_labels_new[2])+'}'])
+
+        y_rads = y_labels * np.pi/(180 * 3600) * 0.2 # radii in radians
+        y_mpc = (ang_diam_dist) * y_rads # radii in Mpc
+        y_kpc = y_mpc * 10**(3) # radii in kpc
+        y_labels_new = np.round(y_kpc.value, decimals=1)
+
+        axs[i_cube,1].set_yticks(y_labels) # locations of ticks
+        axs[i_cube,1].set_yticklabels([r'\textbf{'+str(y_labels_new[0])+'}',
+            r'\textbf{'+str(y_labels_new[1])+'}',r'\textbf{'+str(y_labels_new[2])+'}',
+            r'\textbf{'+str(y_labels_new[3])+'}'])
 
         # repeating plots for velocity dispersions
         axvd[i_cube,1].imshow(muse_collapsed, cmap='gray_r', aspect="auto")
@@ -363,16 +427,6 @@ def auto_runner():
         axvd[i_cube,1].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
 
         # --------------------------------------------------#
-
-        # Spectra
-        # parameters from lmfit
-        lm_params = spectra_data.lmfit_data(cube_id)
-        c = lm_params['c']
-        i1 = lm_params['i1']
-        i2 = lm_params['i2']
-        sigma_gal = lm_params['sigma_gal']
-        z = lm_params['z']
-        sigma_inst = lm_params['sigma_inst']
 
         # spectral lines
         sl = spectra_data.spectral_lines() 
@@ -457,7 +511,32 @@ def auto_runner():
         axs[i_cube,3].imshow(voronoi_map, cmap="prism", aspect="auto")
         axs[i_cube,3].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         axs[i_cube,3].tick_params(labelsize=33)
-        axs[i_cube,3].set_ylabel(r'\textbf{Pixels}', fontsize=40)
+        axs[i_cube,3].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
+
+        # converting ticks to different axis values
+        x_labels = np.array([0,25,49]) 
+        y_labels = np.array([0,10,25,40])
+
+        ang_diam_dist = cosmo.angular_diameter_distance(z) # angular diameter distance
+
+        x_rads = x_labels * np.pi/(180 * 3600) * 0.2 # radii in radians
+        x_mpc = (ang_diam_dist) * x_rads # radii in Mpc
+        x_kpc = x_mpc * 10**(3) # radii in kpc
+        x_labels_new = np.round(x_kpc.value, decimals=1)
+
+        axs[i_cube,3].set_xticks(x_labels) # locations of ticks
+        axs[i_cube,3].set_xticklabels([r'\textbf{'+str(x_labels_new[0])+'}',
+            r'\textbf{'+str(x_labels_new[1])+'}',r'\textbf{'+str(x_labels_new[2])+'}'])
+
+        y_rads = y_labels * np.pi/(180 * 3600) * 0.2 # radii in radians
+        y_mpc = (ang_diam_dist) * y_rads # radii in Mpc
+        y_kpc = y_mpc * 10**(3) # radii in kpc
+        y_labels_new = np.round(y_kpc.value, decimals=1)
+
+        axs[i_cube,3].set_yticks(y_labels) # locations of ticks
+        axs[i_cube,3].set_yticklabels([r'\textbf{'+str(y_labels_new[0])+'}',
+            r'\textbf{'+str(y_labels_new[1])+'}',r'\textbf{'+str(y_labels_new[2])+'}',
+            r'\textbf{'+str(y_labels_new[3])+'}'])
 
         # repeating plots for velocity dispersion
         axvd[i_cube,3].imshow(voronoi_map, cmap="prism", aspect="auto")
@@ -492,7 +571,7 @@ def auto_runner():
 
         # converting ticks to different axis values
         x_labels = np.array([0,25,49]) 
-        y_labels = np.array([0,25,50])
+        y_labels = np.array([0,10,25,40])
 
         ang_diam_dist = cosmo.angular_diameter_distance(z) # angular diameter distance
 
@@ -502,7 +581,18 @@ def auto_runner():
         x_labels_new = np.round(x_kpc.value, decimals=1)
 
         axs[i_cube,4].set_xticks(x_labels) # locations of ticks
-        axs[i_cube,4].set_xticklabels(x_labels_new, weight="heavy") 
+        axs[i_cube,4].set_xticklabels([r'\textbf{'+str(x_labels_new[0])+'}',
+            r'\textbf{'+str(x_labels_new[1])+'}',r'\textbf{'+str(x_labels_new[2])+'}'])
+
+        y_rads = y_labels * np.pi/(180 * 3600) * 0.2 # radii in radians
+        y_mpc = (ang_diam_dist) * y_rads # radii in Mpc
+        y_kpc = y_mpc * 10**(3) # radii in kpc
+        y_labels_new = np.round(y_kpc.value, decimals=1)
+
+        axs[i_cube,4].set_yticks(y_labels) # locations of ticks
+        axs[i_cube,4].set_yticklabels([r'\textbf{'+str(y_labels_new[0])+'}',
+            r'\textbf{'+str(y_labels_new[1])+'}',r'\textbf{'+str(y_labels_new[2])+'}',
+            r'\textbf{'+str(y_labels_new[3])+'}'])
 
         # sigma_OII map (lmfit)
         sigoii = axvd[i_cube,4].imshow(rotated_maps[3], cmap="jet", aspect="auto",
@@ -541,6 +631,31 @@ def auto_runner():
         vstar = axs[i_cube,5].imshow(rotated_maps[0], cmap="jet", aspect="auto",
                 vmin=np.nanmin(ppxf_vel_unique), vmax=np.nanmax(ppxf_vel_unique))
         axs[i_cube,5].tick_params(labelsize=33)
+
+        # converting ticks to different axis values
+        x_labels = np.array([0,25,49]) 
+        y_labels = np.array([0,10,25,40])
+
+        ang_diam_dist = cosmo.angular_diameter_distance(z) # angular diameter distance
+
+        x_rads = x_labels * np.pi/(180 * 3600) * 0.2 # radii in radians
+        x_mpc = (ang_diam_dist) * x_rads # radii in Mpc
+        x_kpc = x_mpc * 10**(3) # radii in kpc
+        x_labels_new = np.round(x_kpc.value, decimals=1)
+
+        axs[i_cube,5].set_xticks(x_labels) # locations of ticks
+        axs[i_cube,5].set_xticklabels([r'\textbf{'+str(x_labels_new[0])+'}',
+            r'\textbf{'+str(x_labels_new[1])+'}',r'\textbf{'+str(x_labels_new[2])+'}'])
+
+        y_rads = y_labels * np.pi/(180 * 3600) * 0.2 # radii in radians
+        y_mpc = (ang_diam_dist) * y_rads # radii in Mpc
+        y_kpc = y_mpc * 10**(3) # radii in kpc
+        y_labels_new = np.round(y_kpc.value, decimals=1)
+
+        axs[i_cube,5].set_yticks(y_labels) # locations of ticks
+        axs[i_cube,5].set_yticklabels([r'\textbf{'+str(y_labels_new[0])+'}',
+            r'\textbf{'+str(y_labels_new[1])+'}',r'\textbf{'+str(y_labels_new[2])+'}',
+            r'\textbf{'+str(y_labels_new[3])+'}'])
 
         cb_ax = fig.add_axes([0.5915, 1-(0.195+0.136*height_amount-0.065), 
             0.015, 0.007])
