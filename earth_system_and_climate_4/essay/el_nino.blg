@@ -5,15 +5,15 @@ The style file: agsm.bst
 Database file #1: el_nino.bib
 You've used 22 entries,
             2909 wiz_defined-function locations,
-            799 strings with 8420 characters,
-and the built_in function-call counts, 79566 in all, are:
-= -- 12752
-> -- 1118
+            801 strings with 8535 characters,
+and the built_in function-call counts, 85981 in all, are:
+= -- 13867
+> -- 1183
 < -- 0
-+ -- 5930
-- -- 336
-* -- 6917
-:= -- 16142
++ -- 6509
+- -- 357
+* -- 7516
+:= -- 17323
 add.period$ -- 22
 call.type$ -- 22
 change.case$ -- 308
@@ -21,20 +21,20 @@ chr.to.int$ -- 22
 cite$ -- 22
 duplicate$ -- 351
 empty$ -- 794
-format.name$ -- 426
-if$ -- 14251
+format.name$ -- 444
+if$ -- 15411
 int.to.chr$ -- 5
 int.to.str$ -- 0
 missing$ -- 22
 newline$ -- 69
-num.names$ -- 226
-pop$ -- 60
+num.names$ -- 227
+pop$ -- 59
 preamble$ -- 1
 purify$ -- 330
 quote$ -- 0
-skip$ -- 294
+skip$ -- 295
 stack$ -- 0
-substring$ -- 17903
+substring$ -- 19577
 swap$ -- 66
 text.length$ -- 308
 text.prefix$ -- 0
@@ -43,4 +43,4 @@ type$ -- 88
 warning$ -- 0
 while$ -- 503
 width$ -- 0
-write$ -- 278
+write$ -- 280
