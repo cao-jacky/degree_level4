@@ -11,6 +11,8 @@ import cube_reader
 import ppxf_fitter
 import spectra_data
 
+import RC_fit_simple as kfn
+
 from astropy.cosmology import LambdaCDM 
 cosmo = LambdaCDM(H0=70, Om0=0.3, Ode0=0.7) # specifying cosmology model
 
@@ -744,10 +746,45 @@ def auto_runner():
                 ms=10, fmt='o', c='#f44336', elinewidth=2, capsize=10, capthick=2,
                 label=r'\textbf{Gas}')
 
+         # fitting model curve
+        p0=[0.6*0.5,9.0,0.,0.,45.] # first guess best fit parameters
+        r = x_values # radius values in kpc
+
+        v_ppxf = ppxf_map_median # velocity values for stellar
+        dv_ppxf = ppxf_y_err # velocity uncertainties for stellar
+
+        v_lmfit = lmfit_map_median # OII velocities
+        dv_lmfit = lmfit_y_err # velocity dispersions
+
+        # fitting for stellar
+        try:
+            grad=np.polyfit(r[~np.isnan(v_ppxf)],v_ppxf[~np.isnan(v_ppxf)],1)[0]
+        except:
+            grad=1.
+        pars_ppxf,errs_ppxf,model_RC_ppxf = kfn.fit_v_circ_exp(r[~np.isnan(v_ppxf)]
+                *np.sign(grad),v_ppxf[~np.isnan(v_ppxf)],dv_ppxf[~np.isnan(v_ppxf)],p0)
+       
+        # fitting for OII
+        try:
+            grad=np.polyfit(r[~np.isnan(v_lmfit)],v_lmfit[~np.isnan(v_lmfit)],1)[0]
+        except:
+            grad=1.
+        pars_lmfit,errs_lmfit,model_RC_lmfit = kfn.fit_v_circ_exp(r[~np.isnan(v_lmfit)]
+                *np.sign(grad),v_lmfit[~np.isnan(v_lmfit)],
+                dv_lmfit[~np.isnan(v_lmfit)],p0)
+
+        x_max = np.max(np.abs(x_values))
+        x_lin = np.linspace(-x_max,x_max,100)
+
+        ppxf_rc_model = kfn.v_circ_exp(x_lin,pars_ppxf)
+        lmfit_rc_model = kfn.v_circ_exp(x_lin,pars_lmfit)
+
+        axs[i_cube,6].plot(x_lin, ppxf_rc_model, lw=2.0, c='#03a9f4')
+        axs[i_cube,6].plot(x_lin, lmfit_rc_model, lw=2.0, c='#f44336')
+
         axs[i_cube,6].tick_params(labelsize=33)
         axs[i_cube,6].set_ylabel(r'\textbf{V (kms$^{-1}$)}', fontsize=40)
 
-        x_max = np.max(np.abs(x_values))
         axs[i_cube,6].set_xlim([-x_max,x_max]) # setting x-axis to be equal
 
         lgnd = axs[i_cube,6].legend(loc='upper left', prop={'size': 20})

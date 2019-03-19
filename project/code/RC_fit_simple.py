@@ -60,11 +60,6 @@ def v_circ_exp(xkpc,param,arrsize=1500.):
     
     return v2
 
-
-
-
-
-
 def fit_v_circ_exp(r,v,dv,p0,w=None,rob_errs=True,fixed=0):
     '''
     function to fit an exponential disk 
@@ -138,7 +133,7 @@ def fit_v_circ_exp(r,v,dv,p0,w=None,rob_errs=True,fixed=0):
         error=m.perror
     if rob_errs==True:
         try:
-            print 'calculating errors...'
+            print('calculating errors...')
             #refit holding other parameters to get reasonable errors
             for i in range(len(pars)-1):
                 for j in range(len(pars)-1):
