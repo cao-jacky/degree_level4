@@ -105,7 +105,7 @@ Changes to the ZC model are not limited to just the atmospheric and oceanic comp
 However further shortfalls exist within the modelling for ENSOs which limits their accuracy and applicability. In particular, there is a limitation found in many models known as the ``spring predictability barrier'' (SPB) where the seasonal predictions for ENSOs made during or before boreal spring (March--May) have much lower skill than those made at other times of the year \citep{torrence1998annual}. This barrier can be evidenced in oceanic circulation models \citep{latif1992much}, in dynamical-statistical models \citep{balmaseda1994enso}, and in coupled ocean-atmosphere models \citep{goswami1991predictability, xue1994prediction}. To better predict ENSO events, this barrier therefore must be understood and accounted for within climate modelling.
 % words: 97
 
-\section{Evidence and origins for the spring predictability barrier}
+\section{Evidence for the spring predictability barrier}
 
 Examinations of the autocorrelation and persistence for ENSO data sets provides one method for identifying the predictability barrier without the need to explore complex theoretical models \citep{torrence1998annual}. \\
 % words: 27
@@ -113,18 +113,31 @@ Examinations of the autocorrelation and persistence for ENSO data sets provides 
 Autocorrelation is the correlation of a data set with a version of it self which has been shifted in time by a certain lag. \cite{trenberth1976spatial} analysed monthly sea level pressures across the Pacific Ocean to conclude that the SST and Southern Oscillation Index (SOI) both have high degrees of autocorrelations which agree with the general observation that ENSO events normally persist for several months. This allows for a forecast of ``persistence'' across several months where the prediction hinges on the starting month of the initial persistence forecast. \\
 % words: 87
 
-Persistence is another form of analysis which makes use of correlation, however, it looks at the fixed-phase correlation between different months within a single time series \citep{troup1965southern}. Contrasting with autocorrelation which is independent of the starting month, persistence allows for the observation of any seasonal changes in the correlation between one month and the next. Analysis by \cite{torrence1998annual} of NINO3 SST and GMSLP SOI data shows that persistence has distinct structure which is phase locked to an annual cycle (Fig. \ref{fig:persistence_sst_soi}). Regardless of starting month, the persistence shows that there is a rapid decline in the March--April--May period which is the manifestation of the spring predictability barrier. \\
-% words: 107
-
 \begin{figure}
 \includegraphics[width=\textwidth]{data/persistence_sst_soi}
-\caption[Persistence]{Extracted from \cite{torrence1998annual}: data showing the persistence between different months of the year. (a) Persistence of NINO3 surface sea temperature (SST) with each curve shifted to line up with the starting month on the top axis (JAJO=January, April, July, October), and the corresponding lag month on the lower axis. The black dots show the lag-1 persistence, and all twelve curves for one year were repeated for clarity. (b) Features the same analysis but for the Southern Oscillation Index (SOI). }
+\caption[Persistence]{Data showing persistence between different months of the year \citep{torrence1998annual}. (a) Persistence of NINO3 surface sea temperature (SST) with each curve shifted to line up with the starting month on the top axis (JAJO=January, April, July, October), and the corresponding lag month on the lower axis. The black dots show the lag-1 persistence, and all twelve curves for one year were repeated for clarity. (b) Same analysis applied but for the GMSLP Southern Oscillation Index (SOI). }
 \label{fig:persistence_sst_soi}
 \end{figure}
 
-With the SPB evident from observational data, it would not be unwise to consider if and how the barrier arises in theoretical modelling. Seasonal forecasting employs dynamical models to construct weather forecasts. The numerical models couple the linear and nonlinear dynamics of the atmosphere, ocean, and land to supply high prediction skill. This therefore would make them comparable to ENSO forecast models in the prediction of such events. \cite{jan2005did} 
+Persistence is another form of analysis which makes use of correlation, however, it looks at the fixed-phase correlation between different months within a single time series \citep{troup1965southern}. Contrasting with autocorrelation which is independent of the starting month, persistence allows for the observation of any seasonal changes in the correlation between one month and the next. Analysis by \cite{torrence1998annual} of NINO3 SST and GMSLP SOI data shows that persistence has distinct structure which is phase locked to an annual cycle (Fig. \ref{fig:persistence_sst_soi}). Regardless of starting month, the persistence shows that there is a rapid decline in the March--April--May period which is the manifestation of the spring predictability barrier. \\
+% words: 107
+
+With the SPB apparent from observational data, it would be logical to consider where the barrier occurs in theoretical modelling. As discussed previously, the SPB can arise in dynamical and statistical models where these frameworks often have origins in seasonal forecasting. They couple the dynamics of the atmosphere, ocean and land, thus making them potentially highly applicable in ENSO forecasting. \cite{jan2005did} explores the research performed by the European Centre for Medium-Range Weather Forecasts (ECMWF) to test this possibility. Through adapting six dynamical and statistical models from ECMWF, they concluded that whilst in their analysis the spring predictability barrier could occur at different times, there is still high skill in the prediction of ENSO events outside the barrier period (Fig. \ref{fig:ecmwf_plot}). \\
+% words: 120
+
+\begin{figure}
+\includegraphics[width=0.6\textwidth]{data/ecmwf_data}
+\caption[Persistence]{Plot of the anomaly correlation coefficients of six dynamical and statistical models (S1, S2, MARKOV, CA, STAT, CLIPER) against the months of the year. This demonstrates the skill in predicting monthly Ni\~{n}o-3 index with a lead time of $+3$ months \citep{jan2005did}.}
+\label{fig:ecmwf_plot}
+\end{figure}
+
+Alternative studies which 
+
+% write everything and cut down later! 
 
 \section{Overcoming the spring predictability barrier}
+
+To surpass the spring predictability barrier 
 
 \section{Conclusions}
 
