@@ -1141,7 +1141,14 @@ def auto_runner():
     fig3.savefig("graphs/deltav_histogram.pdf", bbox_inches="tight")
 
     # --------------------------------------------------#
-    
+
+    ang_diam_dist = cosmo.angular_diameter_distance(1.0) # angular diameter distance
+
+    x_rads = 1 * np.pi/(180 * 3600) # radii in radians
+    x_mpc = (ang_diam_dist) * x_rads # radii in Mpc
+    x_kpc = x_mpc * 10**(3) # radii in kpc
+    x_labels_new = np.round(x_kpc.value, decimals=1)
+    print(x_labels_new) 
 
 if __name__ == '__main__':
     file_catalogue  = "data/matched_catalogue.npy"
