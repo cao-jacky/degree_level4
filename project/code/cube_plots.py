@@ -308,6 +308,12 @@ def auto_runner():
     # deltaV histogram
     fig3, axdelvh = plt.subplots()
 
+    # deltaV/V_OII plot
+    fig4, axdelvo = plt.subplots()
+
+    # deltaV/V_stars plot
+    fig5, axdelvs = plt.subplots()
+
     for i_cube in range(len(uc)):
         cube_id = int(uc[i_cube])
 
@@ -975,13 +981,27 @@ def auto_runner():
                 yerr=v_diff_err_oned, ms=5, fmt='o', c="#000000", elinewidth=1, 
                 capsize=5, capthick=1)
         
+        # plotting deltaV/V_OII 
+        axdelvo.errorbar(np.abs(x_values), v_diff_oned/np.abs(ppxf_map_median), 
+                yerr=v_diff_err_oned, ms=5, fmt='o', c="#000000", elinewidth=1, 
+                capsize=5, capthick=1)
+
+        # deltaV/V_stars plot
+        axdelvs.errorbar(np.abs(x_values), v_diff_oned/np.abs(lmfit_map_median), 
+                yerr=v_diff_err_oned, ms=5, fmt='o', c="#000000", elinewidth=1, 
+                capsize=5, capthick=1)
+
         # storing all the deltaV data to create the median values
         for i_cval in range(len(x_values)):
             curr_xval = np.abs(x_values[i_cval])
             curr_yval = v_diff_oned[i_cval]
 
+            curr_vel_ppxf = ppxf_map_median[i_cval]
+            curr_vel_lmfit = lmfit_map_median[i_cval]
+
             # store x-values and the respective y-values into the delv_data list
-            delv_data.append(np.array([curr_xval, curr_yval])) 
+            delv_data.append(np.array([curr_xval, curr_yval, curr_vel_ppxf,
+                curr_vel_lmfit])) 
 
         # --------------------------------------------------#
 
@@ -1056,13 +1076,32 @@ def auto_runner():
     delv_data = np.stack(delv_data, axis=0) # combine lists into an array
     ddu = np.unique(delv_data[:,0]) # unique radius from deltaV data
 
-    for i_ddu in range(len(ddu)):
-        curr_radius = ddu[i_ddu]
-        # find where current radius occurs, set other values as 0 
-        curr_vels = np.where(delv_data[:,0]==curr_radius, delv_data[:,1], np.nan) 
-        cvel_med = np.nanmedian(curr_vels) # median of the current velocities
+    ddu_max = int(np.nanmax(ddu)) # highest radius as an integer
+    ddu_bins = np.linspace(0, ddu_max, ddu_max, dtype=int) # create integer bins
+    ddu_inds = np.digitize(ddu,ddu_bins) # binning unique radii
+    
+    for i_ddui in range(len(ddu_bins)):
+        curr_bin = ddu_bins[i_ddui] # current bin (radius) from integer bin list
+        bin_where = np.where(ddu_inds==curr_bin, ddu, np.nan)
+        bin_where = bin_where[~np.isnan(bin_where)] # masking out nan values
 
-        axdelv.errorbar(curr_radius, cvel_med, ms=5, fmt='o', c="#e53935",
+        temp_vels = [] # temporary velocity list
+        for i_bw in range(len(bin_where)):
+            curr_bw = bin_where[i_bw]
+        
+            bw_dd = np.where(delv_data[:,0]==curr_bw) # where in delv_data is curr_bw
+            curr_vel = delv_data[:,1][bw_dd] # selecting out the velocity
+
+            temp_vels.append(curr_vel) # store into list
+       
+        if not temp_vels:
+            # do nothing if no velocities to work with
+            pass
+        else:
+            temp_vels = np.concatenate(temp_vels).ravel()
+            cvel_median = np.nanmedian(temp_vels) # median from current bin velocities
+        
+            axdelv.errorbar(curr_bin-1, cvel_median, ms=5, fmt='o', c="#e53935",
                 elinewidth=1, capsize=5, capthick=1)
 
     axdelv.tick_params(labelsize=20)  
@@ -1071,6 +1110,26 @@ def auto_runner():
  
     # saving deltaV plot
     fig2.savefig("graphs/deltav_vs_radius.pdf", bbox_inches="tight")
+
+    # --------------------------------------------------#
+
+    axdelvo.tick_params(labelsize=20)  
+    axdelvo.set_ylabel(r'\textbf{$\mid V_{OII}-V_{*} \mid / \mid V_{OII} \mid$ (kms$^{-1}$)}', fontsize=20)
+    axdelvo.set_xlabel(r'\textbf{Radius (kpc)}', fontsize=20)
+ 
+    # saving deltaV plot
+    fig4.savefig("graphs/deltav_voii_vs_radius.pdf", bbox_inches="tight")
+
+    # --------------------------------------------------#
+
+    axdelvs.tick_params(labelsize=20)  
+    axdelvs.set_ylabel(r'\textbf{$\mid V_{OII}-V_{*} \mid / \mid V_{*} \mid$ (kms$^{-1}$)}', fontsize=20)
+    axdelvs.set_xlabel(r'\textbf{Radius (kpc)}', fontsize=20)
+ 
+    # saving deltaV plot
+    fig5.savefig("graphs/deltav_vstars_vs_radius.pdf", bbox_inches="tight")
+ 
+    # --------------------------------------------------#
 
     axdelvh.hist(delv_data[:,1], 10, density=1, color="#000000")
 
