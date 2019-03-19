@@ -699,6 +699,22 @@ def auto_runner():
         # unique Voronoi IDs and their locations 
         unique_vids, unique_locs = np.unique(vid_slice.astype(int), return_index=True)
 
+        mask_list = []
+
+        # looping through the unique IDs 
+        for i_uid in range(len(unique_vids)):
+            curr_id = unique_vids[i_uid] # current Voronoi bin ID
+            ci_loc = np.where(vid_slice.astype(int)==curr_id)[0] # where locs exists
+    
+            if ci_loc.size == 1:
+                mask_list.append(ci_loc[0])
+            else:
+                list_mid = ci_loc[int(len(ci_loc)/2)] # middle of available values
+                mask_list.append(list_mid)
+
+        mask_list = np.asarray(mask_list)
+        unique_locs = mask_list # using new unique locations list
+         
         # select out a horizontal strip based on central pixel
         ppxf_map_slice = rotated_maps[0][c_y-1:c_y+2,:]
         ppxf_map_median = np.nanmedian(ppxf_map_slice, axis=0)
@@ -744,6 +760,8 @@ def auto_runner():
         radii_mpc = (ang_diam_dist) * radii_rads # radii in Mpc
         radii_kpc = radii_mpc * 10**(3) # radii in kpc
         x_values = radii_kpc.value # specfying value attribute to access just values
+
+        print(x_values)
 
         axs[i_cube,6].errorbar(x_values, ppxf_map_median, yerr=ppxf_y_err, 
                 ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
