@@ -26,7 +26,7 @@
 
 \pagestyle{fancy}                           % Insert header
 \renewcommand{\headrulewidth}{0pt}
-%\lhead{\small Jacky Cao}                        
+\lhead{\small }                        
 \rhead{\small }                
 
 \def\thesection{\arabic{section}}
@@ -139,6 +139,8 @@ In a similar vain, \cite{jin2008current} investigated alternative coupled genera
 
 \section{Overcoming the spring predictability barrier}
 
+\subsection{Parameter and initial errors in the Zebiak-Cane model}
+
 As demonstrated, the SPB is a prevalent characteristic of ENSO forecasts which exists within statistical and coupled models. Whilst it may not be feasible to entirely eliminate the barrier from predictions, it would be beneficial to reduce its effect. One potential line of inquiry is understanding the initial and parameter errors within the ZC model which leads to the SPB. Through adopting an approach of conditional nonlinear optimal perturbations (CNOP), the errors can be isolated and their impact on the SPB quantified. This method identifies the optimal error perturbations (initial or parameter) in the ZC model within given constraints through reducing evolution equations \citep{mu2010extension}. Applications of CNOP in retrospective forecasts reveals that prediction errors for a parameter error only system (CNOP-P) are small which generates a weakened SPB, on the other hand in an initial error exclusive framework (CNOP-I) significant SPBs can be produced (Fig. \ref{fig:cnop}). If both are coupled together as they would be in a realistic system, then the prediction errors are weighted by the CNOP-I results. \\
 % words: 169
 
@@ -148,7 +150,13 @@ As demonstrated, the SPB is a prevalent characteristic of ENSO forecasts which e
 \label{fig:cnop}
 \end{figure}
 
-To reduce the effect of the CNOP-I errors \\
+To reduce the effect of the CNOP-I uncertainties on the prediction results, it has been suggested that an ensemble forecast technique based on a multi-initial condition ensemble could be used in predicability studies and operational forecasts \citep{kirtman2001current}.
+% words: 37
+
+%  however as with other models, these  have issues with simulating the mean and mean annual cycle of SST, irrespective of realistic initial conditions.
+
+\subsection{Stochastic forcing}
+
 
 \section{Conclusions}
 
