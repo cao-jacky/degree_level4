@@ -23,17 +23,17 @@
 \contentsline {subsection}{\numberline {1}$\sigma _{*}$ vs. $\sigma _{OII}$ \& $V_{*}$ vs. $V_{OII}$}{4}{section*.22}
 \contentsline {subsection}{\numberline {2}Voronoi}{4}{section*.23}
 \contentsline {subsection}{\numberline {3}Results}{4}{section*.24}
-\contentsline {subsection}{\numberline {4}Galactic classification}{4}{section*.27}
-\contentsline {subsection}{\numberline {5}Galactic stellar formation}{7}{section*.28}
-\contentsline {subsection}{\numberline {6}Galactic data}{8}{section*.29}
-\contentsline {subsubsection}{\numberline {1}HUDF}{9}{section*.30}
-\contentsline {subsubsection}{\numberline {2}MUSE}{9}{section*.31}
-\contentsline {subsection}{\numberline {7}Project Aims}{9}{section*.33}
-\contentsline {section}{\numberline {4}Analysis}{10}{section*.34}
-\contentsline {subsection}{\numberline {1}Cube extraction}{10}{section*.35}
-\contentsline {subsection}{\numberline {2}Line fittings and pPXF}{11}{section*.37}
-\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{11}{section*.38}
-\contentsline {subsubsection}{\numberline {2}pPXF fitting}{12}{section*.39}
-\contentsline {section}{\numberline {5}Conclusions}{14}{section*.41}
-\contentsline {section}{\numberline {}Acknowledgments}{14}{section*.42}
-\contentsline {section}{\numberline {}References}{14}{section*.43}
+\contentsline {subsection}{\numberline {4}Galactic classification}{4}{section*.26}
+\contentsline {subsection}{\numberline {5}Galactic stellar formation}{7}{section*.27}
+\contentsline {subsection}{\numberline {6}Galactic data}{8}{section*.28}
+\contentsline {subsubsection}{\numberline {1}HUDF}{8}{section*.29}
+\contentsline {subsubsection}{\numberline {2}MUSE}{9}{section*.30}
+\contentsline {subsection}{\numberline {7}Project Aims}{9}{section*.32}
+\contentsline {section}{\numberline {4}Analysis}{9}{section*.33}
+\contentsline {subsection}{\numberline {1}Cube extraction}{9}{section*.34}
+\contentsline {subsection}{\numberline {2}Line fittings and pPXF}{10}{section*.36}
+\contentsline {subsubsection}{\numberline {1}Gaussian doublet fitting}{11}{section*.37}
+\contentsline {subsubsection}{\numberline {2}pPXF fitting}{11}{section*.38}
+\contentsline {section}{\numberline {5}Conclusions}{13}{section*.40}
+\contentsline {section}{\numberline {}Acknowledgments}{13}{section*.41}
+\contentsline {section}{\numberline {}References}{13}{section*.42}
