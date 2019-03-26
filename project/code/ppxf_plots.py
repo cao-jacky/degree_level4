@@ -527,43 +527,51 @@ def vel_stars_vs_vel_oii():
     for i_d in range(len(data[:][:,0])):
         cc_d = data[:][:,0][i_d] # current cube data
         cube_id = int(cc_d[0])
+
+        cc_sn = cc_d[7] # current S/N for the cube 
     
         lmfit_vals = spectra_data.lmfit_data(cube_id)
         cube_z = lmfit_vals['z'] 
         cube_z_err = lmfit_vals['err_z']
 
-        vel_oii = oii_velocity(cube_z)
+        vel_oii = oii_velocity(cube_z) # OII from lmfit fitting
         vel_oii_err = oii_velocity(lmfit_vals['err_z'])
         #vel_oii = 0 # the velocities should be zero as they have not been redshifted
 
-        vel_ppxf = cc_d[14]
+        vel_ppxf = cc_d[14] # stellar fitting from pPXF
         vel_ppxf_err = cc_d[15]
 
-        #print(cube_id, vel_ppxf, vel_oii)
+        # loading "a" factors in a/x model
+        a_ppxf = np.load("uncert_ppxf/vel_curve_best_values_ppxf.npy")
+        a_lmfit = np.load("uncert_lmfit/vel_curve_best_values_lmfit.npy")
+
+        # fractional error
+        frac_err_ppxf = (a_ppxf/cc_sn) * vel_ppxf
+        frac_err_lmfit = (a_lmfit/cc_sn) * vel_oii
 
         gq_val.append(vel_ppxf/vel_oii)
 
-        ax.errorbar(vel_oii, vel_ppxf, xerr=vel_oii_err, yerr=vel_ppxf_err, 
-                color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
+        ax.errorbar(vel_oii, vel_ppxf, xerr=frac_err_lmfit, yerr=frac_err_ppxf, 
+                color="#000000", fmt="o", ms=6, elinewidth=1.0, 
                 capsize=5, capthick=1.0, zorder=0)
 
-        ax.annotate(cube_id, (vel_oii, vel_ppxf))
+        #ax.annotate(cube_id, (vel_oii, vel_ppxf))
 
-    ax.tick_params(labelsize=15)
-    ax.set_ylabel(r'\textbf{V$_{*}$ (kms$^{-1}$)}', fontsize=15)
-    ax.set_xlabel(r'\textbf{V$_{OII}$ (kms$^{-1}$)}', fontsize=15)
+    ax.tick_params(labelsize=18)
+    ax.set_ylabel(r'\textbf{V$_{*}$ (kms$^{-1}$)}', fontsize=20)
+    ax.set_xlabel(r'\textbf{V$_{OII}$ (kms$^{-1}$)}', fontsize=20)
 
-    ax.set_xlim([75000,275000]) 
-    ax.set_ylim([75000,275000])
+    ax.set_xlim([75000,175_000]) 
+    ax.set_ylim([75000,175_000])
 
     # plot 1:1 line
     f_xd = np.linspace(0,275000,275000)
     ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
 
-    ax.annotate("median y/x val: "+str(np.median(gq_val)), (90_000,260_000))
+    #ax.annotate("median y/x val: "+str(np.median(gq_val)), (90_000,260_000))
 
     fig.tight_layout()
-    fig.savefig("graphs/vel_star_vs_vel_oii.pdf")
+    fig.savefig("graphs/vel_star_vs_vel_oii.pdf",bbox_inches="tight")
     plt.close("all") 
 
 def sigma_old_vs_new():
@@ -676,7 +684,7 @@ if __name__ == '__main__':
 
     #testing_ranges()
 
-    #vel_stars_vs_vel_oii()
+    vel_stars_vs_vel_oii()
     
     sigma_ranker()
 

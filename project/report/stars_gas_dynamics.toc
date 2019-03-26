@@ -1,40 +1,37 @@
 \tocdepth@munge 
-\contentsline {section}{\numberline {}Contents}{1}{section*.1}
 \tocdepth@restore 
-\contentsline {section}{\numberline {1}Introduction}{2}{section*.2}
-\contentsline {subsection}{\numberline {1.1}Classification of galaxies}{2}{section*.3}
-\contentsline {subsection}{\numberline {1.2}Dynamical studies of galaxies along the Hubble sequence}{2}{section*.5}
-\contentsline {subsubsection}{\numberline {1.2.1}Angular momentum and the evolution of galactic dynamics}{2}{section*.6}
-\contentsline {subsubsection}{\numberline {1.2.2}Tully-Fisher and Faber-Jackson relationships}{4}{section*.7}
-\contentsline {subsection}{\numberline {1.3}High-redshifts}{4}{section*.8}
-\contentsline {subsubsection}{\numberline {1.3.1}Galaxy formation models}{4}{section*.9}
-\contentsline {subsubsection}{\numberline {1.3.2}Stellar formation}{4}{section*.10}
-\contentsline {subsubsection}{\numberline {1.3.3}Gas collapse in dark matter halos}{4}{section*.11}
-\contentsline {subsubsection}{\numberline {1.3.4}Evolution of scaling relations}{4}{section*.12}
-\contentsline {subsection}{\numberline {1.4}The Hubble Ultra Deep Field}{4}{section*.13}
-\contentsline {subsubsection}{\numberline {1.4.1}HST}{4}{section*.14}
-\contentsline {subsubsection}{\numberline {1.4.2}MUSE}{4}{section*.15}
-\contentsline {subsubsection}{\numberline {1.4.3}Testing the local-Universe scaling relation}{4}{section*.16}
-\contentsline {subsection}{\numberline {1.5}Project}{4}{section*.17}
-\contentsline {section}{\numberline {2}Observations and data analysis}{4}{section*.18}
-\contentsline {subsection}{\numberline {2.1}HST HUDF}{4}{section*.19}
-\contentsline {subsection}{\numberline {2.2}MUSE HUDF}{4}{section*.20}
-\contentsline {section}{\numberline {3}Discussion}{4}{section*.21}
-\contentsline {subsection}{\numberline {3.1}Galaxy velocity dispersions}{4}{section*.22}
-\contentsline {subsection}{\numberline {3.2}Galaxy velocities}{5}{section*.23}
-\contentsline {subsection}{\numberline {3.3}Voronoi}{5}{section*.24}
-\contentsline {subsection}{\numberline {3.4}Results}{5}{section*.25}
-\contentsline {subsection}{\numberline {3.5}Galactic classification}{5}{section*.27}
-\contentsline {subsection}{\numberline {3.6}Galactic stellar formation}{7}{section*.28}
-\contentsline {subsection}{\numberline {3.7}Galactic data}{8}{section*.29}
-\contentsline {subsubsection}{\numberline {3.7.1}HUDF}{9}{section*.30}
-\contentsline {subsubsection}{\numberline {3.7.2}MUSE}{9}{section*.31}
-\contentsline {subsection}{\numberline {3.8}Project Aims}{9}{section*.33}
-\contentsline {section}{\numberline {4}Analysis}{10}{section*.34}
-\contentsline {subsection}{\numberline {4.1}Cube extraction}{10}{section*.35}
-\contentsline {subsection}{\numberline {4.2}Line fittings and pPXF}{11}{section*.37}
-\contentsline {subsubsection}{\numberline {4.2.1}Gaussian doublet fitting}{11}{section*.38}
-\contentsline {subsubsection}{\numberline {4.2.2}pPXF fitting}{12}{section*.39}
-\contentsline {section}{\numberline {5}Conclusions}{14}{section*.42}
-\contentsline {section}{\numberline {}Acknowledgments}{14}{section*.43}
-\contentsline {section}{\numberline {}References}{14}{section*.44}
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {subsection}{\numberline {1.1}Classification of galaxies}{2}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Dynamical studies of galaxies along the Hubble sequence}{2}{subsection.1.2}
+\contentsline {subsubsection}{\numberline {1.2.1}Angular momentum and the evolution of galactic dynamics}{2}{subsubsection.1.2.1}
+\contentsline {subsubsection}{\numberline {1.2.2}Tully-Fisher and Faber-Jackson relationships}{4}{subsubsection.1.2.2}
+\contentsline {subsection}{\numberline {1.3}High-redshifts}{4}{subsection.1.3}
+\contentsline {subsubsection}{\numberline {1.3.1}Galaxy formation models}{4}{subsubsection.1.3.1}
+\contentsline {subsubsection}{\numberline {1.3.2}Stellar formation}{4}{subsubsection.1.3.2}
+\contentsline {subsubsection}{\numberline {1.3.3}Gas collapse in dark matter halos}{4}{subsubsection.1.3.3}
+\contentsline {subsubsection}{\numberline {1.3.4}Evolution of scaling relations}{4}{subsubsection.1.3.4}
+\contentsline {subsection}{\numberline {1.4}The Hubble Ultra Deep Field}{4}{subsection.1.4}
+\contentsline {subsubsection}{\numberline {1.4.1}HST}{4}{subsubsection.1.4.1}
+\contentsline {subsubsection}{\numberline {1.4.2}MUSE}{4}{subsubsection.1.4.2}
+\contentsline {subsubsection}{\numberline {1.4.3}Testing the local-Universe scaling relation}{4}{subsubsection.1.4.3}
+\contentsline {subsection}{\numberline {1.5}Project}{4}{subsection.1.5}
+\contentsline {section}{\numberline {2}Observations and data analysis}{4}{section.2}
+\contentsline {subsection}{\numberline {2.1}HST HUDF}{4}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}MUSE HUDF}{4}{subsection.2.2}
+\contentsline {section}{\numberline {3}Discussion}{4}{section.3}
+\contentsline {subsection}{\numberline {3.1}Galaxy velocity dispersions}{4}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Galaxy velocities}{4}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Voronoi}{5}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Results}{5}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Galactic classification}{5}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Galactic stellar formation}{7}{subsection.3.6}
+\contentsline {subsection}{\numberline {3.7}Galactic data}{8}{subsection.3.7}
+\contentsline {subsubsection}{\numberline {3.7.1}HUDF}{8}{subsubsection.3.7.1}
+\contentsline {subsubsection}{\numberline {3.7.2}MUSE}{9}{subsubsection.3.7.2}
+\contentsline {subsection}{\numberline {3.8}Project Aims}{9}{subsection.3.8}
+\contentsline {section}{\numberline {4}Analysis}{9}{section.4}
+\contentsline {subsection}{\numberline {4.1}Cube extraction}{9}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Line fittings and pPXF}{10}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Gaussian doublet fitting}{10}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}pPXF fitting}{11}{subsubsection.4.2.2}
+\contentsline {section}{\numberline {5}Conclusions}{13}{section.5}
