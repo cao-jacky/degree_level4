@@ -9,7 +9,8 @@
 \renewcommand{\baselinestretch}{1}     % Defines the line spacing
 
 \usepackage{subcaption}
-\usepackage[font=small, labelfont=bf, justification=justified, format=plain, singlelinecheck=off]{caption}\captionsetup{compatibility=false, justification=justified,}
+\usepackage[font=small, labelfont=bf, format=plain]{caption}
+\captionsetup{compatibility=false, justification=justified}
 
 \usepackage{graphics,graphicx,epsfig,ulem}	% Makes sure all graphics works
 \usepackage{amsmath} 						% Adds mathematical features for equations
@@ -113,7 +114,7 @@ If a galaxy cannot be matched up to the structural features found in spirals or 
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{introduction/hubble-tuning-fork-diagram}
-\captionsetup{justification=justified}
+\captionsetup{justification=raggedright}
 \caption[Hubble Tuning Fork]{The Hubble sequence can be demonstrated graphically with the Hubble Tuning Fork \citep{hubble_tuning_fork} . This diagram illustrates the different galaxy morphologies and their classification into the groups: ellipticals, spirals, and irregulars.}
 \label{fig:hubble_tuning_fork}
 \end{figure*}
@@ -207,6 +208,7 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 \centering
 \includegraphics[width=1.0\textheight,height=0.6\textwidth]{data/spectra_complete_velocities}
 \vspace{1cm}  % get some vertical separation
+\captionsetup{justification=raggedright}
 \caption[Tully-Fisher]{Analysis of }
 \label{fig:multiple_spectra}
 \end{sidewaysfigure*}
@@ -354,7 +356,7 @@ In addition to optical observations, as noted previously, spectroscopic data sho
     \caption{HST HUDF}
     \label{fig:hubble_ultra_deep_field}
   \end{subfigure}
-  \captionsetup{justification=justified}
+  \captionsetup{justification=raggedright}
   \caption[Hubble Ultra Deep Field]{(a) A colour image created from the MUSE spectroscopic data of the HUDF. The spectra wavelength range was split into three equal regions and then collapsed to create three colour bands (R, G, B). A final colour image was produced by combining these separate frames together. (b) The optical HUDF as captured by the Advanced Camera for Surveys instrument on the Hubble Space Telescope \citep{hudf_image}. }
   \label{fig:hst_muse_hdf}
 \end{figure*}
@@ -403,7 +405,7 @@ The final object list from SExtractor were compared and merged with a catalogue 
     %\caption{Spectroscopic S/N vs. V-band}
     \label{fig:spec_sn_vband}
   \end{subfigure}
-  \captionsetup{justification=justified}
+  \captionsetup{justification=raggedright}
   \caption[HUDF Objects]{Signal-to-noise (S/N) versus V-band magnitude plots for the MUSE galaxy objects. The V-band magnitudes are from the HST catalogue. (a) S/N is from the collapsed MUSE cube image. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 as defined by the SExtractor probability that they are not stars. (b) S/N used here is from the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra. Objects in this sample are those defined as the ``green points'' in Figure \ref{fig:sn_vband}(a).}
   \label{fig:sn_vband}
 \end{figure*}
@@ -473,6 +475,7 @@ An estimate of the redshift can be obtained from the previous [OII] doublet mode
 
 \begin{figure*}
 \includegraphics[width=1.0\linewidth]{data/cube_1804_spectra_complete}
+\captionsetup{justification=raggedright}
 \captionof{figure}[OII Luminosity vs. Redshift]{A pPXF fitting for a galaxy spectra. The galaxy data (black) and  the best-fitting model (red) were normalised in the flux to avoid numerical errors during the fitting routine. The emission (blue lines), absorption (orange lines), and iron (grey lines) features have been labelled for easier recognition. The residuals between the data and model are provided by the green scatter points below the spectra. pPXF appears to produce good fits from manipulating various stellar templates.}
 \label{fig:ppxf_spectra}
 \end{figure*}
@@ -519,7 +522,7 @@ Another synthetic test of pPXF was performed where 10 galaxy spectra were each p
     \caption{[OII] fractional error}
     \label{fig:spec_sn_vband}
   \end{subfigure}
-  \captionsetup{justification=justified}
+  \captionsetup{justification=raggedright}
   \caption[HUDF Objects]{Signal-to-noise versus the modulus difference between the optimal pPXF velocity dispersion and the values from the perturbed models. As the S/N decreases, the difference increases manifold which implies that high S/N galaxies should be used as they would have smaller fractional uncertainty.}
   \label{fig:sn_vband}
 \end{figure*}
