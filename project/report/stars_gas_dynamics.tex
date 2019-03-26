@@ -28,8 +28,8 @@
 
 \pagestyle{fancy}                           % Insert header
 \renewcommand{\headrulewidth}{0pt}
-\lhead{\small Jacky Cao}                        
-\rhead{\small The relation between stars and gas in distant galaxies}                
+\lhead{\small \textit{ }}                        
+\rhead{\small \textit{The relation between stars and gas in distant galaxies}}                
 
 \def\bibsection{\section*{References}}        % Position reference section correctly
 \setcitestyle{authoryear,round}
@@ -52,11 +52,12 @@
 \usepackage{rotating}
 \usepackage{afterpage}
 
-% Usual (decimal) numbering
+% Usual (decimal) numbering for sections
 \renewcommand{\thesection}{\arabic{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
 
+% Left aligning section headings
 \usepackage{etoolbox}
 \patchcmd{\section}
   {\centering}
@@ -73,6 +74,8 @@
   {\raggedright}
   {}
   {}
+
+% removing indent from first paragraph of section  
 
 %%%%% Document %%%%%
 \begin{document}                     
@@ -99,7 +102,8 @@ Optical and spectroscopic observations of galaxies provide a way to understand t
 
 \section{Introduction} 
 
-\subsection{Galaxy classification with the Hubble sequence}
+\subsection{Classification of galaxies}
+\noindent
 The classification of galaxies into the three general groupings of ellipticals, spirals, and irregulars was first performed by Edwin Hubble in 1926 \citep{1926ApJ....64..321H} where a population of 400 extra-galactic objects were classified and sorted by their morphological features into the Hubble sequence.
 
 Ellipticals were codified by E$n$, where $n$ represents the integer galaxy ellipticity calculated from $(a-b)/a$. E0 would equate to non-elliptical galaxies and E7 would be galaxies with the largest ellipticities. 
@@ -129,6 +133,7 @@ Whilst these modifications provide a comprehensive and extended classification o
 
 \subsection{Dynamical studies of galaxies along the Hubble sequence}
 \subsubsection{Angular momentum and the evolution of galactic dynamics}
+\noindent
 The mass, energy, and angular momentum are three physical values which can be used as an alternative classification for galaxies. They provide a quantitative description which reflects the internal workings of a galaxy.
 
 The angular momentum is of particular interest as that provides an indication of how a galaxy formed, it's rotational motion, and the mass contained within it. \cite{1969ApJ...155..393P} proposed that a galaxy's angular momentum was transferred to it's protogalactic self through the gravitational interaction of the galactic system with the tidal field arising from nearby protogalaxies. \cite{1980MNRAS.193..189F} built upon this work by studying the formation of the discs in spiral galaxies, they determined that tidal torque induced galactic spin would require massive extended haloes if the discs were to have radii comparable to those observed in the present day. By extension, simple theoretical models have been formulated to explain the dynamics of spiral discs and the populations within them (e.g. \citealt{1998MNRAS.295..319M, 1997ApJ...482..659D}). These demonstrate that the observed sizes and rotation velocities are generally consistent with an approximate conservation of the early angular momentum. 

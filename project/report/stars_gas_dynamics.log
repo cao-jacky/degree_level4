@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  26 MAR 2019 12:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  26 MAR 2019 13:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -472,24 +472,24 @@ LaTeX Warning: Label `fig:sn_vband' multiply defined.
 )
 \openout1 = `stars_gas_dynamics.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
-LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
 Class revtex4 Info: Unrecognized array package. Please update this document cla
-ss! (Proceeding with fingers crossed.) on input line 78.
-Class revtex4 Info: cite was not loaded (OK!) on input line 78.
-Class revtex4 Info: multicol was not loaded (OK!) on input line 78.
+ss! (Proceeding with fingers crossed.) on input line 81.
+Class revtex4 Info: cite was not loaded (OK!) on input line 81.
+Class revtex4 Info: multicol was not loaded (OK!) on input line 81.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -526,7 +526,7 @@ Class revtex4 Info: multicol was not loaded (OK!) on input line 78.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 ABD: EverySelectfont initializing macros
-LaTeX Info: Redefining \selectfont on input line 78.
+LaTeX Info: Redefining \selectfont on input line 81.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: Incompatible package detected (regarding \caption).
 (caption)             \caption = macro:->\minipagefootnote@here \ifx \@captype 
@@ -585,7 +585,7 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 147.
 )
-Package hyperref Info: Link coloring ON on input line 78.
+Package hyperref Info: Link coloring ON on input line 81.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -595,9 +595,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count135
 )
-LaTeX Info: Redefining \ref on input line 78.
-LaTeX Info: Redefining \pageref on input line 78.
-LaTeX Info: Redefining \nameref on input line 78.
+LaTeX Info: Redefining \ref on input line 81.
+LaTeX Info: Redefining \pageref on input line 81.
+LaTeX Info: Redefining \nameref on input line 81.
 
 (./stars_gas_dynamics.out) (./stars_gas_dynamics.out)
 \@outlinefile=\write3
@@ -793,34 +793,29 @@ Overfull \hbox (6.74988pt too wide) detected at line 40
 \openout4 = `stars_gas_dynamics.toc'.
 
  [1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 1314) in paragraph at lines 107--112
+Underfull \hbox (badness 1314) in paragraph at lines 111--116
 \OT1/cmr/m/n/12 defined by their struc-tural com-pos-i-tion.
  []
 
 
-Underfull \hbox (badness 1527) in paragraph at lines 107--112
+Underfull \hbox (badness 1527) in paragraph at lines 111--116
 \OT1/cmr/m/n/12 The first fea-ture con-sidered is whether
  []
 
-<introduction/hubble-tuning-fork-diagram.jpg, id=214, 1084.05pt x 813.0375pt>
+<introduction/hubble-tuning-fork-diagram.jpg, id=213, 1084.05pt x 813.0375pt>
 File: introduction/hubble-tuning-fork-diagram.jpg Graphic file (type jpg)
 <use introduction/hubble-tuning-fork-diagram.jpg>
 Package pdftex.def Info: introduction/hubble-tuning-fork-diagram.jpg  used on i
-nput line 116.
+nput line 120.
 (pdftex.def)             Requested size: 455.24411pt x 341.4362pt.
 
-Underfull \hbox (badness 1226) in paragraph at lines 124--125
+Underfull \hbox (badness 1226) in paragraph at lines 128--129
 []\OT1/cmr/m/n/12 In their stud-ies, Hubble em-ployed a
  []
 
 
-Underfull \hbox (badness 1521) in paragraph at lines 128--129
+Underfull \hbox (badness 1521) in paragraph at lines 132--133
 []\OT1/cmr/m/n/12 Whilst these modi-fic-a-tions provide a
- []
-
-
-Underfull \hbox (badness 1515) in paragraph at lines 132--133
-[]\OT1/cmr/m/n/12 The mass, en-ergy, and an-gu-lar mo-
  []
 
 
@@ -830,112 +825,112 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [2]
-<introduction/romanowsky_2012_fig_3.pdf, id=253, 276.03125pt x 276.03125pt>
+<introduction/romanowsky_2012_fig_3.pdf, id=252, 276.03125pt x 276.03125pt>
 File: introduction/romanowsky_2012_fig_3.pdf Graphic file (type pdf)
 <use introduction/romanowsky_2012_fig_3.pdf>
 Package pdftex.def Info: introduction/romanowsky_2012_fig_3.pdf  used on input 
-line 151.
+line 156.
 (pdftex.def)             Requested size: 222.62206pt x 222.63219pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 152.
+(caption)                particular \caption on input line 157.
 See the caption package documentation for explanation.
 
 [3 <./introduction/hubble-tuning-fork-diagram.jpg>]
-Underfull \hbox (badness 1092) in paragraph at lines 152--152
+Underfull \hbox (badness 1092) in paragraph at lines 157--157
 \OT1/cmr/m/it/10.95 Vari-able Mass-to-light Ra-tios \OT1/cmr/m/n/10.95 ([][]Ro-
 manowsky
  []
 
-<data/sigma_star_vs_sigma_oii.pdf, id=268, 456.28467pt x 338.91882pt>
+<data/sigma_star_vs_sigma_oii.pdf, id=267, 456.28467pt x 338.91882pt>
 File: data/sigma_star_vs_sigma_oii.pdf Graphic file (type pdf)
 <use data/sigma_star_vs_sigma_oii.pdf>
 Package pdftex.def Info: data/sigma_star_vs_sigma_oii.pdf  used on input line 1
-94.
+99.
 (pdftex.def)             Requested size: 222.62206pt x 165.358pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 195.
+(caption)                particular \caption on input line 200.
 See the caption package documentation for explanation.
 
 [4 <./introduction/romanowsky_2012_fig_3.pdf> <./data/sigma_star_vs_sigma_oii.p
 df>]
-<data/spectra_complete_velocities.pdf, id=308, 3738.16277pt x 2264.21568pt>
+<data/spectra_complete_velocities.pdf, id=307, 3738.16277pt x 2264.21568pt>
 File: data/spectra_complete_velocities.pdf Graphic file (type pdf)
 <use data/spectra_complete_velocities.pdf>
 Package pdftex.def Info: data/spectra_complete_velocities.pdf  used on input li
-ne 209.
+ne 214.
 (pdftex.def)             Requested size: 702.78612pt x 421.67183pt.
  [5] [6 <./data/spectra_complete_velocities.pdf>] [7]
-Underfull \hbox (badness 2469) in paragraph at lines 281--282
+Underfull \hbox (badness 2469) in paragraph at lines 286--287
 []\OT1/cmr/m/n/12 Through con-ten-tious de-bate and re-
  []
 
 
-Underfull \hbox (badness 5105) in paragraph at lines 281--282
+Underfull \hbox (badness 5105) in paragraph at lines 286--287
 \OT1/cmr/m/n/12 at-tempt to ex-plain galactic evol-u-tion.
  []
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 306.
+(caption)                particular \caption on input line 311.
 See the caption package documentation for explanation.
 
 
-Underfull \hbox (badness 1430) in paragraph at lines 312--313
+Underfull \hbox (badness 1430) in paragraph at lines 317--318
 \OT1/cmr/m/n/12 with the \OT1/cmr/m/it/12 Har-vard Spec-tral Clas-si-fic-a-tion
 
  []
 
 
-Underfull \hbox (badness 1107) in paragraph at lines 320--321
+Underfull \hbox (badness 1107) in paragraph at lines 325--326
 []\OT1/cmr/m/n/12 For an in-vest-ig-a-tion of galax-ies, one
  []
 
 [8]
-<introduction/muse_colour_image.pdf, id=601, 554.7866pt x 551.40735pt>
+<introduction/muse_colour_image.pdf, id=600, 554.7866pt x 551.40735pt>
 File: introduction/muse_colour_image.pdf Graphic file (type pdf)
 <use introduction/muse_colour_image.pdf>
 Package pdftex.def Info: introduction/muse_colour_image.pdf  used on input line
- 347.
+ 352.
 (pdftex.def)             Requested size: 182.09486pt x 180.98058pt.
-<introduction/hubble_ultra_deep_field_rotated-squashed.jpg, id=602, 2453.165pt 
+<introduction/hubble_ultra_deep_field_rotated-squashed.jpg, id=601, 2453.165pt 
 x 2489.3pt>
 File: introduction/hubble_ultra_deep_field_rotated-squashed.jpg Graphic file (t
 ype jpg)
 <use introduction/hubble_ultra_deep_field_rotated-squashed.jpg>
 Package pdftex.def Info: introduction/hubble_ultra_deep_field_rotated-squashed.
-jpg  used on input line 354.
+jpg  used on input line 359.
 (pdftex.def)             Requested size: 182.09486pt x 184.75227pt.
 
-Underfull \hbox (badness 1117) in paragraph at lines 377--378
+Underfull \hbox (badness 1117) in paragraph at lines 382--383
 \OT1/cmr/m/n/12 cussed, as well as the sub-sequent ana-
  []
 
 [9]
-Underfull \hbox (badness 1342) in paragraph at lines 390--391
+Underfull \hbox (badness 1342) in paragraph at lines 395--396
 []\OT1/cmr/m/n/12 To be-gin with, galax-ies were iden-ti-
  []
 
 
-Underfull \hbox (badness 1024) in paragraph at lines 390--391
+Underfull \hbox (badness 1024) in paragraph at lines 395--396
 \OT1/cmr/m/n/12 tects, de-blends, meas-ures and clas-si-fies
  []
 
-<data/image_sn_vs_vband.pdf, id=625, 456.28467pt x 335.5574pt>
+<data/image_sn_vs_vband.pdf, id=624, 456.28467pt x 335.5574pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
-Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 396.
+Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 401.
 (pdftex.def)             Requested size: 225.3436pt x 165.71997pt.
-<data/sn_vs_vband.pdf, id=626, 455.11713pt x 335.5574pt>
+<data/sn_vs_vband.pdf, id=625, 455.11713pt x 335.5574pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
-Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 403.
+Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 408.
 (pdftex.def)             Requested size: 225.3436pt x 166.14494pt.
 [10 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./intr
 oduction/hubble_ultra_deep_field_rotated-squashed.jpg>]
-Overfull \hbox (2.32982pt too wide) detected at line 446
+Overfull \hbox (2.32982pt too wide) detected at line 451
  []$[]  \OML/cmm/m/it/12 f[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 
 ) = \OML/cmm/m/it/12 cx \OT1/cmr/m/n/12 + [] [] []$ 
  []
@@ -945,89 +940,89 @@ Overfull \hbox (2.32982pt too wide) detected at line 446
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
  inclusion: multiple pdfs with page group included in a single page
 >]
-Underfull \hbox (badness 1163) in paragraph at lines 460--461
+Underfull \hbox (badness 1163) in paragraph at lines 465--466
 \OT1/cmr/m/n/12 doublet, a com-par-ison to galactic stars
  []
 
 
-Underfull \hbox (badness 1038) in paragraph at lines 460--461
+Underfull \hbox (badness 1038) in paragraph at lines 465--466
 \OT1/cmr/m/n/12 ap-plied, [][]Cap-pel-lari[][] ([][]2017[][]) de-scribes the
  []
 
-<data/o_ii_luminosity_vs_redshift.pdf, id=679, 455.30101pt x 337.18498pt>
+<data/o_ii_luminosity_vs_redshift.pdf, id=678, 455.30101pt x 337.18498pt>
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
-ne 463.
+ne 468.
 (pdftex.def)             Requested size: 222.62206pt x 164.86707pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 464.
+(caption)                particular \caption on input line 469.
 See the caption package documentation for explanation.
 
 
-Underfull \hbox (badness 1789) in paragraph at lines 464--464
+Underfull \hbox (badness 1789) in paragraph at lines 469--469
 \OT1/cmr/m/n/10.95 red-shift. Vari-ables used for each galaxy
  []
 
-<data/cube_1804_spectra_complete.pdf, id=683, 570.08069pt x 209.44595pt>
+<data/cube_1804_spectra_complete.pdf, id=682, 570.08069pt x 209.44595pt>
 File: data/cube_1804_spectra_complete.pdf Graphic file (type pdf)
 <use data/cube_1804_spectra_complete.pdf>
 Package pdftex.def Info: data/cube_1804_spectra_complete.pdf  used on input lin
-e 477.
+e 482.
 (pdftex.def)             Requested size: 455.24411pt x 167.25977pt.
 [12 <./data/o_ii_luminosity_vs_redshift.pdf>]
-<data/oii_ppxf_vs_oii_lmfit.pdf, id=710, 462.52798pt x 346.89601pt>
+<data/oii_ppxf_vs_oii_lmfit.pdf, id=709, 462.52798pt x 346.89601pt>
 File: data/oii_ppxf_vs_oii_lmfit.pdf Graphic file (type pdf)
 <use data/oii_ppxf_vs_oii_lmfit.pdf>
-Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 494
+Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 499
 .
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 495.
+(caption)                particular \caption on input line 500.
 See the caption package documentation for explanation.
 
 
 LaTeX Warning: Reference `fig:sn_difference' on page 13 undefined on input line
- 501.
+ 506.
 
 [13 <./data/cube_1804_spectra_complete.pdf> <./data/oii_ppxf_vs_oii_lmfit.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/oii_ppxf_vs_oii_lmfit
 .pdf): PDF inclusion: multiple pdfs with page group included in a single page
 >]
-<data/frac_error_vs_sn_ppxf.pdf, id=752, 462.52798pt x 346.89601pt>
+<data/frac_error_vs_sn_ppxf.pdf, id=751, 462.52798pt x 346.89601pt>
 File: data/frac_error_vs_sn_ppxf.pdf Graphic file (type pdf)
 <use data/frac_error_vs_sn_ppxf.pdf>
-Package pdftex.def Info: data/frac_error_vs_sn_ppxf.pdf  used on input line 506
+Package pdftex.def Info: data/frac_error_vs_sn_ppxf.pdf  used on input line 511
 .
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 507.
+(caption)                particular \caption on input line 512.
 See the caption package documentation for explanation.
 
 File: data/frac_error_vs_sn_ppxf.pdf Graphic file (type pdf)
 <use data/frac_error_vs_sn_ppxf.pdf>
-Package pdftex.def Info: data/frac_error_vs_sn_ppxf.pdf  used on input line 513
+Package pdftex.def Info: data/frac_error_vs_sn_ppxf.pdf  used on input line 518
 .
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
-<data/frac_error_vs_sn_lmfit.pdf, id=753, 462.52798pt x 346.89601pt>
+<data/frac_error_vs_sn_lmfit.pdf, id=752, 462.52798pt x 346.89601pt>
 File: data/frac_error_vs_sn_lmfit.pdf Graphic file (type pdf)
 <use data/frac_error_vs_sn_lmfit.pdf>
 Package pdftex.def Info: data/frac_error_vs_sn_lmfit.pdf  used on input line 52
-0.
+5.
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
 
-Underfull \hbox (badness 1158) in paragraph at lines 541--542
+Underfull \hbox (badness 1158) in paragraph at lines 546--547
 \OT1/cmr/m/n/12 in-di-vidual galax-ies can have their [OII]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 544--545
+Underfull \hbox (badness 10000) in paragraph at lines 549--550
 []\OT1/cmr/m/n/12 The au-thor would like to thank
  []
 
@@ -1108,13 +1103,13 @@ Underfull \hbox (badness 1776) in paragraph at lines 166--170
  []
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 550.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 550.
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 550.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 555.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 555.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 555.
  [16] (./stars_gas_dynamics.aux)
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 550.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 555.
 Package rerunfilecheck Info: File `stars_gas_dynamics.out' has not changed.
-(rerunfilecheck)             Checksum: 1F731B2393889EA26458ADBAC14DD9C3;2481.
+(rerunfilecheck)             Checksum: 4C212A19D74832D5E6EB441B6D7E7973;2461.
 
 
 LaTeX Warning: There were undefined references.
@@ -1126,7 +1121,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  10547 strings out of 492649
  156408 string characters out of 6129622
- 283999 words of memory out of 5000000
+ 283997 words of memory out of 5000000
  14183 multiletter control sequences out of 15000+600000
  10377 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1148,10 +1143,10 @@ al/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/
 texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/t
 exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (16 pages, 9383360 bytes).
+Output written on stars_gas_dynamics.pdf (16 pages, 9383385 bytes).
 PDF statistics:
- 887 PDF objects out of 1000 (max. 8388607)
- 645 compressed objects within 7 object streams
+ 886 PDF objects out of 1000 (max. 8388607)
+ 644 compressed objects within 7 object streams
  101 named destinations out of 1000 (max. 500000)
  370 words of extra memory for PDF output out of 10000 (max. 10000000)
 

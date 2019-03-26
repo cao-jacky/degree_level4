@@ -2,7 +2,7 @@
 \contentsline {section}{\numberline {}Contents}{1}{section*.1}
 \tocdepth@restore 
 \contentsline {section}{\numberline {1}Introduction}{2}{section*.2}
-\contentsline {subsection}{\numberline {1.1}Galaxy classification with the Hubble sequence}{2}{section*.3}
+\contentsline {subsection}{\numberline {1.1}Classification of galaxies}{2}{section*.3}
 \contentsline {subsection}{\numberline {1.2}Dynamical studies of galaxies along the Hubble sequence}{2}{section*.5}
 \contentsline {subsubsection}{\numberline {1.2.1}Angular momentum and the evolution of galactic dynamics}{2}{section*.6}
 \contentsline {subsubsection}{\numberline {1.2.2}Tully-Fisher and Faber-Jackson relationships}{4}{section*.7}
