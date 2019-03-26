@@ -6,8 +6,11 @@ from matplotlib import rc
 import matplotlib.patches as patches
 from matplotlib.ticker import StrMethodFormatter
 
+from collections import OrderedDict
+
 import cube_reader
 import spectra_data
+import ppxf_fitter
 
 from astropy.io import fits
 from astropy.cosmology import FlatLambdaCDM
@@ -321,6 +324,10 @@ def graphs():
 
     #print(usable_cubes)
 
+    unusable_cubes = ppxf_fitter.ignore_cubes()
+
+    # --------------------------------------------------#
+
     # V-BAND VS. FLUX MAG
     fig, ax = plt.subplots()
     ax.scatter(usable_cubes[:,2], usable_cubes[:,1], s=7, color="#000000")
@@ -335,14 +342,26 @@ def graphs():
     plt.tight_layout()
     plt.savefig("graphs/sanity_checks/vband_vs_flux.pdf")
 
+    # --------------------------------------------------#
+
     # S/N VS. V-BAND MAG
     fig, ax = plt.subplots()
-    ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=20, color="#000000")
+    #ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=20, color="#000000")
      
-    cube_ids = usable_cubes[:,0]
-    for i, txt in enumerate(cube_ids):
-        pass
-        #ax.annotate(int(txt), (usable_cubes[i][1], usable_cubes[i][4]), alpha=0.2)
+    # plotting the usable cubes
+    for i in range(len(usable_cubes[:,0])):
+        curr_cube = int(usable_cubes[:,0][i]) 
+        if curr_cube in unusable_cubes['ac']:
+            ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
+                    color="#ffa000", alpha=1.0, marker="x", 
+                    label=r'\textbf{Not usable}')
+        if curr_cube in unusable_cubes['ga']:
+            ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
+                    color="#ffa000", alpha=1.0, marker="x") 
+        if curr_cube not in unusable_cubes['ac']:
+            ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
+                    color="#00c853", alpha=1.0, marker="o", zorder=3, 
+                    label=r'\textbf{Usable}')
 
     #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)       
     ax.tick_params(labelsize=20)
@@ -350,6 +369,7 @@ def graphs():
     ax.set_ylabel(r'\textbf{MUSE Spectrum S/N}', fontsize=20)
     ax.invert_xaxis()
     ax.set_yscale('log')
+    ax.set_ylim([0.9, 100])
    
     # manually setting x-tick labels to be 1 dpm
     vband_x = np.array([28.0, 26.0, 24.0, 22.0, 20.0])
@@ -358,8 +378,15 @@ def graphs():
             r'\textbf{'+str(vband_x[1])+'}',r'\textbf{'+str(vband_x[2])+'}',
             r'\textbf{'+str(vband_x[3])+'}',r'\textbf{'+str(vband_x[4])+'}'])
 
+    handles, labels = plt.gca().get_legend_handles_labels()
+    by_label = OrderedDict(zip(labels, handles))
+
+    ax.legend(by_label.values(), by_label.keys(), loc='lower right', prop={'size': 15})
+
     plt.tight_layout()
     plt.savefig("graphs/sn_vs_vband.pdf",bbox_inches="tight")
+
+    # --------------------------------------------------#
 
     usable_cubes_no_oii = usable_cubes
     cubes_to_ignore = np.array([97,139,140,152,157,159,178,1734,1701,1700,1689,

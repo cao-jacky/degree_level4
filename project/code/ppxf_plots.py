@@ -252,11 +252,9 @@ def sigma_stars_vs_sigma_oii():
 
     xerr=data[:][:,0][:,13][y_mask]
     yerr=data[:][:,0][:,12][y_mask]
-
-    print(yerr)
-   
+ 
     ax.errorbar(x_dat, y_dat, xerr=xerr, yerr=yerr,
-            color="#000000", fmt="o", ms=5, elinewidth=1.0, 
+            color="#000000", fmt="o", ms=7, elinewidth=1.0, 
             capsize=5, capthick=1.0, zorder=0)
 
     # y/x value
@@ -315,17 +313,16 @@ def sigma_stars_vs_sigma_oii():
     # Plotting best fit lines onto plot
 
     ax.plot(f_xd, md1_fit, lw=1.5, c="#ce93d8", 
-            label=r"\textbf{m: free, c: free, }" + r"$\chi^2_{\nu}$: " + r"$" +
-            str(np.round(rchisq_1, decimals=2)) + "$")
+            label=r"\textbf{m: free, c: free}") 
+            #+r"$\chi^2_{\nu}$: " + r"$" +str(np.round(rchisq_1, decimals=2)) + "$")
 
     ax.plot(f_xd, md2_fit, lw=1.5, c="#a5d6a7",
-            label=r"\textbf{m: fixed, c: free, }" + r"$\chi^2_{\nu}$: " + r"$" +
-            str(np.round(rchisq_2, decimals=2)) + "$")
+            label=r"\textbf{m: fixed, c: free}")
+            #+r"$\chi^2_{\nu}$: " + r"$" +str(np.round(rchisq_2, decimals=2)) + "$")
 
     ax.plot(f_xd, md3_fit, lw=1.5, c="#80deea", 
-            label=r"\textbf{m: free, c: fixed, }" + r"$\chi^2_{\nu}$: " + r"$" +
-            str(np.round(rchisq_3, decimals=2)) + "$")
-
+            label=r"\textbf{m: free, c: fixed}") 
+            #+r"$\chi^2_{\nu}$:" + r"$" +str(np.round(rchisq_3, decimals=2)) + "$")
  
     """
     low_sn = np.array([554, 765, 849, 1129, 895, 175])
@@ -351,7 +348,8 @@ def sigma_stars_vs_sigma_oii():
         if curr_y > 300:
             pass
         else:
-            ax.annotate(int(curr_id), (curr_x, curr_y))
+            #ax.annotate(int(curr_id), (curr_x, curr_y))
+            pass
         
     ax.tick_params(labelsize=20)
     ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=20)
@@ -361,7 +359,7 @@ def sigma_stars_vs_sigma_oii():
     ax.set_ylim([-10,225])
     #ax.set_aspect('equal', 'box')
 
-    ax.legend(loc='lower right', prop={'size': 12})
+    ax.legend(loc='lower right', prop={'size': 14})
 
     fig.tight_layout()
     fig.savefig("graphs/sigma_star_vs_sigma_oii.pdf",bbox_inches="tight")

@@ -226,9 +226,9 @@ def spectra(cube_id):
     # scaling y data using the median of the data
     y_data_scaled = y_data/np.median(y_data)
     
-    fig, ax = plt.subplots(figsize=(8,4))
-    ax.plot(x_data, y_data_scaled, linewidth=2, color="#000000")
-    ax.plot(x_data, y_model, linewidth=2, color="#b71c1c")
+    fig, ax = plt.subplots(figsize=(8,3))
+    ax.plot(x_data, y_data_scaled, linewidth=1.5, color="#000000")
+    ax.plot(x_data, y_model, linewidth=1.5, color="#b71c1c")
 
     # residuals
     residual = y_data_scaled - y_model
@@ -236,7 +236,7 @@ def spectra(cube_id):
     res_stddev = np.std(residual)    
     mask = ((residual < res_stddev) & (residual > -res_stddev))     
 
-    ax.scatter(x_data[mask], residual[mask]-1, s=10, color="#43a047", alpha=0.5)
+    ax.scatter(x_data[mask], residual[mask]-1, s=7, color="#43a047", alpha=0.5)
 
     # spectral lines
     sl = spectra_data.spectral_lines()
@@ -254,27 +254,27 @@ def spectra(cube_id):
             
         alpha_text = 0.75
 
-        ax.axvline(x=spec_line, linewidth=1.5, color="#1e88e5", alpha=alpha_line)
+        ax.axvline(x=spec_line, linewidth=1, color="#1e88e5", alpha=alpha_line)
         ax.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=alpha_text,
-                weight="bold", fontsize=15) 
+                weight="bold", fontsize=13) 
 
     for e_key, e_val in sl['abs'].items():
         spec_line = float(e_val)*(1+z)
         spec_label = e_key
 
-        ax.axvline(x=spec_line, linewidth=1.5, color="#ff8f00", alpha=0.7)
+        ax.axvline(x=spec_line, linewidth=1, color="#ff8f00", alpha=0.7)
         ax.text(spec_line-3, max_y, spec_label, rotation=-90, alpha=0.75,
-                weight="bold", fontsize=15)
+                weight="bold", fontsize=13)
 
     # iron spectral lines
     for e_key, e_val in sl['iron'].items(): 
         spec_line = float(e_val)*(1+z)
 
-        ax.axvline(x=spec_line, linewidth=0.5, color="#bdbdbd", alpha=0.3)
+        ax.axvline(x=spec_line, linewidth=0.75, color="#bdbdbd", alpha=0.3)
 
-    ax.tick_params(labelsize=33)
-    ax.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
-    ax.set_ylabel(r'\textbf{Relative flux}', fontsize=20)
+    ax.tick_params(labelsize=15)
+    ax.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
+    ax.set_ylabel(r'\textbf{Relative flux}', fontsize=15)
 
     plt.tight_layout()
     plt.savefig("cube_results/cube_"+str(cube_id)+"/cube_"+str(cube_id)+

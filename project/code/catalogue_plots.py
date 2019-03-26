@@ -83,7 +83,7 @@ def graph_sn_mag(x_data, y_data, cubes_data):
     handles, labels = plt.gca().get_legend_handles_labels()
     by_label = OrderedDict(zip(labels, handles))
 
-    ax.legend(by_label.values(), by_label.keys(), loc='upper left', prop={'size': 15})
+    ax.legend(by_label.values(), by_label.keys(), loc='lower right', prop={'size': 15})
 
     ax.set_yscale('log')
     ax.invert_xaxis()

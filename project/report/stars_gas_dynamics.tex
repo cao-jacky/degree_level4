@@ -30,9 +30,6 @@
 \lhead{\small Jacky Cao}                        
 \rhead{\small The relation between stars and gas in distant galaxies}                
 
-\def\thesection{\arabic{section}}
-\def\thesubsection{\arabic{subsection}}
-
 \def\bibsection{\section*{References}}        % Position reference section correctly
 \setcitestyle{authoryear,round}
 \setlength\bibhang{0.2in}
@@ -53,6 +50,28 @@
 
 \usepackage{rotating}
 \usepackage{afterpage}
+
+% Usual (decimal) numbering
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+
+\usepackage{etoolbox}
+\patchcmd{\section}
+  {\centering}
+  {\raggedright}
+  {}
+  {}
+\patchcmd{\subsection}
+  {\centering}
+  {\raggedright}
+  {}
+  {}
+\patchcmd{\subsubsection}
+  {\centering}
+  {\raggedright}
+  {}
+  {}
 
 %%%%% Document %%%%%
 \begin{document}                     
@@ -166,7 +185,17 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 
 \section{Discussion}
 
-\subsection{$\sigma_{*}$ vs. $\sigma_{OII}$ \& $V_{*}$ vs. $V_{OII}$}
+%\subsection{$\sigma_{*}$ vs. $\sigma_{OII}$ \& $V_{*}$ vs. $V_{OII}$}
+
+\subsection{Galaxy velocity dispersions}
+
+\begin{center}
+\includegraphics[width=1.0\linewidth]{data/sigma_star_vs_sigma_oii}
+\captionof{figure}[Velocity Dispersions]{The widths of the [OII] doublets obtained from the Gaussian modelling (labelled \textit{lmfit}) plotted against the widths found from the gas population fitter in pPXF. A linear trend is expected, however a failure in the set-up of pPXF has produced the illogical results as shown in the plot.}
+\label{fig:oii_widths}
+\end{center}
+
+\subsection{Galaxy velocities}
 
 \subsection{Voronoi}
 
@@ -320,7 +349,7 @@ In addition to optical observations, as noted previously, spectroscopic data sho
   \end{subfigure}
   %
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{introduction/hubble_ultra_deep_field}
+    \includegraphics[width=\textwidth]{introduction/hubble_ultra_deep_field_rotated-squashed.jpg}
     \captionsetup{justification=justified}    
     \caption{HST HUDF}
     \label{fig:hubble_ultra_deep_field}
@@ -442,11 +471,11 @@ An estimate of the redshift can be obtained from the previous [OII] doublet mode
 
 % place somewhere what the "widths" are the same as the standard deviations or "sigmas"
 
-\begin{center}
-\includegraphics[width=1.0\linewidth]{data/cube_1804_fitted}
+\begin{figure*}
+\includegraphics[width=1.0\linewidth]{data/cube_1804_spectra_complete}
 \captionof{figure}[OII Luminosity vs. Redshift]{A pPXF fitting for a galaxy spectra. The galaxy data (black) and  the best-fitting model (red) were normalised in the flux to avoid numerical errors during the fitting routine. The emission (blue lines), absorption (orange lines), and iron (grey lines) features have been labelled for easier recognition. The residuals between the data and model are provided by the green scatter points below the spectra. pPXF appears to produce good fits from manipulating various stellar templates.}
 \label{fig:ppxf_spectra}
-\end{center}
+\end{figure*}
 
 Whilst it may seem trivial to configure these values, the results obtained have not been logical. Using pPXF to estimate the gas population of a galaxy, an additional value can be obtained for the width of the [OII] doublet. This therefore allows us to plot both against each other where one should find a 1-to-1 positive linear trend. What is found instead is that both are not correlated (Figure \ref{fig:oii_widths}) which is a non-sensical result. 
 
