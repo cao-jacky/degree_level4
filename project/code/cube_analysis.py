@@ -4,8 +4,10 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import rc
 import matplotlib.patches as patches
+from matplotlib.ticker import StrMethodFormatter
 
 import cube_reader
+import spectra_data
 
 from astropy.io import fits
 from astropy.cosmology import FlatLambdaCDM
@@ -155,13 +157,13 @@ def graphs():
     bright_objects = np.where(catalogue[:,5] < 32.0)[0]
 
     avoid_objects = np.load("data/avoid_objects.npy")
-    #more_useless = np.array([474,167,1101,1103,744])
-    more_useless = np.array([0])
+    more_useless = np.array([474,167,1101,1103,744])
+    #more_useless = np.array([0])
 
     # array to store cube id and signal to noise value]
     usable_cubes = np.zeros((len(bright_objects)-len(avoid_objects)-len(more_useless)
         +1,14))
-
+    
     # usable_cubes structure
     # [0] : cube id
     # [1] : v-band mag from catalogue for object
@@ -183,7 +185,8 @@ def graphs():
         curr_obj = catalogue[i_cube]
         cube_id = int(curr_obj[0]) 
 
-        if (cube_id in avoid_objects or cube_id in more_useless):
+        if (cube_id in avoid_objects or cube_id in more_useless or 
+                usable_count==np.shape(usable_cubes)[0]):
             pass
         else:
             usable_cubes[usable_count][0] = cube_id
@@ -334,8 +337,8 @@ def graphs():
 
     # S/N VS. V-BAND MAG
     fig, ax = plt.subplots()
-    ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=7, color="#000000")
-
+    ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=20, color="#000000")
+     
     cube_ids = usable_cubes[:,0]
     for i, txt in enumerate(cube_ids):
         pass
@@ -348,7 +351,7 @@ def graphs():
     ax.invert_xaxis()
     ax.set_yscale('log')
     plt.tight_layout()
-    plt.savefig("graphs/sn_vs_vband.pdf")
+    plt.savefig("graphs/sn_vs_vband.pdf",bbox_inches="tight")
 
     usable_cubes_no_oii = usable_cubes
     cubes_to_ignore = np.array([97,139,140,152,157,159,178,1734,1701,1700,1689,
@@ -362,7 +365,8 @@ def graphs():
 
     for i_cube in range(len(cubes_to_ignore)):
         curr_cube = cubes_to_ignore[i_cube]
-        loc = np.where(usable_cubes[:,0] == curr_cube)[0].item()
+        #loc = np.where(usable_cubes[:,0] == curr_cube)[0].item()
+        loc = np.where(usable_cubes[:,0] == curr_cube)[0]
         cubes_to_ignore_indices.append(loc)
 
     cubes_to_ignore_indices = np.sort(np.asarray(cubes_to_ignore_indices))[::-1]
@@ -370,7 +374,6 @@ def graphs():
     for i_cube in range(len(cubes_to_ignore_indices)):
         index_to_delete = cubes_to_ignore_indices[i_cube]
         usable_cubes_no_oii = np.delete(usable_cubes_no_oii, index_to_delete, axis=0)
-
 
     oii_flux = f_doublet(usable_cubes_no_oii[:,10], usable_cubes_no_oii[:,8], 
             usable_cubes_no_oii[:,9], usable_cubes_no_oii[:,11], 
@@ -393,7 +396,7 @@ def graphs():
     ax.set_xlabel(r'\textbf{Galaxy Colour (B-I)}', fontsize=20)
     ax.set_ylabel(r'\textbf{O[II] Flux}', fontsize=20)
     plt.tight_layout()
-    plt.savefig("graphs/oii_flux_vs_colour.pdf")
+    plt.savefig("graphs/oii_flux_vs_colour.pdf",bbox_inches="tight")
     plt.close("all")
 
     # O[II] VELOCITY DISPERSION VS. STELLAR MAG
@@ -420,8 +423,8 @@ def graphs():
     cubes_luminosity = luminosity_flux(usable_cubes_no_oii[:,13], oii_flux)
 
     fig, ax = plt.subplots()
-    ax.plot(ofs_redshifts, ofs_luminosity, linewidth=0.5, color="#9e9e9e")
-    ax.scatter(usable_cubes_no_oii[:,13], cubes_luminosity, s=10, color="#000000")
+    ax.plot(ofs_redshifts, ofs_luminosity, linewidth=1.5, color="#9e9e9e")
+    ax.scatter(usable_cubes_no_oii[:,13], cubes_luminosity, s=20, color="#000000")
 
     cube_ids = usable_cubes_no_oii[:,0]
     for i, txt in enumerate(cube_ids):
@@ -436,14 +439,14 @@ def graphs():
     ax.set_xlim([0.2, 1.5])
     ax.set_ylim((0.007*10**51,1.7*10**51))
     plt.tight_layout()
-    plt.savefig("graphs/o_ii_luminosity_vs_redshift.pdf")
+    plt.savefig("graphs/o_ii_luminosity_vs_redshift.pdf",bbox_inches="tight")
     plt.close("all")
  
 if __name__ == '__main__':
     #print(highest_sn())
     #data_cube_analyser(1804)
 
-    #graphs()
+    graphs()
 
     #cube_noise()
     pass

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  22 MAR 2019 10:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  26 MAR 2019 10:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -452,9 +452,6 @@ Package: afterpage 2014/10/28 v1.08 After-Page Package (DPC)
 )
 (./stars_gas_dynamics.aux
 
-LaTeX Warning: Label `fig:hubble_tuning_fork' multiply defined.
-
-
 LaTeX Warning: Label `fig:image_sn_vband' multiply defined.
 
 
@@ -730,7 +727,7 @@ Overfull \hbox (0.87494pt too wide) detected at line 28
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 29
- \OT1/cmr/m/n/12 9
+ \OT1/cmr/m/n/12 8
  []
 
 
@@ -744,18 +741,18 @@ Overfull \hbox (0.87494pt too wide) detected at line 31
  []
 
 
-Overfull \hbox (6.74988pt too wide) detected at line 32
- \OT1/cmr/m/n/12 10
+Overfull \hbox (0.87494pt too wide) detected at line 32
+ \OT1/cmr/m/n/12 9
  []
 
 
-Overfull \hbox (6.74988pt too wide) detected at line 33
- \OT1/cmr/m/n/12 10
+Overfull \hbox (0.87494pt too wide) detected at line 33
+ \OT1/cmr/m/n/12 9
  []
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 34
- \OT1/cmr/m/n/12 11
+ \OT1/cmr/m/n/12 10
  []
 
 
@@ -765,22 +762,22 @@ Overfull \hbox (6.74988pt too wide) detected at line 35
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 36
- \OT1/cmr/m/n/12 12
+ \OT1/cmr/m/n/12 11
  []
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 37
- \OT1/cmr/m/n/12 14
+ \OT1/cmr/m/n/12 13
  []
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 38
- \OT1/cmr/m/n/12 14
+ \OT1/cmr/m/n/12 13
  []
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 39
- \OT1/cmr/m/n/12 14
+ \OT1/cmr/m/n/12 13
  []
 
 )
@@ -899,7 +896,7 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 169.
 
-<data/spectra_complete_velocities.pdf, id=257, 3738.16277pt x 2264.21568pt>
+<data/spectra_complete_velocities.pdf, id=256, 3738.16277pt x 2264.21568pt>
 File: data/spectra_complete_velocities.pdf Graphic file (type pdf)
 <use data/spectra_complete_velocities.pdf>
 Package pdftex.def Info: data/spectra_complete_velocities.pdf  used on input li
@@ -933,13 +930,13 @@ Underfull \hbox (badness 1107) in paragraph at lines 289--290
  []
 
 [8]
-<introduction/muse_colour_image.pdf, id=573, 554.7866pt x 551.40735pt>
+<introduction/muse_colour_image.pdf, id=572, 554.7866pt x 551.40735pt>
 File: introduction/muse_colour_image.pdf Graphic file (type pdf)
 <use introduction/muse_colour_image.pdf>
 Package pdftex.def Info: introduction/muse_colour_image.pdf  used on input line
  316.
 (pdftex.def)             Requested size: 182.09486pt x 180.98058pt.
-<introduction/hubble_ultra_deep_field.jpg, id=574, 123.5467pt x 123.5467pt>
+<introduction/hubble_ultra_deep_field.jpg, id=573, 123.5467pt x 123.5467pt>
 File: introduction/hubble_ultra_deep_field.jpg Graphic file (type jpg)
 <use introduction/hubble_ultra_deep_field.jpg>
 Package pdftex.def Info: introduction/hubble_ultra_deep_field.jpg  used on inpu
@@ -960,16 +957,16 @@ Underfull \hbox (badness 1024) in paragraph at lines 359--360
 \OT1/cmr/m/n/12 tects, de-blends, meas-ures and clas-si-fies
  []
 
-<data/image_sn_vs_vband.pdf, id=585, 462.52798pt x 346.89601pt>
+<data/image_sn_vs_vband.pdf, id=584, 456.28467pt x 335.5574pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
 Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 365.
-(pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
-<data/sn_vs_vband.pdf, id=586, 462.52798pt x 346.89601pt>
+(pdftex.def)             Requested size: 225.3436pt x 165.71997pt.
+<data/sn_vs_vband.pdf, id=585, 455.0112pt x 335.53055pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
 Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 372.
-(pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
+(pdftex.def)             Requested size: 225.3436pt x 166.1726pt.
 [9] [10 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./
 introduction/hubble_ultra_deep_field.jpg> <./data/image_sn_vs_vband.pdf> <./dat
 a/sn_vs_vband.pdf
@@ -992,12 +989,12 @@ Underfull \hbox (badness 1038) in paragraph at lines 429--430
 \OT1/cmr/m/n/12 ap-plied, [][]Cap-pel-lari[][] ([][]2017[][]) de-scribes the
  []
 
-<data/o_ii_luminosity_vs_redshift.pdf, id=642, 462.52798pt x 346.89601pt>
+<data/o_ii_luminosity_vs_redshift.pdf, id=636, 455.30101pt x 337.18498pt>
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
 ne 432.
-(pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
+(pdftex.def)             Requested size: 222.62206pt x 164.86707pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 433.
@@ -1009,7 +1006,7 @@ Underfull \hbox (badness 1789) in paragraph at lines 433--433
  []
 
 [11 <./data/o_ii_luminosity_vs_redshift.pdf>]
-<data/cube_1804_fitted.pdf, id=671, 462.52798pt x 346.89601pt>
+<data/cube_1804_fitted.pdf, id=659, 462.52798pt x 346.89601pt>
 File: data/cube_1804_fitted.pdf Graphic file (type pdf)
 <use data/cube_1804_fitted.pdf>
 Package pdftex.def Info: data/cube_1804_fitted.pdf  used on input line 446.
@@ -1020,7 +1017,7 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 447.
 See the caption package documentation for explanation.
 
-<data/oii_ppxf_vs_oii_lmfit.pdf, id=681, 462.52798pt x 346.89601pt>
+<data/oii_ppxf_vs_oii_lmfit.pdf, id=669, 462.52798pt x 346.89601pt>
 File: data/oii_ppxf_vs_oii_lmfit.pdf Graphic file (type pdf)
 <use data/oii_ppxf_vs_oii_lmfit.pdf>
 Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 462
@@ -1040,7 +1037,7 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/oii_ppxf_vs_oii_lmfit
 LaTeX Warning: Reference `fig:sn_difference' on page 13 undefined on input line
  469.
 
-<data/frac_error_vs_sn_ppxf.pdf, id=727, 462.52798pt x 346.89601pt>
+<data/frac_error_vs_sn_ppxf.pdf, id=715, 462.52798pt x 346.89601pt>
 File: data/frac_error_vs_sn_ppxf.pdf Graphic file (type pdf)
 <use data/frac_error_vs_sn_ppxf.pdf>
 Package pdftex.def Info: data/frac_error_vs_sn_ppxf.pdf  used on input line 474
@@ -1056,7 +1053,7 @@ File: data/frac_error_vs_sn_ppxf.pdf Graphic file (type pdf)
 Package pdftex.def Info: data/frac_error_vs_sn_ppxf.pdf  used on input line 481
 .
 (pdftex.def)             Requested size: 225.3436pt x 169.00658pt.
-<data/frac_error_vs_sn_lmfit.pdf, id=728, 462.52798pt x 346.89601pt>
+<data/frac_error_vs_sn_lmfit.pdf, id=716, 462.52798pt x 346.89601pt>
 File: data/frac_error_vs_sn_lmfit.pdf Graphic file (type pdf)
 <use data/frac_error_vs_sn_lmfit.pdf>
 Package pdftex.def Info: data/frac_error_vs_sn_lmfit.pdf  used on input line 48
@@ -1154,15 +1151,9 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 518.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 518.
  [15] (./stars_gas_dynamics.aux)
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 518.
+Package rerunfilecheck Info: File `stars_gas_dynamics.out' has not changed.
+(rerunfilecheck)             Checksum: 8EF59FB0A259976428394DACD89897AB;2414.
 
-
-Package rerunfilecheck Warning: File `stars_gas_dynamics.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `stars_gas_dynamics.out':
-(rerunfilecheck)             Before: 7DBCA2E79080483F1CEF98EF3894805A;2414
-(rerunfilecheck)             After:  8EF59FB0A259976428394DACD89897AB;2414.
 
 LaTeX Warning: There were undefined references.
 
@@ -1171,52 +1162,34 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 10544 strings out of 492649
- 156104 string characters out of 6129622
- 286985 words of memory out of 5000000
+ 10538 strings out of 492649
+ 156026 string characters out of 6129622
+ 286981 words of memory out of 5000000
  14178 multiletter control sequences out of 15000+600000
  10377 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,12n,44p,1249b,524s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{figure.caption.40} has been referenced but does n
-ot exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{figure.caption.32} has been referenced but does not
- exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.43} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.39} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.35} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.31} has been referenced but does not exist
-, replaced by a fixed one
-
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb>
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
-/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
-usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
-sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
-r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr
-/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
-ocal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/l
-ocal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></u
-sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
-/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/l
-ocal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loca
-l/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
-/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/t
-exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/te
-xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/tex
-live/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (15 pages, 6663176 bytes).
+</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
+b></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
+sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr
+/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><
+/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
+/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/lo
+cal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
+al/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
+/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/
+texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/t
+exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on stars_gas_dynamics.pdf (15 pages, 6742556 bytes).
 PDF statistics:
- 865 PDF objects out of 1000 (max. 8388607)
- 637 compressed objects within 7 object streams
- 104 named destinations out of 1000 (max. 500000)
+ 852 PDF objects out of 1000 (max. 8388607)
+ 626 compressed objects within 7 object streams
+ 98 named destinations out of 1000 (max. 500000)
  357 words of extra memory for PDF output out of 10000 (max. 10000000)
 

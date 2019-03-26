@@ -88,7 +88,7 @@ def graph_sn_mag(x_data, y_data, cubes_data):
     ax.set_yscale('log')
     ax.invert_xaxis()
     plt.tight_layout()
-    plt.savefig("graphs/image_sn_vs_vband.pdf")
+    plt.savefig("graphs/image_sn_vs_vband.pdf",bbox_inches="tight")
     plt.close("all")
 
 def graph_counts_mag(x_data, y_data):
