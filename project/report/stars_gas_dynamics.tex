@@ -80,30 +80,35 @@
 \titlespacing{\subsection}{0pt}{\parskip}{-\parskip}
 \titlespacing{\subsubsection}{0pt}{\parskip}{-\parskip}
 
-% removing indent from first paragraph of section  
+\usepackage{etoolbox}
+\pretocmd{\abstractname}{\newpage}{}{}
 
 %%%%% Document %%%%%
 \begin{document}                     
 
+\begin{titlepage}
 \title{The relation between stars and gas in distant galaxies} 
 \date{Submitted: \today{}}
 \author{Jacky Cao}
 \affiliation{\normalfont Level 4 Project, MPhys Physics\\ Supervisor: Dr.~Mark Swinbank\\ Department of Physics, Durham University}
 
 \begin{abstract}              
-
 Optical and spectroscopic observations of galaxies provide a way to understand the internal dynamics of the stars and gas within it. Data for the Hubble Ultra Deep Field (HUDF) from the Hubble Space Telescope and the Multi-Unit Spectroscopic Explorer (MUSE) on the VLT provides a potential sample of more than 10,000 galaxies. This data-set was reduced by considering objects with redshifts $z>0.3$ and with V-band magnitudes brighter than 25.0 mag. The $\sim30$ remaining galaxies were extracted and then analysed by fitting for different regions of the galaxy spectra. The [OII] emission feature could be separated and fitted with a Gaussian doublet to represent the gas dynamics. Applying a Penalized Pixel-Fitting method (pPXF) to the entire spectrum could quantify the stellar dynamics, however various issues were encountered in this initial research which prevented the successful operation of the fitting routine. Various tests were performed and a different spectral template library was applied in an attempt to remedy the problems. The next step in future work will be based around isolating the source of the issues and then further extending the routine to consider variations to the spectra.
-
 \end{abstract}
-
+\begin{figure}[b]
+\centering
+\includegraphics[width=0.5\textwidth]{other/durham_university}
+\end{figure}
 \maketitle
+\end{titlepage}
+
 %\thispagestyle{plain} % produces page number for front page
 
+\null\newpage
+\null\newpage
 \tableofcontents
 %\let\toc@pre\relax
 %\let\toc@post\relax
-
-\newpage
 
 \section{Introduction} 
 \subsection{Classification of galaxies}
