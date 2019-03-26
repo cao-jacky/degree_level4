@@ -350,6 +350,14 @@ def graphs():
     ax.set_ylabel(r'\textbf{MUSE Spectrum S/N}', fontsize=20)
     ax.invert_xaxis()
     ax.set_yscale('log')
+   
+    # manually setting x-tick labels to be 1 dpm
+    vband_x = np.array([28.0, 26.0, 24.0, 22.0, 20.0])
+    ax.set_xticks(vband_x) # locations of ticks
+    ax.set_xticklabels([r'\textbf{'+str(vband_x[0])+'}',
+            r'\textbf{'+str(vband_x[1])+'}',r'\textbf{'+str(vband_x[2])+'}',
+            r'\textbf{'+str(vband_x[3])+'}',r'\textbf{'+str(vband_x[4])+'}'])
+
     plt.tight_layout()
     plt.savefig("graphs/sn_vs_vband.pdf",bbox_inches="tight")
 

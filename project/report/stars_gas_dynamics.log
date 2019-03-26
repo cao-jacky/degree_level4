@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  26 MAR 2019 10:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  26 MAR 2019 10:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -962,11 +962,11 @@ File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
 Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 365.
 (pdftex.def)             Requested size: 225.3436pt x 165.71997pt.
-<data/sn_vs_vband.pdf, id=585, 455.0112pt x 335.53055pt>
+<data/sn_vs_vband.pdf, id=585, 455.16818pt x 335.53055pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
 Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 372.
-(pdftex.def)             Requested size: 225.3436pt x 166.1726pt.
+(pdftex.def)             Requested size: 225.3436pt x 166.11629pt.
 [9] [10 <./introduction/muse_colour_image.pdf, page is rotated 270 degrees> <./
 introduction/hubble_ultra_deep_field.jpg> <./data/image_sn_vs_vband.pdf> <./dat
 a/sn_vs_vband.pdf
@@ -1164,11 +1164,11 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  10538 strings out of 492649
  156026 string characters out of 6129622
- 286981 words of memory out of 5000000
+ 285981 words of memory out of 5000000
  14178 multiletter control sequences out of 15000+600000
  10377 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,12n,44p,1249b,524s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,12n,44p,1249b,528s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
 b></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
@@ -1186,10 +1186,10 @@ al/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/
 texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/t
 exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (15 pages, 6742556 bytes).
+Output written on stars_gas_dynamics.pdf (15 pages, 6742571 bytes).
 PDF statistics:
- 852 PDF objects out of 1000 (max. 8388607)
- 626 compressed objects within 7 object streams
+ 851 PDF objects out of 1000 (max. 8388607)
+ 625 compressed objects within 7 object streams
  98 named destinations out of 1000 (max. 500000)
  357 words of extra memory for PDF output out of 10000 (max. 10000000)
 
