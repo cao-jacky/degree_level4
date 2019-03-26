@@ -103,7 +103,7 @@ Optical and spectroscopic observations of galaxies provide a way to understand t
 %\let\toc@pre\relax
 %\let\toc@post\relax
 
-\clearpage
+\newpage
 
 \section{Introduction} 
 \subsection{Classification of galaxies}
@@ -196,9 +196,16 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 
 \section{Discussion}
 
-%\subsection{$\sigma_{*}$ vs. $\sigma_{OII}$ \& $V_{*}$ vs. $V_{OII}$}
-
 \subsection{Galaxy velocity dispersions}
+
+\begin{figure*}
+\includegraphics[width=1.0\linewidth]{data/cube_1804_spectra_complete}
+\captionsetup{justification=raggedright}
+\captionof{figure}[OII Luminosity vs. Redshift]{A pPXF fitting for a galaxy spectra. The galaxy data (black) and  the best-fitting model (red) were normalised in the flux to avoid numerical errors during the fitting routine. The emission (blue lines), absorption (orange lines), and iron (grey lines) features have been labelled for easier recognition. The residuals between the data and model are provided by the green scatter points below the spectra. pPXF appears to produce good fits from manipulating various stellar templates.}
+\label{fig:ppxf_spectra}
+\end{figure*}
+
+%\subsubsection{$\sigma_{*}$ vs. $\sigma_{OII}$}
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/sigma_star_vs_sigma_oii}
@@ -206,7 +213,44 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 \label{fig:velocity_dispersions}
 \end{center}
 
+\begin{figure*}
+\centering
+\begin{subfigure}[b]{0.495\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{data/ppxf_sigma_frac_error_vs_sn}
+    \label{fig:mean and std of net14}
+\end{subfigure}
+\begin{subfigure}[b]{0.495\textwidth}  
+    \centering 
+    \includegraphics[width=\textwidth]{data/lmfit_sigma_frac_error_vs_sn}
+    \label{fig:mean and std of net24}
+\end{subfigure}
+\begin{subfigure}[b]{0.495\textwidth}   
+    \centering 
+    \includegraphics[width=\textwidth]{data/ppxf_vel_frac_error_vs_sn}
+    \label{fig:mean and std of net34}
+\end{subfigure}
+\begin{subfigure}[b]{0.495\textwidth}   
+    \centering 
+    \includegraphics[width=\textwidth]{data/lmfit_vel_frac_error_vs_sn}
+    \label{fig:mean and std of net44}
+\end{subfigure}
+\captionsetup{justification=raggedright}
+	\caption[HUDF Objects]{Signal-to-noise versus the modulus difference between the optimal pPXF velocity dispersion and the values from the perturbed models. As the S/N decreases, the difference increases manifold which implies that high S/N galaxies should be used as they would have smaller fractional uncertainty.}
+  \label{fig:fractional_errors}
+\end{figure*}
+
+%\subsubsection{Old vs. new stellar types}
+
+\begin{center}
+\includegraphics[width=1.0\linewidth]{data/sigma_stars_old_vs_new}
+\captionof{figure}[Velocity Dispersions: Old and New]{---}
+\label{fig:velocity_dispersions_old_new}
+\end{center}
+
 \subsection{Galaxy velocities}
+
+%\subsubsection{$V_{*}$ vs. $V_{OII}$}
 
 \begin{center}
 \includegraphics[width=1.0\linewidth]{data/vel_star_vs_vel_oii}
@@ -214,7 +258,7 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 \label{fig:velocities}
 \end{center}
 
-\subsection{Voronoi}
+\subsection{Voronoi tesselation}
 
 \subsection{Results}
 
@@ -410,19 +454,17 @@ The final object list from SExtractor were compared and merged with a catalogue 
 \begin{figure*}
   \begin{subfigure}[b]{0.495\textwidth}
     \includegraphics[width=\textwidth]{data/image_sn_vs_vband}
-    \captionsetup{justification=justified}
-    %\caption{Image S/N vs. V-band}
     \label{fig:image_sn_vband}
   \end{subfigure}
   %
   \begin{subfigure}[b]{0.495\textwidth}
     \includegraphics[width=\textwidth]{data/sn_vs_vband}
-    \captionsetup{justification=justified}    
-    %\caption{Spectroscopic S/N vs. V-band}
     \label{fig:spec_sn_vband}
   \end{subfigure}
   \captionsetup{justification=raggedright}
-  \caption[HUDF Objects]{Signal-to-noise (S/N) versus V-band magnitude plots for the MUSE galaxy objects. The V-band magnitudes are from the HST catalogue. (a) S/N is from the collapsed MUSE cube image. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 as defined by the SExtractor probability that they are not stars. (b) S/N used here is from the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra. Objects in this sample are those defined as the ``green points'' in Figure \ref{fig:sn_vband}(a).}
+  \caption[HUDF Objects]{Left hand panel: .
+  
+  Signal-to-noise (S/N) versus V-band magnitude plots for the MUSE galaxy objects. The V-band magnitudes are from the HST catalogue. (a) S/N is from the collapsed MUSE cube image. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 as defined by the SExtractor probability that they are not stars. (b) S/N used here is from the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra. Objects in this sample are those defined as the ``green points'' in Figure \ref{fig:sn_vband}(a).}
   \label{fig:sn_vband}
 \end{figure*}
 
@@ -489,13 +531,6 @@ An estimate of the redshift can be obtained from the previous [OII] doublet mode
 
 % place somewhere what the "widths" are the same as the standard deviations or "sigmas"
 
-\begin{figure*}
-\includegraphics[width=1.0\linewidth]{data/cube_1804_spectra_complete}
-\captionsetup{justification=raggedright}
-\captionof{figure}[OII Luminosity vs. Redshift]{A pPXF fitting for a galaxy spectra. The galaxy data (black) and  the best-fitting model (red) were normalised in the flux to avoid numerical errors during the fitting routine. The emission (blue lines), absorption (orange lines), and iron (grey lines) features have been labelled for easier recognition. The residuals between the data and model are provided by the green scatter points below the spectra. pPXF appears to produce good fits from manipulating various stellar templates.}
-\label{fig:ppxf_spectra}
-\end{figure*}
-
 Whilst it may seem trivial to configure these values, the results obtained have not been logical. Using pPXF to estimate the gas population of a galaxy, an additional value can be obtained for the width of the [OII] doublet. This therefore allows us to plot both against each other where one should find a 1-to-1 positive linear trend. What is found instead is that both are not correlated (Figure \ref{fig:oii_widths}) which is a non-sensical result. 
 
 In an attempt to remedy this issue, several options were explored. The first of which was to artificially create the [OII] feature with a known width and then apply pPXF, the output of this test resulted in yet again a meaningless result. It was then decided that the template spectra being used in the routine were not high enough spectral resolution, ideally one would use a set which has a greater value than the resolution of the MUSE data. 
@@ -517,25 +552,6 @@ The Coud{\'e} library has yet to be fully tested as other limitations of pPXF we
 Another synthetic test of pPXF was performed where 10 galaxy spectra were each perturbed 300 times. Random Gaussian noise was added sequentially until the spectra were unrecognisable. During each perturbation the spectra was passed to pPXF and all associated outputs were saved and recorded. This allowed for the S/N to be plotted against the modulus difference between the original optimal line width and the values from the perturbation (Figure \ref{fig:sn_difference}). One finds that as the S/N decreases, the difference (or fractional error) increases dramatically. This is attributed to the fact that there would not be enough resolution for emission or absorption features to be discerned. It can be seen then that one must use data with a high enough S/N for pPXF to be above this high error zone.
 
 % Provide values for the instrumental and template resolutions?
-
-\begin{figure*}
-  \begin{subfigure}[b]{0.495\textwidth}
-    \includegraphics[width=\textwidth]{data/frac_error_vs_sn_ppxf}
-    \captionsetup{justification=justified}
-    \caption{pPXF fractional error}
-    \label{fig:image_sn_vband}
-  \end{subfigure}
-  %
-  \begin{subfigure}[b]{0.495\textwidth}
-    \includegraphics[width=\textwidth]{data/frac_error_vs_sn_lmfit}
-    \captionsetup{justification=justified}    
-    \caption{[OII] fractional error}
-    \label{fig:spec_sn_vband}
-  \end{subfigure}
-  \captionsetup{justification=raggedright}
-  \caption[HUDF Objects]{Signal-to-noise versus the modulus difference between the optimal pPXF velocity dispersion and the values from the perturbed models. As the S/N decreases, the difference increases manifold which implies that high S/N galaxies should be used as they would have smaller fractional uncertainty.}
-  \label{fig:sn_vband}
-\end{figure*}
 
 Whilst it can be understood what type of data should be passed to the pPXF routine, the routine itself still needs more unravelling if accurate and precise results are wanted in the comparisons of gas and stellar dynamics in galaxies.
 

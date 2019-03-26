@@ -104,7 +104,7 @@ def data_cube_analyser(cube_id):
 
     sky_noise = sky_noise_cut()
 
-    # let's cut out the region of the O[II] doublet to around where I think the 
+    # let's cut out the region of the [OII] doublet to around where I think the 
     # absorption lines end
     abs_region = [5300, 6300]
     abs_region_indexes = [find_nearest(cube_x_data, x) for x in abs_region]
@@ -418,7 +418,7 @@ def graphs():
     oii_flux = oii_flux * (10**(-20)) # 10**-20 Angstrom-1 cm-2 erg s-1
     oii_flux = oii_flux / (10**(-10) * 10**(-4))
     
-    # O[II] FLUX VS. GALAXY COLOUR
+    # [OII] FLUX VS. GALAXY COLOUR
     fig, ax = plt.subplots()
     ax.scatter(usable_cubes_no_oii[:,7], oii_flux, s=7, color="#000000")
 
@@ -429,15 +429,15 @@ def graphs():
     #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)       
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{Galaxy Colour (B-I)}', fontsize=20)
-    ax.set_ylabel(r'\textbf{O[II] Flux}', fontsize=20)
+    ax.set_ylabel(r'\textbf{[OII] Flux}', fontsize=20)
     plt.tight_layout()
     plt.savefig("graphs/oii_flux_vs_colour.pdf",bbox_inches="tight")
     plt.close("all")
 
-    # O[II] VELOCITY DISPERSION VS. STELLAR MAG
+    # [OII] VELOCITY DISPERSION VS. STELLAR MAG
 
 
-    # REDSHIFT DISTRIBUTION OF O[II] EMITTERS 
+    # REDSHIFT DISTRIBUTION OF [OII] EMITTERS 
     fig, ax = plt.subplots()
     
     ax.hist(usable_cubes_no_oii[:,13], facecolor="#000000")
@@ -469,7 +469,7 @@ def graphs():
   
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{Redshift}', fontsize=20)
-    ax.set_ylabel(r'\textbf{O[II] Luminosity}', fontsize=20)
+    ax.set_ylabel(r'\textbf{[OII] Luminosity}', fontsize=20)
     ax.set_yscale('log')
     ax.set_xlim([0.2, 1.5])
     ax.set_ylim((0.007*10**51,1.7*10**51))

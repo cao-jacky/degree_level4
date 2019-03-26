@@ -633,6 +633,8 @@ def sigma_stars_old_vs_new():
 
     fig, ax = plt.subplots()
 
+    cube_ignore = np.array([849,895,765,554])
+
     for i in range(len(cube_ids)):
         cube_id = cube_ids[i]
 
@@ -645,31 +647,30 @@ def sigma_stars_old_vs_new():
 
         gq_val.append(cns/cos)
 
-        ax.errorbar(cns, cos, xerr=cnse, yerr=cose, 
-                color="#000000", fmt="o", ms=4.5, elinewidth=1.0, 
-                capsize=5, capthick=1.0, zorder=0)
-        ax.annotate(str(int(cube_id)), (cns, cos))
+        if cube_id not in cube_ignore:
+            ax.errorbar(cns, cos, xerr=cnse, yerr=cose, 
+                    color="#000000", fmt="o", ms=7, elinewidth=1.0, 
+                    capsize=5, capthick=1.0, zorder=0)
+            #ax.annotate(str(int(cube_id)), (cns, cos))
 
-    ax.tick_params(labelsize=15)
-    ax.set_ylabel(r'\textbf{$\sigma_{*-old}$ (kms$^{-1}$)}', fontsize=15)
-    ax.set_xlabel(r'\textbf{$\sigma_{*-new}$ (kms$^{-1}$)}', fontsize=15)
+    ax.tick_params(labelsize=20)
+    ax.set_ylabel(r'\textbf{$\sigma_{*-old}$ (kms$^{-1}$)}', fontsize=20)
+    ax.set_xlabel(r'\textbf{$\sigma_{*-new}$ (kms$^{-1}$)}', fontsize=20)
 
     ax.set_xlim([0,600]) 
     ax.set_ylim([0,600])
 
-    ax.set_title(r"\textbf{(3500Å to 4200Å) vs. (4000Å to 4500Å)}")
+    #ax.set_title(r"\textbf{(3500Å to 4200Å) vs. (4000Å to 4500Å)}")
 
     # plot 1:1 line
     f_xd = np.linspace(0,750,750)
     ax.plot(f_xd, f_xd, lw=1.5, color="#000000", alpha=0.3)
 
-    ax.annotate("median y/x val: "+str(np.median(gq_val)), (125,10))
+    #ax.annotate("median y/x val: "+str(np.median(gq_val)), (125,10))
 
     fig.tight_layout()
-    fig.savefig("graphs/sigma_stars_old_vs_new.pdf")
+    fig.savefig("graphs/sigma_stars_old_vs_new.pdf",bbox_inches="tight")
     plt.close("all") 
-
-
 
 if __name__ == '__main__':
     #chi_squared_cal(1804)
@@ -684,10 +685,10 @@ if __name__ == '__main__':
 
     #testing_ranges()
 
-    vel_stars_vs_vel_oii()
+    #vel_stars_vs_vel_oii()
     
-    sigma_ranker()
+    #sigma_ranker()
 
     #sigma_old_vs_new()
 
-    #sigma_stars_old_vs_new()
+    sigma_stars_old_vs_new()

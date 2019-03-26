@@ -51,15 +51,16 @@ def ppxf_graphs():
         np.save("uncert_ppxf/vel_curve_best_values_ppxf", np.array([curve_bp['a']]))     
         
         plt.plot(xd[idx], curve_bf, c="#d32f2f", lw=2, alpha=1.0)
-        
+       
+        plt.xlim([0,10])
         plt.ylim([10**(-4.4),10**(-2.9)])
         plt.yscale('log')
         plt.tick_params(labelsize=20)
         plt.xlabel(r'\textbf{S/N}', fontsize=20)
-        plt.ylabel(r'\textbf{${|\Delta V|}/{V_{best}}$}', fontsize=20)
+        plt.ylabel(r'\textbf{Stellar ${|\Delta V|}/{V_{best}}$}', fontsize=20)
 
         plt.tight_layout()
-        plt.savefig("uncert_ppxf/vel_frac_error_vs_sn.pdf")
+        plt.savefig("uncert_ppxf/ppxf_vel_frac_error_vs_sn.pdf",bbox_inches="tight")
         plt.close("all")
 
     sn_vs_frac_error()
@@ -109,15 +110,15 @@ def lmfit_graphs():
         gen_yd = sigma_uncertainties.curve(gen_xd, curve_bp['a'])
         plt.plot(gen_xd, gen_yd, c="#d32f2f", lw=2.0, alpha=1.0)
 
-        #plt.xlim([0,10])
-        plt.ylim([10**(-5.3),10**(-2.3)])
+        plt.xlim([0,10])
+        plt.ylim([10**(-4),10**(-2.3)])
         plt.yscale('log')
         plt.tick_params(labelsize=20)
         plt.xlabel(r'\textbf{S/N}', fontsize=20)
-        plt.ylabel(r'\textbf{${|\Delta V|}/{V_{best}}$}', fontsize=20)
+        plt.ylabel(r'\textbf{[OII] ${|\Delta V|}/{V_{best}}$}', fontsize=20)
 
         plt.tight_layout()
-        plt.savefig("uncert_lmfit/vel_frac_error_vs_sn.pdf")
+        plt.savefig("uncert_lmfit/lmfit_vel_frac_error_vs_sn.pdf",bbox_inches="tight")
         plt.close("all")
 
     frac_error_vs_sn()

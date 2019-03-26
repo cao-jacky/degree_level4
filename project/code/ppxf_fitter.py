@@ -136,7 +136,7 @@ def ppxf_cube_auto():
         [3800, 4000],
         [4000, 4500]
         ])
-    ranges = np.array([])
+    #ranges = np.array([])
 
     np.save("data/ppxf_fitting_ranges", ranges)
 
