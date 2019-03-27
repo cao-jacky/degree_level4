@@ -190,9 +190,7 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 \begin{figure*}
 \includegraphics[width=1.0\linewidth]{introduction/hudf_frame.pdf}
 \captionsetup{justification=raggedright}
-\caption[Hubble Ultra Deep Field]{Left panel: 
-
-(a) A colour image created from the MUSE spectroscopic data of the HUDF. The spectra wavelength range was split into three equal regions and then collapsed to create three colour bands (R, G, B). A final colour image was produced by combining these separate frames together. (b) The optical HUDF as captured by the Advanced Camera for Surveys instrument on the Hubble Space Telescope \citep{hudf_image}. }
+\caption[Hubble Ultra Deep Field]{Left panel: (a) A colour image created from the MUSE spectroscopic data of the HUDF. The spectra wavelength range was split into three equal regions and then collapsed to create three colour bands (R, G, B). A final colour image was produced by combining these separate frames together. (b) The optical HUDF as captured by the Advanced Camera for Surveys instrument on the Hubble Space Telescope \citep{hudf_image}. }
 \label{fig:hst_muse_hdf}
 \end{figure*}
 
@@ -250,32 +248,28 @@ for such as N-body interactions in large-scale galaxy cluster structures or
     \label{fig:spec_sn_vband}
   \end{subfigure}
   \captionsetup{justification=raggedright}
-  \caption[HUDF Objects]{Left hand panel: .
-  
-  Signal-to-noise (S/N) versus V-band magnitude plots for the MUSE galaxy objects. The V-band magnitudes are from the HST catalogue. (a) S/N is from the collapsed MUSE cube image. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 as defined by the SExtractor probability that they are not stars. (b) S/N used here is from the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra. Objects in this sample are those defined as the ``green points'' in Figure \ref{fig:sn_vband}(a).}
+  \caption[HUDF Objects]{Left hand panel: . Signal-to-noise (S/N) versus V-band magnitude plots for the MUSE galaxy objects. The V-band magnitudes are from the HST catalogue. (a) S/N is from the collapsed MUSE cube image. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 as defined by the SExtractor probability that they are not stars. (b) S/N used here is from the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra. Objects in this sample are those defined as the ``green points'' in Figure \ref{fig:sn_vband}(a).}
 \label{fig:sn_vband}
 \end{figure*}
-
 
 \subsection{MUSE HUDF}
 \noindent
 
 After performing the sample reduction methods the final objects shown as \textit{Usable} in Figure \ref{fig:sn_vband} can be found in Table [reference].
 
-\begin{table*}[t]
+\begin{sidewaysfigure*}
 \begin{center}
-\begin{tabular}{c@{\hskip 20pt}c} 
+\begin{tabular}{c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c} 
  \hline
- \textbf{Cube ID} & \textbf{HST ID} \\ [0.5ex] 
- C1804 & Hot blue-white (HeII, HeI) \\
+ \textbf{Cube ID} & \textbf{RAF ID} & \textbf{RA (deg)} & \textbf{Dec. (deg)} & \textbf{HST F606W mag.} & \textbf{$\boldsymbol{z}$} & \textbf{$\boldsymbol{V_*}$ (km s$^{-1}$)} & \textbf{$\boldsymbol{\sigma_*}$ (km s$^{-1}$)} & \textbf{$\boldsymbol{V_{OII}}$ (km s$^{-1}$)} & \textbf{$\boldsymbol{\sigma_{OII}}$ (km s$^{-1}$)} \\ [0.5ex] 
+ C1804 & 24420 & 53.1783773 & -27.7682444Z & $21.4864\pm0.0008$ & 0.66849 & 11 & 11 \\
  \hline
 \end{tabular}
 \captionsetup{justification=raggedright}
-\captionof{table}[Harvard Spectral Classification]{The Harvard Spectral Classification for stellar objects. Stars are defined by their colour and from the features seen from their spectra. Provided in the table are the spectral type, the associated colour plus the main emission or absorption lines to consider. \\
-(\textit{Table adapted from An Introduction to Modern Astrophysics by \cite{carroll_astro}}.)}
+\captionof{table}[Harvard Spectral Classification]{The Harvard Spectral Classification for stellar objects. Stars are defined by their colour and from the features seen from their spectra. Provided in the table are the spectral type, the associated colour plus the main emission or absorption lines to consider.}
 \label{table:final_sample}
 \end{center}
-\end{table*}
+\end{sidewaysfigure*}
 
 
 \section{Discussion}
@@ -320,7 +314,7 @@ After performing the sample reduction methods the final objects shown as \textit
     \label{fig:mean and std of net44}
 \end{subfigure}
 \captionsetup{justification=raggedright}
-	\caption[HUDF Objects]{Signal-to-noise versus the modulus difference between the optimal pPXF velocity dispersion and the values from the perturbed models. As the S/N decreases, the difference increases manifold which implies that high S/N galaxies should be used as they would have smaller fractional uncertainty.}
+\caption[HUDF Objects]{Signal-to-noise versus the modulus difference between the optimal pPXF velocity dispersion and the values from the perturbed models. As the S/N decreases, the difference increases manifold which implies that high S/N galaxies should be used as they would have smaller fractional uncertainty.}
   \label{fig:fractional_errors}
 \end{figure*}
 

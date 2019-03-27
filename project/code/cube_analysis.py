@@ -348,6 +348,8 @@ def graphs():
     fig, ax = plt.subplots()
     #ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=20, color="#000000")
      
+    usable_counter = 0 
+
     # plotting the usable cubes
     for i in range(len(usable_cubes[:,0])):
         curr_cube = int(usable_cubes[:,0][i]) 
@@ -359,9 +361,13 @@ def graphs():
             ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
                     color="#ffa000", alpha=1.0, marker="x") 
         if curr_cube not in unusable_cubes['ac']:
+            print(curr_cube)
             ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
                     color="#00c853", alpha=1.0, marker="o", zorder=3, 
                     label=r'\textbf{Usable}')
+            usable_counter += 1
+
+    print("final number: " + str(usable_counter))
 
     #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)       
     ax.tick_params(labelsize=20)

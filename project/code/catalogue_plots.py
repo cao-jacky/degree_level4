@@ -57,6 +57,7 @@ def graph_sn_mag(x_data, y_data, cubes_data):
     ax.scatter(small_redshift[:,5], sr_sn, s=20, color="#d50000", alpha=0.4, 
             label=r'$z<0.3$')
 
+    usable_counter = 0
     # plotting the usable cubes
     for i in range(len(catalogue[:,0])):
         curr_cube = int(catalogue[:,0][i]) 
@@ -67,8 +68,12 @@ def graph_sn_mag(x_data, y_data, cubes_data):
             ax.scatter(catalogue[:,5][i], cat_sn[i], s=20, color="#ffa000", alpha=0.5,
                     marker="x") 
         if curr_cube not in unusable_cubes['ac']:
+            print(curr_cube)
             ax.scatter(catalogue[:,5][i], cat_sn[i], s=20, color="#00c853", alpha=0.5,
                     marker="o", zorder=3, label=r'\textbf{Usable}')
+            usable_counter += 1
+
+    print("final number: " + str(usable_counter))
 
     cube_ids = catalogue[:,0]
     for i, txt in enumerate(cube_ids):
