@@ -348,8 +348,6 @@ def graphs():
     # S/N VS. V-BAND MAG
     fig, ax = plt.subplots()
     #ax.scatter(usable_cubes[:,1], usable_cubes[:,4], s=20, color="#000000")
-     
-    usable_counter = 0 
 
     # plotting the usable cubes
     for i in range(len(usable_cubes[:,0])):
@@ -361,14 +359,14 @@ def graphs():
         if curr_cube in unusable_cubes['ga']:
             ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
                     color="#ffa000", alpha=1.0, marker="x") 
-        if curr_cube not in unusable_cubes['ac']:
-            cube_data.data_obtainer(curr_cube)
+        if curr_cube not in unusable_cubes['ac'] and usable_cubes[:,1][i] < 25.0:
+            cube_data.data_obtainer(curr_cube) # creating LaTeX prepared table entry
             ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
                     color="#00c853", alpha=1.0, marker="o", zorder=3, 
                     label=r'\textbf{Usable}')
-            usable_counter += 1
 
-    print("final number: " + str(usable_counter))
+    ax.fill_between(np.linspace(25,28,100), 0, 100, alpha=0.2, zorder=0, 
+            facecolor="#ffcdd2")
 
     #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)       
     ax.tick_params(labelsize=20)
@@ -377,6 +375,7 @@ def graphs():
     ax.invert_xaxis()
     ax.set_yscale('log')
     ax.set_ylim([0.9, 100])
+    ax.set_xlim([28,20])
    
     # manually setting x-tick labels to be 1 dpm
     vband_x = np.array([28.0, 26.0, 24.0, 22.0, 20.0])

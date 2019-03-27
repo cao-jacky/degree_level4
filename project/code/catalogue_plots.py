@@ -57,7 +57,6 @@ def graph_sn_mag(x_data, y_data, cubes_data):
     ax.scatter(small_redshift[:,5], sr_sn, s=20, color="#d50000", alpha=0.4, 
             label=r'$z<0.3$')
 
-    usable_counter = 0
     # plotting the usable cubes
     for i in range(len(catalogue[:,0])):
         curr_cube = int(catalogue[:,0][i]) 
@@ -67,20 +66,18 @@ def graph_sn_mag(x_data, y_data, cubes_data):
         if curr_cube in unusable_cubes['ga']:
             ax.scatter(catalogue[:,5][i], cat_sn[i], s=20, color="#ffa000", alpha=0.5,
                     marker="x") 
-        if curr_cube not in unusable_cubes['ac']:
-            print(curr_cube)
+        if curr_cube not in unusable_cubes['ac'] and catalogue[:,5][i] < 25.0:
             ax.scatter(catalogue[:,5][i], cat_sn[i], s=20, color="#00c853", alpha=0.5,
                     marker="o", zorder=3, label=r'\textbf{Usable}')
-            usable_counter += 1
-
-    print("final number: " + str(usable_counter))
 
     cube_ids = catalogue[:,0]
     for i, txt in enumerate(cube_ids):
         pass
         #ax.annotate(int(txt), (catalogue[:,5][i], cat_sn[i]), alpha=0.2)
 
-    ax.set_ylim([0.7,100])
+    ax.fill_between(np.linspace(25,31,100), 0, 100, alpha=0.2, zorder=0, 
+            facecolor="#ffcdd2")
+ 
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=20)
     ax.set_ylabel(r'\textbf{MUSE Image Flux S/N}', fontsize=20)
@@ -92,6 +89,10 @@ def graph_sn_mag(x_data, y_data, cubes_data):
 
     ax.set_yscale('log')
     ax.invert_xaxis()
+
+    ax.set_ylim([0.7,100])
+    ax.set_xlim([31,19])
+
     plt.tight_layout()
     plt.savefig("graphs/image_sn_vs_vband.pdf",bbox_inches="tight")
     plt.close("all")
