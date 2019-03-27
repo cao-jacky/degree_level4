@@ -27,7 +27,8 @@ def lmfit_data(cube_id):
             curr_line = crf_line.split()
             z = float(curr_line[1])
             err_z = float(curr_line[4].isdigit())
-            err_z_alt = float(curr_line[3])
+            #err_z_alt = float(curr_line[3])
+            err_z_alt = err_z
         if (line_count == 21):
             curr_line = crf_line.split()
             sigma_inst = float(curr_line[1])

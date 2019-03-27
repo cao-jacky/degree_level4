@@ -362,7 +362,7 @@ def graphs():
             ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
                     color="#ffa000", alpha=1.0, marker="x") 
         if curr_cube not in unusable_cubes['ac']:
-            print(curr_cube)
+            cube_data.data_obtainer(curr_cube)
             ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
                     color="#00c853", alpha=1.0, marker="o", zorder=3, 
                     label=r'\textbf{Usable}')
