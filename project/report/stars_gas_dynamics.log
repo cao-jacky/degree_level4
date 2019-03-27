@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  27 MAR 2019 15:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  27 MAR 2019 16:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -603,18 +603,8 @@ Package pdftex.def Info: other/durham_university.pdf  used on input line 100.
 (pdftex.def)             Requested size: 227.62206pt x 134.29042pt.
  [1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./ot
 her/durham_university.pdf>] (./stars_gas_dynamics.toc
-Overfull \hbox (10.0pt too wide) detected at line 3
- \OT1/cmr/bx/n/12 1.
- []
-
-
 Overfull \hbox (0.87494pt too wide) detected at line 3
  \OT1/cmr/m/n/12 2
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 4
- \OT1/cmr/m/n/12 1.1.
  []
 
 
@@ -623,28 +613,13 @@ Overfull \hbox (0.87494pt too wide) detected at line 4
  []
 
 
-Overfull \hbox (17.77759pt too wide) detected at line 5
- \OT1/cmr/m/n/12 1.2.
- []
-
-
 Overfull \hbox (0.87494pt too wide) detected at line 5
- \OT1/cmr/m/n/12 2
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 6
- \OT1/cmr/m/n/12 1.2.1.
+ \OT1/cmr/m/n/12 3
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 6
- \OT1/cmr/m/n/12 2
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 7
- \OT1/cmr/m/n/12 1.2.2.
+ \OT1/cmr/m/n/12 3
  []
 
 
@@ -653,18 +628,8 @@ Overfull \hbox (0.87494pt too wide) detected at line 7
  []
 
 
-Overfull \hbox (17.77759pt too wide) detected at line 8
- \OT1/cmr/m/n/12 1.3.
- []
-
-
 Overfull \hbox (0.87494pt too wide) detected at line 8
  \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 9
- \OT1/cmr/m/n/12 1.3.1.
  []
 
 
@@ -673,208 +638,103 @@ Overfull \hbox (0.87494pt too wide) detected at line 9
  []
 
 
-Overfull \hbox (26.91638pt too wide) detected at line 10
- \OT1/cmr/m/n/12 1.3.2.
- []
-
-
 Overfull \hbox (0.87494pt too wide) detected at line 10
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 11
- \OT1/cmr/m/n/12 1.3.3.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 11
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 12
- \OT1/cmr/m/n/12 1.3.4.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 12
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 13
- \OT1/cmr/m/n/12 1.4.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 13
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 14
- \OT1/cmr/m/n/12 1.4.1.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 14
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 15
- \OT1/cmr/m/n/12 1.4.2.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 15
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 16
- \OT1/cmr/m/n/12 1.4.3.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 16
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 17
- \OT1/cmr/m/n/12 1.5.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 17
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (10.0pt too wide) detected at line 18
- \OT1/cmr/bx/n/12 2.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 18
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 19
- \OT1/cmr/m/n/12 2.1.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 19
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 20
- \OT1/cmr/m/n/12 2.2.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 20
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (10.0pt too wide) detected at line 21
- \OT1/cmr/bx/n/12 3.
+ \OT1/cmr/m/n/12 5
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 21
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 22
- \OT1/cmr/m/n/12 3.1.
+ \OT1/cmr/m/n/12 6
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 22
- \OT1/cmr/m/n/12 4
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 23
- \OT1/cmr/m/n/12 3.2.
+ \OT1/cmr/m/n/12 6
  []
 
 
 Overfull \hbox (0.87494pt too wide) detected at line 23
- \OT1/cmr/m/n/12 5
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 24
- \OT1/cmr/m/n/12 3.3.
- []
-
-
-Overfull \hbox (0.87494pt too wide) detected at line 24
- \OT1/cmr/m/n/12 5
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 25
- \OT1/cmr/m/n/12 3.4.
- []
-
-
-Overfull \hbox (0.87494pt too wide) detected at line 25
- \OT1/cmr/m/n/12 5
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 26
- \OT1/cmr/m/n/12 3.5.
- []
-
-
-Overfull \hbox (0.87494pt too wide) detected at line 26
  \OT1/cmr/m/n/12 7
  []
 
 
-Overfull \hbox (17.77759pt too wide) detected at line 27
- \OT1/cmr/m/n/12 3.6.
+Overfull \hbox (0.87494pt too wide) detected at line 24
+ \OT1/cmr/m/n/12 7
  []
 
 
-Overfull \hbox (0.87494pt too wide) detected at line 27
+Overfull \hbox (0.87494pt too wide) detected at line 25
+ \OT1/cmr/m/n/12 7
+ []
+
+
+Overfull \hbox (0.87494pt too wide) detected at line 26
  \OT1/cmr/m/n/12 9
  []
 
 
-Overfull \hbox (17.77759pt too wide) detected at line 28
- \OT1/cmr/m/n/12 3.7.
+Overfull \hbox (6.74988pt too wide) detected at line 27
+ \OT1/cmr/m/n/12 12
  []
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 28
- \OT1/cmr/m/n/12 12
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 29
- \OT1/cmr/m/n/12 3.7.1.
+ \OT1/cmr/m/n/12 13
  []
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 29
- \OT1/cmr/m/n/12 12
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 30
- \OT1/cmr/m/n/12 3.7.2.
+ \OT1/cmr/m/n/12 13
  []
 
 
@@ -883,38 +743,18 @@ Overfull \hbox (6.74988pt too wide) detected at line 30
  []
 
 
-Overfull \hbox (17.77759pt too wide) detected at line 31
- \OT1/cmr/m/n/12 3.8.
- []
-
-
 Overfull \hbox (6.74988pt too wide) detected at line 31
- \OT1/cmr/m/n/12 13
- []
-
-
-Overfull \hbox (10.0pt too wide) detected at line 32
- \OT1/cmr/bx/n/12 4.
+ \OT1/cmr/m/n/12 14
  []
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 32
- \OT1/cmr/m/n/12 13
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 33
- \OT1/cmr/m/n/12 4.1.
+ \OT1/cmr/m/n/12 14
  []
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 33
- \OT1/cmr/m/n/12 13
- []
-
-
-Overfull \hbox (17.77759pt too wide) detected at line 34
- \OT1/cmr/m/n/12 4.2.
+ \OT1/cmr/m/n/12 14
  []
 
 
@@ -923,33 +763,18 @@ Overfull \hbox (6.74988pt too wide) detected at line 34
  []
 
 
-Overfull \hbox (26.91638pt too wide) detected at line 35
- \OT1/cmr/m/n/12 4.2.1.
- []
-
-
 Overfull \hbox (6.74988pt too wide) detected at line 35
- \OT1/cmr/m/n/12 14
- []
-
-
-Overfull \hbox (26.91638pt too wide) detected at line 36
- \OT1/cmr/m/n/12 4.2.2.
+ \OT1/cmr/m/n/12 15
  []
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 36
- \OT1/cmr/m/n/12 14
- []
-
-
-Overfull \hbox (10.0pt too wide) detected at line 37
- \OT1/cmr/bx/n/12 5.
+ \OT1/cmr/m/n/12 15
  []
 
 
 Overfull \hbox (6.74988pt too wide) detected at line 37
- \OT1/cmr/m/n/12 16
+ \OT1/cmr/m/n/12 17
  []
 
 )
@@ -989,7 +814,7 @@ Underfull \hbox (badness 1521) in paragraph at lines 141--142
  []
 
 [3 <./introduction/hubble-tuning-fork-diagram.jpg>]
-<introduction/romanowsky_2012_fig_3.pdf, id=244, 276.03125pt x 276.03125pt>
+<introduction/romanowsky_2012_fig_3.pdf, id=246, 276.03125pt x 276.03125pt>
 File: introduction/romanowsky_2012_fig_3.pdf Graphic file (type pdf)
 <use introduction/romanowsky_2012_fig_3.pdf>
 Package pdftex.def Info: introduction/romanowsky_2012_fig_3.pdf  used on input 
@@ -1007,7 +832,7 @@ Underfull \hbox (badness 1092) in paragraph at lines 167--167
 manowsky
  []
 
-<introduction/hudf_frame.pdf, id=249, 795.97375pt x 393.47pt>
+<introduction/hudf_frame.pdf, id=251, 795.97375pt x 393.47pt>
 File: introduction/hudf_frame.pdf Graphic file (type pdf)
 <use introduction/hudf_frame.pdf>
 Package pdftex.def Info: introduction/hudf_frame.pdf  used on input line 191.
@@ -1017,24 +842,25 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 220.
 See the caption package documentation for explanation.
 
-<introduction/spectral_types.pdf, id=258, 971.82426pt x 1126.3364pt>
+[4 <./introduction/romanowsky_2012_fig_3.pdf>]
+<introduction/spectral_types.pdf, id=281, 971.82426pt x 1126.3364pt>
 File: introduction/spectral_types.pdf Graphic file (type pdf)
 <use introduction/spectral_types.pdf>
 Package pdftex.def Info: introduction/spectral_types.pdf  used on input line 22
 5.
 (pdftex.def)             Requested size: 455.24411pt x 527.62517pt.
-<data/image_sn_vs_vband.pdf, id=259, 456.28467pt x 335.5574pt>
+<data/image_sn_vs_vband.pdf, id=282, 456.28467pt x 335.5574pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
 Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 242.
 (pdftex.def)             Requested size: 225.3436pt x 165.71997pt.
-<data/sn_vs_vband.pdf, id=260, 455.11713pt x 335.5574pt>
+<data/sn_vs_vband.pdf, id=283, 455.11713pt x 335.5574pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
 Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 247.
 (pdftex.def)             Requested size: 225.3436pt x 166.14494pt.
-[4 <./introduction/romanowsky_2012_fig_3.pdf>]
-Overfull \hbox (18.22998pt too wide) in paragraph at lines 262--269
+
+Overfull \hbox (17.99506pt too wide) in paragraph at lines 262--269
  []$ 
  []
 
@@ -1055,81 +881,89 @@ Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 290.
 See the caption package documentation for explanation.
 
-<data/ppxf_sigma_frac_error_vs_sn.pdf, id=289, 455.30101pt x 338.91882pt>
+[5 <./introduction/hudf_frame.pdf>]
+<data/ppxf_sigma_frac_error_vs_sn.pdf, id=318, 455.30101pt x 338.91882pt>
 File: data/ppxf_sigma_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/ppxf_sigma_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/ppxf_sigma_frac_error_vs_sn.pdf  used on input li
 ne 298.
 (pdftex.def)             Requested size: 225.3436pt x 167.74205pt.
-<data/lmfit_sigma_frac_error_vs_sn.pdf, id=290, 455.30101pt x 337.29124pt>
+<data/lmfit_sigma_frac_error_vs_sn.pdf, id=319, 455.30101pt x 337.29124pt>
 File: data/lmfit_sigma_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/lmfit_sigma_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/lmfit_sigma_frac_error_vs_sn.pdf  used on input l
 ine 303.
 (pdftex.def)             Requested size: 225.3436pt x 166.93651pt.
-<data/ppxf_vel_frac_error_vs_sn.pdf, id=291, 455.30101pt x 338.91882pt>
+<data/ppxf_vel_frac_error_vs_sn.pdf, id=320, 455.30101pt x 338.91882pt>
 File: data/ppxf_vel_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/ppxf_vel_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/ppxf_vel_frac_error_vs_sn.pdf  used on input line
  308.
 (pdftex.def)             Requested size: 225.3436pt x 167.74205pt.
-<data/lmfit_vel_frac_error_vs_sn.pdf, id=292, 455.30101pt x 338.91882pt>
+<data/lmfit_vel_frac_error_vs_sn.pdf, id=321, 455.30101pt x 338.91882pt>
 File: data/lmfit_vel_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/lmfit_vel_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/lmfit_vel_frac_error_vs_sn.pdf  used on input lin
 e 313.
 (pdftex.def)             Requested size: 225.3436pt x 167.74205pt.
-<data/sigma_stars_old_vs_new.pdf, id=293, 455.30101pt x 337.29124pt>
+<data/sigma_stars_old_vs_new.pdf, id=322, 455.30101pt x 337.29124pt>
 File: data/sigma_stars_old_vs_new.pdf Graphic file (type pdf)
 <use data/sigma_stars_old_vs_new.pdf>
 Package pdftex.def Info: data/sigma_stars_old_vs_new.pdf  used on input line 32
 4.
 (pdftex.def)             Requested size: 222.62206pt x 164.91902pt.
 
+
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 325.
 See the caption package documentation for explanation.
 
-<data/vel_star_vs_vel_oii.pdf, id=294, 456.28467pt x 340.03171pt>
+[6 <./introduction/spectral_types.pdf> <./data/sigma_star_vs_sigma_oii.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sigma_star_vs_sigma_o
+ii.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+
+>]
+<data/vel_star_vs_vel_oii.pdf, id=363, 456.28467pt x 340.03171pt>
 File: data/vel_star_vs_vel_oii.pdf Graphic file (type pdf)
 <use data/vel_star_vs_vel_oii.pdf>
 Package pdftex.def Info: data/vel_star_vs_vel_oii.pdf  used on input line 334.
 (pdftex.def)             Requested size: 222.62206pt x 165.90099pt.
 
+
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 335.
 See the caption package documentation for explanation.
 
-[5 <./introduction/hudf_frame.pdf> <./data/sigma_star_vs_sigma_oii.pdf> <./data
-/sigma_stars_old_vs_new.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sigma_stars_old_vs_ne
-w.pdf): PDF inclusion: multiple pdfs with page group included in a single page
->]
-<data/spectra_complete_velocities.pdf, id=355, 3738.16277pt x 2264.21568pt>
+<data/spectra_complete_velocities.pdf, id=364, 3738.16277pt x 2264.21568pt>
 File: data/spectra_complete_velocities.pdf Graphic file (type pdf)
 <use data/spectra_complete_velocities.pdf>
 Package pdftex.def Info: data/spectra_complete_velocities.pdf  used on input li
 ne 347.
 (pdftex.def)             Requested size: 702.78612pt x 421.67183pt.
 
-Overfull \vbox (10.0pt too high) has occurred while \output is active []
+Overfull \vbox (7.18184pt too high) has occurred while \output is active []
 
 
-Overfull \vbox (10.0pt too high) has occurred while \output is active []
+Overfull \vbox (7.18184pt too high) has occurred while \output is active []
 
- [6 <./introduction/spectral_types.pdf> <./data/vel_star_vs_vel_oii.pdf
 
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/vel_star_vs_vel_oii.p
-df): PDF inclusion: multiple pdfs with page group included in a single page
->] [7 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
+[7 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sn_vs_vband.pdf): PDF
  inclusion: multiple pdfs with page group included in a single page
+> <./data/sigma_stars_old_vs_new.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/sigma_stars_old_vs_ne
+w.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+> <./data/vel_star_vs_vel_oii.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/vel_star_vs_vel_oii.p
+df): PDF inclusion: multiple pdfs with page group included in a single page
 >] [8]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 380.
+ on input line 358.
 
 [9 <./data/cube_1804_spectra_complete.pdf>] [10 <./data/ppxf_sigma_frac_error_v
 s_sn.pdf> <./data/lmfit_sigma_frac_error_vs_sn.pdf
@@ -1147,7 +981,7 @@ ge
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/lmfit_vel_frac_error_
 vs_sn.pdf): PDF inclusion: multiple pdfs with page group included in a single p
 age
->] [11 <./data/spectra_complete_velocities.pdf>]
+>] [11 <./data/spectra_complete_velocities.pdf>] [12]
 Underfull \hbox (badness 2469) in paragraph at lines 419--420
 []\OT1/cmr/m/n/12 Through con-ten-tious de-bate and re-
  []
@@ -1168,7 +1002,7 @@ Underfull \hbox (badness 1107) in paragraph at lines 433--434
 []\OT1/cmr/m/n/12 For an in-vest-ig-a-tion of galax-ies, one
  []
 
-[12]
+[13]
 Underfull \hbox (badness 1117) in paragraph at lines 471--472
 \OT1/cmr/m/n/12 cussed, as well as the sub-sequent ana-
  []
@@ -1183,13 +1017,13 @@ Underfull \hbox (badness 1024) in paragraph at lines 484--485
 \OT1/cmr/m/n/12 tects, de-blends, meas-ures and clas-si-fies
  []
 
-[13]
+[14]
 Overfull \hbox (2.32982pt too wide) detected at line 521
  []$[]  \OML/cmm/m/it/12 f[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 
 ) = \OML/cmm/m/it/12 cx \OT1/cmr/m/n/12 + [] [] []$ 
  []
 
-[14]
+
 Underfull \hbox (badness 1163) in paragraph at lines 535--536
 \OT1/cmr/m/n/12 doublet, a com-par-ison to galactic stars
  []
@@ -1199,7 +1033,7 @@ Underfull \hbox (badness 1038) in paragraph at lines 535--536
 \OT1/cmr/m/n/12 ap-plied, [][]Cap-pel-lari[][] ([][]2017[][]) de-scribes the
  []
 
-<data/o_ii_luminosity_vs_redshift.pdf, id=836, 455.30101pt x 337.18498pt>
+<data/o_ii_luminosity_vs_redshift.pdf, id=833, 455.30101pt x 337.18498pt>
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
@@ -1215,23 +1049,24 @@ Underfull \hbox (badness 1789) in paragraph at lines 539--539
 \OT1/cmr/m/n/10.95 red-shift. Vari-ables used for each galaxy
  []
 
-<data/oii_ppxf_vs_oii_lmfit.pdf, id=849, 462.52798pt x 346.89601pt>
+[15 <./data/o_ii_luminosity_vs_redshift.pdf>]
+<data/oii_ppxf_vs_oii_lmfit.pdf, id=866, 462.52798pt x 346.89601pt>
 File: data/oii_ppxf_vs_oii_lmfit.pdf Graphic file (type pdf)
 <use data/oii_ppxf_vs_oii_lmfit.pdf>
 Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 562
 .
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
 
+
 Package caption Warning: The option `hypcap=true' will be ignored for this
 (caption)                particular \caption on input line 563.
 See the caption package documentation for explanation.
 
-[15 <./data/o_ii_luminosity_vs_redshift.pdf>]
 
 LaTeX Warning: Reference `fig:sn_difference' on page 16 undefined on input line
  569.
 
-
+[16 <./data/oii_ppxf_vs_oii_lmfit.pdf>]
 Underfull \hbox (badness 10000) in paragraph at lines 587--588
 []\OT1/cmr/m/n/12 The au-thor would like to thank
  []
@@ -1252,7 +1087,7 @@ Underfull \hbox (badness 1484) in paragraph at lines 38--41
  \OT1/cmr/m/n/10.95 with Gauss-Hermite func-tions', |   []
  []
 
-[16 <./data/oii_ppxf_vs_oii_lmfit.pdf>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 49--53
  \OT1/cmr/m/n/10.95 Im-plic-a-tions', |   []
  []
@@ -1282,7 +1117,7 @@ Underfull \hbox (badness 1107) in paragraph at lines 87--90
  \OT1/cmr/m/n/10.95 lar spec-tra.', |   []   |   []   |   []
  []
 
-
+[17]
 Underfull \hbox (badness 10000) in paragraph at lines 135--137
  []\OT1/cmr/m/n/10.95 Sandage, A. (1961),
  []
@@ -1316,7 +1151,7 @@ Underfull \hbox (badness 1776) in paragraph at lines 166--170
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 593.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 593.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 593.
- [17] (./stars_gas_dynamics.aux)
+ [18] (./stars_gas_dynamics.aux)
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 593.
 Package rerunfilecheck Info: File `stars_gas_dynamics.out' has not changed.
 (rerunfilecheck)             Checksum: 7D329FD33E2C9D8C7C0216C325A7BF16;2495.
@@ -1324,19 +1159,15 @@ Package rerunfilecheck Info: File `stars_gas_dynamics.out' has not changed.
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
-
-
  ) 
 Here is how much of TeX's memory you used:
- 10854 strings out of 492649
- 161274 string characters out of 6129622
- 321515 words of memory out of 5000000
+ 10855 strings out of 492649
+ 161281 string characters out of 6129622
+ 294526 words of memory out of 5000000
  14470 multiletter control sequences out of 15000+600000
  12839 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,15n,44p,1249b,532s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,15n,44p,1249b,528s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
 b></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbsy
 8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10
@@ -1357,10 +1188,10 @@ pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></u
 sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></us
 r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (17 pages, 10054452 bytes).
+Output written on stars_gas_dynamics.pdf (18 pages, 10054132 bytes).
 PDF statistics:
- 983 PDF objects out of 1000 (max. 8388607)
- 703 compressed objects within 8 object streams
- 103 named destinations out of 1000 (max. 500000)
+ 989 PDF objects out of 1000 (max. 8388607)
+ 708 compressed objects within 8 object streams
+ 104 named destinations out of 1000 (max. 500000)
  371 words of extra memory for PDF output out of 10000 (max. 10000000)
 

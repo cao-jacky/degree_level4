@@ -11,6 +11,7 @@ from collections import OrderedDict
 import cube_reader
 import spectra_data
 import ppxf_fitter
+import cube_data
 
 from astropy.io import fits
 from astropy.cosmology import FlatLambdaCDM

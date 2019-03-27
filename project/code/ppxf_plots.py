@@ -24,13 +24,11 @@ import ppxf.miles_util as lib
 from ppxf.ppxf_util import log_rebin
 
 import cube_reader
-
 import ppxf_fitter_kinematics_sdss
 import cube_analysis
+import spectra_data
 
 from os import path
-
-import spectra_data
 
 def model_data_overlay(cube_id):    
     x_model_data = np.load("ppxf_results/cube_" + str(int(cube_id)) + "/cube_" + 

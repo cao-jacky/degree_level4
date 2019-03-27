@@ -27,13 +27,14 @@ def lmfit_data(cube_id):
             curr_line = crf_line.split()
             z = float(curr_line[1])
             err_z = float(curr_line[4].isdigit())
+            err_z_alt = float(curr_line[3])
         if (line_count == 21):
             curr_line = crf_line.split()
             sigma_inst = float(curr_line[1])
         line_count += 1
 
     return {'c': c, 'i1': i1, 'i2': i2, 'sigma_gal': sigma_gal, 'z': z, 'err_z': err_z,
-            'sigma_inst': sigma_inst}
+            'sigma_inst': sigma_inst, 'err_z_alt': err_z_alt}
 
 def spectral_lines():
     sl = {
