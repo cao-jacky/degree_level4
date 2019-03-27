@@ -187,6 +187,15 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 
 \subsubsection{HST}
 
+\begin{figure*}
+\includegraphics[width=1.0\linewidth]{introduction/hudf_frame.pdf}
+\captionsetup{justification=raggedright}
+\caption[Hubble Ultra Deep Field]{Left panel: 
+
+(a) A colour image created from the MUSE spectroscopic data of the HUDF. The spectra wavelength range was split into three equal regions and then collapsed to create three colour bands (R, G, B). A final colour image was produced by combining these separate frames together. (b) The optical HUDF as captured by the Advanced Camera for Surveys instrument on the Hubble Space Telescope \citep{hudf_image}. }
+\label{fig:hst_muse_hdf}
+\end{figure*}
+
 \subsubsection{MUSE}
 
 \begin{center}
@@ -230,7 +239,44 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 
 \subsection{HST HUDF}
 
+\begin{figure*}
+  \begin{subfigure}[b]{0.495\textwidth}
+    \includegraphics[width=\textwidth]{data/image_sn_vs_vband}
+    \label{fig:image_sn_vband}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.495\textwidth}
+    \includegraphics[width=\textwidth]{data/sn_vs_vband}
+    \label{fig:spec_sn_vband}
+  \end{subfigure}
+  \captionsetup{justification=raggedright}
+  \caption[HUDF Objects]{Left hand panel: .
+  
+  Signal-to-noise (S/N) versus V-band magnitude plots for the MUSE galaxy objects. The V-band magnitudes are from the HST catalogue. (a) S/N is from the collapsed MUSE cube image. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 as defined by the SExtractor probability that they are not stars. (b) S/N used here is from the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra. Objects in this sample are those defined as the ``green points'' in Figure \ref{fig:sn_vband}(a).}
+\label{fig:sn_vband}
+\end{figure*}
+
+
 \subsection{MUSE HUDF}
+\noindent
+
+After performing the sample reduction methods the final objects shown as \textit{Usable} in Figure \ref{fig:sn_vband} can be found in Table [reference].
+
+\begin{table*}[t]
+\begin{center}
+\begin{tabular}{c@{\hskip 20pt}c} 
+ \hline
+ \textbf{Cube ID} & \textbf{HST ID} \\ [0.5ex] 
+ C1804 & Hot blue-white (HeII, HeI) \\
+ \hline
+\end{tabular}
+\captionsetup{justification=raggedright}
+\captionof{table}[Harvard Spectral Classification]{The Harvard Spectral Classification for stellar objects. Stars are defined by their colour and from the features seen from their spectra. Provided in the table are the spectral type, the associated colour plus the main emission or absorption lines to consider. \\
+(\textit{Table adapted from An Introduction to Modern Astrophysics by \cite{carroll_astro}}.)}
+\label{table:final_sample}
+\end{center}
+\end{table*}
+
 
 \section{Discussion}
 
@@ -415,13 +461,6 @@ In addition to optical observations, as noted previously, spectroscopic data sho
 
 % provide some more history and specs for MUSE, reasons as to why it was commissioned 
 
-\begin{figure*}
-\includegraphics[width=1.0\linewidth]{introduction/hudf_frame.pdf}
-\captionsetup{justification=raggedright}
-\caption[Hubble Ultra Deep Field]{(a) A colour image created from the MUSE spectroscopic data of the HUDF. The spectra wavelength range was split into three equal regions and then collapsed to create three colour bands (R, G, B). A final colour image was produced by combining these separate frames together. (b) The optical HUDF as captured by the Advanced Camera for Surveys instrument on the Hubble Space Telescope \citep{hudf_image}. }
-\label{fig:hst_muse_hdf}
-\end{figure*}
-
 The MUSE Hubble Ultra Deep Field Survey was performed over a two year timeframe from September 2014 to February 2017 \citep{bacon_muse_hudf}. It made use of 137 h of observation time and covers 90\% of the HUDF region. The 3D composite data cube mosaic made use of nine fields and represents the deepest spectroscopic survey ever performed. Both HST and MUSE HUDFs can be optically compared together, the latter is achieved by collapsing the cube axis containing the spectroscopic data into three components representing (R,G,B). Looking at both images (Figure \ref{fig:hst_muse_hdf}), the HST data appears to have more resolution whilst the MUSE objects are smeared out. However this is of no particular issue as the main use for MUSE is the manipulation of the spectra data which in turn will inform us on the optical data.
 
 % TODO what is MUSE, problems, limitations of MUSE - why it is useful...etc
@@ -451,23 +490,6 @@ The initial goal in the analysis was to reduce down the MUSE data cube into smal
 To begin with, galaxies were identified from the 3D MUSE cube using \textit{SExtractor}; an automated routine which detects, de-blends, measures and classifies sources \citep{bertin_sextractor}. Employed in the astronomical software package \textit{GAIA} \citep{currie_starlink}, every potential galactic source was retrieved along with a ``segmentation map'' which discerns between multiple galaxies if several are close together. 
 
 The final object list from SExtractor were compared and merged with a catalogue which contained every object identified in the HST HUDF frame. The latter would contain information such as initial guesses for redshifts, the magnitudes of the objects in the different wavelength filters, and various flux values for different emission and absorption lines.
-
-\begin{figure*}
-  \begin{subfigure}[b]{0.495\textwidth}
-    \includegraphics[width=\textwidth]{data/image_sn_vs_vband}
-    \label{fig:image_sn_vband}
-  \end{subfigure}
-  %
-  \begin{subfigure}[b]{0.495\textwidth}
-    \includegraphics[width=\textwidth]{data/sn_vs_vband}
-    \label{fig:spec_sn_vband}
-  \end{subfigure}
-  \captionsetup{justification=raggedright}
-  \caption[HUDF Objects]{Left hand panel: .
-  
-  Signal-to-noise (S/N) versus V-band magnitude plots for the MUSE galaxy objects. The V-band magnitudes are from the HST catalogue. (a) S/N is from the collapsed MUSE cube image. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 as defined by the SExtractor probability that they are not stars. (b) S/N used here is from the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra. Objects in this sample are those defined as the ``green points'' in Figure \ref{fig:sn_vband}(a).}
-  \label{fig:sn_vband}
-\end{figure*}
 
 % make sure the above caption actually makes sense
 
