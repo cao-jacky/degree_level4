@@ -27,6 +27,7 @@ import cube_reader
 import ppxf_fitter_kinematics_sdss
 import cube_analysis
 import spectra_data
+import sky_gauss_fitter
 
 from os import path
 
@@ -235,10 +236,26 @@ def chisq(data, data_err, model):
     chisq = (chisq_indivs < 100)
     return np.sum(chisq_indivs[chisq])
 
+def sigma_cutoff():
+    wl = (3727.092+3728.875)/2 # wavelength of OII doublet
+
+    # MUSE has spectral resolution of 1750 at 4650Å and 3750 at 9300Å
+    delta_wl = 4650/1750
+    delta_wl = (delta_wl / wl) * (3*10**5) # convert to kms^-1
+
+    sc_value = delta_wl / 2 # velocity dispersion cutoff value is about FWHM/2
+    return sc_value
+
 def sigma_stars_vs_sigma_oii():
-    data = np.load("data/ppxf_fitter_data.npy") 
+    data = np.load("data/ppxf_fitter_data.npy")
+
+    cutoff = sigma_cutoff()
 
     fig, ax = plt.subplots()
+
+    # region should be wary of
+    ax.fill_between(np.linspace(-10,225,300), -10, cutoff, alpha=0.2, zorder=0, 
+            facecolor="#ffcdd2")
 
     x_dat = data[:][:,0][:,1]
     y_dat = data[:][:,0][:,2]
@@ -250,10 +267,16 @@ def sigma_stars_vs_sigma_oii():
 
     xerr=data[:][:,0][:,13][y_mask]
     yerr=data[:][:,0][:,12][y_mask]
- 
-    ax.errorbar(x_dat, y_dat, xerr=xerr, yerr=yerr,
-            color="#000000", fmt="o", ms=7, elinewidth=1.0, 
-            capsize=5, capthick=1.0, zorder=0)
+    
+    for i in range(len(x_dat)):
+        if y_dat[i] < cutoff:
+            alpha = 1.0
+        else:
+            alpha = 1.0
+        ax.errorbar(x_dat[i], y_dat[i], xerr=xerr[i], yerr=yerr[i],
+                color="#000000", fmt="o", ms=7, elinewidth=1.0, capsize=5, 
+                capthick=1.0, zorder=0, alpha=alpha)
+        #ax.text(x_dat[i], y_dat[i], int(data[:][:,0][:,0][i]))
 
     # y/x value
     y_over_x = data[:][:,0][:,2]/data[:][:,0][:,1]
@@ -306,7 +329,7 @@ def sigma_stars_vs_sigma_oii():
     csq_m3 = linear(x_dat, md2_bf['m'], md3_bf['c'])
     rchisq_3 = chisq(y_dat, yerr, csq_m3) / (len(y_dat)-2) # model 3
 
-    print(rchisq_1, rchisq_2, rchisq_3)
+    #print(rchisq_1, rchisq_2, rchisq_3)
 
     # Plotting best fit lines onto plot
 
@@ -631,6 +654,11 @@ def sigma_stars_old_vs_new():
 
     fig, ax = plt.subplots()
 
+    cutoff = sigma_cutoff()
+    # region should be wary of
+    ax.fill_between(np.linspace(0,600,700), -10, cutoff, alpha=0.2, zorder=0, 
+            facecolor="#ffcdd2")
+
     cube_ignore = np.array([849,895,765,554])
 
     for i in range(len(cube_ids)):
@@ -677,6 +705,8 @@ if __name__ == '__main__':
     #data_graphs()
 
     #voigt_sigmas()
+
+    sigma_cutoff()
 
     sigma_stars_vs_sigma_oii()
     #ranges_sigma_stars_vs_sigma_oii()

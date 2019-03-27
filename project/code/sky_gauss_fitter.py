@@ -50,14 +50,15 @@ def inst_res():
     sigma_inst = sky_gauss_vals['sigma']
     wl = sky_gauss_vals['mu'] # Units of Å
    
-    # We want to find delta_lambda using MUSE spectral resolution of 4200Å and the
-    # same wavelength as used in our Gaussian fitting above
+    # We want to find delta_lambda using MUSE spectral resolution of 4200Å [wrong] and
+    # the same wavelength as used in our Gaussian fitting above
     #
     # We want to be using R=lambda/delta_lambda
-    R = 4200 # Units of Å
+    # MUSE has spectral resolution of 1750 at 4650Å and 3750 at 9300Å
+    R = 1750
     delta_lambda = wl / R
 
-    print(2.35*sigma_inst, delta_lambda)
+    #print(wl, 2.35*sigma_inst, delta_lambda)
 
     np.save("data/sigma_inst", sigma_inst)
 
@@ -68,7 +69,9 @@ def inst_res():
     fig.tight_layout()
     fig.savefig("graphs/testing/sky_gauss.pdf")
     plt.close("all")
-   
+  
+    return {'sky_line_wl': wl, 'delta_wl': delta_lambda}
+
 def synth_spectra_plot():
     cube_id = 1804
 
@@ -111,6 +114,6 @@ def synth_spectra_plot():
     fig.savefig("graphs/testing/synthe.pdf")
     plt.close("all")
 
-
-#inst_res()
-synth_spectra_plot()
+if __name__ == '__main__':
+    inst_res()
+    #synth_spectra_plot()
