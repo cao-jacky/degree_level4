@@ -1,0 +1,37 @@
+\tocdepth@munge 
+\tocdepth@restore 
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {subsection}{\numberline {1.1}Classification of galaxies}{2}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Dynamical studies of galaxies along the Hubble sequence}{3}{subsection.1.2}
+\contentsline {subsubsection}{\numberline {1.2.1}Angular momentum and the evolution of galactic dynamics}{3}{subsubsection.1.2.1}
+\contentsline {subsubsection}{\numberline {1.2.2}Tully-Fisher and Faber-Jackson relationships}{4}{subsubsection.1.2.2}
+\contentsline {subsection}{\numberline {1.3}High-redshifts}{4}{subsection.1.3}
+\contentsline {subsubsection}{\numberline {1.3.1}Galaxy formation models}{4}{subsubsection.1.3.1}
+\contentsline {subsubsection}{\numberline {1.3.2}Stellar formation}{5}{subsubsection.1.3.2}
+\contentsline {subsubsection}{\numberline {1.3.3}Gas collapse in dark matter halos}{5}{subsubsection.1.3.3}
+\contentsline {subsubsection}{\numberline {1.3.4}Evolution of scaling relations}{5}{subsubsection.1.3.4}
+\contentsline {subsection}{\numberline {1.4}The Hubble Ultra Deep Field}{5}{subsection.1.4}
+\contentsline {subsubsection}{\numberline {1.4.1}HST}{5}{subsubsection.1.4.1}
+\contentsline {subsubsection}{\numberline {1.4.2}MUSE}{5}{subsubsection.1.4.2}
+\contentsline {subsubsection}{\numberline {1.4.3}Testing the local-Universe scaling relation}{5}{subsubsection.1.4.3}
+\contentsline {subsection}{\numberline {1.5}Project}{5}{subsection.1.5}
+\contentsline {section}{\numberline {2}Observations and data analysis}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}HST HUDF}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}MUSE HUDF}{5}{subsection.2.2}
+\contentsline {section}{\numberline {3}Discussion}{5}{section.3}
+\contentsline {subsection}{\numberline {3.1}Galaxy velocity dispersions}{5}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Galaxy velocities}{6}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Voronoi tesselation}{6}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Results}{6}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Galactic classification}{8}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Galactic stellar formation}{9}{subsection.3.6}
+\contentsline {subsection}{\numberline {3.7}Galactic data}{10}{subsection.3.7}
+\contentsline {subsubsection}{\numberline {3.7.1}HUDF}{10}{subsubsection.3.7.1}
+\contentsline {subsubsection}{\numberline {3.7.2}MUSE}{11}{subsubsection.3.7.2}
+\contentsline {subsection}{\numberline {3.8}Project Aims}{11}{subsection.3.8}
+\contentsline {section}{\numberline {4}Analysis}{11}{section.4}
+\contentsline {subsection}{\numberline {4.1}Cube extraction}{11}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Line fittings and pPXF}{12}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Gaussian doublet fitting}{13}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}pPXF fitting}{13}{subsubsection.4.2.2}
+\contentsline {section}{\numberline {5}Conclusions}{15}{section.5}
