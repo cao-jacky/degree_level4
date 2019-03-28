@@ -58,7 +58,7 @@ def inst_res():
     R = 1750
     delta_lambda = wl / R
 
-    #print(wl, 2.35*sigma_inst, delta_lambda)
+    print(wl, 2.35*sigma_inst, delta_lambda)
 
     np.save("data/sigma_inst", sigma_inst)
 
@@ -70,7 +70,7 @@ def inst_res():
     fig.savefig("graphs/testing/sky_gauss.pdf")
     plt.close("all")
   
-    return {'sky_line_wl': wl, 'delta_wl': delta_lambda}
+    return {'sky_line_wl': wl, 'delta_wl': delta_lambda, 'sigma_inst': sigma_inst}
 
 def synth_spectra_plot():
     cube_id = 1804

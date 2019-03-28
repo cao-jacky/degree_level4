@@ -239,11 +239,14 @@ def chisq(data, data_err, model):
 def sigma_cutoff():
     wl = (3727.092+3728.875)/2 # wavelength of OII doublet
 
+    sigma_inst = sky_gauss_fitter.inst_res()['sigma_inst']
+    sigma_inst = (sigma_inst/6300) * (3*10**5) # instrumental resolution
+
     # MUSE has spectral resolution of 1750 at 4650Å and 3750 at 9300Å
     delta_wl = 4650/1750
     delta_wl = (delta_wl / wl) * (3*10**5) # convert to kms^-1
 
-    sc_value = delta_wl / 2 # velocity dispersion cutoff value is about FWHM/2
+    sc_value = sigma_inst / 2 # velocity dispersion cutoff value is about FWHM/2
     return sc_value
 
 def sigma_stars_vs_sigma_oii():
@@ -334,15 +337,15 @@ def sigma_stars_vs_sigma_oii():
     # Plotting best fit lines onto plot
 
     ax.plot(f_xd, md1_fit, lw=1.5, c="#ce93d8", 
-            label=r"\textbf{m: free, c: free}") 
+            label=r"\textbf{(1) m: free, c: free}") 
             #+r"$\chi^2_{\nu}$: " + r"$" +str(np.round(rchisq_1, decimals=2)) + "$")
 
     ax.plot(f_xd, md2_fit, lw=1.5, c="#a5d6a7",
-            label=r"\textbf{m: fixed, c: free}")
+            label=r"\textbf{(2) m: fixed, c: free}")
             #+r"$\chi^2_{\nu}$: " + r"$" +str(np.round(rchisq_2, decimals=2)) + "$")
 
     ax.plot(f_xd, md3_fit, lw=1.5, c="#80deea", 
-            label=r"\textbf{m: free, c: fixed}") 
+            label=r"\textbf{(3) m: free, c: fixed}") 
             #+r"$\chi^2_{\nu}$:" + r"$" +str(np.round(rchisq_3, decimals=2)) + "$")
  
     """
@@ -640,8 +643,8 @@ def sigma_old_vs_new():
 def sigma_stars_old_vs_new():
     data = np.load("data/ppxf_fitter_data.npy") 
 
-    old_stars = data[:][:,1][:]
-    new_stars = data[:][:,3][:]
+    old_stars = data[:][:,3][:]
+    new_stars = data[:][:,1][:]
 
     cube_ids = old_stars[:,0]
     old_sigma = old_stars[:,2]
@@ -656,8 +659,12 @@ def sigma_stars_old_vs_new():
 
     cutoff = sigma_cutoff()
     # region should be wary of
+    """
     ax.fill_between(np.linspace(0,600,700), -10, cutoff, alpha=0.2, zorder=0, 
             facecolor="#ffcdd2")
+    ax.fill_between(-10, cutoff, np.linspace(0,600,700), alpha=0.2, zorder=0, 
+            facecolor="#ffcdd2")
+    """
 
     cube_ignore = np.array([849,895,765,554])
 
@@ -680,8 +687,8 @@ def sigma_stars_old_vs_new():
             #ax.annotate(str(int(cube_id)), (cns, cos))
 
     ax.tick_params(labelsize=20)
-    ax.set_ylabel(r'\textbf{$\sigma_{*-old}$ (kms$^{-1}$)}', fontsize=20)
-    ax.set_xlabel(r'\textbf{$\sigma_{*-new}$ (kms$^{-1}$)}', fontsize=20)
+    ax.set_ylabel(r'\textbf{$\sigma_{*,old}$ (kms$^{-1}$)}', fontsize=20)
+    ax.set_xlabel(r'\textbf{$\sigma_{*,new}$ (kms$^{-1}$)}', fontsize=20)
 
     ax.set_xlim([0,600]) 
     ax.set_ylim([0,600])

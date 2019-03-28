@@ -331,7 +331,7 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{data/cube_1804_spectra_complete}
-\caption{Example spectra and the pPXF analysis performed for C1804. The galaxy integrated spectra (black) would be passed to the pPXF fitting routine which would normalise the data and return a best fitting model (red) and values for galaxy velocity ($V$) and velocity dispersion ($\sigma$). The residuals between the data and model (green) are shown amongst some highlighted emission (blue), absorption (orange), and iron (grey) spectra features. For C1804 in particular, pPXF provided a reduced $\chi^2 \approx 1.69$ which is an indication of a good fit.}
+\caption{Example spectra and the pPXF analysis performed for C1804. The galaxy integrated spectra (black) would be passed to the pPXF fitting routine which would normalise the data and return a best fitting model (red) plus values for galaxy velocity and velocity dispersion. The residuals between the data and model (green) are shown in addition to some highlighted emission (blue), absorption (orange), and iron (grey) spectra features. For C1804 in particular, pPXF provided a reduced $\chi^2 \approx 1.69$ which is an indication of a good fit.}
 \label{fig:ppxf_spectra}
 \end{figure*}
 
@@ -339,7 +339,7 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/sigma_star_vs_sigma_oii}
-\caption{The widths of the [OII] doublets obtained from the Gaussian modelling (labelled \textit{lmfit}) plotted against the widths found from the gas population fitter in pPXF. A linear trend is expected, however a failure in the set-up of pPXF has produced the illogical results as shown in the plot.}
+\caption{Stellar velocity dispersions ($\sigma_*$) versus [OII] gas velocity dispersions ($\sigma_{OII}$) for a sample of 15 galaxies. Three linear models were fitted to the data: (1) free gradient and free intercept, $\chi^2_{\nu}=9.43$; (2) fixed gradient and free intercept, $\chi^2_\nu=9.62$; and (3) free gradient and fixed intercept, $\chi^2_\nu=5.87$. Model 3 is the best fit, and from the data a linear model appears to be the best consideration. $\sigma_*$ values are limited by the instrumental resolution of MUSE and values within this range ($<\sigma_{inst}/2=22.7$ kms$^{-1}$) should be considered with caution.  }
 \label{fig:velocity_dispersions}
 \end{figure}
 
@@ -358,17 +358,23 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
   \includegraphics[width=0.495\textwidth]{data/lmfit_vel_frac_error_vs_sn}%
   }
 \captionsetup{justification=raggedright}
-\caption[HUDF Objects]{Signal-to-noise versus the modulus difference between the optimal pPXF velocity dispersion and the values from the perturbed models. As the S/N decreases, the difference increases manifold which implies that high S/N galaxies should be used as they would have smaller fractional uncertainty.}
+\caption[HUDF Objects]{\textit{Top panel}: fractional error versus signal-to-noise for stellar and [OII] gas velocity dispersions. \textit{Bottom panel}: fractional error versus signal-to-noise for the stellar and [OII] gas velocities. \textit{All}: the $a/x$ models (red) provided alternative uncertainties on acquired $V$ and $\sigma$ values. The fitting routines would produce their own errors but their reliability was questioned and their methodology unknown.}
   \label{fig:fractional_errors}
 \end{figure*}
+
+% the spectra for the 15 usable galaxies were sequentially perturbed with normal noise, fitted with [OII] and absorption models, fractional difference calculated between 
+
+% a polynomial $a/x$ model was fitted to all four data sets. As the S/N decreases, the difference increases manifold which implies that high S/N galaxies should be used as they would have smaller fractional uncertainty.
 
 %\subsubsection{Old vs. new stellar types}
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/sigma_stars_old_vs_new}
-\caption{---}
+\caption{Velocity dispersions for old stellar types (\textit{GK}) versus those for new (young) stellar types (\textit{OA}). 11 galaxy spectra were isolated into overlapping regions of $3700\times (1+z)$ {\AA} to $4200\times(1+z)$ {\AA} for young stars, and $4000\times (1+z)$ {\AA} to $4500\times(1+z)$ {\AA} for old stars. If a linear trend is considered then two spiral galaxies (C1129 and C175) strongly deviate from this line. This could be attributed to the difficulty in fitting for smaller wavelength regions or to problems with high noise. }
 \label{fig:velocity_dispersions_old_new}
-\end{figure}
+\end{figure} 
+
+% produce a chi^2 value for the above relationship
 
 \subsection{Galaxy velocities}
 
@@ -376,11 +382,11 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/vel_star_vs_vel_oii}
-\caption{Velocities}
+\caption{Velocities for the stellar and [OII] gas components of the galaxies. }
 \label{fig:velocities}
 \end{figure}
 
-\subsection{Voronoi tesselation}
+\subsection{Voronoi tessellation}
 
 \subsection{Results}
 
@@ -391,7 +397,7 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
 \includegraphics[width=1.0\textheight,height=0.6\textwidth]{data/spectra_complete_velocities}
 \vspace{1cm}  % get some vertical separation
 \captionsetup{justification=raggedright}
-\caption[Tully-Fisher]{Analysis of }
+\caption[Tully-Fisher]{Voronoi tessellation analysis performed on six galaxies. \textit{HST} panels contain  }
 \label{fig:multiple_spectra}
 \end{sidewaysfigure*}
 

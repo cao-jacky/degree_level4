@@ -23,18 +23,18 @@
 \contentsline {section}{\numberline {3}Discussion}{4}{section.3}
 \contentsline {subsection}{\numberline {3.1}Galaxy velocity dispersions}{4}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Galaxy velocities}{4}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Voronoi tesselation}{4}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.3}Voronoi tessellation}{4}{subsection.3.3}
 \contentsline {subsection}{\numberline {3.4}Results}{4}{subsection.3.4}
 \contentsline {subsection}{\numberline {3.5}Galactic classification}{5}{subsection.3.5}
-\contentsline {subsection}{\numberline {3.6}Galactic stellar formation}{12}{subsection.3.6}
+\contentsline {subsection}{\numberline {3.6}Galactic stellar formation}{11}{subsection.3.6}
 \contentsline {subsection}{\numberline {3.7}Galactic data}{13}{subsection.3.7}
 \contentsline {subsubsection}{\numberline {3.7.1}HUDF}{13}{subsubsection.3.7.1}
-\contentsline {subsubsection}{\numberline {3.7.2}MUSE}{13}{subsubsection.3.7.2}
+\contentsline {subsubsection}{\numberline {3.7.2}MUSE}{14}{subsubsection.3.7.2}
 \contentsline {subsection}{\numberline {3.8}Project Aims}{14}{subsection.3.8}
 \contentsline {section}{\numberline {4}Analysis}{14}{section.4}
 \contentsline {subsection}{\numberline {4.1}Cube extraction}{14}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Line fittings and pPXF}{14}{subsection.4.2}
 \contentsline {subsubsection}{\numberline {4.2.1}Gaussian doublet fitting}{15}{subsubsection.4.2.1}
 \contentsline {subsubsection}{\numberline {4.2.2}pPXF fitting}{15}{subsubsection.4.2.2}
-\contentsline {section}{\numberline {5}Conclusions}{16}{section.5}
+\contentsline {section}{\numberline {5}Conclusions}{17}{section.5}
 \contentsline {section}{\numberline {A}Galaxy sample}{19}{appendix.A}
