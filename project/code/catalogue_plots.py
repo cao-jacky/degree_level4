@@ -169,6 +169,7 @@ def catalogue_analysis(file_name):
         cubes_data[i_object][17] = curr_object[2] # HST RA coord
 
     np.save("data/matched_catalogue_complete", cubes_data)
+    print(np.shape(cubes_data))
 
     # plotting all objects from image against HST catalogue
     flux = cubes_data[:,9]

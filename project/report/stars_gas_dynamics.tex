@@ -41,6 +41,7 @@
 }
 
 \usepackage{tabularx}
+\usepackage{rotating}
 
 \def\Plus{\texttt{+}}
 \def\Minus{\texttt{-}}
@@ -225,10 +226,9 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 
 \begin{figure*}
 \includegraphics[width=1.0\linewidth]{introduction/spectral_types}
-\caption{---}
+\caption{Example spectra for spectral types \textit{OBAFGKM}. Taken from the Indo-US Library of Coudé Feed Stellar Spectra \citep{valdes_coude}, the stars used have metallicities [Fe/H]$_{\odot} \sim$0  and are: 30614 (\textit{O}), 17081 (\textit{B}), 39866 (\textit{A}), 5015 (\textit{F}), G 7-6 (\textit{G}), 5858 (\textit{K}), and G 176-11 (\textit{M}). These spectra demonstrate that older types (\textit{FGKM}) have larger amounts of absorption and emission lines when compared to younger types (\textit{OBA}) as they have spent a greater amount of time undergoing nuclear fusion. Galaxy spectra will contain combinations of these stars which produces a unique profile.}
 \label{fig:spectral_types}
 \end{figure*}
-
 
 \subsubsection{Testing the local-Universe scaling relation}
 
@@ -247,17 +247,23 @@ for such as N-body interactions in large-scale galaxy cluster structures or
   \includegraphics[width=0.495\textwidth]{data/sn_vs_vband}%
   }
   \captionsetup{justification=raggedright}
-  \caption[HUDF Objects]{Left hand panel: . Signal-to-noise (S/N) versus V-band magnitude plots for the MUSE galaxy objects. The V-band magnitudes are from the HST catalogue. (a) S/N is from the collapsed MUSE cube image. The red points represent those with redshifts $z<0.3$, and the green points are a chosen sample of 300 as defined by the SExtractor probability that they are not stars. (b) S/N used here is from the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra. Objects in this sample are those defined as the ``green points'' in Figure \ref{fig:sn_vband}(a).}
+  \caption[HUDF Objects]{\textit{Left-hand panel}: MUSE image flux signal-to-noise (S/N) versus HST V-band magnitude for the first 300/837 extracted cubes which were ranked by redshift $z$. \textit{Right-hand panel}: MUSE spectrum signal-to-noise (S/N) versus HST V-band magnitude for reduced sample of extracted objects. \textit{Both}: the red area indicates an imposed magnitude limit of 25.0 mag. The reduction of the cubes to produce the final sample was highly dependent on whether an object was actually a galaxy, if an [OII] feature was present, and whether there was enough S/N for visible absorption features. This gave rise to the ``Not usable'' classification as shown. From the total sample of 837 objects, this was reduced down to 35 potentially usable galaxies.}
 \label{fig:sn_vband}
 \end{figure*}
+
+% Image flux and noise was obtained during the extraction of galaxies from the MUSE 3D cube. 
+% Spectrum S/N was calculated with the median and standard deviation of the region $3700\times(1+z)$ {\AA} to $4500\times(1+z)$ {\AA} in the galaxy integrated spectra, with $z$ as the redshift.
+% From a total sample of 837 objects, 300 were
+% Objects were sorted by their probability in being a star and an initial analysis performed down to 31.0 mag to check if they contained an [OII] feature. ``Unused'' extractedclassed as unused if they had a $>60\%$ probability
+
 
 \subsection{MUSE HUDF}
 \noindent
 
 After performing the sample reduction methods the final objects shown as \textit{Usable} in Figure \ref{fig:sn_vband} can be found in Table [reference].
 
-\begin{sidewaysfigure*}
-\vspace{40ex}
+\begin{sidewaystable*}
+\vspace{50ex}
 \centering
 \begin{tabular}{c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c} 
  \hline
@@ -310,34 +316,14 @@ C1394 & 2908 & 53.1525505 & -27.80037599 & $24.99(1)$ & $1.4254(1)$ & - & - & - 
 
 C847 & 21703 & 53.17365111 & -27.7973635 & $24.218(5)$ & $0.66543(1)$ & - & - & - & - \\ 
 
-%C1665 & 50714 & 53.15110943 & -27.80949195 & $24.552(4)$ & $1.08753(3)$ & - & - & - & - \\ 
-%
-%C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - & - & - \\ 
-%
-%C1411 & 20647 & 53.16431016 & -27.81082586 & $24.465(4)$ & $0.73503(6)$ & - & - & - & - \\ 
-%
-%C943 & 6028 & 53.16620903 & -27.7939202 & $24.427(7)$ & $1.036159(9)$ & - & - & - & - \\ 
-%
-%C1559 & 20306 & 53.16418209 & -27.81846837 & $25.402(7)$ & $1.09406556(0)$ & - & - & - & - \\ 
-%
-%C543 & 22939 & 53.18402132 & -27.79150708 & $24.956(5)$ & $1.22018(3)$ & - & - & - & - \\ 
-%
-%C1423 & 20544 & 53.16311572 & -27.81360388 & $24.459(3)$ & $1.42504(2)$ & - & - & - & - \\ 
-%
-%C606 & 9791 & 53.1648948 & -27.77873099 & $25.17(1)$ & $0.98091(1)$ & - & - & - & - \\ 
-%
-%C627 & 8908 & 53.15398319 & -27.77098973 & $24.666(8)$ & $0.83200(4)$ & - & - & - & - \\ 
-%
-%C400 & 8559 & 53.15986702 & -27.76684123 & $24.615(7)$ & $1.03670(3)$ & - & - & - & - \\ 
-%
-%C1134 & 2795 & 53.16638743 & -27.80182796 & $25.17(1)$ & $0.6820(1)$ & - & - & - & - \\ 
-%
-%C1225 & 1742 & 53.16803964 & -27.80741481 & $24.014(4)$ & $0.30996(3)$ & - & - & - & - \\ 
+C1665 & 50714 & 53.15110943 & -27.80949195 & $24.552(4)$ & $1.08753(3)$ & - & - & - & - \\ 
+
+C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - & - & - \\ 
  \hline
 \end{tabular}
-\caption{The Harvard Spectral Classification for stellar objects. Stars are defined by their colour and from the features seen from their spectra. Provided in the table are the spectral type, the associated colour plus the main emission or absorption lines to consider.}
+\caption{Parameters for the final reduced sample of 35 galaxies. Columns show the working cube ID, the ID from the UVUDF Catalogs \citep{2015AJ....150...31R} (RAF ID), the object right ascension (RA) and declination (Dec.), the magnitude of the object in the HST F606W filter, the calculated galaxy redshift ($z$), the galaxy stellar velocity ($V_*$) and velocity dispersion ($\sigma_*$), and the galaxy gas velocity ($V_{OII}$) and velocity dispersion ($\sigma_{OII}$. Note that only 15 galaxies were analysed for their stellar and gas components as the majority of the sample contained spectra with not enough signal-to-noise. 11 of the non-analysed galaxies are provided here with the rest contained in Appendix \ref{appendix:rest_of_final_sample}.}
 \label{table:final_sample}
-\end{sidewaysfigure*}
+\end{sidewaystable*}
 
 \section{Discussion}
 
@@ -647,6 +633,45 @@ The author would like to thank Dr.~M.~Swinbank and Alfie Tiley for their continu
 
 \bibliographystyle{agsm}
 \bibliography{stars_gas_dynamics}
+
 \clearpage
+
+\appendix
+
+\onecolumngrid
+\section*{Appendices}
+\section{Galaxy sample} \label{appendix:rest_of_final_sample}
+\noindent
+The remaining nine objects from the final reduced sample of 35 galaxies, these wer
+
+\begin{table*}[h!]
+\centering
+\begin{tabular}{c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c} 
+ \hline
+ \textbf{Cube ID} & \textbf{RAF ID} & \textbf{RA (deg)} & \textbf{Dec. (deg)} & \textbf{F606W mag.} & \textbf{$\boldsymbol{z}$}  \\ [0.5ex] 
+C1411 & 20647 & 53.16431016 & -27.81082586 & $24.465(4)$ & $0.73503(6)$ \\ 
+
+C943 & 6028 & 53.16620903 & -27.7939202 & $24.427(7)$ & $1.036159(9)$ \\ 
+
+C1559 & 20306 & 53.16418209 & -27.81846837 & $25.402(7)$ & $1.09406556(0)$ \\ 
+
+C543 & 22939 & 53.18402132 & -27.79150708 & $24.956(5)$ & $1.22018(3)$ \\ 
+
+C1423 & 20544 & 53.16311572 & -27.81360388 & $24.459(3)$ & $1.42504(2)$ \\ 
+
+C606 & 9791 & 53.1648948 & -27.77873099 & $25.17(1)$ & $0.98091(1)$ \\ 
+
+C627 & 8908 & 53.15398319 & -27.77098973 & $24.666(8)$ & $0.83200(4)$ \\ 
+
+C400 & 8559 & 53.15986702 & -27.76684123 & $24.615(7)$ & $1.03670(3)$ \\ 
+
+C1134 & 2795 & 53.16638743 & -27.80182796 & $25.17(1)$ & $0.6820(1)$ \\ 
+
+C1225 & 1742 & 53.16803964 & -27.80741481 & $24.014(4)$ & $0.30996(3)$ \\ 
+ \hline
+\end{tabular}
+\caption{Remaining objects from the 20 non-analysed galaxies. Columns show the working cube ID, the ID from the UVUDF Catalogs \citep{2015AJ....150...31R} (RAF ID), the object right ascension (RA) and declination (Dec.), the magnitude of the object in the HST F606W filter, and the calculated galaxy redshift ($z$). Total sample contained 35 objects, 15 of which had high enough signal-to-noise in their spectra for the gas and stellar components to be analysed.}
+\label{table:rest_of_final_sample}
+\end{table*}
 
 \end{document}
