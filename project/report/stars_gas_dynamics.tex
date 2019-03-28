@@ -8,12 +8,9 @@
 
 \renewcommand{\baselinestretch}{1}     % Defines the line spacing
 
-%\usepackage{subcaption}
 \usepackage[caption=false]{subfig}
-%\usepackage[font=small, labelfont=bf, format=plain]{caption}
-%\captionsetup{compatibility=false, justification=justified}
 
-\usepackage{graphics,graphicx,epsfig,ulem}	% Makes sure all graphics works
+\usepackage{graphics,graphicx,epsfig,ulem}		% Makes sure all graphics works
 \usepackage{amsmath} 						% Adds mathematical features for equations
 
 \usepackage{etoolbox}                       % Customise date to preferred format
@@ -25,7 +22,7 @@
 
 \usepackage{fancyhdr}
  
-\usepackage[UKenglish]{babel}% http://ctan.org/pkg/babel
+\usepackage[UKenglish]{babel}
 
 \pagestyle{fancy}                           % Insert header
 \renewcommand{\headrulewidth}{0pt}
@@ -128,7 +125,7 @@ If a galaxy cannot be matched up to the structural features found in spirals or 
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{introduction/hubble-tuning-fork-diagram}
-\caption[Hubble Tuning Fork]{The Hubble sequence can be demonstrated graphically with the Hubble Tuning Fork \citep{hubble_tuning_fork} . This diagram illustrates the different galaxy morphologies and their classification into the groups: ellipticals, spirals, and irregulars.}
+\caption{The Hubble sequence demonstrated graphically as the Hubble Tuning Fork from \cite{hubble_tuning_fork} . This diagram illustrates Hubble's classification of galaxies by their morphologies into ellipticals, spirals, lenticulars, and irregulars.}
 \label{fig:hubble_tuning_fork}
 \end{figure*}
 
@@ -161,22 +158,19 @@ The framework of galactic formation can more readily be
 Exploring the relation of angular momentum with other variables is made possible by 
 
 Further understanding 
-
-%\begin{center}
-%\includegraphics[width=1.0\linewidth]{introduction/romanowsky_2012_fig_3}
-%\captionof{figure}[Specific Angular Momentum vs. Mass]{Figure 3 from \textit{Angular Momentum and Galaxy Formation Revisited: Effects of Variable Mass-to-light Ratios} \citep{2012ApJS..203...17R}. }
-%\label{fig:romanowsky_2012_fig_3}
-%\end{center} 
-
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{introduction/romanowsky_2012_fig_3}
 \captionsetup{justification=raggedright}
-\caption{Figure 3 from \textit{Angular Momentum and Galaxy Formation Revisited: Effects of Variable Mass-to-light Ratios} \citep{2012ApJS..203...17R}. }
-\label{fig:romanowsky_2012_fig_3}
+\caption{The angular momentum-mass relationship for spiral and elliptical galaxies from \cite{2012ApJS..203...17R}. A galaxy's angular momentum is indicative of how it formed and the type of morphology it possess.}
+\label{fig:romanowsky_fall_2012}
 \end{figure}
+
+% could expand on the figure caption
 
 \vspace{4ex}
 \subsubsection{Tully-Fisher and Faber-Jackson relationships}
+
+% show plots of the TF and FB relationships from their original papers
 
 \subsection{High-redshifts}
 
@@ -197,8 +191,7 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 \begin{figure*}
 \includegraphics[width=\textwidth]{introduction/hudf_frame.pdf}
 \captionsetup{justification=justified, format=plain}
-\caption[Hubble Ultra Deep Field]{Left panel: colour composite image for the HUDF made using data from ACS/WFC, the Hubble eXtreme Deep Field project \citep{2013ApJS..209....6I}. 
-(a) A colour image created from the MUSE spectroscopic data of the HUDF. The spectra wavelength range was split into three equal regions and then collapsed to create three colour bands (R, G, B). A final colour image was produced by combining these separate frames together. (b) The optical HUDF as captured by the Advanced Camera for Surveys instrument on the Hubble Space Telescope \citep{hudf_image}. }
+\caption[Hubble Ultra Deep Field]{\textit{Left-hand panel}: colour composite image for the HUDF from HST ACS/WFC, Hubble eXtreme Deep Field project data \citep{2013ApJS..209....6I}. Frames in three filter bands (F775W, F606W, and F435W) were combined to represent the RGB channels within a colour image. \textit{Right-hand panel}: colour image of the MUSE HUDF region. The spectra wavelength range (4650 \AA--9300 \AA) of the MUSE cube was divided into three equal regions (4650 \AA--6180 \AA, 6180 \AA--7730 \AA, 7730 \AA -- 9300 \AA), collapsed, and then combined to create an RGB image. Highlighted in both images is object RAF-24420 \citep{2015AJ....150...31R}, the HST data has a higher optical resolution whereas the MUSE data outclasses in the resolution of the spectroscopic data.}
 \label{fig:hst_muse_hdf}
 \end{figure*}
 
@@ -225,8 +218,7 @@ for such as N-body interactions in large-scale galaxy cluster structures or
  T & Coolest, infrared (CH$_4$, CO) \\
  \hline
 \end{tabular}
-\caption{The Harvard Spectral Classification for stellar objects. Stars are defined by their colour and from the features seen from their spectra. Provided in the table are the spectral type, the associated colour plus the main emission or absorption lines to consider. \\
-(\textit{Table adapted from An Introduction to Modern Astrophysics by \cite{carroll_astro}}.)}
+\caption{The Harvard Spectral Classification for stellar objects \citep{1916AnHar..76...19C}. Stars are defined by their colour (temperature) and features seen from their spectra \citep{stellar_colour, 1925PhDT.........1P}. Provided are spectral types, and their associated colour plus the main emission or absorption lines. Figure \ref{fig:spectral_types} provides examples of the possible observed spectra for spectral types \textit{OBAFGKM}.}
 \label{table:spectral_classification}
 \end{center}
 \end{table}
@@ -655,5 +647,6 @@ The author would like to thank Dr.~M.~Swinbank and Alfie Tiley for their continu
 
 \bibliographystyle{agsm}
 \bibliography{stars_gas_dynamics}
+\clearpage
 
 \end{document}

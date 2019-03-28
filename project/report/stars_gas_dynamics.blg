@@ -1,0 +1,47 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: stars_gas_dynamics.aux
+The style file: agsm.bst
+Database file #1: stars_gas_dynamicsNotes.bib
+Database file #2: stars_gas_dynamics.bib
+You've used 34 entries,
+            2909 wiz_defined-function locations,
+            853 strings with 10417 characters,
+and the built_in function-call counts, 170880 in all, are:
+= -- 28220
+> -- 2085
+< -- 2
++ -- 13673
+- -- 637
+* -- 14895
+:= -- 33898
+add.period$ -- 37
+call.type$ -- 34
+change.case$ -- 470
+chr.to.int$ -- 34
+cite$ -- 34
+duplicate$ -- 530
+empty$ -- 1060
+format.name$ -- 749
+if$ -- 30708
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 37
+newline$ -- 108
+num.names$ -- 354
+pop$ -- 143
+preamble$ -- 1
+purify$ -- 510
+quote$ -- 0
+skip$ -- 440
+stack$ -- 0
+substring$ -- 40341
+swap$ -- 91
+text.length$ -- 478
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 122
+warning$ -- 0
+while$ -- 734
+width$ -- 0
+write$ -- 450

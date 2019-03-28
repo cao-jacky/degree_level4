@@ -34,6 +34,11 @@ Beckwith, S. V.~W., Stiavelli, M., Koekemoer, A.~M. et~al.  \harvardyearleft
 Binney, J.  \harvardyearleft 2016\harvardyearright , {\em Astrophysics: A Very
   Short Introduction}, Vol.~1, Oxford Very Short Introductions.
 
+\harvarditem{{Cannon} \harvardand\ {Pickering}}{1916}{1916AnHar..76...19C}
+{Cannon}, A.~J. \harvardand\ {Pickering}, E.~C.  \harvardyearleft
+  1916\harvardyearright , `{Spectra having bright lines}', {\em Annals of
+  Harvard College Observatory} {\bf 76},~19--42.
+
 \harvarditem{{Cappellari}}{2017}{cappaellari_ppxf}
 {Cappellari}, M.  \harvardyearleft 2017\harvardyearright , `{Improving the full
   spectrum fitting method: accurate convolution with Gauss-Hermite functions}',
@@ -43,6 +48,12 @@ Binney, J.  \harvardyearleft 2016\harvardyearright , {\em Astrophysics: A Very
 Carroll, B.~W. \harvardand\ Ostlie, D.~A.  \harvardyearleft
   2007\harvardyearright , {\em An Introduction to Modern Astrophysics}, 2nd
   edn, Pearson.
+
+\harvarditem{Charity}{2016}{stellar_colour}
+Charity, M.  \harvardyearleft 2016\harvardyearright , `{What color are the
+  stars? - some pixel rgb values}',
+  \url{http://www.vendian.org/mncharity/dir3/starcolor/}.
+\newblock [Online; accessed 28th March 2019].
 
 \harvarditem[Conselice et~al.]{Conselice, Wilkinson, Duncan \harvardand\
   Mortlock}{2016}{conselice_galaxynumber}
@@ -125,16 +136,21 @@ Moore, P. \harvardand\ Rees, R.  \harvardyearleft 2011\harvardyearright , {\em
   500 {\AA} synthetic spectra}', {\em Astronomy and Astrophysics} {\bf
   442},~1127--1134.
 
-\harvarditem[NASA et~al.]{NASA, ESA, Beckwith \harvardand\ {HUDF
-  Team}}{2018}{hudf_image}
-NASA, ESA, Beckwith, S. \harvardand\ {HUDF Team}  \harvardyearleft
-  2018\harvardyearright , `{Hubble Ultra Deep Field}',
-  \url{https://svs.gsfc.nasa.gov/30946}.
-\newblock [Online; accessed 5th November 2018].
+\harvarditem{{Payne}}{1925}{1925PhDT.........1P}
+{Payne}, C.~H.  \harvardyearleft 1925\harvardyearright , {Stellar Atmospheres;
+  a Contribution to the Observational Study of High Temperature in the
+  Reversing Layers of Stars.}, PhD thesis, RADCLIFFE COLLEGE.
 
 \harvarditem{{Peebles}}{1969}{1969ApJ...155..393P}
 {Peebles}, P.~J.~E.  \harvardyearleft 1969\harvardyearright , `{Origin of the
   Angular Momentum of Galaxies}', {\em \apj} {\bf 155},~393.
+
+\harvarditem[{Rafelski} et~al.]{{Rafelski}, {Teplitz}, {Gardner}, {Coe}
+  et~al.}{2015}{2015AJ....150...31R}
+{Rafelski}, M., {Teplitz}, H.~I., {Gardner}, J.~P., {Coe}, D. et~al.
+  \harvardyearleft 2015\harvardyearright , `{UVUDF: Ultraviolet Through
+  Near-infrared Catalog and Photometric Redshifts of Galaxies in the Hubble
+  Ultra Deep Field}', {\em The Astronomical Journal} {\bf 150},~31.
 
 \harvarditem{{Romanowsky} \harvardand\ {Fall}}{2012}{2012ApJS..203...17R}
 {Romanowsky}, A.~J. \harvardand\ {Fall}, S.~M.  \harvardyearleft
@@ -163,13 +179,11 @@ NASA, ESA, Beckwith, S. \harvardand\ {HUDF Team}  \harvardyearleft
   Series} {\bf 152},~251--259.
 
 \harvarditem[{Vazdekis} et~al.]{{Vazdekis}, {S{\'a}nchez-Bl{\'a}zquez},
-  {Falc{\'o}n-Barroso}, {Cenarro}, {Beasley}, {Cardiel}, {Gorgas} \harvardand\
-  {Peletier}}{2010}{vazdekis_miles}
+  {Falc{\'o}n-Barroso}, {Cenarro} et~al.}{2010}{vazdekis_miles}
 {Vazdekis}, A., {S{\'a}nchez-Bl{\'a}zquez}, P., {Falc{\'o}n-Barroso}, J.,
-  {Cenarro}, A.~J., {Beasley}, M.~A., {Cardiel}, N., {Gorgas}, J. \harvardand\
-  {Peletier}, R.~F.  \harvardyearleft 2010\harvardyearright , `{Evolutionary
-  stellar population synthesis with MILES - I. The base models and a new line
-  index system}', {\em MNRAS} {\bf 404},~1639--1671.
+  {Cenarro}, A.~J. et~al.  \harvardyearleft 2010\harvardyearright ,
+  `{Evolutionary stellar population synthesis with MILES - I. The base models
+  and a new line index system}', {\em MNRAS} {\bf 404},~1639--1671.
 
 \harvarditem[Williams et~al.]{Williams, Blacker, Dickinson
   et~al.}{1996}{williams_hdp}
