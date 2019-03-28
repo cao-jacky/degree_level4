@@ -240,11 +240,11 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 
 \begin{figure*}
   \subfloat{\label{fig:image_sn_vband}%
-  \includegraphics[width=0.495\textwidth]{data/image_sn_vs_vband}%
+  \includegraphics[width=0.5\textwidth]{data/image_sn_vs_vband}%
   }
   %
   \subfloat{\label{fig:spec_sn_vband}%
-  \includegraphics[width=0.495\textwidth]{data/sn_vs_vband}%
+  \includegraphics[width=0.5\textwidth]{data/sn_vs_vband}%
   }
   \captionsetup{justification=raggedright}
   \caption[HUDF Objects]{\textit{Left-hand panel}: MUSE image flux signal-to-noise (S/N) versus HST V-band magnitude for the first 300/837 extracted cubes which were ranked by redshift $z$. \textit{Right-hand panel}: MUSE spectrum signal-to-noise (S/N) versus HST V-band magnitude for reduced sample of extracted objects. \textit{Both}: the red area indicates an imposed magnitude limit of 25.0 mag. The reduction of the cubes to produce the final sample was highly dependent on whether an object was actually a galaxy, if an [OII] feature was present, and whether there was enough S/N for visible absorption features. This gave rise to the ``Not usable'' classification as shown. From the total sample of 837 objects, this was reduced down to 35 potentially usable galaxies.}
@@ -330,8 +330,8 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
 \subsection{Galaxy velocity dispersions}
 
 \begin{figure*}
-\includegraphics[width=1.0\linewidth]{data/cube_1804_spectra_complete}
-\caption{A pPXF fitting for a galaxy spectra. The galaxy data (black) and  the best-fitting model (red) were normalised in the flux to avoid numerical errors during the fitting routine. The emission (blue lines), absorption (orange lines), and iron (grey lines) features have been labelled for easier recognition. The residuals between the data and model are provided by the green scatter points below the spectra. pPXF appears to produce good fits from manipulating various stellar templates.}
+\includegraphics[width=\textwidth]{data/cube_1804_spectra_complete}
+\caption{Example spectra and the pPXF analysis performed for C1804. The galaxy integrated spectra (black) would be passed to the pPXF fitting routine which would normalise the data and return a best fitting model (red) and values for galaxy velocity ($V$) and velocity dispersion ($\sigma$). The residuals between the data and model (green) are shown amongst some highlighted emission (blue), absorption (orange), and iron (grey) spectra features. For C1804 in particular, pPXF provided a reduced $\chi^2 \approx 1.69$ which is an indication of a good fit.}
 \label{fig:ppxf_spectra}
 \end{figure*}
 
@@ -670,7 +670,7 @@ C1134 & 2795 & 53.16638743 & -27.80182796 & $25.17(1)$ & $0.6820(1)$ \\
 C1225 & 1742 & 53.16803964 & -27.80741481 & $24.014(4)$ & $0.30996(3)$ \\ 
  \hline
 \end{tabular}
-\caption{Remaining objects from the 20 non-analysed galaxies. Columns show the working cube ID, the ID from the UVUDF Catalogs \citep{2015AJ....150...31R} (RAF ID), the object right ascension (RA) and declination (Dec.), the magnitude of the object in the HST F606W filter, and the calculated galaxy redshift ($z$). Total sample contained 35 objects, 15 of which had high enough signal-to-noise in their spectra for the gas and stellar components to be analysed.}
+\caption{Remaining 9 objects from the 20 non-analysed galaxies which were not shown in Table \ref{table:final_sample}. Columns show the working cube ID, the ID from the UVUDF Catalogs \citep{2015AJ....150...31R} (RAF ID), the object right ascension (RA) and declination (Dec.), the magnitude of the object in the HST F606W filter, and the calculated galaxy redshift ($z$). Total sample contained 35 objects, 15 of which had high enough signal-to-noise in their spectra for the gas and stellar components to be analysed.}
 \label{table:rest_of_final_sample}
 \end{table*}
 

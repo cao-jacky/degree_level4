@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  28 MAR 2019 15:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  28 MAR 2019 15:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -681,12 +681,12 @@ Package pdftex.def Info: introduction/spectral_types.pdf  used on input line 22
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
 Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 244.
-(pdftex.def)             Requested size: 225.3436pt x 165.71997pt.
+(pdftex.def)             Requested size: 227.62206pt x 167.39427pt.
 <data/sn_vs_vband.pdf, id=293, 455.30101pt x 335.5574pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
 Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 248.
-(pdftex.def)             Requested size: 225.3436pt x 166.07838pt.
+(pdftex.def)             Requested size: 227.62206pt x 167.7578pt.
 
 Overfull \hbox (9.55144pt too wide) in paragraph at lines 268--324
  []$[]$ 
@@ -768,7 +768,7 @@ LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
 [8 <./data/sigma_star_vs_sigma_oii.pdf>] [9]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 436.
+ on input line 434.
 
 [10 <./data/ppxf_sigma_frac_error_vs_sn.pdf> <./data/lmfit_sigma_frac_error_vs_
 sn.pdf
@@ -1004,12 +1004,12 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
  ) 
 Here is how much of TeX's memory you used:
  10937 strings out of 492649
- 161582 string characters out of 6129622
- 339189 words of memory out of 5000000
+ 161583 string characters out of 6129622
+ 339433 words of memory out of 5000000
  14531 multiletter control sequences out of 15000+600000
  12839 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,15n,43p,1253b,539s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,15n,43p,1253b,537s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
 b></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbsy
 8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10
@@ -1030,10 +1030,10 @@ pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></u
 sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></us
 r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (19 pages, 10072972 bytes).
+Output written on stars_gas_dynamics.pdf (19 pages, 10073369 bytes).
 PDF statistics:
- 1043 PDF objects out of 1200 (max. 8388607)
- 753 compressed objects within 8 object streams
+ 1045 PDF objects out of 1200 (max. 8388607)
+ 754 compressed objects within 8 object streams
  118 named destinations out of 1000 (max. 500000)
  395 words of extra memory for PDF output out of 10000 (max. 10000000)
 
