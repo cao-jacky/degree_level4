@@ -112,17 +112,15 @@ Optical and spectroscopic observations of galaxies provide a way to understand t
 \section{Introduction} 
 \subsection{Classification of galaxies}
 \noindent
-The classification of galaxies into the three general groupings of ellipticals, spirals, and irregulars was first performed by Edwin Hubble in 1926 \citep{1926ApJ....64..321H} where a population of 400 extra-galactic objects were classified and sorted by their morphological features into the Hubble sequence.
+Edwin Hubble in 1926 was the first to classify galaxies into ellipticals, spirals, and irregulars \citep{1926ApJ....64..321H}. Reducing a sample of 400 extra-galactic objects through studying their morphological features, they were able to produce the \textit{Hubble sequence} or \textit{Hubble Tuning Fork}.
 
-Ellipticals were codified by E$n$, where $n$ represents the integer galaxy ellipticity calculated from $(a-b)/a$. E0 would equate to non-elliptical galaxies and E7 would be galaxies with the largest ellipticities. 
+As demonstrated by Figure \ref{fig:hubble_tuning_fork}, ellipticals can be codified by E$n$, where $n$ represents the integer galaxy ellipticity ($[a-b]/a$). E0 equates to non-elliptical galaxies and E7 corresponds to galaxies with the largest ellipticities. 
 
-Spiral galaxies have values of ellipticity greater than E7 and are subsequently defined by their structural composition. The first feature considered is whether a spiral galaxy contains a horizontal bar which runs through the central galactic nucleus, if they do then they are barred spirals (SB), otherwise they are ``normal'' spirals (S). Hubble then further sequenced the two categories by looking at: 
-\begin {enumerate*} [label=\itshape\alph*\upshape)]
-\item the relative size of the unresolved nuclear region, \item the extent to which the arms are unwound, and \item the degree of resolution in the arms. 
-\end {enumerate*} 
-This would lead to the arbitrary classification of ``early'' (Sa, SBa), ``intermediate'' (Sb, SBb), and ``late'' (Sc, SBc) types. Early spirals feature nebulosity centred in the nuclear region and arms which are closely coiled and unresolved. Intermediates have large nuclear regions with thin arms. The remaining late types have an inconspicuous nucleus and highly resolved arms.  
+Moving along the fork, lenticulars (S0) were introduced as these galaxies contain a central bulge and disc but contain no visible spiral features, therefore a fourth grouping was subsequently added \citep{1961hag..book.....S, 1975gaun.book....1S, 1994cag..book.....S}. 
 
-If a galaxy cannot be matched up to the structural features found in spirals or ellipticals, for example there is the lack of dominant nuclei and rotational symmetry, then they will be sorted as irregular galaxies.
+The fork prongs contain spirals which have ellipticities greater than E7 and are categorised by their structural composition. The first feature to consider is whether they contain a horizontal bar which intersects the central galactic nucleus; if they do then they are barred spirals (SB), otherwise they are normal spirals (S). Both of these groups can be split into three additional classes: ``early'' (Sa, SBa), ``intermediate'' (Sb, SBb), and ``late'' (Sc, SBc) types. Early spirals feature nebulosity centred in the nuclear region and closely coiled/unresolved arms, intermediates have large nuclear regions with thin arms, and late types have an inconspicuous nucleus and highly resolved arms.  
+
+If the structural features of a galaxy cannot be equated to those found in ellipticals, spirals, or lenticulars, for example there is the lack of dominant nuclei and rotational symmetry, then they are sorted as irregular galaxies.
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{introduction/hubble-tuning-fork-diagram}
@@ -130,11 +128,10 @@ If a galaxy cannot be matched up to the structural features found in spirals or 
 \label{fig:hubble_tuning_fork}
 \end{figure*}
 
-Hubble's classification provides an overview of the morphological natures of galaxies, Figure \ref{fig:hubble_tuning_fork} demonstrates this categorisation in the form of the Hubble Tuning Fork. Ellipticals are placed along the ``handle'', and barred and normal spirals form the ``prongs'' of the fork. 
+In Hubble's studies, they employed a sample of bright, local galaxies with total magnitudes ranging from $m_T\sim$9--13 and redshifts $z\approx0$. With data only representing the local universe, there is no clear indication on whether the Hubble sequence is applicable to the history and future of galactic evolution. 
+% the above paragraph is alluding to my project, I don't think it's needed here just yet
 
-In their studies, Hubble employed a sample of bright, local galaxies with total magnitudes ranging from $m_T\sim$9--13 and redshifts $z\approx0$. With data only representing the local universe, there is no clear indication on whether the Hubble sequence is applicable to the history and future of galactic evolution. 
-
-Subsequent identification schemes would build and refine Hubble's sequence as a result of analysing larger datasets which included more distant extra-galactic objects. The work undertaken by \cite{1961hag..book.....S, 1975gaun.book....1S} and \cite{1994cag..book.....S} would result in lenticulars (S0) to be included as a fourth grouping, these galaxies contain a central bulge and feature a disc but contain no visible spiral structure. \cite{1959HDP....53..275D} on the other hand would redefine the spiral category and argued for the importance of rings and lenses as their characteristic defining features. 
+Subsequent identification schemes would build and refine Hubble's sequence as a result of analysing larger datasets which included more distant extra-galactic objects. \cite{1959HDP....53..275D} would work on redefining the spiral category and argued for the importance of rings and lenses as their characteristic defining features. 
 
 Whilst these modifications provide a comprehensive and extended classification of galaxies through their morphologies, it would be beneficial to employ fundamental parameters which are related to the inner content of a galaxy.
 
@@ -232,7 +229,11 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 
 \subsubsection{Testing the local-Universe scaling relation}
 
-\subsection{Project} % think of a better heading for this
+\subsection{Project aims} % think of a better heading for this
+
+This paper discusses the study undertaken to understand the dynamics between the gas and stars in galaxies. Data extraction is performed on a MUSE data cube, the sample is reduced, and various fittings are then applied to the dataset.
+
+In Section \ref{sec:analysis}, the methodology of galaxy extraction from the MUSE cube is discussed, as well as the subsequent analysis performed by applying different fitting routines: [OII] Gaussian doublet fittings, and fitting with a penalised pixel-fitting method. 
 
 \section{Observations and data analysis}
 
@@ -269,10 +270,9 @@ After performing the sample reduction methods the final objects shown as \textit
 % From a total sample of 837 objects, 300 were
 % Objects were sorted by their probability in being a star and an initial analysis performed down to 31.0 mag to check if they contained an [OII] feature. ``Unused'' extractedclassed as unused if they had a $>60\%$ probability
 
-
+\onecolumngrid
 
 \begin{sidewaystable*}
-\vspace{50ex}
 \centering
 \begin{tabular}{c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c} 
  \hline
@@ -333,6 +333,8 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
 \caption{Parameters for the final reduced sample of 35 galaxies. Columns show the working cube ID, the ID from the UVUDF Catalogs \citep{2015AJ....150...31R} (RAF ID), the object right ascension (RA) and declination (Dec.), the magnitude of the object in the HST F606W filter, the calculated galaxy redshift ($z$), the galaxy stellar velocity ($V_*$) and velocity dispersion ($\sigma_*$), and the galaxy gas velocity ($V_{OII}$) and velocity dispersion ($\sigma_{OII}$. Note that only 15 galaxies were analysed for their stellar and gas components as the majority of the sample contained spectra with not enough signal-to-noise. 11 of the non-analysed galaxies are provided here with the rest contained in Appendix \ref{appendix:rest_of_final_sample}.}
 \label{table:final_sample}
 \end{sidewaystable*}
+
+\twocolumngrid
 
 \section{Discussion}
 
@@ -427,6 +429,8 @@ Through observational astronomy the internal structure of galaxies and the motio
 The initial step one must take though is to understand the basics, therefore developing a comprehension of what a galaxy generally is and how they can be defined and placed into different categories. Once an appreciation is built for galactic classification, the intricacies of the inter-relationships can be explored further. 
 
 %  for example how a galaxy evolves from the early stages of being a gas cloud to the eventual relation of the stellar population to that gas.
+
+%%%%%%%%%% OLD REPORT USE WHATEVER
 
 \subsection{Galactic classification}
 
@@ -525,10 +529,6 @@ The MUSE Hubble Ultra Deep Field Survey was performed over a two year timeframe 
 
 Through a coupling of both, the dynamics of stars and gas in galaxies can therefore be studied. The main analysis arising from the manipulation and comparison of different component areas of the spectra.
 
-\subsection{Project Aims}
-This paper discusses the study undertaken to understand the dynamics between the gas and stars in galaxies. Data extraction is performed on a MUSE data cube, the sample is reduced, and various fittings are then applied to the dataset.
-
-In Section \ref{sec:analysis}, the methodology of galaxy extraction from the MUSE cube is discussed, as well as the subsequent analysis performed by applying different fitting routines: [OII] Gaussian doublet fittings, and fitting with a penalised pixel-fitting method. 
 
 % Voigt profile fittings,
 
