@@ -233,8 +233,11 @@ def linear(x, m, c):
 
 def chisq(data, data_err, model):
     chisq_indivs = (data-model)**2/data_err**2
+    
     chisq = (chisq_indivs < 100)
     return np.sum(chisq_indivs[chisq])
+    
+    #return np.sum(chisq_indivs)
 
 def sigma_cutoff():
     wl = (3727.092+3728.875)/2 # wavelength of OII doublet
@@ -547,6 +550,8 @@ def vel_stars_vs_vel_oii():
     fig, ax = plt.subplots()
 
     gq_val = [] # graph-quantifier value list
+    chi_sq_list = [] # chi-squared list
+    percent_diff_list = [] # percentage difference list 
 
     for i_d in range(len(data[:][:,0])):
         cc_d = data[:][:,0][i_d] # current cube data
@@ -574,12 +579,25 @@ def vel_stars_vs_vel_oii():
         frac_err_lmfit = (a_lmfit/cc_sn) * vel_oii
 
         gq_val.append(vel_ppxf/vel_oii)
+        
+        csq = chisq(vel_oii, frac_err_lmfit, vel_ppxf)
+        chi_sq_list.append(csq)
+        
+        pd = (vel_ppxf - vel_oii)/vel_ppxf
+        percent_diff_list.append(pd)
 
         ax.errorbar(vel_oii, vel_ppxf, xerr=frac_err_lmfit, yerr=frac_err_ppxf, 
                 color="#000000", fmt="o", ms=6, elinewidth=1.0, 
                 capsize=5, capthick=1.0, zorder=0)
 
         #ax.annotate(cube_id, (vel_oii, vel_ppxf))
+
+    av_percent_diff = np.average(percent_diff_list)*100 # average percentage difference
+    print("vel_stars_vs_vel_oii, percentage difference: " + str(av_percent_diff))
+    
+    chi_sq = np.sum(chi_sq_list)
+    red_chi_sq = np.sum(chi_sq_list) / len(chi_sq_list)
+    print("vel_stars_vs_vel_oii, red_chi_sq: " + str(red_chi_sq))
 
     ax.tick_params(labelsize=18)
     ax.set_ylabel(r'\textbf{V$_{*}$ (kms$^{-1}$)}', fontsize=20)
@@ -668,6 +686,7 @@ def sigma_stars_old_vs_new():
 
     cube_ignore = np.array([849,895,765,554])
 
+    chi_sq_list = []
     for i in range(len(cube_ids)):
         cube_id = cube_ids[i]
 
@@ -680,11 +699,16 @@ def sigma_stars_old_vs_new():
 
         gq_val.append(cns/cos)
 
-        if cube_id not in cube_ignore:
+        if cube_id not in cube_ignore: 
+            chi_sq_list.append(chisq(cos, cose, cns))
             ax.errorbar(cns, cos, xerr=cnse, yerr=cose, 
                     color="#000000", fmt="o", ms=7, elinewidth=1.0, 
                     capsize=5, capthick=1.0, zorder=0)
             #ax.annotate(str(int(cube_id)), (cns, cos))
+
+    chi_sq = np.sum(chi_sq_list)
+    red_chi_sq = chi_sq / len(chi_sq_list) # reduced chi-squared
+    print("sigma_stars_old_vs_new, red_chi_sq: " + str(red_chi_sq))
 
     ax.tick_params(labelsize=20)
     ax.set_ylabel(r'\textbf{$\sigma_{*,old}$ (kms$^{-1}$)}', fontsize=20)
@@ -720,7 +744,7 @@ if __name__ == '__main__':
 
     #testing_ranges()
 
-    #vel_stars_vs_vel_oii()
+    vel_stars_vs_vel_oii()
     
     #sigma_ranker()
 

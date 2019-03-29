@@ -58,7 +58,7 @@ def inst_res():
     R = 1750
     delta_lambda = wl / R
 
-    print(wl, 2.35*sigma_inst, delta_lambda)
+    #print(wl, 2.35*sigma_inst, delta_lambda)
 
     np.save("data/sigma_inst", sigma_inst)
 

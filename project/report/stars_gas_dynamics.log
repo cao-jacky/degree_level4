@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  28 MAR 2019 20:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  29 MAR 2019 10:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -687,11 +687,6 @@ File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
 Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 248.
 (pdftex.def)             Requested size: 227.62206pt x 167.7578pt.
-
-Overfull \hbox (9.55144pt too wide) in paragraph at lines 268--324
- []$[]$ 
- []
-
 <data/cube_1804_spectra_complete.pdf, id=301, 570.08069pt x 209.44595pt>
 File: data/cube_1804_spectra_complete.pdf Graphic file (type pdf)
 <use data/cube_1804_spectra_complete.pdf>
@@ -743,13 +738,13 @@ Package pdftex.def Info: data/vel_star_vs_vel_oii.pdf  used on input line 384.
 File: data/spectra_complete_velocities.pdf Graphic file (type pdf)
 <use data/spectra_complete_velocities.pdf>
 Package pdftex.def Info: data/spectra_complete_velocities.pdf  used on input li
-ne 397.
+ne 399.
 (pdftex.def)             Requested size: 702.78612pt x 421.67183pt.
-[4 <./introduction/romanowsky_2012_fig_3.pdf>] [5 <./introduction/hudf_frame.pd
-f>] [6 <./introduction/spectral_types.pdf>]
+ [4 <./introduction/romanowsky_2012_fig_3.pdf>] [5 <./introduction/hudf_frame.p
+df>] [6 <./introduction/spectral_types.pdf>]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 426.
+ on input line 428.
 
 [7 <./data/image_sn_vs_vband.pdf> <./data/sn_vs_vband.pdf
 
@@ -763,12 +758,12 @@ age
 >]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 430.
+ on input line 432.
 
 [8 <./data/sigma_star_vs_sigma_oii.pdf>] [9]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 439.
+ on input line 441.
 
 [10 <./data/ppxf_sigma_frac_error_vs_sn.pdf> <./data/lmfit_sigma_frac_error_vs_
 sn.pdf
@@ -789,61 +784,61 @@ age
 >]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 446.
+ on input line 448.
 
 [11 <./data/sigma_stars_old_vs_new.pdf> <./data/vel_star_vs_vel_oii.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/vel_star_vs_vel_oii.p
 df): PDF inclusion: multiple pdfs with page group included in a single page
 >] [12 <./data/spectra_complete_velocities.pdf>]
-Underfull \hbox (badness 2469) in paragraph at lines 469--470
+Underfull \hbox (badness 2469) in paragraph at lines 471--472
 []\OT1/cmr/m/n/12 Through con-ten-tious de-bate and re-
  []
 
 
-Underfull \hbox (badness 5105) in paragraph at lines 469--470
+Underfull \hbox (badness 5105) in paragraph at lines 471--472
 \OT1/cmr/m/n/12 at-tempt to ex-plain galactic evol-u-tion.
  []
 
 
-Underfull \hbox (badness 1430) in paragraph at lines 475--476
+Underfull \hbox (badness 1430) in paragraph at lines 477--478
 \OT1/cmr/m/n/12 with the \OT1/cmr/m/it/12 Har-vard Spec-tral Clas-si-fic-a-tion
 
  []
 
 
-Underfull \hbox (badness 1107) in paragraph at lines 483--484
+Underfull \hbox (badness 1107) in paragraph at lines 485--486
 []\OT1/cmr/m/n/12 For an in-vest-ig-a-tion of galax-ies, one
  []
 
 [13]
-Underfull \hbox (badness 1117) in paragraph at lines 521--522
+Underfull \hbox (badness 1117) in paragraph at lines 523--524
 \OT1/cmr/m/n/12 cussed, as well as the sub-sequent ana-
  []
 
 
-Underfull \hbox (badness 1342) in paragraph at lines 534--535
+Underfull \hbox (badness 1342) in paragraph at lines 536--537
 []\OT1/cmr/m/n/12 To be-gin with, galax-ies were iden-ti-
  []
 
 
-Underfull \hbox (badness 1024) in paragraph at lines 534--535
+Underfull \hbox (badness 1024) in paragraph at lines 536--537
 \OT1/cmr/m/n/12 tects, de-blends, meas-ures and clas-si-fies
  []
 
 [14]
-Overfull \hbox (2.32982pt too wide) detected at line 571
+Overfull \hbox (2.32982pt too wide) detected at line 573
  []$[]  \OML/cmm/m/it/12 f[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 
 ) = \OML/cmm/m/it/12 cx \OT1/cmr/m/n/12 + [] [] []$ 
  []
 
 
-Underfull \hbox (badness 1163) in paragraph at lines 585--586
+Underfull \hbox (badness 1163) in paragraph at lines 587--588
 \OT1/cmr/m/n/12 doublet, a com-par-ison to galactic stars
  []
 
 
-Underfull \hbox (badness 1038) in paragraph at lines 585--586
+Underfull \hbox (badness 1038) in paragraph at lines 587--588
 \OT1/cmr/m/n/12 ap-plied, [][]Cap-pel-lari[][] ([][]2017[][]) de-scribes the
  []
 
@@ -851,22 +846,29 @@ Underfull \hbox (badness 1038) in paragraph at lines 585--586
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
-ne 588.
+ne 590.
 (pdftex.def)             Requested size: 222.62206pt x 164.86707pt.
-[15 <./data/o_ii_luminosity_vs_redshift.pdf>]
-<data/oii_ppxf_vs_oii_lmfit.pdf, id=909, 462.52798pt x 346.89601pt>
+[15]
+
+LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
+ on input line 604.
+
+<data/oii_ppxf_vs_oii_lmfit.pdf, id=900, 462.52798pt x 346.89601pt>
 File: data/oii_ppxf_vs_oii_lmfit.pdf Graphic file (type pdf)
 <use data/oii_ppxf_vs_oii_lmfit.pdf>
-Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 612
+Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 614
 .
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
 
-
 LaTeX Warning: Reference `fig:sn_difference' on page 16 undefined on input line
- 619.
+ 621.
 
-[16 <./data/oii_ppxf_vs_oii_lmfit.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 637--638
+[16 <./data/o_ii_luminosity_vs_redshift.pdf> <./data/oii_ppxf_vs_oii_lmfit.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/oii_ppxf_vs_oii_lmfit
+.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>]
+Underfull \hbox (badness 10000) in paragraph at lines 639--640
 []\OT1/cmr/m/n/12 The au-thor would like to thank
  []
 
@@ -931,7 +933,7 @@ Underfull \hbox (badness 1472) in paragraph at lines 99--105
  \OT1/cmr/m/n/10.95 (2013), `The HST eX-treme Deep Field
  []
 
-
+[17]
 Underfull \hbox (badness 1377) in paragraph at lines 108--111
  \OT1/cmr/m/n/10.95 tian, C. A. (1984), `A lib-rary of stel-
  []
@@ -941,7 +943,7 @@ Underfull \hbox (badness 1107) in paragraph at lines 108--111
  \OT1/cmr/m/n/10.95 lar spec-tra.', |   []   |   []   |   []
  []
 
-[17]
+
 Underfull \hbox (badness 3281) in paragraph at lines 150--154
  \OT1/cmr/m/n/10.95 Coe, D. et al. (2015), `UVUDF: Ul-
  []
@@ -987,36 +989,26 @@ Underfull \hbox (badness 1776) in paragraph at lines 190--194
  []
 
 ) [18]
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 683.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 685.
  [19]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 683.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 685.
  (./stars_gas_dynamics.aux)
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 683.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 685.
+Package rerunfilecheck Info: File `stars_gas_dynamics.out' has not changed.
+(rerunfilecheck)             Checksum: CB2735839D959781D73A21CB674EAFE0;2752.
 
-
-Package rerunfilecheck Warning: File `stars_gas_dynamics.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `stars_gas_dynamics.out':
-(rerunfilecheck)             Before: FD8E90B415B6F4A213319907084B47C7;2751
-(rerunfilecheck)             After:  CB2735839D959781D73A21CB674EAFE0;2752.
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
-
-
  ) 
 Here is how much of TeX's memory you used:
- 10938 strings out of 492649
- 161592 string characters out of 6129622
- 344903 words of memory out of 5000000
- 14532 multiletter control sequences out of 15000+600000
+ 10939 strings out of 492649
+ 161603 string characters out of 6129622
+ 344241 words of memory out of 5000000
+ 14533 multiletter control sequences out of 15000+600000
  12839 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,15n,43p,1253b,527s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,15n,43p,1253b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
 b></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbsy
 8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10
@@ -1037,10 +1029,10 @@ pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></u
 sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></us
 r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (19 pages, 10069936 bytes).
+Output written on stars_gas_dynamics.pdf (19 pages, 10069610 bytes).
 PDF statistics:
- 1046 PDF objects out of 1200 (max. 8388607)
- 755 compressed objects within 8 object streams
+ 1045 PDF objects out of 1200 (max. 8388607)
+ 754 compressed objects within 8 object streams
  118 named destinations out of 1000 (max. 500000)
  395 words of extra memory for PDF output out of 10000 (max. 10000000)
 

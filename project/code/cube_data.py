@@ -75,16 +75,16 @@ def data_obtainer(cube_id):
 
         # converting to shorthand uncertainties notation
         vel_stars_w_err = ufloat(vel_stars, vel_stars_err)
-        vel_stars_w_err = '{:.1uSL}'.format(vel_stars_w_err)
+        vel_stars_w_err = '{:.1ufSL}'.format(vel_stars_w_err)
 
         vel_oii_w_err = ufloat(vel_oii, vel_oii_err)
-        vel_oii_w_err = '{:.1uSL}'.format(vel_oii_w_err)
+        vel_oii_w_err = '{:.1ufSL}'.format(vel_oii_w_err)
 
         sigma_stars_w_err = ufloat(sigma_stars, sigma_stars_err)
-        sigma_stars_w_err = '{:.1uSL}'.format(sigma_stars_w_err)
+        sigma_stars_w_err = '{:.1ufSL}'.format(sigma_stars_w_err)
 
         sigma_oii_w_err = ufloat(sigma_oii, sigma_oii_err)
-        sigma_oii_w_err = '{:.1uSL}'.format(sigma_oii_w_err)
+        sigma_oii_w_err = '{:.1ufSL}'.format(sigma_oii_w_err)
 
         # print into terminal the correct line to input into LaTeX
         print("C"+str(cube_id) + " & " + str(curr_raf_id) + " & " + str(curr_ra) + 
