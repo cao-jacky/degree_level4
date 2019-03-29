@@ -139,6 +139,7 @@ Optical and spectroscopic observations of galaxies provide a way to understand t
 \tableofcontents
 %\let\toc@pre\relax
 %\let\toc@post\relax
+\newpage
 
 \section{Introduction} 
 \subsection{Classification of galaxies}
@@ -199,7 +200,9 @@ Further understanding
 \vspace{4ex}
 \subsubsection{Tully-Fisher and Faber-Jackson relationships}
 
-% show plots of the TF and FB relationships from their original papers
+% show plots of the TF and FB relationships from their original papers and then discuss how they are useful
+% they are relationships for spirals and elliptical galaxies which detail what??
+% discuss how these relations are derived at the local universe i.e. using data at z~0
 
 \subsection{High-redshifts}
 
@@ -207,15 +210,29 @@ Further understanding
 
 for such as N-body interactions in large-scale galaxy cluster structures or 
 
+% Dynamical constraints
+% Galaxy formation models through EAGLE and TFR
+% discuss how to understand the formation and evolution of galaxies one method is to simulate them
+% This simulates the galaxy in a hollisitic approach
+
 \subsubsection{Stellar formation}
 
-\subsubsection{Gas collapse in dark matter halos}
+% Madau plot with stellar formation 
+% formation of stars is linked to the formation of the galaxy
+% Any future relationship between stars and other components of the galaxy is linked i.e. the gas
 
 \subsubsection{Evolution of scaling relations}
+
+% evolution of dark matter haloes
 
 \subsection{The Hubble Ultra Deep Field}
 
 \subsubsection{HST}
+
+% I don't want to later repeat myself later in the second section - I want to provide some basic history for HST and for MUSE
+% How about a discussion on what the instruments are and then later on in the observations section I should be discussing the exact specifics on how the data was obtained
+% Maybe I can provide the basic schematics 
+% What can optical data tell us e.g. colour images, morphology...etc
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{introduction/hudf_frame.pdf}
@@ -225,6 +242,12 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 \end{figure*}
 
 \subsubsection{MUSE}
+
+% Redshifts
+% Dynamics
+% Velocity dispersions of stars and gas
+% Stellar populations: IMF
+% Stellar metallicity Z
 
 \begin{table}
 \begin{center}
@@ -258,9 +281,10 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 \label{fig:spectral_types}
 \end{figure*}
 
-\subsubsection{Testing the local-Universe scaling relation}
+\subsection{Project study and aims} % think of a better heading for this
 
-\subsection{Project aims} % think of a better heading for this
+% Linking between the gas and stars at high redshift to test the scaling relations 
+% Is OII a valid and applicable method in testing the scaling relations
 
 This paper discusses the study undertaken to understand the dynamics between the gas and stars in galaxies. Data extraction is performed on a MUSE data cube, the sample is reduced, and various fittings are then applied to the dataset.
 
@@ -371,13 +395,17 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
 
 \subsection{Galaxy velocity dispersions}
 
+\subsubsection{[OII] modelling}
+
+\subsubsection{Full spectrum modelling}
+
+\subsubsection{$\sigma$ results}
+
 \begin{figure*}
 \includegraphics[width=\textwidth]{data/cube_1804_spectra_complete}
 \caption{Example spectra and the pPXF analysis performed for C1804. The galaxy integrated spectra (black) would be passed to the pPXF fitting routine which would normalise the data and return a best fitting model (red) plus values for galaxy velocity and velocity dispersion. The residuals between the data and model (green) are shown in addition to some highlighted emission (blue), absorption (orange), and iron (grey) spectra features. For C1804 in particular, pPXF provided a reduced $\chi^2 \approx 1.69$ which is an indication of a good fit.}
 \label{fig:ppxf_spectra}
 \end{figure*}
-
-%\subsubsection{$\sigma_{*}$ vs. $\sigma_{OII}$}
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/sigma_star_vs_sigma_oii}
@@ -432,7 +460,7 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
 
 \subsection{Voronoi tessellation}
 
-\subsection{Results}
+\subsubsection{Tully-Fisher}
 
 \onecolumngrid
 
@@ -446,6 +474,11 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
 
 \twocolumngrid
 
+\subsubsection{Faber-Jackson}
+
+\subsection{Applicability of locally derived scaling relations}
+
+\subsection{Future studies}
 
 Amongst the different types of cosmic structure within our universe, galaxies can be described as the most unique and diverse. With each containing countless numbers of stars and vast amounts of gas, dust, and dark matter \citep{carroll_astro}, it would be surprising if these various inner objects were not connected in any way.
 
@@ -461,9 +494,9 @@ The initial step one must take though is to understand the basics, therefore dev
 
 %  for example how a galaxy evolves from the early stages of being a gas cloud to the eventual relation of the stellar population to that gas.
 
-%%%%%%%%%% OLD REPORT USE WHATEVER
+%%%%%%%%%% OLD REPORT %%%%%%%%%%
 
-\subsection{Galactic classification}
+\subsection*{Galactic classification}
 
 As stated previously, a galaxy can be quite broadly defined as a collection of gas, dust, stars and dark matter. But if a large enough sample was observed then one would begin to see that galaxies can be grouped and classified together.
 
@@ -491,7 +524,7 @@ These then are the general characteristics of galaxies, and whilst they can be c
 
 % TODO if I am going to discuss galactic formation, should I have mentioned the earlier detail on how ellipticals form stars early on in the galaxies' history? 
 
-\subsection{Galactic stellar formation}
+\subsection*{Galactic stellar formation}
 
 % this section shouldn't be called galactic stellar formation
 
@@ -523,13 +556,13 @@ This therefore is one of ways to study the stellar population of a galaxy as the
 
 It is clear then that observational data would be required for own study of galaxies and the internal motions of the objects within them. 
 
-\subsection{Galactic data} 
+\subsection*{Galactic data} 
 
 For an investigation of galaxies, one would have to collect data optically and also spectroscopically. The former would be useful as it would allow for a quick identification of the galaxy based on its appearance, this could then be used to infer whether a galaxy would be worth studying. Spectroscopic data on the other hand would be important as a variety of information could be obtained such as the type of stars within a galaxy, the types of gas in the surrounding clouds, and also numerical values such as the redshift $z$. 
 
 Astronomers on a daily basis employ an assortment of telescopes and spectrographs, but there are a few in particular which are worth discussing as they have produced remarkable datasets.
 
-\subsubsection{HUDF}
+\subsubsection*{HUDF}
 
 The Hubble Space Telescope (HST) has been operating since April 1990 and for the duration of that time it has collected over 50 terabytes of data \citep{mccoy_space_sciences}. From observing nebulae to attempts to detect extra-solar planets, HST has been used in a variety of searches. However, one of the most impressive and insightful uses of HST was the collection of the long-exposures taken in 1996 to produce the Hubble Deep Field (HDF). 
 
@@ -544,7 +577,7 @@ It is therefore unsurprising that another attempt was made in 2011 which resulte
 
 % why was the HUDF deep field commissioned?
 
-\subsubsection{MUSE}
+\subsubsection*{MUSE}
 
 In addition to optical observations, as noted previously, spectroscopic data should also be employed in a study of galaxies. One particular instrument which was used to acquire data on the HUDF region is the Multi-Unit Spectroscopic Explorer (MUSE) mounted to the Nasmyth platform on the Very Large Telescope (VLT) \citep{bacon_muse_proposal}. 
 
@@ -565,12 +598,12 @@ Through a coupling of both, the dynamics of stars and gas in galaxies can theref
 
 % Following this, Section \ref{sec:discussion} provides an exploration on the implications on the results obtained from the data analysis. Then the discussion will end on future work which can be performed to extend on the project.
 
-\section{Analysis} 
+\section*{Analysis} 
 \label{sec:analysis}
 
 The initial goal in the analysis was to reduce down the MUSE data cube into smaller cubes which contained individual galaxies. These could then be collapsed to produce a single galaxy integrated spectrum to represent the dynamics of the entire galaxy. Subsequently different fitting routines could be applied which would allow for a comparison of the gas to the stars in a galaxy.
 
-\subsection{Cube extraction}
+\subsection*{Cube extraction}
 
 To begin with, galaxies were identified from the 3D MUSE cube using \textit{SExtractor}; an automated routine which detects, de-blends, measures and classifies sources \citep{bertin_sextractor}. Employed in the astronomical software package \textit{GAIA} \citep{currie_starlink}, every potential galactic source was retrieved along with a ``segmentation map'' which discerns between multiple galaxies if several are close together. 
 
@@ -580,7 +613,7 @@ The final object list from SExtractor were compared and merged with a catalogue 
 
 With every extracted galaxy, the signal-to-noise (S/N) could be calculated with the flux values from the catalogue. This was then plotted against the V-band magnitude (Figure \ref{fig:sn_vband}(a)), and one should find that as the S/N increases, the object should become brighter. A similar trend is also found if the S/N was measured using regions of the galaxy-integrated spectrum (Figure \ref{fig:sn_vband}(b)). The ``signal'' calculated by taking the median of the region and the ``noise'' as the standard deviation of a separate sky spectra. Both plots agree which implies that further analysis on the extracted galaxies should in theory produce sensible results. 
 
-\subsection{Line fittings and pPXF} 
+\subsection*{Line fittings and pPXF} 
 
 After identifying the individual galactic objects from the MUSE cube, the spectroscopic data could then be extracted, manipulated and analysed by using different fitting routines: (i) [OII] doublet fittings, and (ii) \textit{pPXF} absorption and emission line fittings.
 
@@ -598,7 +631,7 @@ With the reduced sample in hand, the model fitting analysis could then be perfor
 
 % Talk about what sample was used for the analysis, how it was chosen and the different parameters which were set and chosen 
 
-\subsubsection{Gaussian doublet fitting}
+\subsubsection*{Gaussian doublet fitting}
 
 Through collapsing the entire galaxy into a single spectrum, one should find the [OII] doublet emission line to be the most prominent feature due to its large amplitude when compared to other spectral lines (Figure \ref{fig:ppxf_spectra}). This therefore allows it to be a useful tool for estimating the SFR, which in turn can be used as an indication of the evolutionary state of the galaxy \citep{maddox_oxygen}.
 
@@ -621,7 +654,7 @@ After a successful fitting, the following variables would be outputted: $c$, $I_
 
 The redshifts along with the [OII] flux $f_{\text{[OII]}}(x)$ can be used to calculate the luminosity for the doublet, this luminosity can then be plotted against the redshifts (Figure \ref{fig:oiiluminosity_redshift}). What can be found is a general agreement that the galaxies follow the luminosity-redshift relation, thus the calculated parameters are sensible so they can be applied to other analysis routines.
 
-\subsubsection{pPXF fitting}
+\subsubsection*{pPXF fitting}
 
 With the gas dynamics of galaxies represented through the width of the [OII] doublet, a comparison to galactic stars would require the width of the stellar spectra features. To obtain this, a Penalized Pixel-Fitting method (pPXF) can be applied, \cite{cappaellari_ppxf} describes the method and implementation in the form of a Python library \textit{pPXF}.
 
@@ -681,9 +714,9 @@ The author would like to thank Dr.~M.~Swinbank and Alfie Tiley for their continu
 
 \onecolumngrid
 \section*{Appendices}
-\section{Galaxy sample} \label{appendix:rest_of_final_sample}
+\section{Remaining galaxies} \label{appendix:rest_of_final_sample}
 \noindent
-The remaining nine objects from the final reduced sample of 35 galaxies, these wer
+The remaining 9 objects from the final reduced sample of 35 galaxies are presented in Table \ref{table:rest_of_final_sample}. These 9 are part of 20 which could not be analysed due to lack of signal-to-noise or lack of a prominent [OII] emission feature.
 
 \begin{table*}[h!]
 \centering
