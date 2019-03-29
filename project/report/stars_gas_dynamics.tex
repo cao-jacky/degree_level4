@@ -238,6 +238,19 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 
 \subsection{HST HUDF}
 
+\subsection{MUSE HUDF}
+\noindent
+
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{data/o_ii_luminosity_vs_redshift}
+\caption{[OII] luminosity against redshift for 84 galaxies. Lower-limit of this sample (grey) was calculated using the object with the smallest flux. All galaxies appear above this limit and approximately follow the luminosity-redshift trend. Note that objects with $z<0.3$ were not analysed as high-redshift galaxies were desired. }
+\label{fig:oiiluminosity_redshift}
+\end{figure} 
+
+% Variables used for each galaxy were obtained from the fitting of the galaxy-integrated spectra with a model (Equation \ref{eqn:doublet})
+
+After performing the sample reduction methods the final objects shown as \textit{Usable} in Figure \ref{fig:sn_vband} can be found in Table [reference].
+
 \begin{figure*}
   \subfloat{\label{fig:image_sn_vband}%
   \includegraphics[width=0.5\textwidth]{data/image_sn_vs_vband}%
@@ -257,10 +270,6 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 % Objects were sorted by their probability in being a star and an initial analysis performed down to 31.0 mag to check if they contained an [OII] feature. ``Unused'' extractedclassed as unused if they had a $>60\%$ probability
 
 
-\subsection{MUSE HUDF}
-\noindent
-
-After performing the sample reduction methods the final objects shown as \textit{Usable} in Figure \ref{fig:sn_vband} can be found in Table [reference].
 
 \begin{sidewaystable*}
 \vspace{50ex}
@@ -382,7 +391,7 @@ C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - &
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/vel_star_vs_vel_oii}
-\caption{Stellar and [OII] gas velocities for 15 galaxies. The calculated velocities appear to be well in agreement with each other with just a $0.0757\%$ fractional difference. }
+\caption{Stellar and [OII] gas velocities for 15 galaxies. The calculated velocities appear to be well in agreement with each other with a $0.0757\%$ fractional difference. It would be expected that both components move at the same relative velocity.}
 \label{fig:velocities}
 \end{figure}
 
@@ -585,12 +594,6 @@ The redshifts along with the [OII] flux $f_{\text{[OII]}}(x)$ can be used to cal
 \subsubsection{pPXF fitting}
 
 With the gas dynamics of galaxies represented through the width of the [OII] doublet, a comparison to galactic stars would require the width of the stellar spectra features. To obtain this, a Penalized Pixel-Fitting method (pPXF) can be applied, \cite{cappaellari_ppxf} describes the method and implementation in the form of a Python library \textit{pPXF}.
-
-\begin{figure}
-\includegraphics[width=1.0\linewidth]{data/o_ii_luminosity_vs_redshift}
-\caption{[OII] luminosity plotted against redshift. Variables used for each galaxy were obtained from the fitting of the galaxy-integrated spectra with a model (Equation \ref{eqn:doublet}). The line represents the lower-limit of the sample as it was calculated using the galaxy with the smallest flux. All galaxies in the set are above this line and approximately follow the luminosity-redshift trend.}
-\label{fig:oiiluminosity_redshift}
-\end{figure} 
 
 A reasonable initial test would be to pass an entire galaxy spectrum to the kinematics fitter and then examine the output to check if it seems reasonable. As well as a final model spectrum (Figure \ref{fig:ppxf_spectra}), pPXF also outputs its optimal variables and amongst them includes a velocity dispersion. However for these values and results to be comprehensible, one must be aware of what initial parameters are being passed to the fitting routine. 
 

@@ -360,7 +360,8 @@ def graphs():
             ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
                     color="#ffa000", alpha=1.0, marker="x") 
         if curr_cube not in unusable_cubes['ac'] and usable_cubes[:,1][i] < 25.0:
-            cube_data.data_obtainer(curr_cube) # creating LaTeX prepared table entry
+            #cube_data.data_obtainer(curr_cube) # creating LaTeX prepared table entry
+            
             ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
                     color="#00c853", alpha=1.0, marker="o", zorder=3, 
                     label=r'\textbf{Usable}')
@@ -458,10 +459,12 @@ def graphs():
     # OII LUMINOSITY VS. REDSHIFT
     # let's pick out the flux which is the smallest
     oii_flux_smallest = np.min(oii_flux)
-    ofs_redshifts = np.arange(0,1.5,0.01)
+    ofs_redshifts = np.arange(0,1.6,0.01)
     ofs_luminosity = luminosity_flux(ofs_redshifts, oii_flux_smallest)
 
     cubes_luminosity = luminosity_flux(usable_cubes_no_oii[:,13], oii_flux)
+
+    print(len(usable_cubes_no_oii[:,13]))
 
     fig, ax = plt.subplots()
     ax.plot(ofs_redshifts, ofs_luminosity, linewidth=1.5, color="#9e9e9e")
@@ -472,13 +475,16 @@ def graphs():
         pass
         #ax.annotate(int(txt), (usable_cubes_no_oii[i][13], cubes_luminosity[i]), 
             #alpha=0.2)
+
+    ax.fill_between(np.linspace(0.0,0.3,100), 0.007*10**44,1.7*10**55, alpha=0.2, 
+            zorder=0, facecolor="#ffcdd2")
   
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{Redshift}', fontsize=20)
     ax.set_ylabel(r'\textbf{[OII] Luminosity}', fontsize=20)
     ax.set_yscale('log')
-    ax.set_xlim([0.2, 1.5])
-    ax.set_ylim((0.007*10**51,1.7*10**51))
+    ax.set_xlim([0.0, 1.5])
+    ax.set_ylim((0.5*10**45,0.3*10**52))
     plt.tight_layout()
     plt.savefig("graphs/o_ii_luminosity_vs_redshift.pdf",bbox_inches="tight")
     plt.close("all")
