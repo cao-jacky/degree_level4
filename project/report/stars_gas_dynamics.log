@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  29 MAR 2019 12:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  29 MAR 2019 13:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -429,7 +429,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip78
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 41.
+Package hyperref Info: Option `linktocpage' set `true' on input line 42.
+Package hyperref Info: Option `colorlinks' set `true' on input line 42.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2016/02/03 v2.11b `tabularx' package (DPC)
@@ -491,30 +492,30 @@ Package: titlesec 2016/03/21 v2.10.2 Sectioning titles
 \titlewidthfirst=\dimen151
 )
 Class revtex4-1 Info: Unrecognized array package. Please update this document c
-lass! (Proceeding with fingers crossed.) on input line 86.
-Class revtex4-1 Info: Robustifying \LaTeX's \boldmath command on input line 86.
-
-Class revtex4-1 Info: cite was not loaded (OK!) on input line 86.
-Class revtex4-1 Info: mcite was not loaded (OK!) on input line 86.
-Class revtex4-1 Info: multicol was not loaded (OK!) on input line 86.
+lass! (Proceeding with fingers crossed.) on input line 117.
+Class revtex4-1 Info: Robustifying \LaTeX's \boldmath command on input line 117
+.
+Class revtex4-1 Info: cite was not loaded (OK!) on input line 117.
+Class revtex4-1 Info: mcite was not loaded (OK!) on input line 117.
+Class revtex4-1 Info: multicol was not loaded (OK!) on input line 117.
 
 (./stars_gas_dynamics.aux)
 \openout1 = `stars_gas_dynamics.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -551,7 +552,7 @@ LaTeX Font Info:    ... okay on input line 86.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 ABD: EverySelectfont initializing macros
-LaTeX Info: Redefining \selectfont on input line 86.
+LaTeX Info: Redefining \selectfont on input line 117.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
@@ -596,7 +597,7 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 147.
 )
-Package hyperref Info: Link coloring ON on input line 86.
+Package hyperref Info: Link coloring ON on input line 117.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -606,21 +607,21 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count141
 )
-LaTeX Info: Redefining \ref on input line 86.
-LaTeX Info: Redefining \pageref on input line 86.
-LaTeX Info: Redefining \nameref on input line 86.
+LaTeX Info: Redefining \ref on input line 117.
+LaTeX Info: Redefining \pageref on input line 117.
+LaTeX Info: Redefining \nameref on input line 117.
 
 (./stars_gas_dynamics.out) (./stars_gas_dynamics.out)
 \@outlinefile=\write4
 \openout4 = `stars_gas_dynamics.out'.
 
-Class revtex4-1 Info: Taking \maketitle back from hyperref on input line 86.
+Class revtex4-1 Info: Taking \maketitle back from hyperref on input line 117.
 \openout3 = `stars_gas_dynamicsNotes.bib'.
 
 <other/durham_university.pdf, id=152, 340.27126pt x 200.75pt>
 File: other/durham_university.pdf Graphic file (type pdf)
 <use other/durham_university.pdf>
-Package pdftex.def Info: other/durham_university.pdf  used on input line 99.
+Package pdftex.def Info: other/durham_university.pdf  used on input line 130.
 (pdftex.def)             Requested size: 227.62206pt x 134.29042pt.
  [1{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./ot
 her/durham_university.pdf>] (./stars_gas_dynamics.toc)
@@ -631,7 +632,7 @@ her/durham_university.pdf>] (./stars_gas_dynamics.toc)
 File: introduction/hubble-tuning-fork-diagram.jpg Graphic file (type jpg)
 <use introduction/hubble-tuning-fork-diagram.jpg>
 Package pdftex.def Info: introduction/hubble-tuning-fork-diagram.jpg  used on i
-nput line 126.
+nput line 157.
 (pdftex.def)             Requested size: 455.24411pt x 341.4362pt.
 
 
@@ -641,111 +642,111 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [2]
-Underfull \hbox (badness 1521) in paragraph at lines 136--137
+Underfull \hbox (badness 1521) in paragraph at lines 167--168
 []\OT1/cmr/m/n/12 Whilst these modi-fic-a-tions provide a
  []
 
 [3 <./introduction/hubble-tuning-fork-diagram.jpg>]
-<introduction/romanowsky_2012_fig_3.pdf, id=254, 276.03125pt x 276.03125pt>
+<introduction/romanowsky_2012_fig_3.pdf, id=238, 276.03125pt x 276.03125pt>
 File: introduction/romanowsky_2012_fig_3.pdf Graphic file (type pdf)
 <use introduction/romanowsky_2012_fig_3.pdf>
 Package pdftex.def Info: introduction/romanowsky_2012_fig_3.pdf  used on input 
-line 160.
+line 191.
 (pdftex.def)             Requested size: 222.62206pt x 222.63219pt.
-<introduction/hudf_frame.pdf, id=259, 795.97375pt x 393.47pt>
+<introduction/hudf_frame.pdf, id=241, 795.97375pt x 393.47pt>
 File: introduction/hudf_frame.pdf Graphic file (type pdf)
 <use introduction/hudf_frame.pdf>
-Package pdftex.def Info: introduction/hudf_frame.pdf  used on input line 190.
+Package pdftex.def Info: introduction/hudf_frame.pdf  used on input line 221.
 (pdftex.def)             Requested size: 455.24411pt x 225.0367pt.
-<introduction/spectral_types.pdf, id=282, 971.82426pt x 1126.3364pt>
+<introduction/spectral_types.pdf, id=264, 971.82426pt x 1126.3364pt>
 File: introduction/spectral_types.pdf Graphic file (type pdf)
 <use introduction/spectral_types.pdf>
-Package pdftex.def Info: introduction/spectral_types.pdf  used on input line 22
-5.
+Package pdftex.def Info: introduction/spectral_types.pdf  used on input line 25
+6.
 (pdftex.def)             Requested size: 455.24411pt x 527.62517pt.
  [4 <./introduction/romanowsky_2012_fig_3.pdf>]
-Underfull \hbox (badness 1117) in paragraph at lines 236--237
+Underfull \hbox (badness 1117) in paragraph at lines 267--268
 \OT1/cmr/m/n/12 cussed, as well as the sub-sequent ana-
  []
 
-<data/o_ii_luminosity_vs_redshift.pdf, id=312, 455.30101pt x 337.18498pt>
+<data/o_ii_luminosity_vs_redshift.pdf, id=294, 455.30101pt x 337.18498pt>
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
-ne 246.
+ne 277.
 (pdftex.def)             Requested size: 222.62206pt x 164.86707pt.
-<data/image_sn_vs_vband.pdf, id=314, 456.28467pt x 335.5574pt>
+<data/image_sn_vs_vband.pdf, id=296, 456.28467pt x 335.5574pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
-Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 258.
+Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 289.
 (pdftex.def)             Requested size: 227.62206pt x 167.39427pt.
-<data/sn_vs_vband.pdf, id=315, 455.30101pt x 335.5574pt>
+<data/sn_vs_vband.pdf, id=297, 455.30101pt x 335.5574pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
-Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 262.
+Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 293.
 (pdftex.def)             Requested size: 227.62206pt x 167.7578pt.
-<data/cube_1804_spectra_complete.pdf, id=322, 570.08069pt x 209.44595pt>
+<data/cube_1804_spectra_complete.pdf, id=304, 570.08069pt x 209.44595pt>
 File: data/cube_1804_spectra_complete.pdf Graphic file (type pdf)
 <use data/cube_1804_spectra_complete.pdf>
 Package pdftex.def Info: data/cube_1804_spectra_complete.pdf  used on input lin
-e 344.
+e 375.
 (pdftex.def)             Requested size: 455.24411pt x 167.25977pt.
-<data/sigma_star_vs_sigma_oii.pdf, id=323, 456.28467pt x 338.91882pt>
+<data/sigma_star_vs_sigma_oii.pdf, id=305, 456.28467pt x 338.91882pt>
 File: data/sigma_star_vs_sigma_oii.pdf Graphic file (type pdf)
 <use data/sigma_star_vs_sigma_oii.pdf>
 Package pdftex.def Info: data/sigma_star_vs_sigma_oii.pdf  used on input line 3
-52.
+83.
 (pdftex.def)             Requested size: 222.62206pt x 165.358pt.
-<data/ppxf_sigma_frac_error_vs_sn.pdf, id=324, 455.30101pt x 338.91882pt>
+<data/ppxf_sigma_frac_error_vs_sn.pdf, id=306, 455.30101pt x 338.91882pt>
 File: data/ppxf_sigma_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/ppxf_sigma_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/ppxf_sigma_frac_error_vs_sn.pdf  used on input li
-ne 361.
+ne 392.
 (pdftex.def)             Requested size: 225.3436pt x 167.74205pt.
-<data/lmfit_sigma_frac_error_vs_sn.pdf, id=325, 455.30101pt x 337.29124pt>
+<data/lmfit_sigma_frac_error_vs_sn.pdf, id=307, 455.30101pt x 337.29124pt>
 File: data/lmfit_sigma_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/lmfit_sigma_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/lmfit_sigma_frac_error_vs_sn.pdf  used on input l
-ine 364.
+ine 395.
 (pdftex.def)             Requested size: 225.3436pt x 166.93651pt.
-<data/ppxf_vel_frac_error_vs_sn.pdf, id=326, 455.30101pt x 338.91882pt>
+<data/ppxf_vel_frac_error_vs_sn.pdf, id=308, 455.30101pt x 338.91882pt>
 File: data/ppxf_vel_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/ppxf_vel_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/ppxf_vel_frac_error_vs_sn.pdf  used on input line
- 367.
+ 398.
 (pdftex.def)             Requested size: 225.3436pt x 167.74205pt.
-<data/lmfit_vel_frac_error_vs_sn.pdf, id=327, 455.30101pt x 338.91882pt>
+<data/lmfit_vel_frac_error_vs_sn.pdf, id=309, 455.30101pt x 338.91882pt>
 File: data/lmfit_vel_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/lmfit_vel_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/lmfit_vel_frac_error_vs_sn.pdf  used on input lin
-e 370.
+e 401.
 (pdftex.def)             Requested size: 225.3436pt x 167.74205pt.
-<data/sigma_stars_old_vs_new.pdf, id=328, 455.30101pt x 337.29124pt>
+<data/sigma_stars_old_vs_new.pdf, id=310, 455.30101pt x 337.29124pt>
 File: data/sigma_stars_old_vs_new.pdf Graphic file (type pdf)
 <use data/sigma_stars_old_vs_new.pdf>
-Package pdftex.def Info: data/sigma_stars_old_vs_new.pdf  used on input line 38
-3.
+Package pdftex.def Info: data/sigma_stars_old_vs_new.pdf  used on input line 41
+4.
 (pdftex.def)             Requested size: 222.62206pt x 164.91902pt.
-<data/vel_star_vs_vel_oii.pdf, id=329, 456.28467pt x 340.03171pt>
+<data/vel_star_vs_vel_oii.pdf, id=311, 456.28467pt x 340.03171pt>
 File: data/vel_star_vs_vel_oii.pdf Graphic file (type pdf)
 <use data/vel_star_vs_vel_oii.pdf>
-Package pdftex.def Info: data/vel_star_vs_vel_oii.pdf  used on input line 395.
+Package pdftex.def Info: data/vel_star_vs_vel_oii.pdf  used on input line 426.
 (pdftex.def)             Requested size: 222.62206pt x 165.90099pt.
-<data/spectra_complete_velocities.pdf, id=330, 3738.16277pt x 2264.21568pt>
+<data/spectra_complete_velocities.pdf, id=312, 3738.16277pt x 2264.21568pt>
 File: data/spectra_complete_velocities.pdf Graphic file (type pdf)
 <use data/spectra_complete_velocities.pdf>
 Package pdftex.def Info: data/spectra_complete_velocities.pdf  used on input li
-ne 410.
+ne 441.
 (pdftex.def)             Requested size: 702.78612pt x 421.67183pt.
 [5 <./introduction/hudf_frame.pdf>] [6 <./introduction/spectral_types.pdf>]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 430.
+ on input line 461.
 
 [7]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 430.
+ on input line 461.
 
 [8 <./data/o_ii_luminosity_vs_redshift.pdf>] [9 <./data/image_sn_vs_vband.pdf> 
 <./data/sn_vs_vband.pdf
@@ -760,15 +761,15 @@ age
 >]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 456.
+ on input line 487.
 
 [10 <./data/sigma_star_vs_sigma_oii.pdf>]
-Underfull \hbox (badness 2469) in paragraph at lines 483--484
+Underfull \hbox (badness 2469) in paragraph at lines 514--515
 []\OT1/cmr/m/n/12 Through con-ten-tious de-bate and re-
  []
 
 
-Underfull \hbox (badness 5105) in paragraph at lines 483--484
+Underfull \hbox (badness 5105) in paragraph at lines 514--515
 \OT1/cmr/m/n/12 at-tempt to ex-plain galactic evol-u-tion.
  []
 
@@ -791,16 +792,16 @@ age
 >]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 486.
+ on input line 517.
 
 
-Underfull \hbox (badness 1430) in paragraph at lines 489--490
+Underfull \hbox (badness 1430) in paragraph at lines 520--521
 \OT1/cmr/m/n/12 with the \OT1/cmr/m/it/12 Har-vard Spec-tral Clas-si-fic-a-tion
 
  []
 
 
-Underfull \hbox (badness 1107) in paragraph at lines 497--498
+Underfull \hbox (badness 1107) in paragraph at lines 528--529
 []\OT1/cmr/m/n/12 For an in-vest-ig-a-tion of galax-ies, one
  []
 
@@ -809,45 +810,45 @@ Underfull \hbox (badness 1107) in paragraph at lines 497--498
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/vel_star_vs_vel_oii.p
 df): PDF inclusion: multiple pdfs with page group included in a single page
 >] [13 <./data/spectra_complete_velocities.pdf>]
-Underfull \hbox (badness 1342) in paragraph at lines 544--545
+Underfull \hbox (badness 1342) in paragraph at lines 575--576
 []\OT1/cmr/m/n/12 To be-gin with, galax-ies were iden-ti-
  []
 
 
-Underfull \hbox (badness 1024) in paragraph at lines 544--545
+Underfull \hbox (badness 1024) in paragraph at lines 575--576
 \OT1/cmr/m/n/12 tects, de-blends, meas-ures and clas-si-fies
  []
 
 [14]
-Overfull \hbox (2.32982pt too wide) detected at line 581
+Overfull \hbox (2.32982pt too wide) detected at line 612
  []$[]  \OML/cmm/m/it/12 f[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 
 ) = \OML/cmm/m/it/12 cx \OT1/cmr/m/n/12 + [] [] []$ 
  []
 
 
-Underfull \hbox (badness 1163) in paragraph at lines 595--596
+Underfull \hbox (badness 1163) in paragraph at lines 626--627
 \OT1/cmr/m/n/12 doublet, a com-par-ison to galactic stars
  []
 
 
-Underfull \hbox (badness 1038) in paragraph at lines 595--596
-\OT1/cmr/m/n/12 ap-plied, [][]Cap-pel-lari[][] ([][]2017[][]) de-scribes the
+Underfull \hbox (badness 1038) in paragraph at lines 626--627
+\OT1/cmr/m/n/12 ap-plied, Cap-pel-lari ([][]2017[][]) de-scribes the
  []
 
 [15]
-<data/oii_ppxf_vs_oii_lmfit.pdf, id=899, 462.52798pt x 346.89601pt>
+<data/oii_ppxf_vs_oii_lmfit.pdf, id=879, 462.52798pt x 346.89601pt>
 File: data/oii_ppxf_vs_oii_lmfit.pdf Graphic file (type pdf)
 <use data/oii_ppxf_vs_oii_lmfit.pdf>
-Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 616
+Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 647
 .
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
 
 
 LaTeX Warning: Reference `fig:sn_difference' on page 16 undefined on input line
- 623.
+ 654.
 
 [16 <./data/oii_ppxf_vs_oii_lmfit.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 641--642
+Underfull \hbox (badness 10000) in paragraph at lines 672--673
 []\OT1/cmr/m/n/12 The au-thor would like to thank
  []
 
@@ -968,11 +969,11 @@ Underfull \hbox (badness 1776) in paragraph at lines 190--194
  []
 
 ) [18]
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 687.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 718.
  [19]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 687.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 718.
  (./stars_gas_dynamics.aux)
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 687.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 718.
 Package rerunfilecheck Info: File `stars_gas_dynamics.out' has not changed.
 (rerunfilecheck)             Checksum: BB1261E1D9A227418154C9991CFD1518;2695.
 
@@ -981,13 +982,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 10931 strings out of 492649
- 161480 string characters out of 6129622
- 320769 words of memory out of 5000000
- 14529 multiletter control sequences out of 15000+600000
+ 10932 strings out of 492649
+ 161493 string characters out of 6129622
+ 320630 words of memory out of 5000000
+ 14530 multiletter control sequences out of 15000+600000
  12839 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,15n,43p,1253b,533s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,15n,43p,2608b,533s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pf
 b></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbsy
 8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10
@@ -1008,10 +1009,10 @@ pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></u
 sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></us
 r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on stars_gas_dynamics.pdf (19 pages, 10071022 bytes).
+Output written on stars_gas_dynamics.pdf (19 pages, 10071138 bytes).
 PDF statistics:
- 1035 PDF objects out of 1200 (max. 8388607)
- 745 compressed objects within 8 object streams
+ 1015 PDF objects out of 1200 (max. 8388607)
+ 727 compressed objects within 8 object streams
  114 named destinations out of 1000 (max. 500000)
  387 words of extra memory for PDF output out of 10000 (max. 10000000)
 
