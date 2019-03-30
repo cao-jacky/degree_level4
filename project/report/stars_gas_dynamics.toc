@@ -15,19 +15,19 @@
 \contentsline {subsubsection}{\numberline {1.4.1}HST}{4}{subsubsection.1.4.1}
 \contentsline {subsubsection}{\numberline {1.4.2}MUSE}{4}{subsubsection.1.4.2}
 \contentsline {subsection}{\numberline {1.5}Project study and aims}{4}{subsection.1.5}
-\contentsline {section}{\numberline {2}Observations and data analysis}{4}{section.2}
-\contentsline {subsection}{\numberline {2.1}HST HUDF}{4}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}MUSE HUDF}{4}{subsection.2.2}
-\contentsline {section}{\numberline {3}Discussion}{4}{section.3}
-\contentsline {subsection}{\numberline {3.1}Galaxy velocity dispersions}{4}{subsection.3.1}
-\contentsline {subsubsection}{\numberline {3.1.1}[OII] modelling}{4}{subsubsection.3.1.1}
-\contentsline {subsubsection}{\numberline {3.1.2}Full spectrum modelling}{4}{subsubsection.3.1.2}
-\contentsline {subsubsection}{\numberline {3.1.3}$\sigma $ results}{4}{subsubsection.3.1.3}
-\contentsline {subsection}{\numberline {3.2}Galaxy velocities}{4}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Voronoi tessellation}{4}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}Tully-Fisher}{4}{subsubsection.3.3.1}
-\contentsline {subsubsection}{\numberline {3.3.2}Faber-Jackson}{6}{subsubsection.3.3.2}
-\contentsline {subsection}{\numberline {3.4}Applicability of locally derived scaling relations}{6}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Future studies}{6}{subsection.3.5}
+\contentsline {section}{\numberline {2}Observations and data analysis}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}HST HUDF}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}MUSE HUDF}{5}{subsection.2.2}
+\contentsline {section}{\numberline {3}Discussion}{5}{section.3}
+\contentsline {subsection}{\numberline {3.1}Galaxy velocity dispersions}{5}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}[OII] modelling}{5}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}Full spectrum modelling}{5}{subsubsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.3}$\sigma $ results}{5}{subsubsection.3.1.3}
+\contentsline {subsection}{\numberline {3.2}Galaxy velocities}{5}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Voronoi tessellation}{5}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Tully-Fisher}{5}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}Faber-Jackson}{5}{subsubsection.3.3.2}
+\contentsline {subsection}{\numberline {3.4}Applicability of locally derived scaling relations}{5}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Future studies}{5}{subsection.3.5}
 \contentsline {section}{\numberline {4}Conclusions}{16}{section.4}
 \contentsline {section}{\numberline {A}Remaining galaxies}{19}{appendix.A}
