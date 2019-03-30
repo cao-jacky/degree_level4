@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  30 MAR 2019 20:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.10.2)  30 MAR 2019 20:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -657,32 +657,32 @@ line 183.
 <introduction/fritz_2009.png, id=223, 628.3475pt x 569.12625pt>
 File: introduction/fritz_2009.png Graphic file (type png)
 <use introduction/fritz_2009.png>
-Package pdftex.def Info: introduction/fritz_2009.png  used on input line 201.
+Package pdftex.def Info: introduction/fritz_2009.png  used on input line 196.
 (pdftex.def)             Requested size: 222.62206pt x 201.63742pt.
 <introduction/reyes_2011.png, id=231, 520.94624pt x 511.9125pt>
 File: introduction/reyes_2011.png Graphic file (type png)
 <use introduction/reyes_2011.png>
-Package pdftex.def Info: introduction/reyes_2011.png  used on input line 209.
+Package pdftex.def Info: introduction/reyes_2011.png  used on input line 204.
 (pdftex.def)             Requested size: 222.62206pt x 218.75894pt.
  [4 <./introduction/romanowsky_2012_fig_3.pdf> <./introduction/fritz_2009.png>]
 
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 215.
+ on input line 210.
 
 <introduction/hudf_frame.pdf, id=257, 795.97375pt x 393.47pt>
 File: introduction/hudf_frame.pdf Graphic file (type pdf)
 <use introduction/hudf_frame.pdf>
-Package pdftex.def Info: introduction/hudf_frame.pdf  used on input line 260.
+Package pdftex.def Info: introduction/hudf_frame.pdf  used on input line 253.
 (pdftex.def)             Requested size: 455.24411pt x 225.0367pt.
 <introduction/spectral_types.pdf, id=280, 971.82426pt x 1126.3364pt>
 File: introduction/spectral_types.pdf Graphic file (type pdf)
 <use introduction/spectral_types.pdf>
-Package pdftex.def Info: introduction/spectral_types.pdf  used on input line 30
-4.
+Package pdftex.def Info: introduction/spectral_types.pdf  used on input line 29
+7.
 (pdftex.def)             Requested size: 455.24411pt x 527.62517pt.
 [5 <./introduction/reyes_2011.png>]
-Underfull \hbox (badness 1009) in paragraph at lines 320--321
+Underfull \hbox (badness 1009) in paragraph at lines 313--314
 []\OT1/cmr/m/n/12 In Sec-tion [][]33.5[][], the meth-od-o-logy of
  []
 
@@ -690,92 +690,92 @@ Underfull \hbox (badness 1009) in paragraph at lines 320--321
 File: data/o_ii_luminosity_vs_redshift.pdf Graphic file (type pdf)
 <use data/o_ii_luminosity_vs_redshift.pdf>
 Package pdftex.def Info: data/o_ii_luminosity_vs_redshift.pdf  used on input li
-ne 332.
+ne 325.
 (pdftex.def)             Requested size: 222.62206pt x 164.86707pt.
 <data/image_sn_vs_vband.pdf, id=303, 456.28467pt x 335.5574pt>
 File: data/image_sn_vs_vband.pdf Graphic file (type pdf)
 <use data/image_sn_vs_vband.pdf>
-Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 344.
+Package pdftex.def Info: data/image_sn_vs_vband.pdf  used on input line 337.
 (pdftex.def)             Requested size: 227.62206pt x 167.39427pt.
 <data/sn_vs_vband.pdf, id=304, 455.30101pt x 335.5574pt>
 File: data/sn_vs_vband.pdf Graphic file (type pdf)
 <use data/sn_vs_vband.pdf>
-Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 348.
+Package pdftex.def Info: data/sn_vs_vband.pdf  used on input line 341.
 (pdftex.def)             Requested size: 227.62206pt x 167.7578pt.
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 439.
+(hyperref)                removing `math shift' on input line 432.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\sigma' on input line 439.
+(hyperref)                removing `\sigma' on input line 432.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 439.
+(hyperref)                removing `math shift' on input line 432.
 
 <data/cube_1804_spectra_complete.pdf, id=311, 570.08069pt x 209.44595pt>
 File: data/cube_1804_spectra_complete.pdf Graphic file (type pdf)
 <use data/cube_1804_spectra_complete.pdf>
 Package pdftex.def Info: data/cube_1804_spectra_complete.pdf  used on input lin
-e 443.
+e 436.
 (pdftex.def)             Requested size: 455.24411pt x 167.25977pt.
 <data/sigma_star_vs_sigma_oii.pdf, id=312, 456.28467pt x 338.91882pt>
 File: data/sigma_star_vs_sigma_oii.pdf Graphic file (type pdf)
 <use data/sigma_star_vs_sigma_oii.pdf>
 Package pdftex.def Info: data/sigma_star_vs_sigma_oii.pdf  used on input line 4
-49.
+42.
 (pdftex.def)             Requested size: 222.62206pt x 165.358pt.
 <data/ppxf_sigma_frac_error_vs_sn.pdf, id=313, 455.30101pt x 338.91882pt>
 File: data/ppxf_sigma_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/ppxf_sigma_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/ppxf_sigma_frac_error_vs_sn.pdf  used on input li
-ne 458.
+ne 451.
 (pdftex.def)             Requested size: 225.3436pt x 167.74205pt.
 <data/lmfit_sigma_frac_error_vs_sn.pdf, id=314, 455.30101pt x 337.29124pt>
 File: data/lmfit_sigma_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/lmfit_sigma_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/lmfit_sigma_frac_error_vs_sn.pdf  used on input l
-ine 461.
+ine 454.
 (pdftex.def)             Requested size: 225.3436pt x 166.93651pt.
 <data/ppxf_vel_frac_error_vs_sn.pdf, id=315, 455.30101pt x 338.91882pt>
 File: data/ppxf_vel_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/ppxf_vel_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/ppxf_vel_frac_error_vs_sn.pdf  used on input line
- 464.
+ 457.
 (pdftex.def)             Requested size: 225.3436pt x 167.74205pt.
 <data/lmfit_vel_frac_error_vs_sn.pdf, id=316, 455.30101pt x 338.91882pt>
 File: data/lmfit_vel_frac_error_vs_sn.pdf Graphic file (type pdf)
 <use data/lmfit_vel_frac_error_vs_sn.pdf>
 Package pdftex.def Info: data/lmfit_vel_frac_error_vs_sn.pdf  used on input lin
-e 467.
+e 460.
 (pdftex.def)             Requested size: 225.3436pt x 167.74205pt.
 <data/sigma_stars_old_vs_new.pdf, id=317, 455.30101pt x 337.29124pt>
 File: data/sigma_stars_old_vs_new.pdf Graphic file (type pdf)
 <use data/sigma_stars_old_vs_new.pdf>
-Package pdftex.def Info: data/sigma_stars_old_vs_new.pdf  used on input line 48
-0.
+Package pdftex.def Info: data/sigma_stars_old_vs_new.pdf  used on input line 47
+3.
 (pdftex.def)             Requested size: 222.62206pt x 164.91902pt.
 <data/vel_star_vs_vel_oii.pdf, id=318, 456.28467pt x 340.03171pt>
 File: data/vel_star_vs_vel_oii.pdf Graphic file (type pdf)
 <use data/vel_star_vs_vel_oii.pdf>
-Package pdftex.def Info: data/vel_star_vs_vel_oii.pdf  used on input line 494.
+Package pdftex.def Info: data/vel_star_vs_vel_oii.pdf  used on input line 487.
 (pdftex.def)             Requested size: 222.62206pt x 165.90099pt.
 <data/spectra_complete_velocities.pdf, id=319, 3738.16277pt x 2264.21568pt>
 File: data/spectra_complete_velocities.pdf Graphic file (type pdf)
 <use data/spectra_complete_velocities.pdf>
 Package pdftex.def Info: data/spectra_complete_velocities.pdf  used on input li
-ne 510.
+ne 503.
 (pdftex.def)             Requested size: 702.78612pt x 421.67183pt.
 [6 <./introduction/hudf_frame.pdf>] [7 <./introduction/spectral_types.pdf>]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 531.
+ on input line 524.
 
 [8]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 531.
+ on input line 524.
 
 [9 <./data/o_ii_luminosity_vs_redshift.pdf>] [10 <./data/image_sn_vs_vband.pdf>
  <./data/sn_vs_vband.pdf
@@ -790,26 +790,26 @@ age
 >]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 565.
+ on input line 558.
 
 
-Underfull \hbox (badness 2469) in paragraph at lines 566--567
+Underfull \hbox (badness 2469) in paragraph at lines 559--560
 []\OT1/cmr/m/n/12 Through con-ten-tious de-bate and re-
  []
 
 
-Underfull \hbox (badness 5105) in paragraph at lines 566--567
+Underfull \hbox (badness 5105) in paragraph at lines 559--560
 \OT1/cmr/m/n/12 at-tempt to ex-plain galactic evol-u-tion.
  []
 
 
-Underfull \hbox (badness 1430) in paragraph at lines 572--573
+Underfull \hbox (badness 1430) in paragraph at lines 565--566
 \OT1/cmr/m/n/12 with the \OT1/cmr/m/it/12 Har-vard Spec-tral Clas-si-fic-a-tion
 
  []
 
 
-Underfull \hbox (badness 1107) in paragraph at lines 580--581
+Underfull \hbox (badness 1107) in paragraph at lines 573--574
 []\OT1/cmr/m/n/12 For an in-vest-ig-a-tion of galax-ies, one
  []
 
@@ -832,15 +832,15 @@ age
 >]
 
 LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
- on input line 606.
+ on input line 599.
 
 
-Underfull \hbox (badness 1342) in paragraph at lines 627--628
+Underfull \hbox (badness 1342) in paragraph at lines 620--621
 []\OT1/cmr/m/n/12 To be-gin with, galax-ies were iden-ti-
  []
 
 
-Underfull \hbox (badness 1024) in paragraph at lines 627--628
+Underfull \hbox (badness 1024) in paragraph at lines 620--621
 \OT1/cmr/m/n/12 tects, de-blends, meas-ures and clas-si-fies
  []
 
@@ -849,18 +849,18 @@ Underfull \hbox (badness 1024) in paragraph at lines 627--628
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./data/vel_star_vs_vel_oii.p
 df): PDF inclusion: multiple pdfs with page group included in a single page
 >] [14 <./data/spectra_complete_velocities.pdf>]
-Overfull \hbox (2.32982pt too wide) detected at line 664
+Overfull \hbox (2.32982pt too wide) detected at line 657
  []$[]  \OML/cmm/m/it/12 f[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 
 ) = \OML/cmm/m/it/12 cx \OT1/cmr/m/n/12 + [] [] []$ 
  []
 
 
-Underfull \hbox (badness 1163) in paragraph at lines 678--679
+Underfull \hbox (badness 1163) in paragraph at lines 671--672
 \OT1/cmr/m/n/12 doublet, a com-par-ison to galactic stars
  []
 
 
-Underfull \hbox (badness 1038) in paragraph at lines 678--679
+Underfull \hbox (badness 1038) in paragraph at lines 671--672
 \OT1/cmr/m/n/12 ap-plied, Cap-pel-lari ([][]2017[][]) de-scribes the
  []
 
@@ -868,16 +868,16 @@ Underfull \hbox (badness 1038) in paragraph at lines 678--679
 <data/oii_ppxf_vs_oii_lmfit.pdf, id=857, 462.52798pt x 346.89601pt>
 File: data/oii_ppxf_vs_oii_lmfit.pdf Graphic file (type pdf)
 <use data/oii_ppxf_vs_oii_lmfit.pdf>
-Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 699
+Package pdftex.def Info: data/oii_ppxf_vs_oii_lmfit.pdf  used on input line 692
 .
 (pdftex.def)             Requested size: 222.62206pt x 166.96869pt.
 
 
 LaTeX Warning: Reference `fig:sn_difference' on page 16 undefined on input line
- 706.
+ 699.
 
 [16 <./data/oii_ppxf_vs_oii_lmfit.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 726--728
+Underfull \hbox (badness 10000) in paragraph at lines 719--721
 \OT1/cmr/m/n/12 The au-thor would like to thank
  []
 
@@ -1023,26 +1023,22 @@ Underfull \hbox (badness 1776) in paragraph at lines 221--225
  []
 
 ) [18]
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 774.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 767.
  [19]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 774.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 767.
  (./stars_gas_dynamics.aux)
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 774.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 767.
 Package rerunfilecheck Info: File `stars_gas_dynamics.out' has not changed.
 (rerunfilecheck)             Checksum: 97439853188F876DD9A9462C08E2BD8D;2319.
 
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
-
-
  ) 
 Here is how much of TeX's memory you used:
  11011 strings out of 492649
  162469 string characters out of 6129622
- 324742 words of memory out of 5000000
+ 324748 words of memory out of 5000000
  14603 multiletter control sequences out of 15000+600000
  12839 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
