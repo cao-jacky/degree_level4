@@ -2,6 +2,8 @@
 
 \documentclass[12pt, twocolumn]{revtex4-1}    % Font size (12pt) and column number (one or two).
 
+\usepackage{aas_macros}
+
 \usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}  % Defines paper size and margin length
 
 \usepackage{ragged2e}
@@ -173,13 +175,12 @@ Through Hubble's work, galaxies can be comprehensively classified by their morph
 \noindent
 The mass, energy, and angular momentum are three physical values which can be used as a quantitative classification of a galaxy. 
 
-The angular momentum is of particular interest as the defining morphologies of a galaxy is most likely a result of the primeval mass--angular momentum distribution \citep{1970ApJ...160..831S}. The acquisition of this angular momentum in a protogalactic system has been proposed to be a result of the tidal interactions with nearby protogalaxies \citep{1969ApJ...155..393P}. Within a young spiral system, these tidal torques induce galactic spin and lead to massive extended haloes if spiral discs have radii comparable to present day observations. By extension, the dynamics of these discs and their stellar populations can be modelled to demonstrate that their observed sizes and rotation velocities are consistent with the conservation of early angular momentum \citep{1998MNRAS.295..319M, 1997ApJ...482..659D}. 
+The angular momentum is of particular interest as the defining morphologies of a galaxy is most likely a result of the primeval mass--angular momentum distribution \citep{1970ApJ...160..831S}. The acquisition of this angular momentum in a protogalactic system was proposed by \cite{1969ApJ...155..393P} to be a result of the tidal interactions with nearby protogalaxies. Within a young spiral system, these tidal torques induce galactic spin and lead to massive extended haloes if spiral discs have radii comparable to present day observations. By extension, the dynamics of these discs and their stellar populations can be modelled to demonstrate that their observed sizes and rotation velocities are consistent with the conservation of early angular momentum \citep{1998MNRAS.295..319M, 1997ApJ...482..659D}. 
 
 Measurements of galactic specific angular momentum allows for the derivation of empirical relations between the stellar component of the angular momentum $j_*$ and mass $M_*$. These relationships can then be applied to describe the collective dynamics of galaxies \citep{fall1983}. If kinematic tracers are employed to measure $j_*$ and $M_*$ for large numbers of early-types (ellipticals and lenticulars) and late-types (spirals), then a plot such as Figure \ref{fig:romanowsky_fall_2012} reflects their dynamics by utilising independent variables and conservable physical quantities. The figure shows that both early and late types follow similar parallel trends which indicates an underlying connection between the physical parameters for galaxies. 
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{introduction/romanowsky_2012_fig_3}
-\captionsetup{justification=raggedright}
 \caption{The total intrinsic specific angular momentum $j_*$ against total stellar mass $m_*$ for different galaxies (from \citealt{2012ApJS..203...17R}). Legend in upper left shows the galaxy types used. Ellipticals follow a similar relationship to spirals but with an offset of $\sim6$ to lower $j_*$. This diagram represents one of the scaling relations for galaxies which reflect their internal dynamics.}
 \label{fig:romanowsky_fall_2012}
 \end{figure}
@@ -192,14 +193,37 @@ This coupling between $j_*$--$m_*$ represents one of the \textit{scaling relatio
 % A galaxy's angular momentum is indicative of how it formed and the type of morphology it possess.
 
 \vspace{2ex} % head space
-\subsubsection{Tully-Fisher and Faber-Jackson relationships}
+\subsubsection{Faber--Jackson and Tully--Fisher relations}
 \noindent
+Despite the pairing between angular momentum and mass for all galaxy types as shown in \cite{2012ApJS..203...17R}, scaling relations can be derived specifically for ellipticals, and spirals to better describe the individual properties within these galaxies.  
+
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{introduction/fritz_2009}
+\caption{The total intrinsic specific angular momentum $j_*$ against total stellar mass $m_*$ for different galaxies (from \citealt{2012ApJS..203...17R}). Legend in upper left shows the galaxy types used. Ellipticals follow a similar relationship to spirals but with an offset of $\sim6$ to lower $j_*$. This diagram represents one of the scaling relations for galaxies which reflect their internal dynamics.}
+\label{fig:faber_jackson}
+\end{figure}
+
+For ellipticals, \cite{1976ApJ...204..668F} produced a scaling relation between the luminosity and velocity dispersions. They chose the velocity dispersions as they quantify
+
+\begin{figure}
+\includegraphics[width=\linewidth]{introduction/reyes_2011}
+\caption[Hubble Ultra Deep Field]{The total intrinsic specific angular momentum $j_*$ against total stellar mass $m_*$ for different galaxies (from \citealt{2012ApJS..203...17R}). Legend in upper left shows the galaxy types used. Ellipticals follow a similar relationship to spirals but with an offset of $\sim6$ to lower $j_*$. This diagram represents one of the scaling relations for galaxies which reflect their internal dynamics.}
+\label{fig:tully_fisher}
+\end{figure}
+
+On the other hand, \cite{1977A&A....54..661T} derived a relation between absolute magnitude and H$\alpha$ emission line width for spiral galaxies. Alternatively, the relationship can be re-expressed to couple the stellar mass and rotational velocity of a galaxy, Figure \ref{fig:tully_fisher} demonstrates that there is a consistent relationship between these two parameters. \cite{2011MNRAS.417.2347R} calibrated several Tully--Fisher models to consider the contributions from galactic discs, stars, and dark matter. Through these calibrations, the Tully--Fisher relation could be applied to the construction of galaxy formation and evolution models.
 
 
+
+% okay, Tully-Fisher, it's a scaling relation, I've told what it's a relationship between and that's it I guess - in terms of stating what the relationship is, and providing an example through plots. I need to emphasis these scaling relations and how they are defined using local galaxies
+
+Figure \ref{fig:tf_fj_relations} provides examples of both the Tully--Fisher and Faber--Jackson
+
+% TF and FB relations are the two most notable scaling relations
 
 % show plots of the TF and FB relationships from their original papers and then discuss how they are useful
 % they are relationships for spirals and elliptical galaxies which detail what??
-% discuss how these relations are derived at the local universe i.e. using data at z~0
+% discuss how the majority of scaling relations are derived at the local universe i.e. using data at z~0
 
 \subsection{High-redshifts}
 
@@ -233,7 +257,6 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{introduction/hudf_frame.pdf}
-\captionsetup{justification=justified, format=plain}
 \caption[Hubble Ultra Deep Field]{\textit{Left-hand panel}: colour composite image for the HUDF from HST ACS/WFC, Hubble eXtreme Deep Field project data \citep{2013ApJS..209....6I}. Frames in three filter bands (F775W, F606W, and F435W) were combined to represent the RGB channels within a colour image. \textit{Right-hand panel}: colour image of the MUSE HUDF region. The spectra wavelength range (4650 \AA--9300 \AA) of the MUSE cube was divided into three equal regions (4650 \AA--6180 \AA, 6180 \AA--7730 \AA, 7730 \AA -- 9300 \AA), collapsed, and then combined to create an RGB image. Highlighted in both images is object RAF-24420 \citep{2015AJ....150...31R}, the HST data has a higher optical resolution whereas the MUSE data outclasses in the resolution of the spectroscopic data.}
 \label{fig:hst_muse_hdf}
 \end{figure*}
@@ -286,6 +309,8 @@ for such as N-body interactions in large-scale galaxy cluster structures or
 % Is OII a valid and applicable method in testing the scaling relations
 
 This paper discusses the study undertaken to understand the dynamics between the gas and stars in galaxies. Data extraction is performed on a MUSE data cube, the sample is reduced, and various fittings are then applied to the dataset.
+
+The paper is organised as follows:
 
 In Section \ref{sec:analysis}, the methodology of galaxy extraction from the MUSE cube is discussed, as well as the subsequent analysis performed by applying different fitting routines: [OII] Gaussian doublet fittings, and fitting with a penalised pixel-fitting method. 
 
@@ -704,7 +729,7 @@ In conclusion, the dynamics of gas and stars within galaxies can be explored by 
 \vspace{2ex} % head space
 \begin{acknowledgments}
 \noindent
-The author would like to thank Dr.~M.~Swinbank and Alfie Tiley for their continual help and support throughout the project period.
+The author would like to thank Dr.~M.~Swinbank and Dr.~A.~Tiley for their continual help and support throughout the project period.
 \end{acknowledgments}
 
 \vspace{2ex} % head space
@@ -717,7 +742,7 @@ The author would like to thank Dr.~M.~Swinbank and Alfie Tiley for their continu
 
 \onecolumngrid
 \section*{Appendices}
-\section{Remaining galaxies} \label{appendix:rest_of_final_sample}
+\section{Remaining galaxies from sample} \label{appendix:rest_of_final_sample}
 \noindent
 The remaining 9 objects from the final reduced sample of 35 galaxies are presented in Table \ref{table:rest_of_final_sample}. These 9 are part of 20 which could not be analysed due to lack of signal-to-noise or lack of a prominent [OII] emission feature.
 
