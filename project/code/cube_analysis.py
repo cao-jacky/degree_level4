@@ -372,7 +372,7 @@ def graphs():
     #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)       
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=20)
-    ax.set_ylabel(r'\textbf{Spectra S/N}', fontsize=20)
+    ax.set_ylabel(r'\textbf{Spectrum S/N}', fontsize=20)
     ax.invert_xaxis()
     ax.set_yscale('log')
     ax.set_ylim([0.9, 100])
