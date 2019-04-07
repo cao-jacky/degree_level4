@@ -24,7 +24,11 @@ def seg_map_maker():
     fig, ax = plt.subplots()
     ax.imshow(cm_data, cmap="binary", clim=(0.0, 0.995))
     #plt.hist(cm_data.ravel(), bins=256, range=(0.0, 1.0), fc='k', ec='k')
-    
+     
+    cmap = matplotlib.cm.prism  
+    cmap.set_bad(color="#e0e0e0") # hiding background with no segmentation data
+    sm_data = np.where(sm_data!=0, sm_data, np.nan)
+
     ax.imshow(sm_data, cmap="prism", alpha=0.6)
 
     ax.axis("off")
