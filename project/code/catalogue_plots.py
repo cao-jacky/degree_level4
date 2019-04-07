@@ -36,8 +36,14 @@ def graph_sn_mag(x_data, y_data, cubes_data):
     sr_sn = small_redshift[:,9] / small_redshift[:,10]
 
     large_redshift = cubes_data[cubes_data[:,7]>=z_limit, :]
+    print(np.shape(large_redshift))
     catalogue = large_redshift[large_redshift[:,8].argsort()]
     catalogue = catalogue[0:300]
+
+    # cutting by the probability of a star < 0.50
+    star_prob_cut = np.where(catalogue[:,8]<0.50)[0]
+    print(np.shape(star_prob_cut))
+
     cat_sn = catalogue[:,9] / catalogue[:,10]
 
     # plotting the cubes which are not used at all
@@ -49,13 +55,14 @@ def graph_sn_mag(x_data, y_data, cubes_data):
             pass
         if curr_x in small_redshift[:,5] and curr_y in sr_sn:
             pass
-        if curr_x not in catalogue[:,5] and curr_y not in cat_sn:
-            ax.scatter(x_data[i], y_data[i], s=20, color="#000000", alpha=0.3,
-                    label=r'\textbf{Unused}')
+        if curr_x not in catalogue[:,5] and curr_y not in sr_sn:
+            if curr_x > 25.0:
+                ax.scatter(x_data[i], y_data[i], s=20, color="#000000", alpha=0.3,
+                        label=r'\textbf{Unused}')
 
     # plotting cubes with z<0.3
-    ax.scatter(small_redshift[:,5], sr_sn, s=20, color="#d50000", alpha=0.4, 
-            label=r'$z<0.3$')
+    #ax.scatter(small_redshift[:,5], sr_sn, s=20, color="#d50000", alpha=0.4, 
+            #label=r'$z<0.3$')
 
     # plotting the usable cubes
     for i in range(len(catalogue[:,0])):
@@ -80,7 +87,7 @@ def graph_sn_mag(x_data, y_data, cubes_data):
  
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=20)
-    ax.set_ylabel(r'\textbf{MUSE Image Flux S/N}', fontsize=20)
+    ax.set_ylabel(r'\textbf{MUSE Flux S/N}', fontsize=20)
 
     handles, labels = plt.gca().get_legend_handles_labels()
     by_label = OrderedDict(zip(labels, handles))
@@ -91,7 +98,7 @@ def graph_sn_mag(x_data, y_data, cubes_data):
     ax.invert_xaxis()
 
     ax.set_ylim([0.7,100])
-    ax.set_xlim([31,19])
+    ax.set_xlim([31,20])
 
     plt.tight_layout()
     plt.savefig("graphs/image_sn_vs_vband.pdf",bbox_inches="tight")

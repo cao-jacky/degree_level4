@@ -60,8 +60,8 @@ def cube_extractor(file_name):
 
     #wls = wavelength_solution(header, len(data))
 
-    #catalogue = np.load("data/matched_catalogue.npy")
-    catalogue = np.load("data/low_redshift_catalogue.npy") # low-redshift catalogue
+    catalogue = np.load("data/matched_catalogue.npy")
+    #catalogue = np.load("data/low_redshift_catalogue.npy") # low-redshift catalogue
     # sorting catalogue by the probability that the object is a star
     catalogue = catalogue[catalogue[:,8].argsort()]
     

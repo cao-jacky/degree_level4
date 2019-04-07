@@ -372,18 +372,19 @@ def graphs():
     #ax.set_title(r'\textbf{S/N vs. V-band mag }', fontsize=13)       
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{HST V-band magnitude}', fontsize=20)
-    ax.set_ylabel(r'\textbf{MUSE Spectrum S/N}', fontsize=20)
+    ax.set_ylabel(r'\textbf{Spectra S/N}', fontsize=20)
     ax.invert_xaxis()
     ax.set_yscale('log')
     ax.set_ylim([0.9, 100])
-    ax.set_xlim([28,20])
+    ax.set_xlim([26,20])
    
     # manually setting x-tick labels to be 1 dpm
-    vband_x = np.array([28.0, 26.0, 24.0, 22.0, 20.0])
+    
+    vband_x = np.array([26.0, 24.0, 22.0, 20.0])
     ax.set_xticks(vband_x) # locations of ticks
     ax.set_xticklabels([r'\textbf{'+str(vband_x[0])+'}',
             r'\textbf{'+str(vband_x[1])+'}',r'\textbf{'+str(vband_x[2])+'}',
-            r'\textbf{'+str(vband_x[3])+'}',r'\textbf{'+str(vband_x[4])+'}'])
+            r'\textbf{'+str(vband_x[3])+'}'])
 
     handles, labels = plt.gca().get_legend_handles_labels()
     by_label = OrderedDict(zip(labels, handles))
@@ -396,12 +397,7 @@ def graphs():
     # --------------------------------------------------#
 
     usable_cubes_no_oii = usable_cubes
-    cubes_to_ignore = np.array([97,139,140,152,157,159,178,1734,1701,1700,1689,
-        1592,1580,1564,1562,1551,1514,1506,1454,1446,1439,1418,1388,1355,1353,1267,
-        1227,1210,1198,1187,1159,1157,1137,1132,1121,217,222,317,338,339,343,361,395,
-        407,421,438,458,459,481,546,551,582,592,651,659,665,687,710,720,737,744,754,
-        789,790,814,834,859,864,878,879,914,965,966,982,1008,1017,1033,1041,1045,
-        1063,1068,1114])
+    cubes_to_ignore = ppxf_fitter.ignore_cubes()['ac']
 
     cubes_to_ignore_indices = []
 
