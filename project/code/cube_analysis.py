@@ -360,7 +360,7 @@ def graphs():
             ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
                     color="#ffa000", alpha=1.0, marker="x") 
         if curr_cube not in unusable_cubes['ac'] and usable_cubes[:,1][i] < 25.0:
-            #cube_data.data_obtainer(curr_cube) # creating LaTeX prepared table entry
+            cube_data.data_obtainer(curr_cube) # creating LaTeX prepared table entry
             
             ax.scatter(usable_cubes[:,1][i], usable_cubes[:,4][i], s=20, 
                     color="#00c853", alpha=1.0, marker="o", zorder=3, 
@@ -477,7 +477,7 @@ def graphs():
   
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{Redshift}', fontsize=20)
-    ax.set_ylabel(r'\textbf{[OII] Luminosity}', fontsize=20)
+    ax.set_ylabel(r'\textbf{[OII] Luminosity (W)}', fontsize=20)
     ax.set_yscale('log')
     ax.set_xlim([0.0, 1.5])
     ax.set_ylim((0.5*10**45,0.3*10**52))
