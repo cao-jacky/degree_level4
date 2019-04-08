@@ -47,6 +47,8 @@ def data_obtainer(cube_id):
     a_vel_ppxf = np.load("uncert_ppxf/vel_curve_best_values_ppxf.npy")
     a_vel_lmfit = np.load("uncert_lmfit/vel_curve_best_values_lmfit.npy")
 
+    print(a_sigma_ppxf)
+
     # rounding to 4 decimal places
     #curr_z = np.around(curr_z, decimals=4)
     #curr_z_err = np.around(curr_z_err, decimals=4)
