@@ -29,15 +29,18 @@ def spectra_stacker():
         fits_data = fits_file[1].data[0]
 
         axs[curr_st].plot(fits_data[0], fits_data[1], c="#000000", lw=1.5)
-        axs[curr_st].text(9550, 0, r"\textbf{\textit{"+st_key+"}}", fontsize=20,
+        axs[curr_st].text(9425, 0, r"\textbf{\textit{"+st_key+"}}", fontsize=40,
                 color="#e53935")
 
-        axs[curr_st].set_ylabel(r"\textbf{Flux}", fontsize=20)
-        axs[curr_st].tick_params(labelsize=20)
+        axs[curr_st].set_ylabel(r"\textbf{Flux}", fontsize=40)
+        axs[curr_st].tick_params(labelsize=40)
+
+        if curr_st != len(spectral_types)-1:
+            axs[curr_st].get_xaxis().set_visible(False)
 
         curr_st += 1
 
-    axs[len(spectral_types)-1].set_xlabel(r"\textbf{Wavelength (\AA)}", fontsize=20) 
+    axs[len(spectral_types)-1].set_xlabel(r"\textbf{Wavelength (\AA)}", fontsize=40) 
     fig.savefig("graphs/spectral_types.pdf",bbox_inches="tight")
     plt.close("all")
 
