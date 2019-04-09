@@ -85,8 +85,6 @@ def data_obtainer(cube_id):
         stn = stn_mean / stn_std # signal-to-noise
         curr_sn = stn
 
-        print(curr_sn)
-
         sigma_oii = oii_data['sigma_gal'] # vel dispersion from lmfit
         sigma_oii = np.abs((sigma_oii/ (3727*(1+curr_z))) * c) # convert to km/s
         sigma_oii_err = (a_sigma_lmfit/curr_sn) * sigma_oii 
@@ -102,15 +100,18 @@ def data_obtainer(cube_id):
         sigma_oii_w_err = ufloat(sigma_oii, sigma_oii_err)
         sigma_oii_w_err = '{:.1ufSL}'.format(sigma_oii_w_err)
 
+        # printer for 35 galaxy sample table
+        """
         print("C"+str(cube_id) + " & " + str(curr_raf_id) + " & " + str(curr_ra) + 
                 " & " + str(curr_dec) + " & $" + str(curr_f606_w_err) + "$ & $" + 
                 str(curr_z_w_err) + "$ & - & - & " + str(vel_oii_w_err) + " & "
                 + str(sigma_oii_w_err) + " \^ \n")
+        """
+
     else:
         fd_curr_cube = fitted_data[fd_loc][0][0] # only need the first row of data
 
         curr_sn = fd_curr_cube[7] # current S/N for cube
-        print(curr_sn)
          
         sigma_stars = fd_curr_cube[2]
         sigma_stars_err = (a_sigma_ppxf/curr_sn) * sigma_stars
@@ -135,12 +136,20 @@ def data_obtainer(cube_id):
         sigma_oii_w_err = ufloat(sigma_oii, sigma_oii_err)
         sigma_oii_w_err = '{:.1ufSL}'.format(sigma_oii_w_err)
 
+        # printer for 35 galaxy sample table
         # print into terminal the correct line to input into LaTeX
+        """
         print("C"+str(cube_id) + " & " + str(curr_raf_id) + " & " + str(curr_ra) + 
                 " & " + str(curr_dec) + " & $" + str(curr_f606_w_err) + "$ & $" + 
                 str(curr_z_w_err) + "$ & $" + str(vel_stars_w_err) + "$ & $" + 
                 str(sigma_stars_w_err) + "$ & $" + str(vel_oii_w_err) + "$ & $ " + 
                 str(sigma_oii_w_err) + "$ \^ \n")
+        """
+
+        # printer for S/N~4 and FWHM/2 cutter
+        curr_sn = np.around(curr_sn, decimals=2)
+        print("C"+str(cube_id) + " & " + str(curr_sn) + " & $" + 
+                str(sigma_stars_w_err) + "$ \^ \n")
 
 if __name__ == '__main__':
     data_obtainer(1804)
