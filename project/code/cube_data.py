@@ -47,8 +47,6 @@ def data_obtainer(cube_id):
     a_vel_ppxf = np.load("uncert_ppxf/vel_curve_best_values_ppxf.npy")
     a_vel_lmfit = np.load("uncert_lmfit/vel_curve_best_values_lmfit.npy")
 
-    print(a_sigma_ppxf)
-
     # rounding to 4 decimal places
     #curr_z = np.around(curr_z, decimals=4)
     #curr_z_err = np.around(curr_z_err, decimals=4)
@@ -87,6 +85,8 @@ def data_obtainer(cube_id):
         stn = stn_mean / stn_std # signal-to-noise
         curr_sn = stn
 
+        print(curr_sn)
+
         sigma_oii = oii_data['sigma_gal'] # vel dispersion from lmfit
         sigma_oii = np.abs((sigma_oii/ (3727*(1+curr_z))) * c) # convert to km/s
         sigma_oii_err = (a_sigma_lmfit/curr_sn) * sigma_oii 
@@ -110,6 +110,7 @@ def data_obtainer(cube_id):
         fd_curr_cube = fitted_data[fd_loc][0][0] # only need the first row of data
 
         curr_sn = fd_curr_cube[7] # current S/N for cube
+        print(curr_sn)
          
         sigma_stars = fd_curr_cube[2]
         sigma_stars_err = (a_sigma_ppxf/curr_sn) * sigma_stars

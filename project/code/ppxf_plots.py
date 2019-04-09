@@ -242,14 +242,17 @@ def chisq(data, data_err, model):
 def sigma_cutoff():
     wl = (3727.092+3728.875)/2 # wavelength of OII doublet
 
+    c = 299792.458 # speed of light in kms^-1
+
     sigma_inst = sky_gauss_fitter.inst_res()['sigma_inst']
-    sigma_inst = (sigma_inst/6300) * (3*10**5) # instrumental resolution
+    sigma_inst = (sigma_inst/6300) * c # instrumental resolution 
 
     # MUSE has spectral resolution of 1750 at 4650Å and 3750 at 9300Å
     delta_wl = 4650/1750
     delta_wl = (delta_wl / wl) * (3*10**5) # convert to kms^-1
 
     sc_value = sigma_inst / 2 # velocity dispersion cutoff value is about FWHM/2
+    print(sigma_inst, sc_value)
     return sc_value
 
 def sigma_stars_vs_sigma_oii():
