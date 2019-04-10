@@ -260,6 +260,10 @@ def sigma_stars_vs_sigma_oii():
 
     cutoff = sigma_cutoff()
 
+    unusable = np.array([849,549,1075,895]) # from S/N and sigma cut off
+    reduced_sample = np.isin(data[:][:,0][:,0],unusable)
+    reduced_sample = np.invert(reduced_sample) # inverting array to produce mask 
+    
     fig, ax = plt.subplots()
 
     # region should be wary of
@@ -276,14 +280,19 @@ def sigma_stars_vs_sigma_oii():
 
     xerr=data[:][:,0][:,13][y_mask]
     yerr=data[:][:,0][:,12][y_mask]
-    
-    for i in range(len(x_dat)):
-        if y_dat[i] < cutoff:
+         
+    for i in range(len(data[:][:,0])):
+        curr_id = data[:][i,0][0]
+
+        if curr_id in unusable:
+            clr = "#f44336"
             alpha = 1.0
         else:
+            clr = "#000000"
             alpha = 1.0
+
         ax.errorbar(x_dat[i], y_dat[i], xerr=xerr[i], yerr=yerr[i],
-                color="#000000", fmt="o", ms=7, elinewidth=1.0, capsize=5, 
+                color=clr, fmt="o", ms=7, elinewidth=1.0, capsize=5, 
                 capthick=1.0, zorder=0, alpha=alpha)
         #ax.text(x_dat[i], y_dat[i], int(data[:][:,0][:,0][i]))
 
@@ -297,6 +306,13 @@ def sigma_stars_vs_sigma_oii():
 
     # Fitting straight-line models to the data y=mx+c
     sl_model = Model(linear) # straight line model
+
+    # masking the galaxies which have been removed from the sample
+    y_dat = y_dat[reduced_sample]
+    x_dat = x_dat[reduced_sample]
+
+    yerr = yerr[reduced_sample]
+    xerr = xerr[reduced_sample]
 
     # Model 1 : free m and c
     md1p = Parameters() # Model 1 parameters
@@ -338,7 +354,7 @@ def sigma_stars_vs_sigma_oii():
     csq_m3 = linear(x_dat, md2_bf['m'], md3_bf['c'])
     rchisq_3 = chisq(y_dat, yerr, csq_m3) / (len(y_dat)-2) # model 3
 
-    #print(rchisq_1, rchisq_2, rchisq_3)
+    print(rchisq_1, rchisq_2, rchisq_3)
 
     # Plotting best fit lines onto plot
 
@@ -370,20 +386,9 @@ def sigma_stars_vs_sigma_oii():
             ax.scatter(cc_x, cc_y, s=20, c="#d32f2f", zorder=1)
     """
 
-    for i in range(len(data[:][:,0])):
-        curr_id = data[:][i,0][0]
-        curr_x = data[:][i,0][1]
-        curr_y = data[:][i,0][2]
-
-        if curr_y > 300:
-            pass
-        else:
-            #ax.annotate(int(curr_id), (curr_x, curr_y))
-            pass
-        
     ax.tick_params(labelsize=20)
-    ax.set_ylabel(r'\textbf{$\sigma_{*}$ (kms$^{-1}$)}', fontsize=20)
-    ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (kms$^{-1}$)}', fontsize=20)
+    ax.set_ylabel(r'\textbf{$\sigma_{*}$ (km s$^{-1}$)}', fontsize=20)
+    ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (km s$^{-1}$)}', fontsize=20)
  
     ax.set_xlim([-10,225]) 
     ax.set_ylim([-10,225])

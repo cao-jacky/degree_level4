@@ -145,7 +145,7 @@ def old_voigt_fitter(cube_id):
     # obtaining sigmas from pPXF
     sigma_ppxf = best_fit_vars[1]
     #sigma_opt = opt_pars['v2_sigma']
-    sigma_opt = 6.19040871
+    sigma_opt = 6.36396079
 
     speed_of_light = 299792.458 # speed of light in kms^-1
     peaks_av = (3934.777 + 3969.588) / 2 
