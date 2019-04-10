@@ -64,25 +64,25 @@ def old_voigt_fitter(cube_id):
         line_count += 1
 
     # masking out the region of CaH and CaK
-    calc_rgn = np.array([3900,4000]) 
+    calc_rgn = np.array([3900,4000]) * (1+z) 
     
-    data_rgn = calc_rgn * (1+z)
+    data_rgn = calc_rgn
     data_mask = ((data_wl > data_rgn[0]) & (data_wl < data_rgn[1]))
     data_wl_masked = data_wl[data_mask]
     data_spec_masked = data_spec[data_mask]
 
     data_spec_masked = data_spec_masked / np.median(data_spec_masked)
-    
-    model_rgn = calc_rgn
+ 
+    model_rgn = calc_rgn 
     model_mask = ((model_wl > calc_rgn[0]) & (model_wl < calc_rgn[1]))
     model_wl_masked = model_wl[model_mask]
     model_spec_masked = model_spec[model_mask]
 
-    z_wl_masked = model_wl_masked * (1+z) # redshifted wavelength range
+    z_wl_masked = model_wl_masked # redshifted wavelength range
     galaxy_masked = galaxy[model_mask]
 
     bl_guess = np.median(galaxy_masked) # base-line guess
-    voigt_min = np.min(galaxy_masked) - bl_guess
+    #voigt_min = np.min(galaxy_masked) - bl_guess
 
     sigma_ppxf_kms = best_fit_vars[1] 
 
@@ -96,19 +96,25 @@ def old_voigt_fitter(cube_id):
 
     vgt_pars.add('z', value=z)
 
-    vgt_pars.add('v1_amplitude', value=voigt_min+1)
+    vgt_pars.add('v1_amplitude', value=-0.1)
     vgt_pars.add('v1_center', expr='3934.777*(1+z)')
     vgt_pars.add('v1_sigma', expr='sqrt(sigma_inst**2 + sigma_gal**2)', min=0.0)
     #vgt_pars.add('v1_gamma', value=0.01) # gamma as a parameter is not needed
 
-    vgt_pars.add('v2_amplitude', value=voigt_min)
+    """
+    vgt_pars.add('v2_amplitude', value=0.1)
     vgt_pars.add('v2_center', expr='3969.588*(1+z)')
     vgt_pars.add('v2_sigma', expr='v1_sigma')
+    """
     #vgt_pars.add('v2_gamma', value=0.01) # gamma is a mirror of sigma apparently 
 
-    vgt_pars.add('c', value=bl_guess)
+    #vgt_pars.add('v1_center', value=3934.777*(1+z), min=3930*(1+z), max=3940*(1+z))
+    #vgt_pars.add('v2_center', value=3969.588*(1+z), min=3950*(1+z), max=3975*(1+z))
 
-    voigt = VoigtModel(prefix='v1_') + VoigtModel(prefix='v2_') + ConstantModel()
+    vgt_pars.add('c', value=0)
+
+    #voigt = VoigtModel(prefix='v1_') + VoigtModel(prefix='v2_') + ConstantModel()
+    voigt = VoigtModel(prefix='v1_') + ConstantModel()
     
     init = voigt.eval(vgt_pars, x=z_wl_masked)
 
@@ -121,11 +127,11 @@ def old_voigt_fitter(cube_id):
     ax.plot(z_wl_masked, galaxy_masked, lw=1.5, c="#000000", alpha=0.3)
     ax.plot(z_wl_masked, model_spec_masked, lw=1.5, c="#00c853")
     ax.plot(z_wl_masked, best_fit, lw=1.5, c="#e53935")
-    ax.plot(z_wl_masked, init, 'k--', lw=1.5, alpha=0.2)
+    #ax.plot(z_wl_masked, init, 'k--', lw=1.5, alpha=0.2)
 
-    ax.tick_params(labelsize=15)
-    ax.set_ylabel(r'\textbf{Flux}', fontsize=15)
-    ax.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=15)
+    ax.tick_params(labelsize=20)
+    ax.set_ylabel(r'\textbf{Relative flux}', fontsize=20)
+    ax.set_xlabel(r'\textbf{Wavelength (\AA)}', fontsize=20)
 
     fig.tight_layout()
     fig.savefig("graphs/voigt_fittings/cubes/cube_"+str(cube_id)+"_voigt.pdf")
@@ -138,10 +144,12 @@ def old_voigt_fitter(cube_id):
 
     # obtaining sigmas from pPXF
     sigma_ppxf = best_fit_vars[1]
-    sigma_opt = opt_pars['v2_sigma']
+    #sigma_opt = opt_pars['v2_sigma']
+    sigma_opt = 6.19040871
 
     speed_of_light = 299792.458 # speed of light in kms^-1
-    sigma_opt_kms = (speed_of_light/sigma_opt) * 10**(-3)
+    peaks_av = (3934.777 + 3969.588) / 2 
+    sigma_opt_kms = (sigma_opt) / (peaks_av * (1+z)) * speed_of_light
 
     sigmas = np.array([sigma_ppxf, sigma_opt_kms])
 
@@ -255,4 +263,4 @@ def new_voigt_fitter(cube_id):
     return {'sigmas': sigmas}
 
 if __name__ == '__main__':
-    new_voigt_fitter(1804)
+    old_voigt_fitter(1804)
