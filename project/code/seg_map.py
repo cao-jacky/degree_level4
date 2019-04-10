@@ -22,14 +22,14 @@ def seg_map_maker():
 
     # plot the MUSE cube and segmentation map
     fig, ax = plt.subplots()
-    ax.imshow(cm_data, cmap="binary", clim=(0.0, 0.995))
+    ax.imshow(np.flipud(cm_data), cmap="binary", clim=(0.0, 0.995))
     #plt.hist(cm_data.ravel(), bins=256, range=(0.0, 1.0), fc='k', ec='k')
      
     cmap = matplotlib.cm.prism  
     cmap.set_bad(color="#e0e0e0") # hiding background with no segmentation data
     sm_data = np.where(sm_data!=0, sm_data, np.nan)
 
-    ax.imshow(sm_data, cmap="prism", alpha=0.6)
+    ax.imshow(np.flipud(sm_data), cmap="prism", alpha=0.6)
 
     ax.axis("off")
     fig.savefig("results/muse_seg_map.pdf", dpi=(500), bbox_inches="tight", 

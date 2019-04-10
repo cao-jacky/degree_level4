@@ -444,6 +444,7 @@ def graphs():
     fig, ax = plt.subplots()
     
     ax.hist(usable_cubes_no_oii[:,13], facecolor="#000000")
+    print(np.shape(usable_cubes_no_oii[:,13]))
      
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{Redshift}', fontsize=20)
