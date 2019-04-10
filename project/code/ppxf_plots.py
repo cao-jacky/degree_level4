@@ -267,19 +267,25 @@ def sigma_stars_vs_sigma_oii():
     fig, ax = plt.subplots()
 
     # region should be wary of
-    ax.fill_between(np.linspace(-10,225,300), -10, cutoff, alpha=0.2, zorder=0, 
+    ax.fill_between(np.linspace(-10,cutoff,50), -10, 300, alpha=0.2, zorder=0, 
             facecolor="#ffcdd2")
 
-    x_dat = data[:][:,0][:,1]
-    y_dat = data[:][:,0][:,2]
+    #ax.fill_between(np.linspace(25,28,100), 0, 100, alpha=0.2, zorder=0, 
+            #facecolor="#ffcdd2")
+
+    # before 100419 I was comparing sigma_* against sigma_oii
+    # now it'll be sigma_oii vs. sigma_* 
+
+    y_dat = data[:][:,0][:,1]
+    x_dat = data[:][:,0][:,2]
 
     y_mask = (y_dat < 300)
 
     x_dat = x_dat[y_mask]
     y_dat = y_dat[y_mask]
 
-    xerr=data[:][:,0][:,13][y_mask]
-    yerr=data[:][:,0][:,12][y_mask]
+    yerr=data[:][:,0][:,13][y_mask]
+    xerr=data[:][:,0][:,12][y_mask]
          
     for i in range(len(data[:][:,0])):
         curr_id = data[:][i,0][0]
@@ -387,8 +393,8 @@ def sigma_stars_vs_sigma_oii():
     """
 
     ax.tick_params(labelsize=20)
-    ax.set_ylabel(r'\textbf{$\sigma_{*}$ (km s$^{-1}$)}', fontsize=20)
-    ax.set_xlabel(r'\textbf{$\sigma_{OII}$ (km s$^{-1}$)}', fontsize=20)
+    ax.set_xlabel(r'\textbf{$\sigma_{*}$ (km s$^{-1}$)}', fontsize=20)
+    ax.set_ylabel(r'\textbf{$\sigma_{OII}$ (km s$^{-1}$)}', fontsize=20)
  
     ax.set_xlim([-10,225]) 
     ax.set_ylim([-10,225])
