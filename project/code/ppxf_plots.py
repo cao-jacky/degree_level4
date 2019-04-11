@@ -286,7 +286,9 @@ def sigma_stars_vs_sigma_oii():
 
     yerr=data[:][:,0][:,13][y_mask]
     xerr=data[:][:,0][:,12][y_mask]
-         
+        
+    offset_vals = []
+
     for i in range(len(data[:][:,0])):
         curr_id = data[:][i,0][0]
 
@@ -297,6 +299,8 @@ def sigma_stars_vs_sigma_oii():
             clr = "#000000"
             alpha = 1.0
 
+            offset_vals.append(y_dat[i]/x_dat[i])
+
         ax.errorbar(x_dat[i], y_dat[i], xerr=xerr[i], yerr=yerr[i],
                 color=clr, fmt="o", ms=7, elinewidth=1.0, capsize=5, 
                 capthick=1.0, zorder=0, alpha=alpha)
@@ -305,6 +309,14 @@ def sigma_stars_vs_sigma_oii():
     # y/x value
     y_over_x = data[:][:,0][:,2]/data[:][:,0][:,1]
     #ax.annotate("median y/x val: "+str(np.median(y_over_x)), (150,10))
+
+    os_med = np.median(offset_vals) # offset median value
+    os_std = np.std(offset_vals) # offset standard deviation value
+
+    # offset calculating
+    print(offset_vals)
+    print(os_med, np.log10(os_med))
+    print(os_std, np.log10(os_std))
 
     # plotting 1:1 line
     f_xd = np.linspace(-10,400,500)
