@@ -443,9 +443,10 @@ def graphs():
     # REDSHIFT DISTRIBUTION OF [OII] EMITTERS 
     fig, ax = plt.subplots()
     
-    ax.hist(usable_cubes_no_oii[:,13], facecolor="#000000")
+    ax.hist(usable_cubes_no_oii[:,13], bins=10, range=(0.3, 1.6), facecolor="#000000")
     print(np.shape(usable_cubes_no_oii[:,13]))
-     
+    print(np.min(usable_cubes_no_oii[:,13]), np.max(usable_cubes_no_oii[:,13]))
+
     ax.tick_params(labelsize=20)
     ax.set_xlabel(r'\textbf{Redshift}', fontsize=20)
     ax.set_ylabel(r'\textbf{Number of galaxies}', fontsize=20)
