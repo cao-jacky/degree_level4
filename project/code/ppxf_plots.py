@@ -579,42 +579,45 @@ def vel_stars_vs_vel_oii():
     chi_sq_list = [] # chi-squared list
     percent_diff_list = [] # percentage difference list 
 
+    unusable = np.array([849,549,1075,895]) # from S/N and sigma cut off
+
     for i_d in range(len(data[:][:,0])):
         cc_d = data[:][:,0][i_d] # current cube data
         cube_id = int(cc_d[0])
 
-        cc_sn = cc_d[7] # current S/N for the cube 
-    
-        lmfit_vals = spectra_data.lmfit_data(cube_id)
-        cube_z = lmfit_vals['z'] 
-        cube_z_err = lmfit_vals['err_z']
-
-        vel_oii = oii_velocity(cube_z) # OII from lmfit fitting
-        vel_oii_err = oii_velocity(lmfit_vals['err_z'])
-        #vel_oii = 0 # the velocities should be zero as they have not been redshifted
-
-        vel_ppxf = cc_d[14] # stellar fitting from pPXF
-        vel_ppxf_err = cc_d[15]
-
-        # loading "a" factors in a/x model
-        a_ppxf = np.load("uncert_ppxf/vel_curve_best_values_ppxf.npy")
-        a_lmfit = np.load("uncert_lmfit/vel_curve_best_values_lmfit.npy")
-
-        # fractional error
-        frac_err_ppxf = (a_ppxf/cc_sn) * vel_ppxf
-        frac_err_lmfit = (a_lmfit/cc_sn) * vel_oii
-
-        gq_val.append(vel_ppxf/vel_oii)
+        if cube_id not in unusable:
+            cc_sn = cc_d[7] # current S/N for the cube 
         
-        csq = chisq(vel_oii, frac_err_lmfit, vel_ppxf)
-        chi_sq_list.append(csq)
-        
-        pd = (vel_ppxf - vel_oii)/vel_ppxf
-        percent_diff_list.append(pd)
+            lmfit_vals = spectra_data.lmfit_data(cube_id)
+            cube_z = lmfit_vals['z'] 
+            cube_z_err = lmfit_vals['err_z']
 
-        ax.errorbar(vel_oii, vel_ppxf, xerr=frac_err_lmfit, yerr=frac_err_ppxf, 
-                color="#000000", fmt="o", ms=6, elinewidth=1.0, 
-                capsize=5, capthick=1.0, zorder=0)
+            vel_oii = oii_velocity(cube_z) # OII from lmfit fitting
+            vel_oii_err = oii_velocity(lmfit_vals['err_z'])
+            #vel_oii = 0 # the velocities should be 0 as they have not been redshifted
+
+            vel_ppxf = cc_d[14] # stellar fitting from pPXF
+            vel_ppxf_err = cc_d[15]
+
+            # loading "a" factors in a/x model
+            a_ppxf = np.load("uncert_ppxf/vel_curve_best_values_ppxf.npy")
+            a_lmfit = np.load("uncert_lmfit/vel_curve_best_values_lmfit.npy")
+
+            # fractional error
+            frac_err_ppxf = (a_ppxf/cc_sn) * vel_ppxf
+            frac_err_lmfit = (a_lmfit/cc_sn) * vel_oii
+
+            gq_val.append(vel_ppxf/vel_oii)
+            
+            csq = chisq(vel_oii, frac_err_lmfit, vel_ppxf)
+            chi_sq_list.append(csq)
+            
+            pd = (vel_ppxf - vel_oii)/vel_ppxf
+            percent_diff_list.append(pd)
+
+            ax.errorbar(vel_oii, vel_ppxf, xerr=frac_err_lmfit, yerr=frac_err_ppxf, 
+                    color="#000000", fmt="o", ms=6, elinewidth=1.0, 
+                    capsize=5, capthick=1.0, zorder=0)
 
         #ax.annotate(cube_id, (vel_oii, vel_ppxf))
 
@@ -626,8 +629,8 @@ def vel_stars_vs_vel_oii():
     print("vel_stars_vs_vel_oii, red_chi_sq: " + str(red_chi_sq))
 
     ax.tick_params(labelsize=18)
-    ax.set_ylabel(r'\textbf{V$_{*}$ (kms$^{-1}$)}', fontsize=20)
-    ax.set_xlabel(r'\textbf{V$_{OII}$ (kms$^{-1}$)}', fontsize=20)
+    ax.set_ylabel(r'\textbf{V$_{*}$ (km s$^{-1}$)}', fontsize=20)
+    ax.set_xlabel(r'\textbf{V$_{OII}$ (km s$^{-1}$)}', fontsize=20)
 
     ax.set_xlim([75000,175_000]) 
     ax.set_ylim([75000,175_000])
@@ -702,15 +705,16 @@ def sigma_stars_old_vs_new():
     fig, ax = plt.subplots()
 
     cutoff = sigma_cutoff()
-    # region should be wary of
-    """
-    ax.fill_between(np.linspace(0,600,700), -10, cutoff, alpha=0.2, zorder=0, 
-            facecolor="#ffcdd2")
-    ax.fill_between(-10, cutoff, np.linspace(0,600,700), alpha=0.2, zorder=0, 
-            facecolor="#ffcdd2")
-    """
 
-    cube_ignore = np.array([849,895,765,554])
+    # region should be wary of
+    ax.fill_between(np.linspace(-10,cutoff,50), -10, 600, alpha=0.2, zorder=0, 
+            facecolor="#ffcdd2")
+    ax.fill_between(np.linspace(-10,600,650), -10, cutoff, alpha=0.2, zorder=0, 
+            facecolor="#ffcdd2")
+
+    #cube_ignore = np.array([849,895,765,554])
+    #cube_ignore = np.array([])
+    unusable = np.array([849,549,1075,895]) # from S/N and sigma cut off
 
     chi_sq_list = []
     for i in range(len(cube_ids)):
@@ -725,20 +729,27 @@ def sigma_stars_old_vs_new():
 
         gq_val.append(cns/cos)
 
-        if cube_id not in cube_ignore: 
+        if cube_id not in unusable: 
             chi_sq_list.append(chisq(cos, cose, cns))
+            clr = "#000000"
+
             ax.errorbar(cns, cos, xerr=cnse, yerr=cose, 
-                    color="#000000", fmt="o", ms=7, elinewidth=1.0, 
-                    capsize=5, capthick=1.0, zorder=0)
+                color=clr, fmt="o", ms=7, elinewidth=1.0, 
+                capsize=5, capthick=1.0, zorder=0)
             #ax.annotate(str(int(cube_id)), (cns, cos))
+        else:
+            clr = "#f44336"
+    
+        
+
 
     chi_sq = np.sum(chi_sq_list)
     red_chi_sq = chi_sq / len(chi_sq_list) # reduced chi-squared
     print("sigma_stars_old_vs_new, red_chi_sq: " + str(red_chi_sq))
 
     ax.tick_params(labelsize=20)
-    ax.set_ylabel(r'\textbf{$\sigma_{*,old}$ (kms$^{-1}$)}', fontsize=20)
-    ax.set_xlabel(r'\textbf{$\sigma_{*,new}$ (kms$^{-1}$)}', fontsize=20)
+    ax.set_ylabel(r'\textbf{$\sigma_{*,old}$ (km s$^{-1}$)}', fontsize=20)
+    ax.set_xlabel(r'\textbf{$\sigma_{*,new}$ (km s$^{-1}$)}', fontsize=20)
 
     ax.set_xlim([0,600]) 
     ax.set_ylim([0,600])
