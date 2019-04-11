@@ -383,13 +383,22 @@ def auto_runner():
                 weight='heavy')
 
         # repeating plots for velocity dispersions
+        axvd[i_cube,0].tick_params(labelsize=33)
         axvd[i_cube,0].imshow(hst_colour, interpolation='nearest', aspect="auto")
-        axvd[i_cube,0].set_axis_off()
         axvd[i_cube,0].text(hsts[0]*0.5, hsts[1]*0.95, r'\textbf{C'+str(cube_id)+'}', 
                 {'color': "#ffffff", 'fontsize': 40}, horizontalalignment='center',
                 weight='heavy')
+        
+        axvd[i_cube,0].set_xticks(x_labels) # locations of ticks
+        axvd[i_cube,0].set_xticklabels([r'\textbf{'+str(x_labels_new[0])+'}',
+            r'\textbf{'+str(x_labels_new[1])+'}',r'\textbf{'+str(x_labels_new[2])+'}'])
+
+        axvd[i_cube,0].set_yticks(y_labels) # locations of ticks
+        axvd[i_cube,0].set_yticklabels([r'\textbf{'+str(y_labels_new[0])+'}',
+            r'\textbf{'+str(y_labels_new[1])+'}',r'\textbf{'+str(y_labels_new[2])+'}'])
 
         axs[i_cube,0].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
+        axvd[i_cube,0].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
 
         # --------------------------------------------------#
        
@@ -433,6 +442,15 @@ def auto_runner():
         axvd[i_cube,1].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         axvd[i_cube,1].tick_params(labelsize=33)
         axvd[i_cube,1].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
+
+        axvd[i_cube,1].set_xticks(x_labels) # locations of ticks
+        axvd[i_cube,1].set_xticklabels([r'\textbf{'+str(x_labels_new[0])+'}',
+            r'\textbf{'+str(x_labels_new[1])+'}',r'\textbf{'+str(x_labels_new[2])+'}'])
+
+        axvd[i_cube,1].set_yticks(y_labels) # locations of ticks
+        axvd[i_cube,1].set_yticklabels([r'\textbf{'+str(y_labels_new[0])+'}',
+            r'\textbf{'+str(y_labels_new[1])+'}',r'\textbf{'+str(y_labels_new[2])+'}',
+            r'\textbf{'+str(y_labels_new[3])+'}'])
 
         # --------------------------------------------------#
 
@@ -550,7 +568,16 @@ def auto_runner():
         axvd[i_cube,3].imshow(voronoi_map, cmap="prism", aspect="auto")
         axvd[i_cube,3].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         axvd[i_cube,3].tick_params(labelsize=33)
-        axvd[i_cube,3].set_ylabel(r'\textbf{Pixels}', fontsize=40)
+        axvd[i_cube,3].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
+
+        axvd[i_cube,3].set_xticks(x_labels) # locations of ticks
+        axvd[i_cube,3].set_xticklabels([r'\textbf{'+str(x_labels_new[0])+'}',
+            r'\textbf{'+str(x_labels_new[1])+'}',r'\textbf{'+str(x_labels_new[2])+'}'])
+
+        axvd[i_cube,3].set_yticks(y_labels) # locations of ticks
+        axvd[i_cube,3].set_yticklabels([r'\textbf{'+str(y_labels_new[0])+'}',
+            r'\textbf{'+str(y_labels_new[1])+'}',r'\textbf{'+str(y_labels_new[2])+'}',
+            r'\textbf{'+str(y_labels_new[3])+'}'])
 
         # Galaxy maps
         galaxy_maps = np.load("cube_results/cube_"+str(int(cube_id))+"/cube_"+
@@ -618,6 +645,15 @@ def auto_runner():
             height_amount = 4.95
         else:
             height_amount = i_cube
+            
+        axvd[i_cube,4].set_xticks(x_labels) # locations of ticks
+        axvd[i_cube,4].set_xticklabels([r'\textbf{'+str(x_labels_new[0])+'}',
+            r'\textbf{'+str(x_labels_new[1])+'}',r'\textbf{'+str(x_labels_new[2])+'}'])
+
+        axvd[i_cube,4].set_yticks(y_labels) # locations of ticks
+        axvd[i_cube,4].set_yticklabels([r'\textbf{'+str(y_labels_new[0])+'}',
+            r'\textbf{'+str(y_labels_new[1])+'}',r'\textbf{'+str(y_labels_new[2])+'}',
+            r'\textbf{'+str(y_labels_new[3])+'}'])
 
         cb_ax = fig.add_axes([0.515, 1-(0.195+0.136*height_amount-0.065),
             0.015, 0.007])
@@ -685,6 +721,16 @@ def auto_runner():
         fcbar1.ax.tick_params(labelsize=20, rotation=90)
         #fcbar1.ax.set_title(r'\textbf{(kms$^{-1}$)}', fontsize=20, pad=7, 
                 #bbox=dict(facecolor='white', alpha=0.7)) 
+
+        axvd[i_cube,5].set_xticks(x_labels) # locations of ticks
+        axvd[i_cube,5].set_xticklabels([r'\textbf{'+str(x_labels_new[0])+'}',
+            r'\textbf{'+str(x_labels_new[1])+'}',r'\textbf{'+str(x_labels_new[2])+'}'])
+
+        axvd[i_cube,5].set_yticks(y_labels) # locations of ticks
+        axvd[i_cube,5].set_yticklabels([r'\textbf{'+str(y_labels_new[0])+'}',
+            r'\textbf{'+str(y_labels_new[1])+'}',r'\textbf{'+str(y_labels_new[2])+'}',
+            r'\textbf{'+str(y_labels_new[3])+'}'])
+
 
         # --------------------------------------------------#
 
@@ -761,8 +807,6 @@ def auto_runner():
         radii_kpc = radii_mpc * 10**(3) # radii in kpc
         x_values = radii_kpc.value # specfying value attribute to access just values
 
-        print(x_values)
-
         axs[i_cube,6].errorbar(x_values, ppxf_map_median, yerr=ppxf_y_err, 
                 ms=10, fmt='o', c='#03a9f4', elinewidth=2, capsize=10, capthick=2,
                 label=r'\textbf{Stars}')
@@ -807,7 +851,7 @@ def auto_runner():
         axs[i_cube,6].plot(x_lin, lmfit_rc_model, lw=2.0, c='#f44336')
 
         axs[i_cube,6].tick_params(labelsize=33)
-        axs[i_cube,6].set_ylabel(r'\textbf{V (kms$^{-1}$)}', fontsize=40)
+        axs[i_cube,6].set_ylabel(r'\textbf{V (km s$^{-1}$)}', fontsize=40)
 
         axs[i_cube,6].set_xlim([-x_max,x_max]) # setting x-axis to be equal
 
@@ -852,7 +896,7 @@ def auto_runner():
 
         #axvd[i_cube,6].set_yscale('log')
         axvd[i_cube,6].tick_params(labelsize=33)
-        axvd[i_cube,6].set_ylabel(r'\textbf{$\sigma$ (kms$^{-1}$)}', fontsize=40)
+        axvd[i_cube,6].set_ylabel(r'\textbf{$\sigma$ (km s$^{-1}$)}', fontsize=40)
 
         x_max = np.max(np.abs(x_values))
         axvd[i_cube,6].set_xlim([-x_max,x_max]) # setting x-axis to be equal
@@ -958,7 +1002,7 @@ def auto_runner():
                 capsize=10, capthick=2)
 
         axs[i_cube,8].tick_params(labelsize=33)  
-        axs[i_cube,8].set_ylabel(r'\textbf{$\mid \Delta V \mid$ (kms$^{-1}$)}', 
+        axs[i_cube,8].set_ylabel(r'\textbf{$\mid \Delta V \mid$ (km s$^{-1}$)}', 
                 fontsize=40)
 
         for tick in axs[i_cube,8].get_yticklabels():
@@ -983,7 +1027,7 @@ def auto_runner():
                 capsize=10, capthick=2)
 
         axvd[i_cube,8].tick_params(labelsize=33)  
-        axvd[i_cube,8].set_ylabel(r'\textbf{$\mid \Delta \sigma \mid$ (kms$^{-1}$)}',
+        axvd[i_cube,8].set_ylabel(r'\textbf{$\mid \Delta \sigma \mid$ (km s$^{-1}$)}',
                 fontsize=40)
 
         for tick in axvd[i_cube,8].get_yticklabels():
