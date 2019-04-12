@@ -293,6 +293,16 @@ def auto_runner():
     #uc = uc[7:11]
     print(uc) 
 
+    # list of target S/N used to create each Voronoi map
+    vor_target_sn = {
+            1804: "70 (50)",
+            1578: "160 (53)",
+            849: "100 (38)",
+            286: "160 (56)",
+            5: "150 (51)",
+            767: "25 (39)"
+            } 
+
     # plot for velocities
     fig, axs = plt.subplots(len(uc), 9, figsize=(64, 38), gridspec_kw={'hspace':0.3,
         'wspace':0.45, 'width_ratios':[7,7,15,7,7,7,10,10,10]})
@@ -538,6 +548,17 @@ def auto_runner():
         axs[i_cube,3].imshow(segmentation, cmap="Blues", alpha=0.5, aspect="auto")
         axs[i_cube,3].tick_params(labelsize=33)
         axs[i_cube,3].set_ylabel(r'\textbf{(kpc)}', fontsize=40)
+
+        vms = np.shape(voronoi_map) # shape of the HST frame
+        tsnd = vor_target_sn[cube_id] # target S/N data
+
+        # cube_id label 
+        axs[i_cube,3].text(vms[0]*0.5, vms[1]*0.95, r'\textbf{'+str(tsnd)+'}', 
+                {'color': "#000000", 'fontsize': 35}, horizontalalignment='center',
+                weight='heavy')
+        axvd[i_cube,3].text(vms[0]*0.5, vms[1]*0.95, r'\textbf{'+str(tsnd)+'}', 
+                {'color': "#000000", 'fontsize': 35}, horizontalalignment='center',
+                weight='heavy')
 
         # converting ticks to different axis values
         x_labels = np.array([0,25,49]) 
@@ -1141,7 +1162,9 @@ def auto_runner():
     ddu_max = int(np.nanmax(ddu)) # highest radius as an integer
     ddu_bins = np.linspace(0, ddu_max, ddu_max, dtype=int) # create integer bins
     ddu_inds = np.digitize(ddu,ddu_bins) # binning unique radii
-    
+   
+    median_list = []
+
     for i_ddui in range(len(ddu_bins)):
         curr_bin = ddu_bins[i_ddui] # current bin (radius) from integer bin list
         bin_where = np.where(ddu_inds==curr_bin, ddu, np.nan)
@@ -1162,12 +1185,26 @@ def auto_runner():
         else:
             temp_vels = np.concatenate(temp_vels).ravel()
             cvel_median = np.nanmedian(temp_vels) # median from current bin velocities
-        
-            axdelv.errorbar(curr_bin-1, cvel_median, ms=5, fmt='o', c="#e53935",
-                elinewidth=1, capsize=5, capthick=1)
 
+            #axdelv.errorbar(curr_bin-1, cvel_median, ms=5, fmt='o', c="#e53935",
+                #elinewidth=1, capsize=5, capthick=1)
+
+            median_list.append(cvel_median)
+
+    axdelv.axhline(y=np.median(median_list), color="#e53935", alpha=0.7)
+    axdelv.axhline(y=np.median(median_list)-np.std(median_list), color="#43a047", 
+            alpha=0.7)
+    axdelv.axhline(y=np.median(median_list)+np.std(median_list), color="#43a047", 
+            alpha=0.7)
+
+    axdelv.fill_between(np.linspace(-10,30,50), 
+            np.median(median_list)-np.std(median_list),
+            np.median(median_list)+np.std(median_list), 
+            alpha=0.2, zorder=0, facecolor="#aed581")
+
+    axdelv.set_xlim([-1,28])
     axdelv.tick_params(labelsize=20)  
-    axdelv.set_ylabel(r'\textbf{$\mid V_{OII}-V_{*} \mid$ (kms$^{-1}$)}', fontsize=20)
+    axdelv.set_ylabel(r'\textbf{$\mid V_{OII}-V_{*} \mid$ (km s$^{-1}$)}', fontsize=20)
     axdelv.set_xlabel(r'\textbf{Radius (kpc)}', fontsize=20)
  
     # saving deltaV plot
