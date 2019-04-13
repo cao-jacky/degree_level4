@@ -615,7 +615,7 @@ def vel_stars_vs_vel_oii():
             pd = (vel_ppxf - vel_oii)/vel_ppxf
             percent_diff_list.append(pd)
 
-            ax.errorbar(vel_oii, vel_ppxf, xerr=frac_err_lmfit, yerr=frac_err_ppxf, 
+            ax.errorbar(vel_ppxf, vel_oii, yerr=frac_err_lmfit, xerr=frac_err_ppxf, 
                     color="#000000", fmt="o", ms=6, elinewidth=1.0, 
                     capsize=5, capthick=1.0, zorder=0)
 
@@ -629,8 +629,8 @@ def vel_stars_vs_vel_oii():
     print("vel_stars_vs_vel_oii, red_chi_sq: " + str(red_chi_sq))
 
     ax.tick_params(labelsize=18)
-    ax.set_ylabel(r'\textbf{V$_{*}$ (km s$^{-1}$)}', fontsize=20)
-    ax.set_xlabel(r'\textbf{V$_{OII}$ (km s$^{-1}$)}', fontsize=20)
+    ax.set_xlabel(r'\textbf{V$_{*}$ (km s$^{-1}$)}', fontsize=20)
+    ax.set_ylabel(r'\textbf{V$_{OII}$ (km s$^{-1}$)}', fontsize=20)
 
     ax.set_xlim([75000,175_000]) 
     ax.set_ylim([75000,175_000])
