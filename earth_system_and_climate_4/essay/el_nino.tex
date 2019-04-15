@@ -55,6 +55,7 @@
 \thispagestyle{plain} % produces page number for front 
 
 \section{Introduction}
+\noindent
 % Introducing ENSOs and what EN and SO are individually and then setting the problem from the offset 
 The El Ni\~{n}o Southern Oscillations (ENSOs) are a composite weather phenomena which originate in the Pacific Ocean that occurs every few years. El Ni\~{n}o is an oceanic warming event which disrupts the normal Pacific circulation at irregular intervals of 2--7 years, whilst the Southern Oscillations are an inter-annual flip of the tropical sea level pressure between the western and eastern Pacific leading to the weakening and strengthening of the easterly trade winds across the ocean \citep{wang2017nino}. The coupling of these two phenomena was first theorised by \cite{doi:10.1175/1520-04931969097} who recognised that they are two different aspects of the same phenomena. \\
 % words: 99
@@ -70,7 +71,7 @@ With their model they were able to replicate features observed during ENSO event
 % words: 113
 
 \section{Prediction limitations and the Zebiak-Cane Model}
-
+\noindent
 The prediction of ENSO events is particularly difficult as there are several types of El Ni\~{n}o events to consider, for example strong and weak El Ni\~{n}os, or even La Ni\~{n}a events where the Pacific cools. Generally there are only two main types accounted for in ENSO predictions. The first are canonical events which generally develop along the South American coast and then propagate westwards across the Pacific, ``Eastern-Pacific'' events \citep{rasmusson1982variations}. The second type have non-propagating warm SST concentrated mostly in the central Pacific, ``Central-Pacific'' events \citep{ashok2007nino}. In an attempt to test whether the ZC model can predict either types of events, \cite{duan2013behaviors} demonstrated that the ZC model tended to do well whilst simulating Eastern-Pacific (EP) events and functioned badly when attempting to reproduce Central-Pacific (CP) events. This indicated that the ZC model may just contain the physics to explain EP events and that alterations would be required to additionally account for other effects. \\
 % words: 154
 
@@ -106,7 +107,7 @@ However further shortfalls exist within ENSO modelling which limits their accura
 % words: 90
 
 \section{Evidence for the spring predictability barrier}
-
+\noindent
 Examinations of the correlation between ENSO data sets through autocorrelation and persistence provides one method for identifying the predictability barrier \citep{torrence1998annual}. The autocorrelation of a time series is the correlation between itself and a copy of the data which is time-lagged. Analyses of monthly sea level pressures across the Pacific Ocean yields the SST and Southern Oscillation Index (SOI) to have high autocorrelations which agrees with the general observation that ENSO events normally persist for several months \citep{trenberth1976spatial}. Persistence focuses on the fixed-phase correlation between different months within a single time series. Contrasting with autocorrelation which is independent of the starting month, persistence shows potential seasonal changes in the correlations between one month and the next \citep{troup1965southern}. Analysis by \cite{torrence1998annual} of NINO3 SST and GMSLP SOI data shows that persistence has distinct, regular structure which is phase locked to an annual cycle (Fig. \ref{fig:persistence_sst_soi}). Regardless of starting month, the persistence has a rapid decline in the March--April--May period which can be attributed as the manifestation of the spring predictability barrier. \\
 % words: 171
 
@@ -129,9 +130,8 @@ Similarly, \cite{jin2008current} investigated other types of coupled general cir
 % words: 89
 
 \section{Overcoming the spring predictability barrier}
-
 \subsection{Parameter and initial errors in the Zebiak-Cane model}
-
+\noindent
 As demonstrated, the SPB is a prevalent characteristic of ENSO forecasts which exists within statistical and coupled models. Whilst it may not be feasible to entirely eliminate the barrier from predictions, it would be beneficial to reduce its effect. One potential line of inquiry is understanding the initial and parameter errors within the ZC model which leads to the SPB. Through adopting an approach of conditional nonlinear optimal perturbations (CNOP), the errors can be isolated and their impact on the SPB quantified \citep{duan2009exploring}. This method identifies the optimal error perturbations (initial or parameter) in the ZC model within given constraints through reducing evolution equations \citep{mu2010extension}. Applications of CNOP in retrospective forecasts reveals that prediction errors for a parameter-error only system (CNOP-P) are small which generates a weakened SPB, on the other hand an initial-error only framework (CNOP-I) produces significant SPBs (Fig. \ref{fig:cnop}). If both are coupled together as in a realistic system, then the prediction errors are weighted by the CNOP-I results and a substantive SPB arises. \\
 % words: 167
 
@@ -145,7 +145,7 @@ To reduce the effect of CNOP-I uncertainties on the prediction results, it is su
 % words: 57
 
 \subsection{Stochastic forcing and westerly wind bursts}
-
+\noindent
 It can be seen that the strength of the SPB can be reduced through considerations of the initial error values established in the prediction model. Nonetheless the origins and fundamental mechanisms of the barrier are still in debate and there is yet to be a single conclusive argument. There are two main hypotheses which attempt to justify the ENSO prediction skill during spring. The first is the ZC model which suggests that the air-sea coupling strength is the weakest during the boreal spring \citep{Zebiak:1987aa}. The second relates the seasonality of the SST anomaly (SSTA) variance compared with that of the stochastic noise forcing \citep{webster1992monsoon, xue1994prediction}. Having said that, there is the potential for alternatives theories which include Westerly Wind Bursts (WWBs) to solve the problem of ENSO forecast skill seasonality. \\
 % words: 130
 
@@ -159,7 +159,7 @@ The inclusion of parameterised WWBs in prediction experiments is motivated becau
 % words: 184
 
 \section{Conclusions}
-
+\noindent
 To summarise, understanding the mechanisms for ENSO prediction and formation is currently limited as models such as ZC simplify the coupling between the atmosphere and ocean which limits the applicability to non-regular El Ni\~{n}o events. An additional challenge also arises in the form of the SPB where the predictive skill across March--May is low when compared to predictions originating from other points in the year. This barrier is evident from data and modelling, but there is yet to be a conclusive model which explains why it exists. Current research suggests that the barrier maybe related to weak climate coupling during spring or it may arise from stochastic noise forcing. However, these models fail to account for the potential for WWBs to be the source of the seasonality in ENSO forecast skill. Incorporating WWBs into prediction models suggests the SPB may be materialising due to the presence of the WWBs and they are potentially an important component in the dynamics of ENSOs. \\
 % words: 161
 
