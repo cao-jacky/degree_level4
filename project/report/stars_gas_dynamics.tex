@@ -133,8 +133,8 @@
 \author{Jacky Cao}
 \affiliation{\normalfont Level 4 Project, MPhys Physics\\ Supervisor: Dr.~Mark Swinbank\\ Department of Physics, Durham University}
 
-\begin{abstract}              
-Optical and spectroscopic observations of galaxies provide a way to understand the internal dynamics of the stars and gas within it. Data for the Hubble Ultra Deep Field (HUDF) from the Hubble Space Telescope and the Multi-Unit Spectroscopic Explorer (MUSE) on the VLT provides a potential sample of more than 10,000 galaxies. This data-set was reduced by considering objects with redshifts $z>0.3$ and with V-band magnitudes brighter than 25.0 mag. The $\sim30$ remaining galaxies were extracted and then analysed by fitting for different regions of the galaxy spectra. The [OII] emission feature was separated and fitted with a Gaussian doublet to represent the gas dynamics. Applying a Penalized Pixel-Fitting method (pPXF) to the entire spectrum could quantify the stellar dynamics, however various issues were encountered in this initial research which prevented the successful operation of the fitting routine. Various tests were performed and a different spectral template library was applied in an attempt to remedy the problems. The next step in future work will be based around isolating the source of the issues and then further extending the routine to consider variations to the spectra.
+\begin{abstract}  
+Galaxy morphologies are driven by fundamental parameters pertaining to the physical properties of galaxies. Parameters such as angular momentum, radial velocities, and mass can be related together to produce scaling relations. These relations are derived and calibrated using large samples of local $z\approx0$ galaxies, it is therefore important to understand whether they are applicable to high--redshift galaxies. This research made use of data from the \textit{Hubble Space Telescope} and Multi-Unit Spectroscopic Explorer (MUSE) for the Hubble Ultra Deep Field to derive a sample of high--redshift $z>0.3$ galaxies. Sample reduction techniques were performed to reduce 1823 detected objects to 11 usable galaxies. Each galaxy spectra was analysed to measure the gas kinematics through modelling the [OII]$\lambda\lambda$3726,29 emission doublet, and the stellar dynamics by using the Python package \texttt{pPXF} to fit spectral templates to the absorption lines. Both routines would return radial velocities and velocity dispersions which were used to test the scaling relations. Fractional uncertainty models were derived to quantify the error in the procedures. The velocity dispersions of the gas and stars were compared and it was concluded that a linear correlation exists between them which agrees with local $z\approx0$ behaviour. Comparisons of the gas and stellar radial velocities subsequently verified that the calculated redshifts were well in agreement. The Tully--Fisher (TFR) and Faber--Jackson relations (FJR) were tested by binning six galaxies using Voronoi tessellation. The Voronoi maps were then used to create rotation velocity and velocity dispersion maps. Rotation curves were produced and it was shown that at high--redshifts, the TFR, within the uncertainties of the results, may still be valid. Alternatively, it was not possible to test the FJR as the velocity dispersion maps did not contain enough data due to signal-to-noise masking. From the work in this report, it appears that the locally--derived scaling relations are potentially still valid at high--redshifts.
 \end{abstract}
 
 \begin{figure}[b]
@@ -169,7 +169,7 @@ If the structural features of a galactic object cannot be equated to those found
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{introduction/hubble-tuning-fork-diagram}
-\caption{The Hubble sequence demonstrated graphically as the Hubble Tuning Fork (from \citealt{hubble_tuning_fork}). This diagram illustrates Hubble's classification of galaxies by their morphologies into ellipticals, spirals, lenticulars, and irregulars.}
+\caption{The Hubble sequence demonstrated graphically as the Hubble Tuning Fork (from \citealt{hubble_tuning_fork}). This diagram illustrates the Hubble classification of galaxies by their morphologies into ellipticals, spirals, lenticulars, and irregulars.}
 \label{fig:hubble_tuning_fork}
 \end{figure*}
 
@@ -189,7 +189,7 @@ Measurements of galactic specific angular momentum allows for the derivation of 
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{introduction/romanowsky_2012_fig_3}
-\caption{The total intrinsic specific angular momentum $j_*$ against total stellar mass $m_*$ for different galaxies (from \citealt{2012ApJS..203...17R}). Legend in upper left shows the galaxy types used. Ellipticals follow a similar relationship to spirals but with an offset of $\sim6$ to lower $j_*$. This diagram represents one of the scaling relations for galaxies which reflect their internal dynamics.}
+\caption{The total intrinsic specific angular momentum $j_*$ against total stellar mass $m_*$ for different galaxies (from \citealt{2012ApJS..203...17R}). Legend in upper left shows the galaxy types used. Ellipticals follow a similar relationship to spirals but with an offset of $\sim6$. This diagram represents one of the scaling relations for galaxies which reflect their internal dynamics.}
 \label{fig:romanowsky_fall_2012}
 \end{figure}
 
@@ -202,7 +202,7 @@ Despite the pairing between angular momentum and mass for various galaxy types (
 
 \begin{figure}
 \includegraphics[width=\linewidth]{introduction/fritz_2009}
-\caption{Faber--Jackson relation for early-type galaxies (from \citealt{2009MNRAS.393.1467F}). Data contains elliptical galaxies from FORS Deep Field and the William Herschel Deep Field samples. The FJR relates the luminosity ($M_K$) with the velocity dispersion $\sigma$.}
+\caption{Faber--Jackson relation for early-type galaxies (from \citealt{2009MNRAS.393.1467F}). Data contains elliptical galaxies from FORS Deep Field and the William Herschel Deep Field samples. The FJR relates the luminosity $M_K$ with the velocity dispersion $\sigma$.}
 \label{fig:faber_jackson}
 \end{figure}
 
@@ -210,7 +210,7 @@ For ellipticals, \cite{1976ApJ...204..668F} produced a scaling relation between 
 
 \begin{figure}
 \includegraphics[width=\linewidth]{introduction/reyes_2011}
-\caption{Tully--Fisher relation for spiral galaxies (from \citealt{2012ApJS..203...17R}). The TFR relates galaxy stellar mass $M_*$ to the rotational velocity $V$.}
+\caption{Tully--Fisher relation (TFR) for spiral galaxies (from \citealt{2012ApJS..203...17R}). The TFR relates galaxy stellar mass $M_*$ to the rotational velocity $V$.}
 \label{fig:tully_fisher}
 \end{figure}
 
@@ -262,7 +262,7 @@ Using a $\Lambda$CDM universe, regions ranging in volume from 25 to 100 comoving
 
 \begin{figure}
 \includegraphics[width=\linewidth]{introduction/eagle_tully_fisher}
-\caption{The Tully--Fisher relation (TFR) for spiral galaxies modelled with cosmological simulations (from \citealt{2015MNRAS.446..521S}). The TFR here is expressed as the relation between maximum rotation curve velocity $V_{\max}$ and stellar mass $M_*$. The legend in the lower right shows which simulated data was used, and the scatter points represent observational data.}
+\caption{The Tully--Fisher relation (TFR) for spiral galaxies modelled with cosmological simulations (from \citealt{2015MNRAS.446..521S}). In this work the TFR is expressed as the relation between maximum rotation curve velocity $V_{\max}$ and stellar mass $M_*$. The legend in the lower right shows which simulated data was used, and the scatter points represent observational data.}
 \label{fig:eagle_tully_fisher}
 \end{figure}
 
@@ -292,7 +292,7 @@ An estimate of the number of galaxies at different redshifts was performed by as
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{introduction/hudf_frame.pdf}
-\caption[Hubble Ultra Deep Field]{\textit{Left-hand panel}: colour composite image at an image scale of 30 mas for the HUDF from \textit{HST} ACS/WFC, Hubble eXtreme Deep Field project data \citep{2013ApJS..209....6I}. Frames in three filter bands (F775W, F606W, and F435W) were combined to represent the RGB channels within a colour image. \textit{Right-hand panel}: colour image of the MUSE HUDF region. The spectra wavelength range (4650 \AA--9300 \AA) of the MUSE cube was divided into three equal regions (4650 \AA--6180 \AA, 6180 \AA--7730 \AA, 7730 \AA -- 9300 \AA), collapsed, and then combined to create an RGB image. Highlighted in both images is object RAF-24420 \citep{2015AJ....150...31R}, the \textit{HST} data has a higher optical resolution whereas the MUSE data outclasses in the resolution of the spectroscopic data.}
+\caption[Hubble Ultra Deep Field]{\textit{Left-hand panel}: colour composite image at an image scale of 30 mas for the HUDF from \textit{HST} ACS/WFC, Hubble eXtreme Deep Field project data \citep{2013ApJS..209....6I}. Frames in three filter bands (F775W, F606W, and F435W) were combined to represent the RGB channels within a colour image. \textit{Right-hand panel}: colour image of the MUSE HUDF region. The spectra wavelength range (4650 \AA--9300 \AA) of the MUSE cube was divided into three equal regions (4650 \AA--6180 \AA, 6180 \AA--7730 \AA, 7730 \AA -- 9300 \AA), collapsed, and then combined to create an RGB image. Highlighted in both images is object RAF-24420 \citep{2015AJ....150...31R}, the \textit{HST} data has a higher optical resolution whereas the MUSE data has the superior resolution in it's spectroscopic data.}
 \label{fig:hst_muse_hdf}
 \end{figure*}
 
@@ -353,7 +353,7 @@ Once obtained, the IMF provides an estimate of the present-day and initial stell
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{introduction/spectral_types}
-\caption{Example spectra for spectral types \textit{OBAFGKM}. Taken from the Indo-US Library of Coudé Feed Stellar Spectra \citep{2004ApJS..152..251V}, the stars used have metallicities [Fe/H]$_{\odot} \approx0$  and are: 30614 (\textit{O}), 17081 (\textit{B}), 39866 (\textit{A}), 5015 (\textit{F}), G 7-6 (\textit{G}), 5858 (\textit{K}), and G 176-11 (\textit{M}). These spectra demonstrate that older types (\textit{FGKM}) have larger amounts of absorption and emission lines when compared to younger types (\textit{OBA}) as they have spent a greater amount of time undergoing nuclear fusion. Galaxy spectra will contain combinations of these stars which produces a unique profile.}
+\caption{Example spectra for spectral types \textit{OBAFGKM}. Taken from the Indo-US Library of Coudé Feed Stellar Spectra \citep{2004ApJS..152..251V}, the stars used have metallicities [Fe/H]$_{\odot} \approx0$  and IDs: 30614 (\textit{O}), 17081 (\textit{B}), 39866 (\textit{A}), 5015 (\textit{F}), G 7-6 (\textit{G}), 5858 (\textit{K}), and G 176-11 (\textit{M}). These spectra demonstrate that older types (\textit{FGKM}) have larger amounts of absorption and emission lines when compared to younger types (\textit{OBA}) as they have spent a greater amount of time undergoing nuclear fusion. Galaxy spectra will contain combinations of these stars which produces a unique profile.}
 \label{fig:spectral_types}
 \end{figure}
 
@@ -384,7 +384,7 @@ Optical images of galaxy morphologies were obtained from a colour composite HUDF
 
 \begin{figure}
 \includegraphics[width=\linewidth]{introduction/xdf_frame.jpg}
-\caption[Hubble eXtreme Deep Field]{The production of the XDF (from \cite{2013ApJS..209....6I}). Upper left frame shows the original optical HUDF (blue) from ACS which contributed $50\%$ of the XDF data set. Upper right shows the introduction of the HUDF09 IR data (red) from WFC3/IR, forming $20\%$ of XDF. Lower left shows the final $20\%$ contribution from 17 other \textit{HST} programs (white) of which the large majority coming from CANDELS ACS and WFC3/IR data, and the HUDF12 WFC3/IR data. Lower right shows the final produced XDF frame (orange).}
+\caption[Hubble eXtreme Deep Field]{The production of the XDF (from \cite{2013ApJS..209....6I}). Upper left frame shows the original optical HUDF (blue) from ACS which contributed $50\%$ of the XDF data set. Upper right shows the introduction of the HUDF09 IR data (red) from WFC3/IR, forming $20\%$ of XDF. Lower left shows the final $30\%$ contribution from 17 other \textit{HST} programs (white) of which the large majority came from CANDELS ACS and WFC3/IR data, and the HUDF12 WFC3/IR data. Lower right shows the final produced XDF frame (orange).}
 \label{fig:xdf_frame}
 \end{figure}
 
@@ -424,7 +424,7 @@ Observations of the HUDF were performed with MUSE in Wide Field Mode on the VLT 
 
 \begin{figure}
 \includegraphics[width=\linewidth]{introduction/muse_frame}
-\caption[MUSE HUDF]{MUSE fields of the HUDF region (from \cite{2017A&A...608A...1B}). The field location and orientation of the final \texttt{mosaic} (UDF01--09, blue) has been overlaid on the HST ACS F775W image. The UDF10 fields (red), XDF near-IR field (green), and ALMA deep field from the ASPECS pilot program (magenta, \citealt{2016ApJ...833...67W}) are additionally marked out.}
+\caption[MUSE HUDF]{MUSE fields taken of the HUDF (from \cite{2017A&A...608A...1B}). The field region and orientation of the final \texttt{mosaic} (UDF01--09, blue) has been overlaid on the HST ACS F775W image. The UDF10 fields (red), XDF near-IR field (green), and ALMA deep field from the ASPECS pilot program (magenta, \citealt{2016ApJ...833...67W}) are additionally marked.}
 \label{fig:muse_frame}
 \end{figure}
 
@@ -459,7 +459,7 @@ Source detection was then applied with the Starlink implementation (2018A; \cite
 
 \begin{figure}
 \includegraphics[width=\linewidth]{data/muse_seg_map.pdf}
-\caption[MUSE Segmented]{Galaxy segmentation map overlaid on collapsed 2D MUSE HUDF field. Segmentation map was created by \texttt{SExtractor} object extraction routine, each coloured area defines an individual object.}
+\caption[MUSE Segmented]{Galaxy segmentation map overlaid on collapsed 2D MUSE HUDF field. Segmentation map was created by the \texttt{SExtractor} object extraction routine, and each coloured area defines an individual object.}
 \label{fig:muse_seg_map}
 \end{figure}
 
@@ -471,7 +471,7 @@ The \texttt{SExtractor} and MUSE catalogues were then combined so that the HST a
 
 For the purpose of the investigation into the applicability of local scaling relations, this sample was further reduced so only high S/N and high--redshift galaxies would remain. 
 
-The catalogue was first sorted by the MUSE spectroscopic redshifts and it was decided that 41 objects with $z<0.3$ were to be removed, leaving 796 potential galaxies. This was defined because the project would use the bright [OII]$\lambda\lambda$3726,29 {\AA} emission doublet to quantify the dynamics of the gas and through considerations of the MUSE working spectral range beginning at 4650 {\AA}, Equation \ref{eqn:redshift} was employed with $\lambda_{\text{obs}}=4800$ {\AA} and $\lambda_{\text{emit}}=3727$ {\AA} to produce $z=0.3$. 
+The catalogue was first sorted by the MUSE spectroscopic redshifts and it was decided that 41 objects with $z<0.3$ were to be removed, leaving 796 potential galaxies. This was defined because the project would use the bright [OII]$\lambda\lambda$3726,29 {\AA} emission doublet to measure the dynamics of the gas and through considerations of the MUSE working spectral range beginning at 4650 {\AA}, Equation \ref{eqn:redshift} was employed with $\lambda_{\text{obs}}=4800$ {\AA} and $\lambda_{\text{emit}}=3727$ {\AA} to produce $z=0.3$. 
 
 To enable analysis on a sample of just galaxies, the catalogue was organised by the \texttt{SExtractor} probability that the object is a star, and only objects with a probability less than 0.50 were chosen. This would further reduce the sample to 252 potential galaxy objects.
 
@@ -482,7 +482,7 @@ With the 252 individual cubes, it had to be ensured that: the objects were in fa
 By organising the objects by their V-band magnitude and through [OII] doublet modelling (further discussion in Section \ref{sec:disc_oii_modelling}), a magnitude limit of 25.0 mag was imposed on the sample. This was approximately the point where the fitting routine could recognise the [OII] doublet in the spectra and apply a model.
 
 \begin{sidewaystable*}
-\vspace{52ex}
+\vspace{50ex}
 %\centering
 \begin{tabular}{c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c@{\hskip 10pt}c} 
  \hline
@@ -538,13 +538,13 @@ C1665 & 50714 & 53.15110943 & -27.80949195 & $24.552(4)$ & $1.08753(3)$ & - & - 
 C541 & 24353 & 53.16081556 & -27.77537746 & $22.442(2)$ & $0.62149(6)$ & - & - & 144902(21) & 111(25) \\ 
  \hline
 \end{tabular}
-\caption{Parameters for the final reduced sample of 35 galaxies. Columns show the working cube ID, the ID from the UVUDF Catalogs \citep{2015AJ....150...31R} (RAF ID), the object right ascension (RA) and declination (Dec.), the magnitude of the object in the HST F606W filter, the calculated galaxy redshift ($z$), the galaxy stellar velocity ($V_*$) and velocity dispersion ($\sigma_*$), and the galaxy gas velocity ($V_{OII}$) and velocity dispersion ($\sigma_{OII}$. Note that only 15 galaxies were analysed for their stellar and gas components as the majority of the sample contained spectra with not enough signal-to-noise. 11 of the non-analysed galaxies are provided here with the rest contained in Appendix \ref{appendix:rest_of_final_sample}.}
+\caption{Parameters for the final reduced sample of 35 galaxies. Columns show the galaxy ID, the ID from the UVUDF Catalogue \citep{2015AJ....150...31R} (RAF ID), the object right ascension (RA) and declination (Dec.), the magnitude of the object in the HST F606W filter, the calculated galaxy redshift ($z$), the galaxy stellar velocity ($V_*$) and velocity dispersion ($\sigma_*$), and the galaxy [OII] gas velocity ($V_{OII}$) and velocity dispersion ($\sigma_{OII}$. Note that only 11 galaxies could be analysed for both gas and stellar components. The remaining 24 only their [OII] doublet, 15 of those galaxies are shown here with the remaining 9 contained in Appendix \ref{appendix:rest_of_final_sample}. The main analysis in this paper only used galaxies which contained kinematic results for both stellar and gas.}
 \label{table:final_sample}
 \end{sidewaystable*}
 
 \begin{figure}
 \includegraphics[width=\linewidth]{data/redshift_distribution_oii_emitters.pdf}
-\caption{The redshift distribution of the final sample of 35 galaxies. There are a large number of galaxies focused at $z\sim0.6$, but the majority are spread across higher redshifts $z\gtrsim1.0$. With such redshift coverage, it is a good sample for the testing of scaling relations. Each bin represents a redshift width of 0.13.}
+\caption{The redshift distribution of the final sample of 35 galaxies. Each bin represents a redshift width of 0.13. There are a large number of galaxies found at $z\sim0.6$, but the majority are spread across higher redshifts $z\gtrsim1.0$.}
 \label{fig:redshift_dist}
 \end{figure}
 
@@ -558,7 +558,7 @@ The remaining 75 sources were subsequently reduced to a final sample of 35 galax
   \subfloat{\label{fig:spec_sn_vband}%
   \includegraphics[width=0.5\textwidth]{data/sn_vs_vband}%
   }
-  \caption[HUDF Objects]{\textit{Left-hand panel}: MUSE flux signal-to-noise (S/N) versus HST V-band magnitude for 252 extracted cubes. \textit{Right-hand panel}: Spectrum S/N versus HST V-band magnitude for reduced sample of extracted objects. \textit{Both}: final sample of 35 galaxies is indicated as ``Usable'' (green), and the red area indicates the imposed magnitude limit of 25.0 mag. The reduction of the cubes to produce the final sample was highly dependent on whether an object was a galaxy, if an [OII] feature was present, and whether there was enough S/N for visible absorption features. This gave rise to the ``Not usable'' (orange) classification as shown.}
+  \caption[HUDF Objects]{\textit{Left-hand panel}: MUSE flux signal-to-noise (S/N) versus HST V-band magnitude for 252 extracted cubes. \textit{Right-hand panel}: Spectrum S/N versus HST V-band magnitude for reduced sample of extracted objects. \textit{Both}: final sample of 35 galaxies indicated as ``Usable'' (green), and the red area indicates the imposed magnitude limit of 25.0 mag, galaxies below this boundary had no visible [OII] emission feature present. The ``Not usable'' (orange) classification is a combination of either no [OII] feature and/or no visible absorption features.}
 \label{fig:sn_vband}
 \end{figure*}
 
@@ -572,7 +572,7 @@ Note that within this paper, galaxies will be classified by their ID as defined 
 \section{Discussion} \label{sec:discussion}
 \subsection{Galaxy velocity dispersions} \label{sec:disc_vel_disp}
 \noindent
-To quantify the gas and stellar kinematics of a galaxy, velocity dispersions were derived from modelling spectral features. 
+To measure the gas and stellar kinematics of a galaxy, velocity dispersions were derived from modelling spectral features. 
 
 Before both of these analyses were performed, a single spectra representing each galaxy was required. This was found by masking the galaxy data with the segmentation map, collapsing all voxels into a galaxy-integrated spectra, and then logarithmically binning the data using a routine found in the package \texttt{pPXF} \citep{2017MNRAS.466..798C}.
 
@@ -592,7 +592,7 @@ For each fitting performed, the instrumental resolution was fixed to $\sigma_{\t
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/o_ii_luminosity_vs_redshift}
-\caption{[OII] luminosity against redshift for 35 galaxies. Lower-limit of this sample (grey) was calculated using the object with the smallest flux. All galaxies appear above this limit and approximately follow the luminosity-redshift trend. Note that objects with $z<0.3$ were not analysed as high--redshift galaxies were desired}
+\caption{[OII] luminosity against redshift for sample of 35 galaxies. Lower-limit of this sample (grey model) was calculated using the object with the smallest flux. All galaxies appear above this limit and approximately follow the luminosity-redshift trend. Note that objects with $z<0.3$ were not analysed as high--redshift galaxies were desired.}
 \label{fig:oiiluminosity_redshift}
 \end{figure} 
 
@@ -623,8 +623,8 @@ Tables \ref{table:final_sample}, \ref{table:rest_of_final_sample} provide the ob
   \label{fig:frac_err_stellar_vel}
   }
 \captionsetup{justification=raggedright}
-\caption[Fractional uncertainties]{\textit{Top panel}: fractional error versus signal-to-noise for stellar and [OII] gas velocity dispersions. \textit{Bottom panel}: fractional error versus signal-to-noise for the stellar and [OII] gas velocities. \textit{All}: the $a/x$ models (red) provided alternative uncertainties on acquired $V$ and $\sigma$ values. The fitting routines would produce their own errors but their reliability was questioned and their methodology unknown.}
-  \label{fig:fractional_errors}
+\caption[Fractional uncertainties]{Fractional error models as a function of S/N for the gas and stellar velocity dispersions $\sigma$ and radial velocities $V$ obtained from \texttt{lmfit} and \texttt{pPXF} fitting routines. \ref{fig:fractional_errors}a--d: $a/x$ models (red) were derived to provide alternative uncertainties as the reliability and methodology of \texttt{lmfit} and \texttt{pPXF} was unknown and doubted. Obtained model parameters: (a) $a=1.88$; (b) $a=1.10$; (c) $a=0.00123$; and (d) $a=0.000510$.}
+\label{fig:fractional_errors}
 \end{figure*}
 
 To create a quantified uncertainty value, the fractional error would be plotted against the S/N, and an $a/x$ model applied with $a$ as a scaling factor and $x$ as the S/N. Figure \ref{fig:frac_err_oii_sigma} provides the plot of the fractional error model for $\sigma_{OII}$ with $a=1.88$. 
@@ -633,7 +633,7 @@ Throughout this research, the fractional error method would be employed due to t
 
 In an attempt to retrieve a secondary [OII] doublet width for comparison, an alternative fitter from \texttt{pPXF} was used. The spectra would be passed to the Python package and a gas fitting performed where major emission lines (e.g., [OII]3727,3729; [OIII]5007; etc.) would be detected and velocity plus velocity dispersions for each line returned. However, this test proved to be unsuccessful as the routine quickly deteriorated to produce $\sigma\approx1.0$ for a large majority of the cubes. It was suspected that this failed due to a lack of S/N for some cubes, and a failure in masking and fitting the [OII] line.
 
-Instead, the \texttt{pPXF} fitting routine was used to quantify the absorption features of the galaxy spectra. 
+Instead, the \texttt{pPXF} fitting routine was used to measure the absorption features of the galaxy spectra. 
 
 \vspace{2ex} % head space
 \subsubsection{Absorption line modelling}
@@ -650,7 +650,7 @@ In selecting a spectral template set, it had to be ensured that one with higher 
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{data/cube_1804_spectra_complete}
-\caption{Spectra and best fitting \texttt{pPXF} model for C1804. The galaxy integrated spectra (black) would be passed to the pPXF fitting routine which would normalise the data and return a best fitting model (red) plus values for galaxy velocity and velocity dispersion. The residuals between the data and model (green) are shown in addition to some highlighted emission (blue), absorption (orange), and iron (grey) spectra features. For C1804 in particular, pPXF provided a reduced $\chi^2 \approx 1.69$ which is an indication of a good fit.}
+\caption{Spectra and best fitting \texttt{pPXF} model for C1804. The galaxy integrated spectra (black) was passed to the \texttt{pPXF} fitting routine which would normalise the data and return a best fitting model (red) plus values for galaxy radial velocity and velocity dispersion. The residuals between the data and model (green) are shown in addition to highlighted emission (blue), absorption (orange), and iron (grey) spectra features. For C1804 in particular, \texttt{pPXF} provided a reduced $\chi^2 \approx 1.69$ which indicates a good fit.}
 \label{fig:ppxf_spectra}
 \end{figure*}
 
@@ -698,10 +698,9 @@ C540 & 6.96 & $60(10)$ \\
 *C895 & \emph{3.59} & \emph{0.5(2)} \\
 
 C554 & 6.85 & $123(20)$ \\
-
  \hline
 \end{tabular}
-\caption{S/N, and stellar velocity dispersion values returned from \texttt{pPXF} for 15 galaxies. These were galaxies which could be analysed by \texttt{pPXF}, however, not all the results are valid. Cube IDs which are marked by * indicate the galaxy should be disregarded and the reason is demonstrated by the underlined S/N or $\sigma_*$ values.}
+\caption{Galaxy cube ID, S/N, and stellar velocity dispersion values returned from \texttt{pPXF} for 15 galaxies. These were galaxies which could be parsed and analysed by \texttt{pPXF}, however, not all the results are valid. Galaxies which are marked by * indicate that galaxy was disregarded with the reason demonstrated by the underlined S/N and/or $\sigma_*$ values.}
 \label{table:ppxf_sigma_sn}
 \end{center}
 \end{table}
@@ -725,7 +724,7 @@ where $c$ is a constant, $A_1$ and $A_2$ are the Voigt amplitudes, $\mu_1$ and $
   \subfloat{\label{fig:voigt_cak}%
   \includegraphics[width=0.5\textwidth]{data/voigt_cak.pdf}
   }
-  \caption[Voigt modelling]{Attempts at Voigt modelling for CaH and CaK spectral absorption lines for C1804. (a) data (grey) was fitted with the model (red) found in Equation \ref{eqn:voigt_model}, and the best-fitting \texttt{pPXF} model (green) is plotted as well. (b) similar to (a), the data (grey) was plotted with the \texttt{pPXF} model (red), and a reduced model of just one Voigt profile (red).}
+  \caption[Voigt modelling]{Attempts at Voigt modelling for CaH and CaK spectral absorption lines for C1804. The working region $3900\times(1+z)$ {\AA} to $4000\times(1+z)$ {\AA} was isolated from the data (grey), overlaid is the best fitting \texttt{pPXF} model (green), and (a) and (b) utilise two different models (red). (a) uses the model found in Equation \ref{eqn:voigt_model} with two Voigt profiles. (b) employs a reduced model of just one Voigt profile in an attempt to simplify the testing.}
 \end{figure*}
 
 It was found that with a standard fitting: i.e., selecting out C1804, isolating the spectral region $3900\times(1+z)$ {\AA} to $4000\times(1+z)$ {\AA}, and running \texttt{lmfit} with the Voigt model; the produced fit (Figure \ref{fig:voigt_cah_cak}) appeared to match the general locations of the spectral lines, and the overall profile for CaK. 
@@ -741,7 +740,7 @@ The sample of 11 analysed high--redshift galaxies and their obtained velocity di
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/sigma_star_vs_sigma_oii}
-\caption{[OII] gas velocity dispersions ($\sigma_{OII}$) against stellar velocity dispersions ($\sigma_*$) for a sample of 11 galaxies (black). Included in this plot are four galaxies C849, C549, C1075, and C895 (red) which were removed from the sample due to low S/N or limited by the bound imposed by the FWHM/2 of MUSE (red region, $\sigma_*=22.7$ km s$^{-1}$), their original \texttt{pPXF} errors are used. Three linear models were fitted to the data: (1) free gradient and free intercept, $\chi^2_{\nu}=6.48$; (2) fixed gradient and free intercept, $\chi^2_\nu=6.03$; and (3) free gradient and fixed intercept, $\chi^2_\nu=5.87$. Linear model 3 appeared to be the best fit.}
+\caption{Gas velocity dispersions $\sigma_{OII}$ against stellar velocity dispersions $\sigma_*$ for a sample of 11 galaxies (black). Included are four galaxies (red) C849, C549, C1075, and C895 marked with their original \texttt{pPXF} errors. These objects were removed from the sample due to low S/N or because of the $\sigma_*$ limit imposed by the instrumental limitation of MUSE (red region, FWHM/2$=\sigma_*=22.7$ km s$^{-1}$). Three linear models were fitted to the data: (1) free gradient and free intercept, $\chi^2_{\nu}=6.48$; (2) fixed gradient and free intercept, $\chi^2_\nu=6.03$; and (3) free gradient and fixed intercept, $\chi^2_\nu=5.87$. Linear model 3 appears to be the best fit with the lowest $\chi^2_\nu$ and it makes the most physical sense, i.e, if there are no gas dynamics then there should be no stellar dynamics.}
 \label{fig:velocity_dispersions}
 \end{figure}
 
@@ -755,7 +754,7 @@ The next logical line of inquiry would be to examine whether the offsets are bei
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/ho_2009.pdf}
-\caption{Gas $\sigma_g$ and stellar $\sigma_*$ velocity dispersion distribution for 345 galaxies of elliptical, lenticular, and spiral type from the Palomar spectroscopic survey (from \cite{2009ApJ...699..638H}).}
+\caption{Gas $\sigma_g$ and stellar $\sigma_*$ velocity dispersion distribution for 345 galaxies of elliptical, lenticular, and spiral type from the Palomar spectroscopic survey (from \cite{2009ApJ...699..638H}). All galaxy types appear to demonstrate the same correlated kinematics. }
 \label{fig:ho_2009}
 \end{figure} 
 
@@ -765,7 +764,7 @@ Another disparity between the work of \cite{2009ApJ...699..638H} and the researc
 
 \begin{figure}
 \includegraphics[width=0.6\linewidth]{data/cortese_2010.pdf}
-\caption{Gas $\sigma_g$ and stellar $\sigma_*$ velocity dispersion distribution for 62 galaxies from the SAMI galaxy survey (from \cite{2014ApJ...795L..37C}).}
+\caption{Gas $\sigma$(gas) and stellar $\sigma$(stars) velocity dispersion distribution for 62 galaxies from the SAMI galaxy survey (from \cite{2014ApJ...795L..37C}). Data shows an offset of the gas velocity dispersions from the $\sigma$(gas)=$\sigma$(stars) line.}
 \label{fig:cortese_2010}
 \end{figure} 
 
@@ -775,7 +774,7 @@ Comparing the results of both \cite{2009ApJ...699..638H} and \cite{2014ApJ...795
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/sigma_stars_old_vs_new}
-\caption{Velocity dispersions for old stellar types (\textit{GK}) versus those for new (young) stellar types (\textit{OA}). 11 galaxy spectra were isolated into overlapping regions of $3700\times (1+z)$ {\AA} to $4200\times(1+z)$ {\AA} for young stars, and $4000\times (1+z)$ {\AA} to $4500\times(1+z)$ {\AA} for old stars. If a linear trend is considered then C1129 and C175 strongly deviate from this line. This could be attributed to the difficulty in fitting for smaller wavelength regions or to problems with high noise. }
+\caption{Velocity dispersions for old (\textit{GK}) versus young (\textit{OA}) stellar types. 11 galaxy spectra were isolated into overlapping regions of $3700\times (1+z)$ {\AA} to $4200\times(1+z)$ {\AA} for young stars, and $4000\times (1+z)$ {\AA} to $4500\times(1+z)$ {\AA} for old stars. If a linear trend is considered then C1129 and C175 strongly deviate from this line. This could be attributed to the difficulty in fitting for smaller wavelength regions or to problems with high noise. }
 \label{fig:velocity_dispersions_old_new}
 \end{figure} 
 
@@ -788,7 +787,7 @@ Revisiting the validity of the stellar and gas results from \texttt{lmfit} and \
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/vel_star_vs_vel_oii}
-\caption{Stellar and [OII] gas velocities for 11 galaxies. The calculated velocities appear to be well in agreement with each other with only a $0.0757\%$ fractional difference. Both components move at the same expected relative velocity.}
+\caption{Stellar and [OII] gas velocities for 11 galaxies. The calculated velocities appear to be well in agreement with each other with only a $0.0757\%$ fractional difference. Both components appear to move with approximately the same radial velocity.}
 \label{fig:velocities}
 \end{figure}
 
@@ -823,7 +822,7 @@ The first step was to mask the Voronoi map and remove bins with S/N$<4$, this li
 \vspace{50ex}
 %\centering
 \includegraphics[width=1.0\textheight,height=0.6\textwidth]{data/spectra_complete_velocities}
-\caption[Tully-Fisher]{Voronoi tessellation analysis for six galaxies. \textit{HST}: HST image and galaxy ID. \textit{MUSE}: 2D MUSE optical image and segmentation area (grey). \textit{Spectra}: galaxy data (black); pPXF model (red); and emission (blue), absorption (orange), and iron (grey) spectral lines. \textit{Voronoi map}: Voronoi tessellated map of galaxy, segmentation area, and the target S/N with achieved bin number in brackets. \textit{$V_{OII}$, $V_{*}$ maps}: velocity fields for galaxy. \textit{1D Rot. Curve}: rotation curve as defined by grey slice on velocity maps. \textit{2D Rot. Curve}: rotation curves from galaxy inclination-corrected map. \textit{$\mid V_{OII}-V_* \mid$}: stellar and gas velocity difference versus galaxy radius with data from 1D rotation curves.}
+\caption[Tully-Fisher]{Voronoi tessellation analysis for six galaxies. \textit{HST}: HST image and galaxy ID. \textit{MUSE}: 2D MUSE optical image and segmentation area (grey). \textit{Spectra}: galaxy data (black); \texttt{pPXF} model (red); and emission (blue), absorption (orange), and iron (grey) spectral lines. \textit{Voronoi map}: Voronoi tessellated map of galaxy, segmentation area, and the target S/N with achieved bin number in brackets. \textit{$V_{OII}$, $V_{*}$ maps}: velocity fields for galaxy. \textit{1D Rot. Curve}: rotation curve as defined by grey slice on the velocity maps. \textit{2D Rot. Curve}: rotation curves derived from every galaxy inclination-corrected maps. \textit{$\mid V_{OII}-V_* \mid$}: absolute difference of gas and stellar velocities versus galaxy radius using data from 1D rotation curves.}
 \label{fig:multiple_spectra_tully_fisher}
 \end{sidewaysfigure*}
 
@@ -847,7 +846,7 @@ Figure \ref{fig:multiple_spectra_tully_fisher} demonstrates the produced segment
 
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{data/deltav_vs_radius.pdf}
-\caption{The absolute differences between the rotation velocities for [OII] gas and stellar for six galaxies as a function of galaxy radius. The median 29.5 km s$^{-1}$ is marked (red) along with the area equalling $1\sigma$ (green). There appears to be a systematic offset between both galaxy components.}
+\caption{The absolute differences between the rotation velocities for the [OII] gas and stars for six galaxies as a function of galaxy radius. The median 29.5 km s$^{-1}$ is marked (red) along with the area equalling $1\sigma$ (green). There appears to be a systematic offset between both galaxy components.}
 \label{fig:rotation_velocity_differences}
 \end{figure} 
 
@@ -858,7 +857,7 @@ In local galaxies the gas and stellar rotation curves appear to trace each other
 \vspace{2ex} % head space
 \subsubsection{Faber--Jackson} \label{sec:voronoi_faber_jackson}
 \noindent
-The testing of the Faber--Jackson relation for high--redshift galaxies begins with applying a higher S/N mask to the Voronoi map. Instead of removing bins with $S/N<4$, a new boundary of $S/N<7$ was chosen. This was applied as the spectra for bins with low S/N would struggle to recreate the profile widths, whereas this was not a considerable issue with producing radial velocities from redshifts. 
+The testing of the Faber--Jackson relation for high--redshift galaxies begins with applying a higher S/N mask to the Voronoi map. Instead of removing bins with S/N$<4$, a new boundary of S/N$<7$ was chosen. This was applied as the spectra for bins with low S/N would struggle to recreate the profile widths, whereas this was not a considerable issue with producing radial velocities from redshifts. 
 
 In applying such a high S/N limit, this resulted in difficulty when attempting to reconstruct the velocity dispersion $\sigma$ kinematics for individual galaxies. The $\sigma$ maps created would not reflect the entire galaxy as large numbers of bins were masked. Subsequently, the 1D and 2D $\sigma$ curves would just appear to contain noise and yield no useful results.
 
@@ -869,12 +868,12 @@ Figure \ref{fig:multiple_spectra_faber_jackson} in Appendix \ref{appendix:vorono
 \noindent
 What this highlights is one of the struggles faced throughout this work, low S/N in data. A large number of galaxy objects extracted from the MUSE HUDF cube were removed because of limitations in their spectra (e.g., [OII] doublet or absorption lines too dim). This issue is difficult to overcome in a variety of ways. Firstly there are limited improvements which could be made to the data itself as it has been preprocessed. Instead, the computational modelling of the spectral features could be studied to a greater extent. 
 
-In this research in particular, there was a large uncertainty surrounding how the \texttt{lmfit} and \texttt{pPXF} fitting routines function. This subsequently led to the production of fractional error models to quantify the physical limits of the packages. Future studies could work on understanding how the modelling routines function and whether custom comparative procedures could be created (e.g., successfully fitting Voigt profiles for absorption lines), thus improving the reliability of the obtained scaling relation results.
+In this research in particular, there was a large uncertainty surrounding how the \texttt{lmfit} and \texttt{pPXF} fitting routines function. This subsequently led to the production of fractional error models to measure the physical limits of the packages. Future studies could work on understanding how the modelling routines function and whether custom comparative procedures could be created (e.g., successfully fitting Voigt profiles for absorption lines), thus improving the reliability of the obtained scaling relation results.
 
 \vspace{2ex} % head space
 \section{Conclusions} \label{sec:conclusions}
 \noindent
-In conclusion, this project endeavoured to understand whether locally--derived scaling relations are applicable for high--redshift galaxies. The data for the HST and MUSE HUDFs was chosen as it would provide an ideal sample of objects for those redshifts. Individual galaxies were identified from the field using \texttt{SExtractor}, and spectra data cubes extracted. The [OII] gas and stellar kinematics of the galaxies were obtained as velocity dispersions and radial velocity values from spectra modelling with \texttt{lmfit} and \texttt{pPXF} packages. Various sample reduction methods were applied such as ignoring galaxies without an [OII] emission doublet. With a reduced sample of 35 galaxies, further analysis of the S/N and absorption features would reduce this to 11 galaxies. The [OII] gas and stars in galaxies were found to correlate in the scaling relations for velocity dispersions, and radial velocities. Additionally, later testing of the Tully--Fisher and Faber--Jackson relations would highlight the issues with low galaxy S/N and spectra modelling.
+In conclusion, this project endeavoured to understand whether locally--derived scaling relations are applicable for high--redshift galaxies. The data for the HST and MUSE HUDFs was chosen as it would provide an ideal sample of objects for those redshifts. Individual galaxies were identified from the field using \texttt{SExtractor}, and spectra data cubes extracted. The [OII] gas and stellar kinematics of the galaxies were obtained as velocity dispersions and radial velocity values from spectra modelling with \texttt{lmfit} and \texttt{pPXF} packages. Various sample reduction methods were applied such as ignoring galaxies without an [OII] emission doublet. With a reduced sample of 35 galaxies, further analysis of the S/N and absorption features would reduce this to 11 galaxies. The [OII] gas and stars in galaxies were found to correlate in the scaling relations for velocity dispersions, and radial velocities. Additionally, later testing of the Tully--Fisher and Faber--Jackson relations would highlight the issues with low galaxy S/N and spectra modelling. However, through this work it does appear that the locally--derived scaling relations may still be applicable at high--redshifts.
 
 \vspace{2ex} % head space
 \begin{acknowledgments}
@@ -896,9 +895,9 @@ The Starlink software \cite{2014ASPC..485..391C} is currently supported by the E
 \section*{Appendices}
 \section{Remaining galaxies from sample} \label{appendix:rest_of_final_sample}
 \noindent
-The remaining nine objects from the final reduced sample of 35 galaxies are presented in Table \ref{table:rest_of_final_sample}. These objects are part of 20 which could not be analysed due to lack of S/N in the absorption features. The model fitting routine \texttt{pPXF} would only successfully function with spectra containing discernible spectral lines. \\
+The final reduced sample in this paper contained 35 galaxies which were analysed for their [OII] emission doublet. Velocity dispersion and radial velocity values were derived for the [OII] gas. Out of this sample, only 11 objects could be analysed for their stellar kinematics. The remaining 24 are shown in Tables \ref{table:final_sample}, \ref{table:rest_of_final_sample}. \\
 
-It was deemed unnecessary to show the entire sample of 35 galaxies within the main body of the text as a large part of which were not used in the analysis for testing the scaling relations.
+It was unnecessary to show the entire sample of 35 galaxies within the main body of the text as the main analysis in testing the scaling relations used the 11 galaxies which quantified both stellar and gas dynamics.
 
 \begin{sidewaystable*}[h!]
 \centering
@@ -920,21 +919,21 @@ C400 & 8559 & 53.15986702 & -27.76684123 & $24.615(7)$ & $1.03670(3)$ & - & - & 
 C1225 & 1742 & 53.16803964 & -27.80741481 & $24.014(4)$ & $0.30996(3)$ & - & - & 80944(25) & 59(28) \\
  \hline
 \end{tabular}
-\caption{Remaining nine objects from the 20 non-analysed galaxies which were not shown in Table \ref{table:final_sample}. Columns show the working cube ID, the ID from the UVUDF Catalogs \citep{2015AJ....150...31R} (RAF ID), the object right ascension (RA) and declination (Dec.), the magnitude of the object in the HST F606W filter, and the calculated galaxy redshift ($z$). Total sample contained 35 objects, 15 of which had high enough signal-to-noise in their spectra for the gas and stellar components to be analysed.}
+\caption{Remaining nine objects from a sample of 24 objects which could only have their [OII] emission feature analysed. Their spectra did not contain enough S/N for the \texttt{pPXF} analysis of the absorption features. Alternatively, there were 11 objects which could be analysed for both spectral components and those are shown in Table \ref{table:final_sample}. Columns in this table show the galaxy ID, the ID from the UVUDF Catalogue \citep{2015AJ....150...31R} (RAF ID), the object right ascension (RA) and declination (Dec.), the magnitude of the object in the HST F606W filter, the calculated galaxy redshift ($z$), the galaxy stellar velocity ($V_*$) and velocity dispersion ($\sigma_*$), and the galaxy [OII] gas velocity ($V_{OII}$) and velocity dispersion ($\sigma_{OII}$. }
 \label{table:rest_of_final_sample}
 \end{sidewaystable*}
 
 \vspace{2ex} % head space
 \section{Voronoi Faber--Jackson plot} \label{appendix:voronoi_faber_jackson}
 \noindent
-Voronoi analysis allowed for the binning of the galaxy maps. With this, the Tully--Fisher relation was successfully tested for galaxy radial velocities, however, it was not possible to test the Faber--Jackson relation as there was not enough remaining bins after the S/N mask was applied to the velocity dispersion maps. Figure \ref{fig:multiple_spectra_faber_jackson} shows the attempt made to produce a complimentary set of results to the Tully--Fisher work found in Figure \ref{fig:multiple_spectra_tully_fisher}. \\
+Voronoi analysis allowed for the binning of the galaxy maps into smaller regions. With this, scaling relations such as the Tully--Fisher relation was tested using velocity rotation curves derived from galaxy velocity maps. However, it was not possible to test the Faber--Jackson relation as there were not enough bins after a S/N mask of $S/N<7$ was applied to the velocity dispersion maps. Figure \ref{fig:multiple_spectra_faber_jackson} shows the attempt made to produce a complementary set of results to the Tully--Fisher work found in Figure \ref{fig:multiple_spectra_tully_fisher}. \\
 
-It was decided that Figure \ref{fig:multiple_spectra_faber_jackson} would not be included within the main body of the paper as the produced results for each galaxy is generally too noisy to draw conclusions. It was more demonstrative to show examples of the velocity dispersion maps for a single cube, C1804, and not for all of the six successfully Voronoi tessellated galaxies. 
+It was decided that Figure \ref{fig:multiple_spectra_faber_jackson} would not be included within the main body of the paper as the produced results for each galaxy appears to be too noisy to draw conclusions. It was more demonstrative to describe the limitations of the research.
 
 \begin{sidewaysfigure}
 %\centering
 \includegraphics[width=1.0\textheight,height=0.6\textwidth]{data/spectra_complete_velocity_dispersions.pdf}
-\caption[Faber--Jackson]{Voronoi tessellation analysis for six galaxies. \textit{HST}: HST colour image and galaxy cube ID. \textit{MUSE}: collapsed optical image from MUSE spectroscopic data and segmentation map (grey). \textit{Spectra}: galaxy data (black); pPXF model (red); and emission (blue), absorption (orange), and iron (grey) spectral lines. \textit{Voronoi map}: Voronoi tessellated MUSE map and segmentation area. \textit{$V_{OII}$, $V_{*}$ maps}: velocity fields for galaxy. \textit{1D Rot. Curve}: rotation curve as defined by grey strips on velocity maps. \textit{2D Rot. Curve}: rotation curves from galaxy inclined-corrected map. \textit{$\mid V_{OII}-V_* \mid$}: stellar and gas velocity difference versus galaxy radius with data from 1D rotation curves.}
+\caption[Faber--Jackson]{Voronoi tessellation analysis for six galaxies. \textit{HST}: HST image and galaxy cube ID. \textit{MUSE}: collapsed optical image from MUSE spectroscopic data and segmentation map (grey). \textit{Spectra}: galaxy data (black); \texttt{pPXF} model (red); and emission (blue), absorption (orange), and iron (grey) spectral lines. \textit{Voronoi map}: Voronoi tessellated galaxy map and segmentation area. \textit{$\sigma_{OII}$, $\sigma_{*}$ maps}: velocity dispersion $\sigma$ fields. \textit{1D Rot. Curve}: $\sigma$ curve as defined by grey slice across $\sigma$ maps. \textit{2D Rot. Curve}: $\sigma$ curve from galaxy inclination-corrected map. \textit{$\mid V_{OII}-V_* \mid$}: absolute gas and stellar velocity dispersion differences versus galaxy radius with data from 1D $\sigma$ curves.}
 \label{fig:multiple_spectra_faber_jackson}
 \end{sidewaysfigure}
 
